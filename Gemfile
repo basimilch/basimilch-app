@@ -1,3 +1,8 @@
+# Gemfile from http://sample-app-gemfile.railstutorial.org
+# Use 'bundle install' on the command line to install all this gems.
+# Info about Gemfile.lock and why to commit:
+# http://yehudakatz.com/2010/12/16/clarifying-the-roles-of-the-gemspec-and-gemfile/
+
 source 'https://rubygems.org'
 
 ruby '2.2.1'
