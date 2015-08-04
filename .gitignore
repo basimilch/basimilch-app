@@ -43,3 +43,6 @@ bower.json
 /log/*
 !/log/.keep
 /tmp
+
+# Ignore Spring files (used by Guard auto-testing framework).
+/spring/*.pid
