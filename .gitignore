@@ -13,9 +13,9 @@ rerun.txt
 pickle-email-*.html
 
 # TODO Comment out these rules if you are OK with secrets being uploaded to the repo
-# config/initializers/secret_token.rb
+config/initializers/secret_token.rb
 # NOTE: config/secrets.yml must be uploaded to the repo for Heroku.
-config/secrets.yml
+# config/secrets.yml
 
 ## Environment normalisation:
 /.bundle
