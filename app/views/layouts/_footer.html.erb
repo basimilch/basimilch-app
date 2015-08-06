@@ -13,7 +13,7 @@
   <nav>
     <ul>
       <li>
-        <%= ENV["HEROKU_RELEASE_VERSION"] || "Dev" %>
+        v<%= ENV["HEROKU_RELEASE_VERSION"] || "Dev" %>
         (<%= ENV["HEROKU_RELEASE_DATE"]   || Time.now.to_s(:short) %>)
       </li>
       <li><%= link_to "source",
