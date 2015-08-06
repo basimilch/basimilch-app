@@ -10,14 +10,33 @@ $basiblau_ultralight: lighten( $basiblau, 36% );
 
 $gray-medium-light: #eaeaea;
 
+// Mixins
+
+@mixin box_sizing {
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:         border-box;
+}
+
 // Global
 
 body {
   padding-top: 80px;
 }
 
-// Fonts
+// Misc
 
+// Inspired from:
+//   https://www.railstutorial.org/book/_single-page#code-mixin_and_debug
+.debug_dump {
+  clear: both;
+  float: left;
+  width: 100%;
+  margin-top: 45px;
+  @include box_sizing;
+}
+
+// Fonts
 
 // Following fonts are added from the following import:;
 // @import url(https://fonts.googleapis.com/css?family=Lato:300italic,700italic,300,700);

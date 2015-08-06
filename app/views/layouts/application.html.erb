@@ -14,6 +14,11 @@
       <h1><%= yield(:title) %></h1>
       <%= yield %>
       <%= render 'layouts/footer' %>
+      <!--
+        Source for debug params display:
+        https://www.railstutorial.org/book/_single-page#sec-rails_environments
+      -->
+      <%= debug(params) if Rails.env.development? %>
     </div>
   </body>
 </html>
