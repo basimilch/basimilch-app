@@ -1,5 +1,24 @@
 unless (app_name = ENV["HEROKU_APP_NAME"]).nil?
 
+  # Reminder about how to manage authorization tokens for the Heroku API:
+  #
+  # List authorization tokens:
+  #   $ heroku authorizations
+  #
+  # Create a new authorization token:
+  #   $ heroku authorizations:create \
+  #            --description "For use within the my.basimilch Rails app" \
+  #            --scope identity,read-protected
+  #
+  # Setup the necessary ENV variablables in Heroku:
+  #   $ heroku config:add \
+  #            HEROKU_APP_NAME=<heroku-app-name> \
+  #            HEROKU_API_OAUTH_ID=<heroku-api-oauth-id> \
+  #            HEROKU_API_OAUTH_TOKEN=<heroku-api-oauth-token>
+  #
+  # NOTE: Do not commit any secrets in the code because it's public!
+  #       Use EVN variables instead!
+  #
   # Relevant sources:
   #  - https://github.com/heroku/heroku-oauth#creating
   #  - https://github.com/heroku/platform-api#a-real-world-example
