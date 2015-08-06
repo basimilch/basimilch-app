@@ -71,3 +71,72 @@ This can be done with, e.g.:
 [Advanced testing setup]: https://www.railstutorial.org/book/static_pages#sec-advanced_testing_setup
 [Listing 3.42]: https://www.railstutorial.org/book/static_pages#code-guardfile
 [Guardfile]: Guardfile
+
+## Localization
+
+All displayed strings are entered in the localization file
+[`de-CH.yml`]. Although currently there is only one localization (i.e.
+`de-CH`), this has two main advantages:
+
+  1. All displayed strings are gathered in one file which makes
+     corrections and changes easy to manage.
+  1. The work to add potential languages in the future (like e.g.
+     `fr-CH` or `it-CH`) is already prepared.
+
+For localization we use the [`rails-i18n` gem], which provides many
+common locale data.
+
+### Translate methods
+
+The usual way to return a localized string is:
+
+``` ruby
+I18n.t 'store.title' # Lookup translation for the 'store.title' key
+I18n.l Time.now      # Localize Date and Time objects to local formats
+```
+
+Those are directly available in the views, without class name, e.g.:
+
+``` ruby
+<% provide(:title, t('users.index.title')) %>
+```
+
+#### Automatic translation scoping by view
+
+As described in the ["Lazy" Lookup] section of the mentioned guide, if
+the following key hierarchy is defined in the dictionary:
+
+``` yaml
+de-CH:
+  users:
+    index:
+      title: "Alle Benutzer"
+```
+The value of `users.index.title` inside the [`app/views/users/index.html.erb`] view template can be looked up like this _(note the dot)_:
+
+``` ruby
+<% provide(:title, t('.title')) %>
+```
+
+#### Interpolation
+
+Variables can be interpolated in the localization string like so:
+
+``` yaml
+de-CH:
+  message: "Hoi %{name}!"
+```
+
+``` ruby
+I18n.t :thanks, name: 'Jeremy'
+```
+
+
+For more details about how localization work you might refer to the
+[`i18n` Rails guide].
+
+[`de-CH.yml`]: blob/master/config/locales/de-CH.yml
+[`rails-i18n` gem]: https://github.com/svenfuchs/rails-i18n
+["Lazy" Lookup]: http://guides.rubyonrails.org/i18n.html#lazy-lookup
+[`app/views/users/index.html.erb`]: blob/master/app/views/users/index.html.erb
+[`i18n` Rails guide]: http://guides.rubyonrails.org/i18n.html
