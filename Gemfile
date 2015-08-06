@@ -25,6 +25,7 @@ gem 'turbolinks',               '2.3.0'
 gem 'jbuilder',                 '2.2.3'
 gem 'sdoc',                     '0.4.0', group: :doc
 gem 'platform-api',             '0.3.0' # For Heroku API
+gem 'rails-i18n',               '4.0.4'
 
 group :development, :test do
   gem 'sqlite3',     '1.3.9'

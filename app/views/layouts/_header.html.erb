@@ -3,9 +3,9 @@
     <%= link_to ApplicationHelper::APP_NAME, root_path, id: "logo" %>
     <nav>
       <ul class="nav navbar-nav navbar-right navbar-collapse">
-        <li><%= link_to "Users",    users_path %></li>
-        <li><%= link_to "New User", new_user_path %></li>
-        <li><%= link_to "Log in",   '#' %></li>
+        <li><%= link_to t('.users'),    users_path %></li>
+        <li><%= link_to t('.new-user'), new_user_path %></li>
+        <li><%= link_to t('.log-in'),   '#' %></li>
       </ul>
     </nav>
   </div>

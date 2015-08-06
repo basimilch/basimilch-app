@@ -38,4 +38,10 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  # Source: https://github.com/svenfuchs/rails-i18n#configuration
+  config.i18n.available_locales = ['en', 'en-GB', 'en-US',
+                                   'de', 'de-CH',
+                                   'fr', 'fr-CH',
+                                   'it', 'it-CH']
 end
