@@ -39,7 +39,7 @@ Once everything is set up as described in the tutorial, you can run
 $ bundle exec guard
 ```
 
-The rules in the corresponding [Guardfile] are seeded with the content
+The rules in the corresponding [`Guardfile`] are seeded with the content
 of [Listing 3.42] of the [Rails Tutorial Book]. For example, the
 integration tests automatically run when a controller is changed. To
 run all the tests, hit `return` at the `guard>` prompt. As mentioned
@@ -70,7 +70,7 @@ This can be done with, e.g.:
 [heroku toolbelt]: https://toolbelt.heroku.com
 [Advanced testing setup]: https://www.railstutorial.org/book/static_pages#sec-advanced_testing_setup
 [Listing 3.42]: https://www.railstutorial.org/book/static_pages#code-guardfile
-[Guardfile]: Guardfile
+[`Guardfile`]: Guardfile
 
 ## Localization
 
@@ -135,8 +135,8 @@ I18n.t :thanks, name: 'Jeremy'
 For more details about how localization work you might refer to the
 [`i18n` Rails guide].
 
-[`de-CH.yml`]: blob/master/config/locales/de-CH.yml
+[`de-CH.yml`]: config/locales/de-CH.yml
 [`rails-i18n` gem]: https://github.com/svenfuchs/rails-i18n
 ["Lazy" Lookup]: http://guides.rubyonrails.org/i18n.html#lazy-lookup
-[`app/views/users/index.html.erb`]: blob/master/app/views/users/index.html.erb
+[`app/views/users/index.html.erb`]: app/views/users/index.html.erb
 [`i18n` Rails guide]: http://guides.rubyonrails.org/i18n.html
