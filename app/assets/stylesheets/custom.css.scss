@@ -110,16 +110,47 @@ header {
   background-color: $basiblau;
   border-color: $basiblau_slightly_darker;
   line-height: 1;
-  .nav > li > a {
-    color: white;
-    &:hover,
-    &:focus {
-      color: $basiblau_ultralight;
-      background-color: $basiblau_slightly_darker;
-      &:active {
+  .nav {
+    .open {
+      & > a,
+      & > a:focus,
+      & > a:active {
         background-color: $basiblau_darker;
       }
     }
+    & > li {
+      @media (min-width: 768px) {
+        height: 50px;
+      }
+      & > a {
+        color: white;
+        &:focus {
+          background-color: $basiblau;
+        }
+        &:hover {
+          background-color: $basiblau_slightly_darker;
+        }
+        &:active {
+          background-color: $basiblau_darker;
+        }
+      }
+    }
+  }
+  .navbar-toggle {
+    border-color: white;
+    &:hover {
+      background-color: $basiblau_slightly_darker;
+    }
+    .icon-bar {
+      background-color: white;
+    }
+  }
+}
+
+.dropdown-menu > li > a {
+  &:hover,
+  &:focus{
+    background-color: $basiblau_ultralight;
   }
 }
 
@@ -130,11 +161,12 @@ header {
   color: white;
   text-transform: uppercase;
   letter-spacing: -1px;
-  padding-top: 9px;
-  // font-weight: bold;
   &:hover {
     color: $basiblau_ultralight;
     text-decoration: none;
+  }
+  @media (min-width: 768px) {
+    margin-left: -15px;
   }
 }
 

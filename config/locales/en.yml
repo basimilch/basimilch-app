@@ -24,9 +24,10 @@ en:
 
   layouts:
     header:
-      users:    "Users"
-      new-user: "New User"
-      log-in:   "Log in"
+      users:        "Users"
+      new_user:     "New User"
+      log_in_html:  "<span class='glyphicon glyphicon-log-in'></span> Log in"
+      log_out_html: "<span class='glyphicon glyphicon-log-out'></span> Log out"
 
   users:
     index:
