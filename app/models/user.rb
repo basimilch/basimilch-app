@@ -18,5 +18,6 @@ class User < ActiveRecord::Base
   validates :last_name,   presence: true,
                           length: { maximum: 40 }
 
+  after_initialize { self.country = I18n.t :switzerland }
   has_secure_password
 end

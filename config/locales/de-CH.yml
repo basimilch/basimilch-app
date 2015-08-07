@@ -22,6 +22,11 @@
 de-CH:
   hello: "Hoi Welt!"
 
+  # Misc
+  switzerland: "Schweiz"
+
+  # Views
+
   layouts:
     header:
       users:        "Benutzer"

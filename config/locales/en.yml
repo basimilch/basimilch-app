@@ -22,6 +22,11 @@
 en:
   hello: "Hello world"
 
+  # Misc
+  switzerland: "Switzerland"
+
+  # Views
+
   layouts:
     header:
       users:        "Users"

@@ -16,9 +16,9 @@ class UserTest < ActiveSupport::TestCase
 
       # t.string   "email"
       # t.string   "password_digest"
-    # t.boolean  "admin"
-    # t.string   "first_name"
-    # t.string   "last_name"
+      # t.boolean  "admin"
+      # t.string   "first_name"
+      # t.string   "last_name"
     # t.string   "postal_address"
     # t.string   "postal_code"
     # t.string   "city"
@@ -98,6 +98,12 @@ class UserTest < ActiveSupport::TestCase
   end
 
 
+  test "admin should be false by default" do
+    assert_equal false, @user.admin
+    assert_equal false, @user.admin?
+  end
+
+
   test "first name should be present" do
     @user.first_name = "     "
     assert_not @user.valid?
@@ -118,4 +124,11 @@ class UserTest < ActiveSupport::TestCase
     @user.last_name = "a" * 41
     assert_not @user.valid?
   end
+
+
+  test "country should be set by default" do
+    assert_equal "Schweiz", @user.country
+  end
+
+
 end
