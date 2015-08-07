@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20150807093605) do
     t.boolean  "admin",           default: false, null: false
     t.string   "first_name"
     t.string   "last_name"
+    t.string   "postal_address"
     t.string   "postal_code"
     t.string   "city"
     t.string   "country"

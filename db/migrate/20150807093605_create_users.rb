@@ -6,6 +6,7 @@ class CreateUsers < ActiveRecord::Migration
       t.boolean :admin, null: false, default: false
       t.string :first_name
       t.string :last_name
+      t.string :postal_address
       t.string :postal_code
       t.string :city
       t.string :country

@@ -14,11 +14,12 @@ class UserTest < ActiveSupport::TestCase
     assert @user.valid?
   end
 
-    # t.string   "email"
-    # t.string   "password_digest"
+      # t.string   "email"
+      # t.string   "password_digest"
     # t.boolean  "admin"
     # t.string   "first_name"
     # t.string   "last_name"
+    # t.string   "postal_address"
     # t.string   "postal_code"
     # t.string   "city"
     # t.string   "country"
