@@ -210,6 +210,8 @@ footer {
       .gh-commit-msgs {
         font-style: italic;
         padding-top: 5px;
+        max-height: 90px;
+        overflow-x: scroll;
       }
       hr {
         margin-top: 10px;
