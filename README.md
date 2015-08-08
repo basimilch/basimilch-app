@@ -1,5 +1,7 @@
 # basimilch-app
 
+[![Build Status](https://travis-ci.org/basimilch/basimilch-app.svg)](https://travis-ci.org/basimilch/basimilch-app)
+
 Web app of the basimilch cooperative.
 
 Done with [Ruby on Rails].
