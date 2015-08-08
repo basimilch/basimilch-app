@@ -198,6 +198,9 @@ footer {
   #version-label {
     cursor: default;
     text-decoration: none;
+    .popover-title {
+      font-weight: bold;
+    }
     .version-label-content {
       font-size: small;
       .gh-commit {
