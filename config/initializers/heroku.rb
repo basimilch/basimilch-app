@@ -40,6 +40,6 @@ unless (app_name = ENV["HEROKU_APP_NAME"]).nil?
                                                               .in_time_zone
                                                               .to_s(:short)
   ENV["HEROKU_RELEASE_COMMIT"]      = released_slug['commit'].to_s
-  ENV["HEROKU_RELEASE_COMMIT_MSG"]  = released_slug['commit_description'].to_s
+  ENV["HEROKU_RELEASE_COMMIT_MSGS"] = released_slug['commit_description'].to_s
   ENV["HEROKU_RELEASE_PREVIOUS_COMMIT"] = previous_slug['commit'].to_s
 end

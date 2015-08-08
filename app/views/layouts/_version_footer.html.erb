@@ -1,7 +1,7 @@
-<%# Expects locals from Rails.configuration.x.heroku.release %>
+<%# Expects locals from Rails.configuration.x.release %>
 <a id="version-label" data-toggle="popover" data-trigger="click"
    data-placement="top" data-html="true" data-container="#version-label"
-   title="v<%= version %> released on <%= date %>"
-   data-content="<div class='version-label-content'><a href='https://github.com/basimilch/basimilch-app/commit/<%= commit %>'><code class='gh-commit'><%= truncate commit, length: 7, omission:'' %></code></a> <span class='gh-commit-msg'><%= commit_msg %></span><br><hr>(<a class='gh-diff' target='_blank' href='<%= "https://github.com/basimilch/basimilch-app/compare/#{prev_commit}...#{commit}" %>'>diff with previous release</a>)</div>">
+   title="<a target='_blank' href='<%= version_url %>'>v<%= version %></a> released on <%= date %>"
+   data-content="<div class='version-label-content'>Deployed commit:<a target='_blank' href='<%= commit_url %>'><code class='gh-commit'><%= truncate commit, length: 7, omission:'' %></code></a><hr>Commits since last release:<%= release_commit_messages %><hr><a class='gh-diff' target='_blank' href='<%= diff_url %>'>Diff with previous release.</a></div>">
    v<%= version %>
 </a>

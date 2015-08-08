@@ -25,31 +25,44 @@ module BasimilchApp
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
+    # Run directly after the initialization of the application,
+    # after the application initializers in config/initializers are
+    # run.
+    # Source:
+    #   http://guides.rubyonrails.org/configuring.html#initialization-events
     config.after_initialize do
-      # Run directly after the initialization of the application,
-      # after the application initializers in config/initializers are
-      # run.
-      # Source:
-      #   http://guides.rubyonrails.org/configuring.html#initialization-events
+      github_repo_base_url = "https://github.com/basimilch/basimilch-app"
       if Rails.env.production?
-        config.x.heroku.release =
+        config.x.release =
           {
             version:     ENV["HEROKU_RELEASE_VERSION"],
+            version_url: github_repo_base_url + "/tree/" +
+                         ENV["HEROKU_RELEASE_COMMIT"],
             date_iso:    ENV["HEROKU_RELEASE_DATE_ISO"],
             date:        ENV["HEROKU_RELEASE_DATE"],
             commit:      ENV["HEROKU_RELEASE_COMMIT"],
-            commit_msg:  ENV["HEROKU_RELEASE_COMMIT_MSG"],
-            prev_commit: ENV["HEROKU_RELEASE_PREVIOUS_COMMIT"]
+            commit_url:  github_repo_base_url + "/commit/" +
+                         ENV["HEROKU_RELEASE_COMMIT"],
+            commit_msgs: ENV["HEROKU_RELEASE_COMMIT_MSGS"],
+            prev_commit: ENV["HEROKU_RELEASE_PREVIOUS_COMMIT"],
+            diff_url:    github_repo_base_url + "/compare/" +
+                         ENV["HEROKU_RELEASE_PREVIOUS_COMMIT"] + "..." +
+                         ENV["HEROKU_RELEASE_COMMIT"]
           }
       else
-        config.x.heroku.release =
+        config.x.release =
           {
             version:     "Dev",
+            version_url: github_repo_base_url + "/tree/" + "bbbbbbbbbbbbbb",
             date_iso:    Time.now.to_s,
             date:        Time.now.to_s(:short),
             commit:      "bbbbbbbbbbbbbb",
-            commit_msg:  "Still working on the next commit...",
-            prev_commit: "aaaaaaaaaaaaaa"
+            commit_url:  github_repo_base_url + "/commit/" + "bbbbbbbbbbbbbb",
+            commit_msgs: "  * author: last commit message\n" +
+                         "  * author: before last commit message",
+            prev_commit: "aaaaaaaaaaaaaa",
+            diff_url:    github_repo_base_url + "/compare/" +
+                         "aaaaaaaaaaaaaa...bbbbbbbbbbbbbb"
           }
       end
     end
