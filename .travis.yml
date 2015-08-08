@@ -1,3 +1,12 @@
 language: ruby
 rvm:
-  - 2.2.1
+- 2.2.1
+deploy:
+  # Source: http://docs.travis-ci.com/user/deployment/heroku/
+  provider: heroku
+  api_key:
+    secure: Nsc366gSOexO9Vz08Xw/hiDostVhloakyyG//DcfaoWmP8Hf3dzBl80KqBHlvEfXgD1NTKJ6ttN7yxzJWyV+MROfkoQ4F4Y0bOb65iPlVW4RvrWRWR0C6wlVUeVOOkdLGIp4xsC5n5pNe+UFK/uoTcHsL5ASF/wtTGMTKpXLhW+6HgQVBbnXtJ9i8nhPCXe9HSfZBPpgeOxp+6Tiny50kjl5HXnNS9IWkAGSu31C5wpawVC/4kBohp7uTxrHBkfL+e3WjIj8fKNJnVH367ErDSK2Qnj4vh8dpincdxjf8Evjv+MlP4f4NKtCJoMv6b3N4ugHz0QCOA/9ppKJQigJKrNxQFFxp2ReYOYH5lH9+Xl6kySmJ7UdH8xR+DLzQVuEJGRfr5gtfQvzPHHricnz5EMCsYZDQRsiZ4UZ7tWDmTSVlpX6kyjNFPoofLOeu98C5C6RuX14fOxq14w1nF5naC3tA/9Ppi2xPqFX20+cvrnlczS3hHhwkcehEKgkdn38uwzy7PFzN1t0gnNP5/Yt1iH6BXFXKR/sje9/2F4ICfoodkuLBQi+q9vNQnp1Jp9l+AY6neQo7dTKS8oLncrkLX3C77InFAo5WIlm4yj3DN5UdmVYmsygLytLGr+MgYd7OlNB8VZIS+zB8NEk2z3ZfUV1Qvy+/8rIf+4cWqMNbe8=
+  app: basimilch-dev
+  on:
+    repo: basimilch/basimilch-app
+    branch: dev
