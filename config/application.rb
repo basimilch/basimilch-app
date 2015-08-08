@@ -24,5 +24,34 @@ module BasimilchApp
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    config.after_initialize do
+      # Run directly after the initialization of the application,
+      # after the application initializers in config/initializers are
+      # run.
+      # Source:
+      #   http://guides.rubyonrails.org/configuring.html#initialization-events
+      if Rails.env.production?
+        config.x.heroku.release =
+          {
+            version:     ENV["HEROKU_RELEASE_VERSION"],
+            date_iso:    ENV["HEROKU_RELEASE_DATE_ISO"],
+            date:        ENV["HEROKU_RELEASE_DATE"],
+            commit:      ENV["HEROKU_RELEASE_COMMIT"],
+            commit_msg:  ENV["HEROKU_RELEASE_COMMIT_MSG"],
+            prev_commit: ENV["HEROKU_RELEASE_PREVIOUS_COMMIT"]
+          }
+      else
+        config.x.heroku.release =
+          {
+            version:     "Dev",
+            date_iso:    Time.now.to_s,
+            date:        Time.now.to_s(:short),
+            commit:      "bbbbbbbbbbbbbb",
+            commit_msg:  "Still working on the next commit...",
+            prev_commit: "aaaaaaaaaaaaaa"
+          }
+      end
+    end
   end
 end

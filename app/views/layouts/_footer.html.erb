@@ -13,8 +13,8 @@
   <nav>
     <ul>
       <li>
-        v<%= ENV["HEROKU_RELEASE_VERSION"] || "Dev" %>
-        (<%= ENV["HEROKU_RELEASE_DATE"]    || Time.now.to_s(:short) %>)
+        <%= render "layouts/version_footer",
+                   Rails.configuration.x.heroku.release %>
       </li>
       <li><%= link_to "source",
                       'https://github.com/basimilch/basimilch-app',
