@@ -59,7 +59,6 @@ class User < ActiveRecord::Base
     self.country      = Rails.configuration.x.defaults.user_country
   }
 
-
   def formatted_tel(tel_type)
     if valid?
       raw_tel = send "tel_#{tel_type}" || ""
