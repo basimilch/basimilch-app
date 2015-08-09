@@ -23,8 +23,38 @@ en:
   hello: "Hello world"
 
   # Misc
+
   switzerland: "Switzerland"
   zurich: "Zurich"
+
+
+  # Models
+
+  activerecord:
+    models:
+      user:
+        one:    "User"
+        other:  "Users"
+    attributes:
+      user:
+        email:                  "Email"
+        password:               "Password"
+        password_confirmation:  "Password confirmation"
+        admin:                  "Admin"
+        first_name:             "First Nameeeeee"
+        last_name:              "Last Name"
+        postal_address:         "Postal Address"
+        postal_code:            "Postal Code"
+        city:                   "City"
+        country:                "Country"
+        tel_mobile:             "Tel Mobile"
+        tel_home:               "Tel Home"
+        tel_office:             "Tel Office"
+        status:                 "Status"
+        notes:                  "Notes"
+        created_at:             "Created At"
+        updated_at:             "Updated At"
+
 
   # Views
 

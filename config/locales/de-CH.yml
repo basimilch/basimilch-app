@@ -23,8 +23,38 @@ de-CH:
   hello: "Hoi Welt!"
 
   # Misc
+
   switzerland: "Schweiz"
   zurich: "Zürich"
+
+
+  # Models
+
+  activerecord:
+    models:
+      user:
+        one:    "Benutzer"
+        other:  "Benutzer"
+      attributes:
+      user:
+        email:                  "E-Mail-Adresse"
+        password:               "Passwort"
+        password_confirmation:  "Passwortwiederholung"
+        admin:                  "Admin"
+        first_name:             "Vorname"
+        last_name:              "Nachname"
+        postal_address:         "Adresse"
+        postal_code:            "PLZ"
+        city:                   "Ort"
+        country:                "Land"
+        tel_mobile:             "Natel"
+        tel_home:               "Dihei"
+        tel_office:             "Büro"
+        status:                 "Status"
+        notes:                  "Notizen"
+        created_at:             "Erstell am"
+        updated_at:             "Aktualiziert am"
+
 
   # Views
 
