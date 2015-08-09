@@ -68,6 +68,8 @@ en:
   users:
     index:
       title: "All Users"
+      only_from_zurich: "Only from Zurich."
+      no_users_found: "No users found."
     show:
       title: "Profile"
     new:

@@ -52,7 +52,7 @@ de-CH:
         tel_office:             "Büro"
         status:                 "Status"
         notes:                  "Notizen"
-        created_at:             "Erstell am"
+        created_at:             "Erstellt am"
         updated_at:             "Aktualiziert am"
 
 
@@ -68,7 +68,10 @@ de-CH:
   users:
     index:
       title: "Alle Benutzer"
+      only_from_zurich: "Nur in Zürich wohnend."
+      no_users_found: "Keine Benutzer gefunden."
     show:
       title: "Profil"
+      created_label: "Eingetragen vor"
     new:
       title: "Neuer Benutzer"

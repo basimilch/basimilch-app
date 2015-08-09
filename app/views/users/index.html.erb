@@ -1,2 +1,7 @@
 <% provide(:title, t('.title')) %>
-<p>Find me in app/views/users/index.html.erb</p>
+<ul>
+  <%= render(@users) || t('.no_users_found') %>
+</ul>
+<small>
+  <%= link_to t('.only_from_zurich'), "?filter[postal_code]=8000" %>
+</small>

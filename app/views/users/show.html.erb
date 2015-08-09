@@ -1,7 +1,5 @@
 <% provide(:title, t('.title')) %>
-<%= t('.created_label') + ": " + time_ago_in_words(@user.created_at) %>
-<br>
-<%= t('.last_modified_label') + ": " + time_ago_in_words(@user.created_at) %>
+<%= t('.created_label') + ": " + time_ago_in_words(@user.created_at) %>.
 <br>
 <dl class="dl-horizontal">
   <% @user.attributes.each do | attr_name, attr_value | %>
