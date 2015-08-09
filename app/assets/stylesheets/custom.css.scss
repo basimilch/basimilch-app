@@ -195,4 +195,28 @@ footer {
       margin-left: 15px;
     }
   }
+  #version-label {
+    cursor: default;
+    text-decoration: none;
+    .popover-title {
+      font-weight: bold;
+    }
+    .version-label-content {
+      font-size: small;
+      .gh-commit {
+        color: inherit;
+        background: transparent;
+      }
+      .gh-commit-msgs {
+        font-style: italic;
+        padding-top: 5px;
+        max-height: 90px;
+        overflow-x: scroll;
+      }
+      hr {
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+    }
+  }
 }

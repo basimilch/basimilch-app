@@ -46,3 +46,6 @@ group :production do
   gem 'rails_12factor', '0.0.2'
   gem 'puma',           '2.11.1'
 end
+
+# Suggested by https://travis-ci.org/basimilch/basimilch-app
+gem "codeclimate-test-reporter", group: :test, require: nil

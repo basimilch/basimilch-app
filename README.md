@@ -1,5 +1,9 @@
 # basimilch-app
 
+[![Build Status](https://travis-ci.org/basimilch/basimilch-app.svg)](https://travis-ci.org/basimilch/basimilch-app)
+[![Code Climate](https://codeclimate.com/github/basimilch/basimilch-app/badges/gpa.svg)](https://codeclimate.com/github/basimilch/basimilch-app)
+[![Test Coverage](https://codeclimate.com/github/basimilch/basimilch-app/badges/coverage.svg)](https://codeclimate.com/github/basimilch/basimilch-app/coverage)
+
 Web app of the basimilch cooperative.
 
 Done with [Ruby on Rails].
