@@ -35,7 +35,7 @@ de-CH:
       user:
         one:    "Benutzer"
         other:  "Benutzer"
-      attributes:
+    attributes:
       user:
         email:                  "E-Mail-Adresse"
         password:               "Passwort"
@@ -68,5 +68,7 @@ de-CH:
   users:
     index:
       title: "Alle Benutzer"
+    show:
+      title: "Profil"
     new:
       title: "Neuer Benutzer"
