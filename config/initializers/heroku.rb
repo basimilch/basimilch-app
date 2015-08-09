@@ -25,14 +25,19 @@ unless (app_name = ENV["HEROKU_APP_NAME"]).nil?
   #  - http://stackoverflow.com/a/15367505
 
   heroku            = PlatformAPI.connect_oauth(ENV["HEROKU_API_OAUTH_TOKEN"])
-  last_release      = heroku.release.list(app_name)[-1]
-  previous_release  = heroku.release.list(app_name)[-2]
+  release_list      = heroku.release.list(app_name)
 
-  released_slug_id  = last_release['slug']['id']
-  released_slug     = heroku.slug.info(app_name,released_slug_id)
+  last_release        = release_list[-1] || {}
+  released_slug       = {}
+  if released_slug_id = last_release.get('slug', 'id')
+    released_slug     = heroku.slug.info(app_name,released_slug_id)
+  end
 
-  previous_slug_id  = previous_release['slug']['id']
-  previous_slug     = heroku.slug.info(app_name,previous_slug_id)
+  previous_release    = release_list[-2] || {}
+  previous_slug       = {}
+  if previous_slug_id = previous_release.get('slug', 'id')
+    previous_slug     = heroku.slug.info(app_name,previous_slug_id)
+  end
 
   ENV["HEROKU_RELEASE_VERSION"]   = last_release['version'].to_s
   ENV["HEROKU_RELEASE_DATE_ISO"]  = last_release['created_at'].to_s
