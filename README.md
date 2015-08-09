@@ -144,3 +144,26 @@ For more details about how localization work you might refer to the
 ["Lazy" Lookup]: http://guides.rubyonrails.org/i18n.html#lazy-lookup
 [`app/views/users/index.html.erb`]: app/views/users/index.html.erb
 [`i18n` Rails guide]: http://guides.rubyonrails.org/i18n.html
+
+## Notes on Rails
+
+### Implicit routing
+
+Adding  `resources :users` to the `config/routes.rb` file generates
+all the actions needed for a RESTful Users resource, along with a
+large number of _named routes_ to generate user URLs. The resulting
+correspondence of URLs, actions, and named routes is shown in following table:
+
+HTTP request | URL     | Action   | Named route      | Purpose
+-------------|---------|----------|------------------|--------
+`GET`    | `/users`    | `index`  |`users_path`      | page to list all users
+`GET`    | `/users/1`  | `show`   |`user_path(user)` | page to show user
+`GET`    | `/users/new`|  `new`   |`new_user_path`   | page to make a new user (signup)
+`POST`   | `/users`    | `create` |`users_path`      | create a new user
+`GET`    | `/users/1/edit`| `edit`|`edit_user_path(user)` | page to edit user with id 1
+`PATCH`  | `/users/1`  | `update` |`user_path(user)` | update user
+`DELETE` | `/users/1`  | `destroy`|`user_path(user)` | delete user
+
+_Source: [Table 7.1.] in [Rails Tutorial Book]_
+
+[Table 7.1.]: https://www.railstutorial.org/book/_single-page#table-RESTful_users

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  # See master/README.md#implicit-routing for more info on routing.
   resources :users#, only: [:index, :new]
 
   # The priority is based upon order of creation: first created -> highest priority.
