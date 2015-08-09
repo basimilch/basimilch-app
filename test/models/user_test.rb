@@ -13,21 +13,6 @@ class UserTest < ActiveSupport::TestCase
                          @user.errors.full_messages.join(", ")
   end
 
-      # t.string   "email"
-      # t.string   "password_digest"
-      # t.boolean  "admin"
-      # t.string   "first_name"
-      # t.string   "last_name"
-    # t.string   "postal_address"
-    # t.string   "postal_code"
-    # t.string   "city"
-    # t.string   "country"
-    # t.string   "tel_mobile"
-    # t.string   "tel_home"
-    # t.string   "tel_office"
-    # t.integer  "status"
-    # t.text     "notes"
-
   test "email should be present" do
     @user.email = "    "
     assert_not @user.valid?
@@ -144,7 +129,31 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
 
-  test "country should be set by default" do
+  test "postal code validation should accept valid swiss codes" do
+    valid_codes = %w[0000 8004 9999]
+    valid_codes.each do |valid_code|
+      @user.postal_code = valid_code
+      assert @user.valid?, "#{valid_code.inspect} should be valid"
+    end
+  end
+
+  test "postal code validation should reject invalid swiss codes" do
+    invalid_codes = %w[000 a004 99999 CH-1243 ch-1234 ch-1]
+    invalid_codes.each do |invalid_code|
+      @user.postal_code = invalid_code
+      assert_not @user.valid?, "#{invalid_code.inspect} should be invalid"
+    end
+  end
+
+  test "postal code, city and country should be present" do
+    @user.postal_code = @user.city = @user.country = nil
+    assert_not @user.valid?
+    assert_equal 4, @user.errors.count, @user.errors.full_messages.join(", ")
+  end
+
+  test "postal code, city and country should be set by default" do
+    assert_equal "8000",    @user.postal_code
+    assert_equal "Zürich",  @user.city
     assert_equal "Schweiz", @user.country
   end
 

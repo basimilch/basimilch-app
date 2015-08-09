@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   #   https://www.railstutorial.org/book/_single-page#sec-format_validation
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
+  VALID_SWISS_POSTAL_CODE_REGEX = /\A\d{4}\z/ # The 'CH-' part is not expected.
   ONLY_SPACES       = /\A\s*\z/
 
   validates :email,       presence: true,
@@ -31,6 +32,11 @@ class User < ActiveRecord::Base
   validates :last_name,   presence: true,
                           length: { maximum: 40 }
 
+  validates :postal_code, presence: true,
+                          format: { with: VALID_SWISS_POSTAL_CODE_REGEX }
+  validates :city,        presence: true
+  validates :country,     presence: true
+
   # Source:
   #  http://guides.rubyonrails.org/active_record_validations.html#validates-each
   validates_each :tel_mobile, :tel_home, :tel_office do |record, attr, value|
@@ -46,7 +52,12 @@ class User < ActiveRecord::Base
   end
   before_save :normalize_tels
 
-  after_initialize { self.country = I18n.t :switzerland }
+  after_initialize {
+    # Defaults
+    self.postal_code  = Rails.configuration.x.defaults.user_postal_code
+    self.city         = Rails.configuration.x.defaults.user_city
+    self.country      = Rails.configuration.x.defaults.user_country
+  }
 
 
   def formatted_tel(tel_type)

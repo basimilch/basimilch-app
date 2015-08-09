@@ -25,12 +25,19 @@ module BasimilchApp
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
+
     # Run directly after the initialization of the application,
     # after the application initializers in config/initializers are
     # run.
     # Source:
     #   http://guides.rubyonrails.org/configuring.html#initialization-events
     config.after_initialize do
+
+      # Basimilch global defaults
+      config.x.defaults.user_postal_code  = "8000"
+      config.x.defaults.user_city         = I18n.t :zurich
+      config.x.defaults.user_country      = I18n.t :switzerland
+
       github_repo_base_url = "https://github.com/basimilch/basimilch-app"
       if Rails.env.production?
         config.x.release =
