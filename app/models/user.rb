@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   #   https://www.railstutorial.org/book/_single-page#sec-format_validation
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
+  ONLY_SPACES       = /\A\s*\z/
 
   validates :email,       presence: true,
                           length: { maximum: 255 },
@@ -11,8 +12,18 @@ class User < ActiveRecord::Base
                           uniqueness: { case_sensitive: false }
   before_save { self.email = email.downcase }
 
-  validates :password,    presence: true,
-                          length: { in: 8..100 }
+  has_secure_password validations: false
+  validates :password,    presence: false, # Users will create a password after
+                                           # account validation.
+                          allow_nil: true,
+                          allow_blank: false,
+                          confirmation: true,
+                          format: { without: ONLY_SPACES },
+                          length: { in: 8..72 } # Max restored from:
+                                                # https://github.com/rails/rails
+                                                # /blob/v4.2.3/activemodel/lib/
+                                                # active_model/secure_
+                                                # password.rb#L21
 
   validates :first_name,  presence: true,
                           length: { maximum: 40 }
@@ -37,7 +48,6 @@ class User < ActiveRecord::Base
 
   after_initialize { self.country = I18n.t :switzerland }
 
-  has_secure_password
 
   def formatted_tel(tel_type)
     if valid?
