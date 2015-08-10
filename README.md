@@ -62,8 +62,8 @@ The [Rails Tutorial Book] mentions also following hint:
 This can be done with, e.g.:
 
 ``` bash
-  ps aux | grep spring
-  pkill -9 -f spring
+$ ps aux | grep spring
+$ pkill -9 -f spring
 ```
 
 [Ruby on Rails]: http://rubyonrails.org
@@ -75,6 +75,21 @@ This can be done with, e.g.:
 [Advanced testing setup]: https://www.railstutorial.org/book/static_pages#sec-advanced_testing_setup
 [Listing 3.42]: https://www.railstutorial.org/book/static_pages#code-guardfile
 [`Guardfile`]: Guardfile
+
+## Dev DB data
+
+Also inspired by the [Rails Tutorial Book], [section 9.3.2], we use
+the _very funny_ [Faker] library :joy: to generate fake random data in
+the file [`db/seeds.rb`]. It can be applied with:
+
+``` bash
+$ bundle exec rake db:migrate:reset # optional to clean the DB
+$ bundle exec rake db:seed          # adds 100 randon users each time
+```
+
+[section 9.3.2]: https://www.railstutorial.org/book/_single-page#sec-sample_users
+[Faker]: https://github.com/stympy/faker
+[`db/seeds.rb`]: db/seeds.rb
 
 ## Localization
 
