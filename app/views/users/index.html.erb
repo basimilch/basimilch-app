@@ -4,4 +4,6 @@
 </ul>
 <small>
   <%= link_to t('.only_from_zurich'), "?filter[postal_code]=8000" %>
+  |
+  <%= link_to t('.download_all_users_as_csv'), users_path(format: :csv) %>
 </small>

@@ -68,7 +68,9 @@ de-CH:
   users:
     index:
       title: "Alle Benutzer"
-      only_from_zurich: "Nur in Zürich wohnend."
+      only_from_zurich: "Nur in Zürich wohnend"
+      download_all_users_as_csv: "Alle Benutzer als CSV herunterladen"
+      csv_file_basemane: "basimilch_benutzer_liste"
       no_users_found: "Keine Benutzer gefunden."
     show:
       title: "Profil"

@@ -68,7 +68,9 @@ en:
   users:
     index:
       title: "All Users"
-      only_from_zurich: "Only from Zurich."
+      only_from_zurich: "Only from Zurich"
+      download_all_users_as_csv: "Download all users as CSV"
+      csv_file_basemane: "basimilch_user_export"
       no_users_found: "No users found."
     show:
       title: "Profile"

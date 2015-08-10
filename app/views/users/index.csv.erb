@@ -1,0 +1,6 @@
+<%# Source: http://nithinbekal.com/posts/rails-csv-export/ %>
+<% headers = User.attribute_names %>
+<%= CSV.generate_line headers %>
+<% @users.each do |user| %>
+<%= CSV.generate_line(headers.map{|attr| user.send(attr)}) %>
+<% end %>
