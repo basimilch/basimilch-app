@@ -74,5 +74,7 @@ en:
       no_users_found: "No users found."
     show:
       title: "Profile"
+      user_not_found: "User with id '%{user_id}' not found!"
+      created_label: "Created"
     new:
       title: "New User"

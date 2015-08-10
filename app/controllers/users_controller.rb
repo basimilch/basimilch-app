@@ -18,7 +18,11 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    unless @user = User.find_by_id(params[:id])
+      # TODO: Redirect to 404 instead
+      flash[:danger] = t('users.show.user_not_found', user_id: params[:id])
+      redirect_to users_path
+    end
   end
 
   def new

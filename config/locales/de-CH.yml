@@ -74,6 +74,7 @@ de-CH:
       no_users_found: "Keine Benutzer gefunden."
     show:
       title: "Profil"
+      user_not_found: "Benutzer mit id '%{user_id}' nicht gefunden!"
       created_label: "Eingetragen vor"
     new:
       title: "Neuer Benutzer"
