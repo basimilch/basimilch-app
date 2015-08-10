@@ -157,6 +157,25 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "Schweiz", @user.country
   end
 
+  test "it should be to override default postal code, city and country" do
+    postal_code = "1234"
+    city        = "foo"
+    country     = "bar"
+    @user.update_attributes(postal_code: postal_code,
+                            city: city,
+                            country: country)
+    # Before saving they should match
+    assert_equal postal_code, @user.postal_code
+    assert_equal city,        @user.city
+    assert_equal country,     @user.country
+    # But they should still match after saving
+    assert @user.save
+    @user.reload
+    assert_equal postal_code, @user.postal_code
+    assert_equal city,        @user.city
+    assert_equal country,     @user.country
+  end
+
   test "valid phone numbers should be stored normalized" do
     valid_tels = {"+41761111111"       => ["+41761111111", "+41 76 111 11 11"],
                   "+41 76 111 11 11"   => ["+41761111111", "+41 76 111 11 11"],

@@ -1,5 +1,11 @@
 class User < ActiveRecord::Base
 
+  # NOTE: A word of caution: 'after_initialize' means after the Ruby
+  # initialize. Hence it is run every time a record is loaded from the
+  # database and used to create a new model object in memory Source:
+  # http://stackoverflow.com/a/4576026
+  after_initialize :default_values
+
   # Inspired from
   #   https://www.railstutorial.org/book/_single-page#sec-format_validation
 
@@ -52,13 +58,6 @@ class User < ActiveRecord::Base
   end
   before_save :normalize_tels
 
-  after_initialize {
-    # Defaults
-    self.postal_code  = Rails.configuration.x.defaults.user_postal_code
-    self.city         = Rails.configuration.x.defaults.user_city
-    self.country      = Rails.configuration.x.defaults.user_country
-  }
-
   def formatted_tel(tel_type)
     if valid?
       raw_tel = send "tel_#{tel_type}" || ""
@@ -72,6 +71,12 @@ class User < ActiveRecord::Base
   end
 
   private
+
+    def default_values
+      self.postal_code  ||= Rails.configuration.x.defaults.user_postal_code
+      self.city         ||= Rails.configuration.x.defaults.user_city
+      self.country      ||= Rails.configuration.x.defaults.user_country
+    end
 
     def normalize_tels
       self.tel_mobile = normalized_tel tel_mobile
