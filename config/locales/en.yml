@@ -27,6 +27,7 @@ en:
   switzerland: "Switzerland"
   zurich: "Zurich"
 
+  cancel: "Cancel"
 
   # Models
 
@@ -41,6 +42,7 @@ en:
         password:               "Password"
         password_confirmation:  "Password confirmation"
         admin:                  "Admin"
+        full_name:              "Name"
         first_name:             "First Name"
         last_name:              "Last Name"
         postal_address:         "Postal Address"
@@ -48,8 +50,11 @@ en:
         city:                   "City"
         country:                "Country"
         tel_mobile:             "Tel Mobile"
+        tel_mobile_formatted:   "Tel Mobile"
         tel_home:               "Tel Home"
+        tel_home_formatted:     "Tel Home"
         tel_office:             "Tel Office"
+        tel_office_formatted:   "Tel Office"
         status:                 "Status"
         notes:                  "Notes"
         created_at:             "Created At"
@@ -74,7 +79,15 @@ en:
       no_users_found: "No users found."
     show:
       title: "Profile"
-      user_not_found: "User with id '%{user_id}' not found!"
       created_label: "Created"
+      flash:
+        user_not_found: "User with id '%{id}' not found!"
+        user_successfully_created:
+                        "User '%{full_name}' (id %{id}) successfully created!"
     new:
       title: "New User"
+    edit:
+      title: "Edit profile"
+    form:
+      create_new_user: "Create new user"
+      update_user_profile: "Update user profile"

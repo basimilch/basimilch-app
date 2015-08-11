@@ -58,9 +58,13 @@ class User < ActiveRecord::Base
   end
   before_save :normalize_tels
 
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+
   def formatted_tel(tel_type)
-    if valid?
-      raw_tel = send "tel_#{tel_type}" || ""
+    if ! send("tel_#{tel_type}_changed?") || valid?
+      raw_tel = send("tel_#{tel_type}") || ""
       # Source:
       #   https://github.com/floere/phony/blob/master/qed/format.md#options
       raw_tel.phony_formatted(:normalize => 'CH',
@@ -68,6 +72,38 @@ class User < ActiveRecord::Base
                               # :format => :national,    # => "076 111 11 11"
                               :spaces => ' ')
     end
+  end
+
+  def tel_mobile_formatted
+    formatted_tel(:mobile)
+  end
+
+  def tel_mobile_formatted=(value)
+    self.tel_mobile = value
+  end
+
+  def tel_home_formatted
+    formatted_tel(:home)
+  end
+
+  def tel_home_formatted=(value)
+    self.tel_home = value
+  end
+
+  def tel_office_formatted
+    formatted_tel(:office)
+  end
+
+  def tel_office_formatted=(value)
+    self.tel_office = value
+  end
+
+  def tels
+    tels = {}
+    tels[:mobile] = tel_mobile_formatted if tel_mobile
+    tels[:home]   = tel_home_formatted   if tel_home
+    tels[:office] = tel_office_formatted if tel_office
+    tels
   end
 
   private

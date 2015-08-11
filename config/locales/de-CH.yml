@@ -27,8 +27,10 @@ de-CH:
   switzerland: "Schweiz"
   zurich: "Zürich"
 
+  cancel: "Abbrechen"
 
   # Models
+  full_name:              "Name"
 
   activerecord:
     models:
@@ -48,8 +50,11 @@ de-CH:
         city:                   "Ort"
         country:                "Land"
         tel_mobile:             "Natel"
+        tel_mobile_formatted:   "Natel"
         tel_home:               "Dihei"
+        tel_home_formatted:     "Dihei"
         tel_office:             "Büro"
+        tel_office_formatted:   "Büro"
         status:                 "Status"
         notes:                  "Notizen"
         created_at:             "Erstellt am"
@@ -74,7 +79,17 @@ de-CH:
       no_users_found: "Keine Benutzer gefunden."
     show:
       title: "Profil"
-      user_not_found: "Benutzer mit id '%{user_id}' nicht gefunden!"
       created_label: "Eingetragen vor"
+      flash:
+        user_not_found: "Benutzer mit id '%{user_id}' nicht gefunden!"
+        user_successfully_created:
+                "Benutzer '%{full_name}' (Id %{id}) angemeldet!"
+        user_updated:
+                "Benutzer '%{full_name}' (Id %{id}) aktualiziet!"
     new:
       title: "Neuer Benutzer"
+    edit:
+      title: "Profil bearbeiten"
+    form:
+      create_new_user: "Neuen Benutzer anmelden"
+      update_user_profile: "Benutzerprofil aktualisieren"

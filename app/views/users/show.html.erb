@@ -1,4 +1,6 @@
 <% provide(:title, t('.title')) %>
+<%= content_tag :a, t('.edit'), class: "btn btn-default",
+    href: edit_user_path(@user) %>
 <%= t('.created_label') + ": " + time_ago_in_words(@user.created_at) %>.
 <br>
 <dl class="dl-horizontal">
