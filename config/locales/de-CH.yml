@@ -30,7 +30,6 @@ de-CH:
   cancel: "Abbrechen"
 
   # Models
-  full_name:              "Name"
 
   activerecord:
     models:
@@ -45,6 +44,7 @@ de-CH:
         admin:                  "Admin"
         first_name:             "Vorname"
         last_name:              "Nachname"
+        full_name:              "Name"
         postal_address:         "Adresse"
         postal_code:            "PLZ"
         city:                   "Ort"
@@ -93,3 +93,14 @@ de-CH:
     form:
       create_new_user: "Neuen Benutzer anmelden"
       update_user_profile: "Benutzerprofil aktualisieren"
+      required_field:   "Pflichtfeld"
+      placeholder:
+        first_name:     "Vorname"
+        last_name:      "Nachname"
+        email:          "name@example.org"
+        postal_address: "Strasse und Nummer"
+        postal_code:    "8xxx"
+        city:           "Stadt oder Gemeinde"
+        tel_mobile:     "078 xxx xx xx"
+        tel_landline:   "043 xxx xx xx"
+        notes:          "Freier Feld für Notizen..."

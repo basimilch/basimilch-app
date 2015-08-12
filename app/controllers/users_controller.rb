@@ -1,13 +1,39 @@
 class UsersController < ApplicationController
 
+  PERMITTED_ATTRIBUTES = [:first_name,
+                          :last_name,
+                          :email,
+                          :postal_address,
+                          :postal_code,
+                          :city,
+                          :country,
+                          :tel_mobile,
+                          :tel_mobile_formatted,
+                          :tel_home,
+                          :tel_home_formatted,
+                          :tel_office,
+                          :tel_office_formatted,
+                          :admin,
+                          :notes]
+
   def index
     if filter = params[:filter]
-      @users = User.find_by(filter) || []
+      # NOTE: .find_by(...) is like .where(...).first
+      # Source: http://stackoverflow.com/a/22833860
+      @users = User.where(filter.permit(PERMITTED_ATTRIBUTES))
     else
       @users = User.all
     end
     respond_to do |format|
       format.html
+      format.json do
+        # Source: http://www.daveperrett.com/articles/2010/10/03/
+        #                       excluding-fields-from-rails-json-and-xml-output/
+        render json: @users, except: :password_digest
+      end
+      format.xml do
+        render xml: @users, except: :password_digest
+      end
       format.csv do
         headers['Content-Disposition'] = "attachment; filename=" +
                             "\"#{Time.now.to_s(:number)}_" +
@@ -68,20 +94,6 @@ class UsersController < ApplicationController
       # Pattern 'strong parameters' to secure form input.
       # Source:
       #   https://www.railstutorial.org/book/_single-page#sec-strong_parameters
-      params.require(:user).permit(:first_name,
-                                   :last_name,
-                                   :email,
-                                   :postal_address,
-                                   :postal_code,
-                                   :city,
-                                   :country,
-                                   :tel_mobile,
-                                   :tel_mobile_formatted,
-                                   :tel_home,
-                                   :tel_home_formatted,
-                                   :tel_office,
-                                   :tel_office_formatted,
-                                   :admin,
-                                   :notes)
+      params.require(:user).permit(PERMITTED_ATTRIBUTES)
     end
 end

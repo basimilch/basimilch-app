@@ -1,6 +1,9 @@
 <%# Source: http://nithinbekal.com/posts/rails-csv-export/ %>
-<% headers = User.attribute_names %>
-<%= CSV.generate_line headers %>
-<% @users.each do |user| %>
-<%= CSV.generate_line(headers.map{|attr| user.send(attr)}) %>
+<%# Source: http://stackoverflow.com/a/4822035 %>
+<% headers = User.attribute_names - ['password_digest'] %>
+<%= CSV.generate :col_sep => "," do |csv| %>
+  <% csv << headers %>
+  <% @users.each do |user| %>
+    <% csv << headers.map{|attr| user.send(attr)} %>
+  <% end %>
 <% end %>

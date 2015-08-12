@@ -14,6 +14,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "email should be present" do
+    assert @user.required_attribute?(:email)
     @user.email = "    "
     assert_not @user.valid?
   end
@@ -110,6 +111,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "first name should be present" do
+    assert @user.required_attribute?(:first_name)
     @user.first_name = "     "
     assert_not @user.valid?
   end
@@ -120,6 +122,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "last name should be present" do
+    assert @user.required_attribute?(:last_name)
     @user.last_name = "     "
     assert_not @user.valid?
   end
@@ -146,6 +149,10 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "postal code, city and country should be present" do
+    assert_not  @user.required_attribute?(:postal_address)
+    assert      @user.required_attribute?(:postal_code)
+    assert      @user.required_attribute?(:city)
+    assert      @user.required_attribute?(:country)
     @user.postal_code = @user.city = @user.country = nil
     assert_not @user.valid?
     assert_equal 4, @user.errors.count, @user.errors.full_messages.join(", ")

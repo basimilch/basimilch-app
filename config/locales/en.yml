@@ -42,9 +42,9 @@ en:
         password:               "Password"
         password_confirmation:  "Password confirmation"
         admin:                  "Admin"
-        full_name:              "Name"
         first_name:             "First Name"
         last_name:              "Last Name"
+        full_name:              "Name"
         postal_address:         "Postal Address"
         postal_code:            "Postal Code"
         city:                   "City"
@@ -84,6 +84,8 @@ en:
         user_not_found: "User with id '%{id}' not found!"
         user_successfully_created:
                         "User '%{full_name}' (id %{id}) successfully created!"
+        user_updated:
+                "User '%{full_name}' (Id %{id}) updated!"
     new:
       title: "New User"
     edit:
@@ -91,3 +93,14 @@ en:
     form:
       create_new_user: "Create new user"
       update_user_profile: "Update user profile"
+      required_field:   "Required field"
+      placeholder:
+        first_name:     "First name"
+        last_name:      "Last name"
+        email:          "name@example.org"
+        postal_address: "Street and number"
+        postal_code:    "8xxx"
+        city:           "City or town"
+        tel_mobile:     "078 xxx xx xx"
+        tel_landline:   "043 xxx xx xx"
+        notes:          "Free field for notes..."

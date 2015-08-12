@@ -6,9 +6,14 @@
 $basiblau: #51A1D9;
 $basiblau_slightly_darker: darken( $basiblau, 10% );
 $basiblau_darker: darken( $basiblau, 15% );
+$basiblau_light: lighten( $basiblau, 25% );
 $basiblau_ultralight: lighten( $basiblau, 36% );
+$basiblau_ultralight_bg: lighten( $basiblau, 40.5% );
 
 $gray-medium-light: #eaeaea;
+
+$state-danger-text-light: lighten($state-danger-text, 40%);
+$state-danger-bg-light:   lighten($state-danger-bg, 7%);
 
 // Mixins
 
@@ -16,6 +21,15 @@ $gray-medium-light: #eaeaea;
   -moz-box-sizing:    border-box;
   -webkit-box-sizing: border-box;
   box-sizing:         border-box;
+}
+
+@mixin light_placeholder {
+  color: $basiblau_light;
+  opacity: 1;
+}
+@mixin light_placeholder_with_errors {
+  @include light_placeholder;
+  color: $state-danger-text-light;
 }
 
 // Global
@@ -224,20 +238,73 @@ footer {
 
 // Forms
 
-input, textarea, select, button, .uneditable-input {
-  border: 1px solid #bbb;
-  width: 100%;
-  margin-bottom: 15px;
-  @include box_sizing;
-}
-
-input {
-  height: auto !important;
-}
-
-.field_with_errors {
-  @extend .has-error;
-  .form-control {
-    color: $state-danger-text;
+form {
+  input,
+  textarea,
+  select,
+  button,
+  a,
+  .uneditable-input {
+    border: 1px solid #bbb;
+    width: 100%;
+    margin-bottom: 15px;
+    @include box_sizing;
+  &.form-control {
+    border-color: $basiblau;
+    background-color: $basiblau_ultralight-bg;
+    &:not([disabled]):not([readonly]) {
+      &:focus,
+      &:active {
+        background-color: $basiblau_ultralight;
+      }
+    }
   }
+  }
+  input {
+    height: auto !important;
+  }
+  .field_with_errors {
+    @extend .has-error;
+    .form-control {
+      color: $state-danger-text;
+      background-color: $state-danger-bg-light;
+    }
+  }
+}
+
+// NOTE: Do not group these rules. Instead, make a separate rule for
+// every selector (one invalid selector in a group makes the whole
+// group invalid).
+// Source: http://stackoverflow.com/a/9705712
+.field_with_errors {
+  .form-control::-webkit-input-placeholder {
+      @include light_placeholder_with_errors;
+  }
+  .form-control:-moz-placeholder {
+      /* FF 4-18 */
+      @include light_placeholder_with_errors;
+  }
+  .form-control::-moz-placeholder {
+      /* FF 19+ */
+      @include light_placeholder_with_errors;
+  }
+  .form-control:-ms-input-placeholder {
+      /* IE 10+ */
+      @include light_placeholder_with_errors;
+  }
+}
+.form-control::-webkit-input-placeholder {
+    @include light_placeholder;
+}
+.form-control:-moz-placeholder {
+    /* FF 4-18 */
+    @include light_placeholder;
+}
+.form-control::-moz-placeholder {
+    /* FF 19+ */
+    @include light_placeholder;
+}
+.form-control:-ms-input-placeholder {
+    /* IE 10+ */
+    @include light_placeholder;
 }
