@@ -6,69 +6,31 @@
 <%= form_for(user, class: 'form-horizontal') do |f| %>
   <div class="row">
     <div class="col-sm-3 col-xs-6">
-      <div class="form-group">
-        <%= f.label       :first_name, class: "control-label" %>
-        <%= user.required_attribute?(:first_name) ? "*" : ""  %>
-        <%= f.text_field  :first_name, class: 'form-control',
-                          placeholder: t('.placeholder.first_name') %>
-      </div>
+      <%= f.field_for :first_name %>
     </div>
     <div class="col-sm-3 col-xs-6">
-      <div class="form-group">
-        <%= f.label       :last_name, class: "control-label" %>
-        <%= user.required_attribute?(:last_name) ? "*" : ""  %>
-        <%= f.text_field  :last_name, class: 'form-control',
-                          placeholder: t('.placeholder.last_name') %>
-      </div>
+      <%= f.field_for :last_name %>
     </div>
     <div class="col-lg-1 col-xs-2">
-      <div class="form-group">
-        <%= f.label       :admin, class: "control-label" %>
-        <%= user.required_attribute?(:admin) ? "*" : ""  %>
-        <%= f.check_box   :admin %>
-      </div>
+      <%= f.field_for :admin %>
     </div>
     <div class="col-lg-5 col-sm-4 col-xs-10">
-      <div class="form-group">
-        <%= f.label       :email, class: "control-label" %>
-        <%= user.required_attribute?(:email) ? "*" : ""  %>
-        <%= f.email_field :email, class: 'form-control',
-                                  placeholder: t('.placeholder.email') %>
-      </div>
+      <%= f.field_for :email %>
     </div>
   </div>
 
   <div class="row">
     <div class="col-sm-6">
-      <div class="form-group">
-        <%= f.label       :postal_address, class: "control-label" %>
-        <%= user.required_attribute?(:postal_address) ? "*" : ""  %>
-        <%= f.text_field  :postal_address, class: 'form-control',
-                          placeholder: t('.placeholder.postal_address') %>
-      </div>
+      <%= f.field_for :postal_address %>
     </div>
     <div class="col-lg-1 col-sm-2 col-xs-4">
-      <div class="form-group">
-        <%= f.label       :postal_code, class: "control-label" %>
-        <%= user.required_attribute?(:postal_code) ? "*" : ""  %>
-        <%= f.text_field  :postal_code, class: 'form-control',
-                          placeholder: t('.placeholder.postal_code') %>
-      </div>
+      <%= f.field_for :postal_code %>
     </div>
     <div class="col-lg-3 col-sm-2 col-xs-8">
-      <div class="form-group">
-        <%= f.label       :city, class: "control-label" %>
-        <%= user.required_attribute?(:city) ? "*" : ""  %>
-        <%= f.text_field  :city, class: 'form-control',
-                        placeholder: t('.placeholder.city') %>
-      </div>
+      <%= f.field_for :city %>
     </div>
     <div class="col-sm-2">
-      <div class="form-group">
-        <%= f.label       :country, class: "control-label" %>
-        <%= user.required_attribute?(:country) ? "*" : ""  %>
-        <%= f.text_field  :country, readonly: true, class: 'form-control' %>
-      </div>
+      <%= f.field_for :country, readonly: true %>
     </div>
   </div>
 
@@ -76,85 +38,54 @@
     <%# The form for new users cannot user the formatted versions yet %>
     <div class="row">
       <div class="col-sm-4">
-        <div class="form-group">
-          <%= f.label       :tel_mobile, class: "control-label" %>
-          <%= user.required_attribute?(:tel_mobile) ? "*" : ""  %>
-          <%= f.text_field  :tel_mobile, class: 'form-control',
-                            placeholder: t('.placeholder.tel_mobile') %>
-        </div>
+        <%= f.field_for :tel_mobile,  placeholder: :tel_mobile %>
       </div>
       <div class="col-sm-4">
-        <div class="form-group">
-          <%= f.label       :tel_home, class: "control-label" %>
-          <%= user.required_attribute?(:tel_home) ? "*" : ""  %>
-          <%= f.text_field  :tel_home, class: 'form-control',
-                            placeholder: t('.placeholder.tel_landline') %>
-        </div>
+        <%= f.field_for :tel_home,    placeholder: :tel_landline %>
       </div>
       <div class="col-sm-4">
-        <div class="form-group">
-          <%= f.label       :tel_office, class: "control-label" %>
-          <%= user.required_attribute?(:tel_office) ? "*" : ""  %>
-          <%= f.text_field  :tel_office, class: 'form-control',
-                            placeholder: t('.placeholder.tel_landline') %>
-        </div>
+        <%= f.field_for :tel_office,  placeholder: :tel_landline %>
       </div>
     </div>
   <% else %>
     <div class="row">
       <div class="col-sm-4">
-        <div class="form-group">
-          <%= f.label       :tel_mobile_formatted, class: "control-label" %>
-          <%= user.required_attribute?(:tel_mobile) ? "*" : ""  %>
-          <%= f.text_field  :tel_mobile_formatted, class: 'form-control',
-                            placeholder: t('.placeholder.tel_mobile') %>
-        </div>
+        <%= f.field_for :tel_mobile_formatted,  placeholder: :tel_mobile,
+                                                real_attribute: :tel_mobile %>
       </div>
       <div class="col-sm-4">
-        <div class="form-group">
-          <%= f.label       :tel_home_formatted, class: "control-label" %>
-          <%= user.required_attribute?(:tel_home) ? "*" : ""  %>
-          <%= f.text_field  :tel_home_formatted, class: 'form-control',
-                            placeholder: t('.placeholder.tel_landline') %>
-        </div>
+        <%= f.field_for :tel_home_formatted,    placeholder: :tel_landline,
+                                                real_attribute: :tel_home %>
       </div>
       <div class="col-sm-4">
-        <div class="form-group">
-          <%= f.label       :tel_office_formatted, class: "control-label" %>
-          <%= user.required_attribute?(:tel_office) ? "*" : ""  %>
-          <%= f.text_field  :tel_office_formatted, class: 'form-control',
-                            placeholder: t('.placeholder.tel_landline') %>
-        </div>
+        <%= f.field_for :tel_office_formatted,  placeholder: :tel_landline,
+                                                real_attribute: :tel_office %>
       </div>
     </div>
   <% end %>
 
   <div class="row">
     <div class="col-xs-12">
-      <div class="form-group">
-        <%= f.label     :notes, class: "control-label" %>
-        <%= f.text_area :notes, class: 'form-control',
-                                placeholder: t('.placeholder.notes') %>
-      </div>
+      <%= f.field_for :notes %>
     </div>
   </div>
 
   <div class="row">
     <div class="col-xs-12">
-        * <%= t('.required_field') %>
+        <%= "#{ActionView::Helpers::FormBuilder::REQUIRED_ATTRIBUTE_MARK} " +
+            "#{t('.required_field')}" %>
     </div>
   </div>
 
   <div class="row form-buttons">
     <div class="col-md-offset-7 col-sm-2 col-sm-offset-6 col-xs-4">
-      <%= content_tag :a, t('cancel'), class: "btn btn-default",
-                          href: users_path %>
+      <%= f.cancel_button users_path %>
     </div>
     <div class="col-md-3 col-sm-4 col-xs-8">
       <% if user.new_record? %>
-        <%= f.submit t('.create_new_user'), class: "btn btn-success" %>
+        <%= f.submit_button t('.create_new_user') %>
       <% else %>
-        <%= f.submit t('.update_user_profile'), class: "btn btn-primary" %>
+        <%= f.submit_button t('.update_user_profile') %>
       <% end %>
     </div>
   </div>

@@ -27,7 +27,9 @@ en:
   switzerland: "Switzerland"
   zurich: "Zurich"
 
-  cancel: "Cancel"
+  form:
+    cancel: "Cancel"
+    submit: "Send"
 
   # Models
 
@@ -59,6 +61,17 @@ en:
         notes:                  "Notes"
         created_at:             "Created At"
         updated_at:             "Updated At"
+    placeholders:
+      user:
+        first_name:     "First name"
+        last_name:      "Last name"
+        email:          "name@example.org"
+        postal_address: "Street and number"
+        postal_code:    "8xxx"
+        city:           "City or town"
+        tel_mobile:     "078 xxx xx xx"
+        tel_landline:   "043 xxx xx xx"
+        notes:          "Free field for notes..."
 
 
   # Views
@@ -94,13 +107,3 @@ en:
       create_new_user: "Create new user"
       update_user_profile: "Update user profile"
       required_field:   "Required field"
-      placeholder:
-        first_name:     "First name"
-        last_name:      "Last name"
-        email:          "name@example.org"
-        postal_address: "Street and number"
-        postal_code:    "8xxx"
-        city:           "City or town"
-        tel_mobile:     "078 xxx xx xx"
-        tel_landline:   "043 xxx xx xx"
-        notes:          "Free field for notes..."
