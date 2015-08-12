@@ -72,7 +72,10 @@
   </div>
 
   <div class="row">
-    <% unless user.new_record? %>
+    <% if user.new_record? %>
+      <div class="col-sm-8">
+      </div>
+    <% else %>
       <div class="col-sm-4">
         <%= User.human_attribute_name(:created_at) +
             " #{@user.created_at.to_s(:short)}" %>.
