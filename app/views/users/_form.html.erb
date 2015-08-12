@@ -5,6 +5,34 @@
 </div>
 <%= form_for user, class: 'form-horizontal',
              view_mode: (defined?(view_mode) ? view_mode : false) do |f| %>
+
+  <% form_buttons = capture do %>
+    <div class="row form-buttons">
+      <% if f.options[:view_mode] %>
+        <div class="col-md-3 col-md-offset-9 col-sm-4 col-sm-offset-8">
+          <%= f.edit_button edit_user_path(@user) %>
+        </div>
+      <% else %>
+        <div class="col-md-offset-7 col-sm-2 col-sm-offset-6 col-xs-4">
+          <% if user.new_record? %>
+            <%= f.cancel_button users_path %>
+          <% else %>
+            <%= f.cancel_button user %>
+          <% end %>
+        </div>
+        <div class="col-md-3 col-sm-4 col-xs-8">
+          <% if user.new_record? %>
+            <%= f.submit_button t('.create_new_user') %>
+          <% else %>
+            <%= f.submit_button t('.update_user_profile') %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= form_buttons %>
+
   <div class="row">
     <div class="col-sm-3 col-xs-6">
       <%= f.field_for :first_name %>
@@ -93,26 +121,5 @@
     <% end %>
   </div>
 
-  <div class="row form-buttons">
-    <% if f.options[:view_mode] %>
-      <div class="col-md-3 col-md-offset-9 col-sm-4 col-sm-offset-8">
-        <%= f.edit_button edit_user_path(@user) %>
-      </div>
-    <% else %>
-      <div class="col-md-offset-7 col-sm-2 col-sm-offset-6 col-xs-4">
-        <% if user.new_record? %>
-          <%= f.cancel_button users_path %>
-        <% else %>
-          <%= f.cancel_button user %>
-        <% end %>
-      </div>
-      <div class="col-md-3 col-sm-4 col-xs-8">
-        <% if user.new_record? %>
-          <%= f.submit_button t('.create_new_user') %>
-        <% else %>
-          <%= f.submit_button t('.update_user_profile') %>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
+  <%= form_buttons %>
 <% end %>
