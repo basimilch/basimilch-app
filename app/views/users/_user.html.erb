@@ -1,20 +1,9 @@
 <tr>
   <td>
-    <%= link_to "#{user.first_name}", user %>
-  </td>
-  <td>
-    <%= link_to "#{user.last_name}", user %>
+    <%= link_to "#{user.full_name}", user %>
   </td>
   <td>
     <%= mail_to user.email %>
-  </td>
-  <td>
-    <dl class="dl-horizontal">
-      <% user.tels.each do | tel_type, tel | %>
-        <dt><%= tel_type %></dt>
-        <dd><%= tel %></dd>
-      <% end %>
-    </dl>
   </td>
   <td>
     <%= link_to "profile", user, class: "btn btn-default" %>
