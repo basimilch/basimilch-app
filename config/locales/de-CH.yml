@@ -30,6 +30,7 @@ de-CH:
   form:
     cancel: "Abbrechen"
     submit: "Senden"
+    edit: "Bearbeiten"
 
   # Models
 
@@ -60,7 +61,7 @@ de-CH:
         status:                 "Status"
         notes:                  "Notizen"
         created_at:             "Erstellt am"
-        updated_at:             "Aktualiziert am"
+        updated_at:             "Zuletzt aktualiziert am"
     placeholders:
       user:
         first_name:     "Vorname"
@@ -92,7 +93,6 @@ de-CH:
       no_users_found: "Keine Benutzer gefunden."
     show:
       title: "Profil"
-      created_label: "Eingetragen vor"
       flash:
         user_not_found: "Benutzer mit id '%{user_id}' nicht gefunden!"
         user_successfully_created:

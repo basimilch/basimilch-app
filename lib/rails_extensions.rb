@@ -49,29 +49,43 @@ class ActionView::Helpers::FormBuilder
   # using Bootstrap classes.
   # Consider: https://github.com/bootstrap-ruby/rails-bootstrap-forms ;)
   def field_for(attribute, options = {})
-    input_type  = input_type_for(options[:real_attribute] || attribute)
-    input_class = 'form-control' unless input_type == :check_box
-    readonly    = options.include?(:readonly) ? options[:readonly] : false
-    placeholder = I18n.t "activerecord.placeholders." +
-                         "#{object.class.name.downcase}." +
-                         "#{(options[:placeholder] || attribute)}"
+    is_view_mode  = self.options[:view_mode] == true
+    input_type    = input_type_for(options[:real_attribute] || attribute)
+    is_checkbox   = input_type == :check_box
+    input_class   = ''
+    input_class   << 'form-control' unless is_checkbox
+    input_class   << ' view-mode'   if is_view_mode
+    readonly      = options.include?(:readonly) ? options[:readonly] : false
+    placeholder   = is_checkbox ? '' : I18n.t("activerecord.placeholders." +
+                                     "#{object.class.name.downcase}." +
+                                     "#{(options[:placeholder] || attribute)}")
     # Source: https://robots.thoughtbot.com/nesting-content-tag-in-rails-3
     @template.content_tag :div, class: 'form-group' do
       @template.concat( label(attribute, class: 'control-label') do
         @template.concat @object.class.human_attribute_name(attribute)
-        if @object.try :required_attribute?, attribute
+        if !is_view_mode && @object.try(:required_attribute?, attribute)
           @template.concat REQUIRED_ATTRIBUTE_MARK
         end
       end)
-      @template.concat send(input_type, attribute, class: input_class,
+      @template.concat send(input_type, attribute, class:       input_class,
                                                    placeholder: placeholder,
-                                                   readonly: readonly)
+                                                   readonly:    readonly,
+                                                   disabled:    is_view_mode)
     end
   end
 
   # Returns HTML for a cancel form button using Bootstrap classes.
   def cancel_button(destination_path = '/')
-    @template.link_to I18n.t('form.cancel'), destination_path, class: "btn btn-default"
+    @template.link_to I18n.t('form.cancel'), destination_path,
+                                             class: "btn btn-default"
+  end
+
+  # Returns HTML for a edit form button using Bootstrap classes.
+  def edit_button(destination_path = '/')
+    # Consider using:
+    # ActionDispatch::Routing::PolymorphicRoutes::edit_polymorphic_path(@object)
+    @template.link_to I18n.t('form.edit'), destination_path,
+                                             class: "btn btn-primary"
   end
 
   # Returns HTML for a submit form button using Bootstrap classes.

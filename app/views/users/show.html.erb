@@ -1,11 +1,2 @@
-<% provide(:title, t('.title')) %>
-<%= content_tag :a, t('.edit'), class: "btn btn-default",
-    href: edit_user_path(@user) %>
-<%= t('.created_label') + ": " + time_ago_in_words(@user.created_at) %>.
-<br>
-<dl class="dl-horizontal">
-  <% @user.attributes.each do | attr_name, attr_value | %>
-    <dt><%= User.human_attribute_name(attr_name) %></dt>
-    <dd><%= attr_value %></dd>
-  <% end %>
-</dl>
+<% provide(:title, "#{t('.title')}: #{@user.full_name}") %>
+<%= render 'form', user: @user, view_mode: true %>

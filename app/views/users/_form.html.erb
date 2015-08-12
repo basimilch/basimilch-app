@@ -3,7 +3,8 @@
       <%= render 'shared/error_messages', errors: user.errors %>
   </div>
 </div>
-<%= form_for(user, class: 'form-horizontal') do |f| %>
+<%= form_for user, class: 'form-horizontal',
+             view_mode: (defined?(view_mode) ? view_mode : false) do |f| %>
   <div class="row">
     <div class="col-sm-3 col-xs-6">
       <%= f.field_for :first_name %>
@@ -71,22 +72,44 @@
   </div>
 
   <div class="row">
-    <div class="col-xs-12">
-        <%= "#{ActionView::Helpers::FormBuilder::REQUIRED_ATTRIBUTE_MARK} " +
-            "#{t('.required_field')}" %>
-    </div>
+    <% unless user.new_record? %>
+      <div class="col-sm-4">
+        <%= User.human_attribute_name(:created_at) +
+            " #{@user.created_at.to_s(:short)}" %>.
+      </div>
+      <div class="col-sm-4">
+        <%= User.human_attribute_name(:updated_at) +
+            " #{@user.updated_at.to_s(:short)}" %>.
+      </div>
+    <% end %>
+    <% unless f.options[:view_mode] %>
+      <div class="col-sm-4 text-right">
+        <%= "#{ActionView::Helpers::FormBuilder::REQUIRED_ATTRIBUTE_MARK}" +
+            " #{t('.required_field')}" %>
+      </div>
+    <% end %>
   </div>
 
   <div class="row form-buttons">
-    <div class="col-md-offset-7 col-sm-2 col-sm-offset-6 col-xs-4">
-      <%= f.cancel_button users_path %>
-    </div>
-    <div class="col-md-3 col-sm-4 col-xs-8">
-      <% if user.new_record? %>
-        <%= f.submit_button t('.create_new_user') %>
-      <% else %>
-        <%= f.submit_button t('.update_user_profile') %>
-      <% end %>
-    </div>
+    <% if f.options[:view_mode] %>
+      <div class="col-md-3 col-md-offset-9 col-sm-4 col-sm-offset-8">
+        <%= f.edit_button edit_user_path(@user) %>
+      </div>
+    <% else %>
+      <div class="col-md-offset-7 col-sm-2 col-sm-offset-6 col-xs-4">
+        <% if user.new_record? %>
+          <%= f.cancel_button users_path %>
+        <% else %>
+          <%= f.cancel_button user %>
+        <% end %>
+      </div>
+      <div class="col-md-3 col-sm-4 col-xs-8">
+        <% if user.new_record? %>
+          <%= f.submit_button t('.create_new_user') %>
+        <% else %>
+          <%= f.submit_button t('.update_user_profile') %>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 <% end %>

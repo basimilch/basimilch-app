@@ -249,16 +249,28 @@ form {
     width: 100%;
     margin-bottom: 15px;
     @include box_sizing;
-  &.form-control {
-    border-color: $basiblau;
-    background-color: $basiblau_ultralight-bg;
-    &:not([disabled]):not([readonly]) {
-      &:focus,
-      &:active {
-        background-color: $basiblau_ultralight;
+    &.form-control {
+      border-color: $basiblau;
+      background-color: $basiblau_ultralight-bg;
+      &:not([disabled]):not([readonly]) {
+        &:focus,
+        &:active {
+          background-color: $basiblau_ultralight;
+        }
+      }
+      &.view-mode {
+        @extend .view-mode[type=checkbox];
       }
     }
   }
+  .view-mode[type=checkbox] {
+    background-color: $basiblau_ultralight;
+    border-color: transparent;
+    box-shadow: none;
+    cursor: default;
+  }
+  .form-buttons {
+    margin-top: 25px;
   }
   input {
     height: auto !important;

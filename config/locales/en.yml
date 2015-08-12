@@ -30,6 +30,7 @@ en:
   form:
     cancel: "Cancel"
     submit: "Send"
+    edit: "Edit"
 
   # Models
 
@@ -59,8 +60,8 @@ en:
         tel_office_formatted:   "Tel Office"
         status:                 "Status"
         notes:                  "Notes"
-        created_at:             "Created At"
-        updated_at:             "Updated At"
+        created_at:             "Created at"
+        updated_at:             "Last updated at"
     placeholders:
       user:
         first_name:     "First name"
@@ -92,7 +93,6 @@ en:
       no_users_found: "No users found."
     show:
       title: "Profile"
-      created_label: "Created"
       flash:
         user_not_found: "User with id '%{id}' not found!"
         user_successfully_created:

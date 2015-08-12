@@ -1,2 +1,2 @@
-<% provide(:title, t('.title')) %>
+<% provide(:title, "#{t('.title')}: #{@user.full_name}") %>
 <%= render 'form', user: @user %>
