@@ -32,6 +32,23 @@ end
 
 class ActionView::Helpers::FormBuilder
 
+  # Full attribute type list.
+  # Source: http://stackoverflow.com/a/3260466
+  # Source: http://stackoverflow.com/a/15667038
+  #
+  # :binary
+  # :boolean
+  # :date
+  # :datetime
+  # :decimal
+  # :float
+  # :integer
+  # :primary_key
+  # :string
+  # :text
+  # :time
+  # :timestamp
+
   INPUT_FIELD_TYPES = {
     string:   :text_field,
     text:     :text_area,
