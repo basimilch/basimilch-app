@@ -64,15 +64,17 @@ en:
         updated_at:             "Last updated at"
     placeholders:
       user:
-        first_name:     "First name"
-        last_name:      "Last name"
-        email:          "name@example.org"
-        postal_address: "Street and number"
-        postal_code:    "8xxx"
-        city:           "City or town"
-        tel_mobile:     "078 xxx xx xx"
-        tel_landline:   "043 xxx xx xx"
-        notes:          "Free field for notes..."
+        first_name:             "First name"
+        last_name:              "Last name"
+        password:               "Password"
+        password_confirmation:  "Password confirmation"
+        email:                  "name@basimil.ch"
+        postal_address:         "Street and number"
+        postal_code:            "8xxx"
+        city:                   "City or town"
+        tel_mobile:             "078 xxx xx xx"
+        tel_landline:           "043 xxx xx xx"
+        notes:                  "Free field for notes..."
 
 
   # Views
@@ -83,6 +85,10 @@ en:
       new_user:     "New User"
       log_in_html:  "<span class='glyphicon glyphicon-log-in'></span> Log in"
       log_out_html: "<span class='glyphicon glyphicon-log-out'></span> Log out"
+
+  forms:
+    login:
+      login: "Log in"
 
   users:
     index:

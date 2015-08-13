@@ -52,13 +52,15 @@ class ActionView::Helpers::FormBuilder
   INPUT_FIELD_TYPES = {
     string:   :text_field,
     text:     :text_area,
-    boolean:  :check_box
+    boolean:  :check_box,
+    password: :password_field
   }
 
   REQUIRED_ATTRIBUTE_MARK = '*'
 
   def input_type_for(attribute)
-    INPUT_FIELD_TYPES[object.column_for_attribute(attribute).type] ||
+    INPUT_FIELD_TYPES[attribute] ||
+      INPUT_FIELD_TYPES[object.column_for_attribute(attribute).type] ||
       :text_field
   end
 
@@ -106,7 +108,9 @@ class ActionView::Helpers::FormBuilder
   end
 
   # Returns HTML for a submit form button using Bootstrap classes.
-  def submit_button(button_text = nil)
-    submit button_text || I18n.t('form.submit'), class: "btn btn-primary"
+  def submit_button(button_text = nil, options = {})
+    readonly      = options.include?(:readonly) ? options[:readonly] : false
+    submit button_text || I18n.t('form.submit'), class: "btn btn-primary",
+                                                 readonly: readonly
   end
 end

@@ -64,15 +64,17 @@ de-CH:
         updated_at:             "Zuletzt aktualiziert am"
     placeholders:
       user:
-        first_name:     "Vorname"
-        last_name:      "Nachname"
-        email:          "name@example.org"
-        postal_address: "Strasse und Nummer"
-        postal_code:    "8xxx"
-        city:           "Stadt oder Gemeinde"
-        tel_mobile:     "078 xxx xx xx"
-        tel_landline:   "043 xxx xx xx"
-        notes:          "Freier Feld für Notizen..."
+        first_name:             "Vorname"
+        last_name:              "Nachname"
+        password:               "Passwort"
+        password_confirmation:  "Passwortwiederholung"
+        email:                  "name@basimil.ch"
+        postal_address:         "Strasse und Nummer"
+        postal_code:            "8xxx"
+        city:                   "Stadt oder Gemeinde"
+        tel_mobile:             "078 xxx xx xx"
+        tel_landline:           "043 xxx xx xx"
+        notes:                  "Freier Feld für Notizen..."
 
 
   # Views
@@ -83,6 +85,10 @@ de-CH:
       new_user:     "Neuer Benutzer"
       log_in_html:  "<span class='glyphicon glyphicon-log-in'></span> Einloggen"
       log_out_html: "<span class='glyphicon glyphicon-log-out'></span> Ausloggen"
+
+  forms:
+    login:
+      login: "Einloggen"
 
   users:
     index:
