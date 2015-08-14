@@ -11,6 +11,8 @@ deploy:
   app:
     master: basimilch
     dev: basimilch-dev
+  run:
+    - "rake db:migrate"
   on:
     repo: basimilch/basimilch-app
 addons:
