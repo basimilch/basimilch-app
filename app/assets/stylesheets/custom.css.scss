@@ -3,6 +3,14 @@
 
 // Colors constants
 
+// Bootstrap defines lots of colors constants which can be directly used
+// here. For the whole list, see:
+//   https://github.com/twbs/bootstrap/blob/master/less/variables.less
+// That page defines variables using Less, not Sass, but the
+// 'bootstrap-sass' gem provides the Sass equivalents. So, here use
+// them with a dollar sign $ instead of the 'at' sign @.
+// Source: https://www.railstutorial.org/book/_single-page#uid455
+
 $basiblau: #51A1D9;
 $basiblau_slightly_darker: darken( $basiblau, 10% );
 $basiblau_darker: darken( $basiblau, 15% );
