@@ -106,6 +106,19 @@ class User < ActiveRecord::Base
     tels
   end
 
+  # Class methods
+
+  # Returns the hash digest of the given string.
+  # Source: https://www.railstutorial.org/book/_single-page#code-digest_method
+  def User.digest(string)
+    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
+                                                  BCrypt::Engine.cost
+    BCrypt::Password.create(string, cost: cost)
+  end
+
+
+  # Private methods
+
   private
 
     def default_values

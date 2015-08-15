@@ -281,6 +281,9 @@ form {
   .form-buttons {
     margin-top: 25px;
     margin-bottom: 25px;
+    &:not(.row) .btn {
+      margin-bottom: 25px;
+    }
   }
   input {
     height: auto !important;

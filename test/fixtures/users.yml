@@ -1,31 +1,18 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# Read about fixtures at
+#   http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
   email: one@example.com
-  password_digest: <%= BCrypt::Password.create('secret') %>
-  admin: false
-  first_name: MyString
-  last_name: MyString
-  postal_code: MyString
-  city: MyString
-  country: MyString
-  tel_mobile: MyString
-  tel_home: MyString
-  tel_office: MyString
+  password_digest: <%= User.digest('password') %>
+  admin: true
+  first_name: User
+  last_name: Example
+  postal_code: 8001
+  city: Zürich
+  country: Schweiz
+  tel_mobile: +41 76 123 45 67
+  tel_home: +41 44 123 45 67
+  tel_office: +41 44 123 45 67
   status: 1
-  notes: MyText
+  notes: some notes
 
-two:
-  email: two@example.com
-  password_digest: <%= BCrypt::Password.create('secret') %>
-  admin: false
-  first_name: MyString
-  last_name: MyString
-  postal_code: MyString
-  city: MyString
-  country: MyString
-  tel_mobile: MyString
-  tel_home: MyString
-  tel_office: MyString
-  status: 1
-  notes: MyText

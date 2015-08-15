@@ -22,6 +22,50 @@
 de-CH:
   hello: "Hoi Welt!"
 
+  # Globally used translations
+  # Sources:
+  #   http://stackoverflow.com/a/11090163
+  #   https://gist.github.com/ddlsmurf/1590434
+  #
+  # Consider also using ruby files for translations, i.e. 'de-CH.rb'.
+  # Source: http://stackoverflow.com/a/22797880
+
+  dictionary:
+    attributes: &attributes
+      email:                  "E-Mail-Adresse"
+      password:               "Passwort"
+      password_confirmation:  "Passwortwiederholung"
+      admin:                  "Admin"
+      first_name:             "Vorname"
+      last_name:              "Nachname"
+      full_name:              "Name"
+      postal_address:         "Adresse"
+      postal_code:            "PLZ"
+      city:                   "Ort"
+      country:                "Land"
+      tel_mobile:             "Natel"
+      tel_mobile_formatted:   "Natel"
+      tel_home:               "Dihei"
+      tel_home_formatted:     "Dihei"
+      tel_office:             "Büro"
+      tel_office_formatted:   "Büro"
+      status:                 "Status"
+      notes:                  "Notizen"
+      created_at:             "Erstellt am"
+      updated_at:             "Zuletzt aktualiziert am"
+    placeholders: &placeholders
+      first_name:             "Vorname"
+      last_name:              "Nachname"
+      password:               "Passwort"
+      password_confirmation:  "Passwortwiederholung"
+      email:                  "name@basimil.ch"
+      postal_address:         "Strasse und Nummer"
+      postal_code:            "8xxx"
+      city:                   "Stadt oder Gemeinde"
+      tel_mobile:             "078 xxx xx xx"
+      tel_landline:           "043 xxx xx xx"
+      notes:                  "Freier Feld für Notizen..."
+
   # Misc
 
   switzerland: "Schweiz"
@@ -32,6 +76,7 @@ de-CH:
     submit: "Senden"
     edit: "Bearbeiten"
 
+
   # Models
 
   activerecord:
@@ -41,41 +86,11 @@ de-CH:
         other:  "Benutzer"
     attributes:
       user:
-        email:                  "E-Mail-Adresse"
-        password:               "Passwort"
-        password_confirmation:  "Passwortwiederholung"
-        admin:                  "Admin"
-        first_name:             "Vorname"
-        last_name:              "Nachname"
-        full_name:              "Name"
-        postal_address:         "Adresse"
-        postal_code:            "PLZ"
-        city:                   "Ort"
-        country:                "Land"
-        tel_mobile:             "Natel"
-        tel_mobile_formatted:   "Natel"
-        tel_home:               "Dihei"
-        tel_home_formatted:     "Dihei"
-        tel_office:             "Büro"
-        tel_office_formatted:   "Büro"
-        status:                 "Status"
-        notes:                  "Notizen"
-        created_at:             "Erstellt am"
-        updated_at:             "Zuletzt aktualiziert am"
+        <<: *attributes
+        # attribute_name: "translation to override the one in *attributes"
     placeholders:
       user:
-        first_name:             "Vorname"
-        last_name:              "Nachname"
-        password:               "Passwort"
-        password_confirmation:  "Passwortwiederholung"
-        email:                  "name@basimil.ch"
-        postal_address:         "Strasse und Nummer"
-        postal_code:            "8xxx"
-        city:                   "Stadt oder Gemeinde"
-        tel_mobile:             "078 xxx xx xx"
-        tel_landline:           "043 xxx xx xx"
-        notes:                  "Freier Feld für Notizen..."
-
+        <<: *placeholders
 
   # Views
 
@@ -89,6 +104,7 @@ de-CH:
   forms:
     login:
       login: "Einloggen"
+      forgot_password: "I han mis Passwort vergässe"
 
   users:
     index:
@@ -110,6 +126,22 @@ de-CH:
     edit:
       title: "Profil bearbeiten"
     form:
-      create_new_user: "Neuen Benutzer anmelden"
-      update_user_profile: "Benutzerprofil aktualisieren"
-      required_field:   "Pflichtfeld"
+      create_new_user:      "Neuen Benutzer anmelden"
+      update_user_profile:  "Benutzerprofil aktualisieren"
+      required_field:       "Pflichtfeld"
+
+
+  # Controllers
+
+  controllers:
+    sessions:
+      new:
+        attributes:
+          <<: *attributes
+        placeholders:
+          <<: *placeholders
+      create:
+        attributes:
+          <<: *attributes
+        placeholders:
+          <<: *placeholders

@@ -69,19 +69,36 @@ class ActionView::Helpers::FormBuilder
   # Consider: https://github.com/bootstrap-ruby/rails-bootstrap-forms ;)
   def field_for(attribute, options = {})
     is_view_mode  = self.options[:view_mode] == true
-    input_type    = input_type_for(options[:real_attribute] || attribute)
+    input_type    = input_type_for(options[:as_type] ||
+                                   options[:real_attribute] ||
+                                   attribute)
     is_checkbox   = input_type == :check_box
     input_class   = ''
     input_class   << 'form-control' unless is_checkbox
     input_class   << ' view-mode'   if is_view_mode
     readonly      = options.include?(:readonly) ? options[:readonly] : false
-    placeholder   = is_checkbox ? '' : I18n.t("activerecord.placeholders." +
-                                     "#{object.class.name.downcase}." +
-                                     "#{(options[:placeholder] || attribute)}")
+    label_text    = ""
+
+    if @object
+      label_text  = @object.class.human_attribute_name(attribute)
+      t_key_base_placeholder = "activerecord.placeholders.#{object.class.name.downcase}"
+    else
+      t_key_base  = "controllers.#{@template.controller_name}" +
+                                       ".#{@template.action_name}"
+      label_text  = I18n.t("#{t_key_base}.attributes.#{attribute}")
+      t_key_base_placeholder = "#{t_key_base}.placeholders"
+    end
+
+    unless is_checkbox
+      t_key_placeholder = (options[:placeholder] || attribute)
+      placeholder       = I18n.t("#{t_key_base_placeholder}" +
+                                 ".#{t_key_placeholder}")
+    end
+
     # Source: https://robots.thoughtbot.com/nesting-content-tag-in-rails-3
     @template.content_tag :div, class: 'form-group' do
       @template.concat( label(attribute, class: 'control-label') do
-        @template.concat @object.class.human_attribute_name(attribute)
+        @template.concat label_text
         if !is_view_mode && @object.try(:required_attribute?, attribute)
           @template.concat REQUIRED_ATTRIBUTE_MARK
         end
