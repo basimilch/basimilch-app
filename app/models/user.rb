@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
 
+  attr_accessor :remember_token
+
   # NOTE: A word of caution: 'after_initialize' means after the Ruby
   # initialize. Hence it is run every time a record is loaded from the
   # database and used to create a new model object in memory Source:
@@ -106,6 +108,26 @@ class User < ActiveRecord::Base
     tels
   end
 
+  # Remembers a user in the database for use in persistent sessions.
+  # Source: https://www.railstutorial.org/book/_single-page
+  #                                                    #code-user_model_remember
+  def remember
+    self.remember_token = User.new_token
+    update_attribute(:remember_digest, User.digest(remember_token))
+  end
+
+  # Returns true if the given token matches the digest.
+  # Source: https://www.railstutorial.org/book/_single-page#code-authenticated_p
+  def authenticated?(remember_token)
+    return false if remember_digest.blank?
+    BCrypt::Password.new(remember_digest).is_password?(remember_token)
+  end
+
+  # Forgets a user.
+  def forget
+    update_attribute(:remember_token, nil)
+  end
+
   # Class methods
 
   # Returns the hash digest of the given string.
@@ -116,6 +138,11 @@ class User < ActiveRecord::Base
     BCrypt::Password.create(string, cost: cost)
   end
 
+  # Returns a random token.
+  # Source: https://www.railstutorial.org/book/_single-page#code-token_method
+  def User.new_token
+    SecureRandom.urlsafe_base64
+  end
 
   # Private methods
 

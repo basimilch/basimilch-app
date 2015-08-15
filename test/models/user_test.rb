@@ -262,4 +262,10 @@ class UserTest < ActiveSupport::TestCase
       assert_equal nil, @user.formatted_tel(:mobile)
     end
   end
+
+  test "authenticated? should return false for a user with nil digest" do
+    assert_not @user.authenticated?('')
+    assert_not @user.authenticated?('something')
+    assert_not @user.authenticated?(nil)
+  end
 end
