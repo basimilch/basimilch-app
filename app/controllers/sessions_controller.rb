@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
       flash.now[:danger]  = 'USER INACTIVE'
     elsif user.authenticate(params[:session][:password])
       log_in user
-      remember user
+      params[:session][:remember_me] == '1' ? remember(user) : forget(user)
       redirect_to user
       return
     else

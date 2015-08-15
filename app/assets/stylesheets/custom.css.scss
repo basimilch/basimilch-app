@@ -301,6 +301,18 @@ form {
       }
     }
   }
+  .checkbox {
+    span {
+      margin-left: 20px;
+      font-weight: normal;
+    }
+    #session_remember_me {
+      width: auto;
+      margin-top: 8px;
+      margin-left: 0;
+    }
+  }
+
 }
 
 // NOTE: Do not group these rules. Instead, make a separate rule for

@@ -105,6 +105,7 @@ de-CH:
     login:
       login: "Einloggen"
       forgot_password: "I han mis Passwort vergässe"
+      remember_me_on_this_computer: "Angemeldet bleiben"
 
   users:
     index:

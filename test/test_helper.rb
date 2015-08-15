@@ -26,6 +26,34 @@ class ActiveSupport::TestCase
   def fixture_logged_in?
     !session[:user_id].nil?
   end
+
+  # Logs in a test user
+  def fixture_log_in(user, options = {})
+    password    = options[:password]    || 'password'
+    remember_me = options[:remember_me] || '1'
+    if integration_test?
+      post login_path, session: {email: user.email,
+                                 password: password,
+                                 remember_me: remember_me}
+    else
+      session[:user_id] = user.id
+    end
+  end
+
+  private
+
+    # Returns true inside an integration test, and false inside other
+    # tests such as controller and model tests.
+    # We can tell the difference between integration tests and other
+    # kinds of tests using Ruby’s convenient defined? method, which
+    # returns true if its argument is defined and false otherwise. In
+    # the present case, the 'post_via_redirect' method is available
+    # only in integration tests.
+    # Source: https://www.railstutorial.org/book/_single-page
+    #                                           #sec-testing_the_remember_me_box
+    def integration_test?
+      defined?(post_via_redirect)
+    end
 end
 
 

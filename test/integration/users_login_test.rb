@@ -31,7 +31,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     # Visit the login path.
     get login_path
     # Post valid information to the sessions path.
-    post login_path, session: { email: @user.email, password: 'password' }
+    fixture_log_in(@user)
     assert fixture_logged_in?
     # Check the right redirect target.
     assert_redirected_to @user
@@ -59,5 +59,19 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", logout_path,      count: 0
     # Verify that the profile link disappears.
     assert_select "a[href=?]", user_path(@user), count: 0
+  end
+
+  test "login with remembering" do
+    get login_path
+    fixture_log_in(@user, remember_me: '1')
+    # NOTE: for some reason inside tests the cookies method doesn’t work
+    # with symbols as keys. It has to be a string.
+    assert_not_nil cookies['remember_token']
+  end
+
+  test "login without remembering" do
+    get login_path
+    fixture_log_in(@user, remember_me: '0')
+    assert_nil cookies['remember_token']
   end
 end
