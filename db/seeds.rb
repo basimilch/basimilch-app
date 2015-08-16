@@ -9,6 +9,7 @@ puts
 
 User.create!(first_name:      "User",
              last_name:       "Example",
+             password:        "passwort",
              admin:           true,
              email:           "user@example.org",
              postal_address:  "Some Street 42",
