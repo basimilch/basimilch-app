@@ -121,7 +121,7 @@ de-CH:
         user_successfully_created:
                 "Benutzer '%{full_name}' (Id %{id}) angemeldet!"
         user_updated:
-                "Benutzer '%{full_name}' (Id %{id}) aktualiziet!"
+                "Benutzerprofil aktualiziert."
     new:
       title: "Neuer Benutzer"
     edit:

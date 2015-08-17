@@ -81,11 +81,14 @@ class UsersController < ApplicationController
   end
 
   def update
-    # TODO:
-    # flash[:success] = t('users.show.flash.user_updated',
-    #                      id: @user.id, full_name: @user.full_name)
-    flash[:danger] = "UPDATE NOT YET IMPLEMENTED"
-    redirect_to User.find_by_id(params[:id]) || users_path
+    @user = User.find(params[:id])
+    if @user.update_attributes(user_params)
+      flash[:success] = t('users.show.flash.user_updated')
+      # handle ok
+      redirect_to @user
+    else
+      render 'edit'
+    end
   end
 
   private

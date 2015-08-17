@@ -3,6 +3,11 @@
       <%= render 'shared/error_messages', errors: user.errors %>
   </div>
 </div>
+
+<%#
+  NOTE: When constructing a form using form_for(user), Rails uses POST
+        if @user.new_record? is true and PATCH if it is false.
+%>
 <%= form_for user, class: 'form-horizontal',
              view_mode: (defined?(view_mode) ? view_mode : false) do |f| %>
 
