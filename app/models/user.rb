@@ -108,12 +108,18 @@ class User < ActiveRecord::Base
     tels
   end
 
+  # Updates the last_seen_at date with the current one.
+  def seen
+    update_attribute(:last_seen_at, Time.current)
+  end
+
   # Remembers a user in the database for use in persistent sessions.
   # Source: https://www.railstutorial.org/book/_single-page
   #                                                    #code-user_model_remember
   def remember
     self.remember_token = User.new_token
     update_attribute(:remember_digest, User.digest(remember_token))
+    update_attribute(:remembered_since, Time.current)
   end
 
   # Returns true if the given token matches the digest.
@@ -126,6 +132,7 @@ class User < ActiveRecord::Base
   # Forgets a user.
   def forget
     update_attribute(:remember_token, nil)
+    update_attribute(:remembered_since, nil)
   end
 
   # Class methods

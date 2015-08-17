@@ -27,6 +27,11 @@ class ActiveSupport::TestCase
     !session[:user_id].nil?
   end
 
+  def simulate_close_browser_session
+    @current_user = nil
+    session.delete(:user_id)
+  end
+
   # Logs in a test user
   def fixture_log_in(user, options = {})
     password    = options[:password]    || 'password'

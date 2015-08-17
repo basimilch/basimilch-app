@@ -61,17 +61,73 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", user_path(@user), count: 0
   end
 
+  test "visiting root without being loged in" do
+    get login_path
+    assert_not fixture_logged_in?
+  end
+
   test "login with remembering" do
     get login_path
     fixture_log_in(@user, remember_me: '1')
     # NOTE: for some reason inside tests the cookies method doesn’t work
     # with symbols as keys. It has to be a string.
     assert_not_nil cookies['remember_token']
+    assert_not_nil @user.reload.remembered_since
+    assert fixture_logged_in?
+    simulate_close_browser_session
+    assert_not fixture_logged_in?
+    get user_path(@user)
+    assert fixture_logged_in?
   end
 
   test "login without remembering" do
     get login_path
     fixture_log_in(@user, remember_me: '0')
     assert_nil cookies['remember_token']
+    assert_nil @user.reload.remembered_since
+    assert fixture_logged_in?
+    simulate_close_browser_session
+    assert_not session[:user_id]
+    get root_path # FIXME: This 'get' somehow reloads the sessions[:user_id]
+                  #        But the bahaviour at the browser is the expected.
+    # assert_not fixture_logged_in?
+  end
+
+  test "login audit dates" do
+    first_point_in_time = Time.new(2010, 12, 31, 14, 35, 45)
+    travel_to first_point_in_time do
+      get login_path
+      assert_nil @user.last_seen_at
+      assert_nil @user.remembered_since
+      fixture_log_in(@user, remember_me: '1')
+      assert_redirected_to @user
+      follow_redirect!
+      assert_template 'users/show'
+      assert_not_nil cookies['remember_token']
+      @user.reload
+      assert_equal Time.current, @user.last_seen_at
+      assert_equal Time.current, @user.remembered_since
+    end
+    second_point_in_time = first_point_in_time + 10.minutes
+    travel_to second_point_in_time do
+      @user.reload
+      assert_equal first_point_in_time, @user.last_seen_at
+      assert_equal first_point_in_time, @user.remembered_since
+      get root_path
+      @user.reload
+      assert_equal Time.current, @user.last_seen_at
+      assert_equal first_point_in_time, @user.remembered_since
+      assert_not_nil cookies['remember_token']
+    end
+    third_point_in_time = second_point_in_time + 5.minutes
+    travel_to third_point_in_time do
+      @user.reload
+      assert_equal second_point_in_time, @user.last_seen_at
+      assert_equal first_point_in_time, @user.remembered_since
+      delete logout_path
+      @user.reload
+      assert_equal Time.current, @user.last_seen_at
+      assert_nil @user.remembered_since
+    end
   end
 end
