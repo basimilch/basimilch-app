@@ -3,6 +3,7 @@ require 'test_helper'
 class UsersCreationTest < ActionDispatch::IntegrationTest
 
   def setup
+    @user = users(:one)
     @valid_user_info = {first_name:     "User",
                         last_name:      "Example",
                         email:          "user@example.com",
@@ -21,7 +22,7 @@ class UsersCreationTest < ActionDispatch::IntegrationTest
   # https://www.railstutorial.org/book/_single-page
   #                                           #sec-a_test_for_valid_submission
   test "valid user creation information" do
-    get new_user_path
+    ensure_protected_get new_user_path, @user
     assert_template 'users/new'
     assert_difference 'User.count', 1 do
       post_via_redirect users_path, user: @valid_user_info
@@ -34,7 +35,7 @@ class UsersCreationTest < ActionDispatch::IntegrationTest
   # https://www.railstutorial.org/book/_single-page
   #                                           #sec-a_test_for_invalid_submission
   test "invalid user creation information" do
-    get new_user_path
+    ensure_protected_get new_user_path, @user
     assert_template 'users/new'
     assert_no_difference 'User.count' do
       @valid_user_info[:first_name] = ""

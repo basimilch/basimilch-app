@@ -45,6 +45,20 @@ class ActiveSupport::TestCase
     end
   end
 
+  # Checks a protected path before and after login.
+  def ensure_protected_get(path, user)
+    get path
+    assert_redirected_to login_path
+    # We display a message to ask the user to log in.
+    assert_not flash.empty?
+    if integration_test?
+      follow_redirect!
+      assert_template 'sessions/new'
+    end
+    fixture_log_in user
+    get path
+  end
+
   private
 
     # Returns true inside an integration test, and false inside other

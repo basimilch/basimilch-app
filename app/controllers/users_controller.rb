@@ -1,5 +1,8 @@
 class UsersController < ApplicationController
 
+  # All actions require a logged in user.
+  before_action :require_logged_in_user
+
   PERMITTED_ATTRIBUTES = [:first_name,
                           :last_name,
                           :email,
@@ -46,7 +49,7 @@ class UsersController < ApplicationController
   def show
     unless @user = User.find_by_id(params[:id])
       # TODO: Redirect to 404 instead
-      flash[:danger] = t('users.show.flash.user_not_found', id: params[:id])
+      flash[:danger] = t('.flash.user_not_found', id: params[:id])
       redirect_to users_path
     end
   end
@@ -64,7 +67,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       @user.reload
-      flash[:success] = t('users.show.flash.user_successfully_created',
+      flash[:success] = t('.flash.user_successfully_created',
                         id: @user.id, full_name: @user.full_name)
       redirect_to @user
     else
@@ -75,7 +78,7 @@ class UsersController < ApplicationController
   def edit
     unless @user = User.find_by_id(params[:id])
       # TODO: Redirect to 404 instead
-      flash[:danger] = t('users.show.flash.user_not_found', id: params[:id])
+      flash[:danger] = t('.flash.user_not_found', id: params[:id])
       redirect_to users_path
     end
   end
@@ -83,8 +86,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update_attributes(user_params)
-      flash[:success] = t('users.show.flash.user_updated')
-      # handle ok
+      flash[:success] = t('.flash.user_updated')
       redirect_to @user
     else
       render 'edit'
@@ -98,5 +100,15 @@ class UsersController < ApplicationController
       # Source:
       #   https://www.railstutorial.org/book/_single-page#sec-strong_parameters
       params.require(:user).permit(PERMITTED_ATTRIBUTES)
+    end
+
+    # Before filters
+
+    # Requires a logged in user.
+    def require_logged_in_user
+      unless logged_in?
+        flash[:danger] = t('.please_log_in')
+        redirect_to login_path
+      end
     end
 end

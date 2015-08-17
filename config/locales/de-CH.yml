@@ -114,18 +114,24 @@ de-CH:
       download_all_users_as_csv: "Alle Benutzer als CSV herunterladen"
       csv_file_basemane: "basimilch_benutzer_liste"
       no_users_found: "Keine Benutzer gefunden."
+      please_log_in: "Bitte einloggen."
     show:
       title: "Profil"
       flash:
-        user_not_found: "Benutzer mit id '%{user_id}' nicht gefunden!"
+        user_not_found: "Benutzer mit id '%{id}' nicht gefunden!"
+    create:
+      flash:
         user_successfully_created:
                 "Benutzer '%{full_name}' (Id %{id}) angemeldet!"
-        user_updated:
-                "Benutzerprofil aktualiziert."
+    update:
+      flash:
+        user_updated: "Benutzerprofil aktualiziert."
     new:
       title: "Neuer Benutzer"
     edit:
       title: "Profil bearbeiten"
+      flash:
+        user_not_found: "Benutzer mit id '%{id}' nicht gefunden!"
     form:
       create_new_user:      "Neuen Benutzer anmelden"
       update_user_profile:  "Benutzerprofil aktualisieren"
