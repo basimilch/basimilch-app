@@ -16,3 +16,18 @@ one:
   status: 1
   notes: some notes
 
+two:
+  email: two@example.com
+  password_digest: <%= User.digest('password') %>
+  admin: false
+  first_name: Foo
+  last_name: Bar
+  postal_code: 8002
+  city: Zürich
+  country: Schweiz
+  tel_mobile: +41 76 111 11 11
+  tel_home: +41 44 111 11 11
+  tel_office: +41 44 111 11 11
+  status: 1
+  notes: some other notes
+

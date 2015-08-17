@@ -7,7 +7,7 @@ class UsersEditTest < ActionDispatch::IntegrationTest
   end
 
   test "unsuccessful edit" do
-    ensure_protected_get edit_user_path(@user), @user
+    assert_protected_get edit_user_path(@user), login_as: @user
     assert_template 'users/edit'
     patch user_path(@user), user: { email: "wrong email" }
     # The errors are rendered
@@ -17,7 +17,7 @@ class UsersEditTest < ActionDispatch::IntegrationTest
   end
 
   test "successful edit" do
-    ensure_protected_get edit_user_path(@user), @user
+    assert_protected_get edit_user_path(@user), login_as: @user
     assert_template 'users/edit'
     email = "new_user@example.net"
     last_name = User.new_token # A random string

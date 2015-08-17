@@ -1,7 +1,10 @@
 class UsersController < ApplicationController
 
+  include ApplicationHelper
+
   # All actions require a logged in user.
   before_action :require_logged_in_user
+  before_action :correct_user, only: [:edit, :update]
 
   PERMITTED_ATTRIBUTES = [:first_name,
                           :last_name,
@@ -47,11 +50,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    unless @user = User.find_by_id(params[:id])
-      # TODO: Redirect to 404 instead
-      flash[:danger] = t('.flash.user_not_found', id: params[:id])
-      redirect_to users_path
-    end
+    @user = User.find(params[:id])
   end
 
   def new
@@ -76,11 +75,6 @@ class UsersController < ApplicationController
   end
 
   def edit
-    unless @user = User.find_by_id(params[:id])
-      # TODO: Redirect to 404 instead
-      flash[:danger] = t('.flash.user_not_found', id: params[:id])
-      redirect_to users_path
-    end
   end
 
   def update
@@ -108,7 +102,14 @@ class UsersController < ApplicationController
     def require_logged_in_user
       unless logged_in?
         flash[:danger] = t('.please_log_in')
-        redirect_to login_path
+        redirect_to login_url
       end
+    end
+
+    # Requires the correct user.
+    def correct_user
+      @user = User.find(params[:id])
+      # TODO: Consider returning a 403 or 404 instead of redirecting to root.
+      redirect_to(root_url) unless current_user?(@user)
     end
 end

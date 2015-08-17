@@ -24,4 +24,9 @@ module ApplicationHelper
     end
     commit_msgs_html += "</div>"
   end
+
+  # Source: http://stackoverflow.com/a/4983354
+  # def render_404
+  #   raise ActionController::RoutingError.new('Not Found')
+  # end
 end

@@ -3,18 +3,54 @@ require 'test_helper'
 class UsersControllerTest < ActionController::TestCase
 
   def setup
-    @user = users(:one)
+    @user       = users(:one)
+    @other_user = users(:two)
   end
 
   test "should get index when logged in" do
-    ensure_protected_get :index, @user
+    assert_protected_get :index, login_as: @user
     assert_response :success
     assert_select "title", "Alle Benutzer | my.basimilch"
   end
 
   test "should get new when logged in" do
-    ensure_protected_get :new, @user
+    assert_protected_get :new, login_as: @user
     assert_response :success
     assert_select "title", "Neuer Benutzer | my.basimilch"
+  end
+
+  test "should redirect edit when not logged in" do
+    assert_protected login_as: @user do
+      get :edit, id: @user
+    end
+  end
+
+  test "should redirect update when not logged in" do
+    assert_protected login_as: @user do
+      patch :update, id: @user, user: { name: @user.first_name,
+                                        email: @user.email }
+    end
+  end
+
+  test "should redirect edit when logged in as wrong user" do
+    fixture_log_in(@other_user)
+    assert_protected login_as: @user,
+                     unlogged_redirect: { path:       root_url,
+                                          template:   'users/index',
+                                          with_flash: false} do
+      get :edit, id: @user
+    end
+  end
+
+  test "should redirect update when logged in as wrong user" do
+    fixture_log_in(@other_user)
+    assert_protected login_as: @user,
+                     unlogged_redirect: { path:       root_url,
+                                          template:   'users/index',
+                                          with_flash: false} do
+
+      patch :update, id: @user, user: { name: @user.first_name,
+                                        email: @user.email }
+    end
   end
 end

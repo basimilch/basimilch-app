@@ -45,18 +45,31 @@ class ActiveSupport::TestCase
     end
   end
 
+  # Checks a protected get before and after login.
+  def assert_protected_get(path, options = {})
+    assert_protected options do
+      get path
+    end
+  end
+
   # Checks a protected path before and after login.
-  def ensure_protected_get(path, user)
-    get path
-    assert_redirected_to login_path
+  def assert_protected(options = {})
+    user              = options[:login_as]
+    unlogged_redirect = options[:unlogged_redirect]  || {}
+    redirect_path     = unlogged_redirect[:path]     || login_path
+    redirect_template = unlogged_redirect[:template] || 'sessions/new'
+    should_have_flash = unlogged_redirect.include?(:with_flash) ?
+                                           unlogged_redirect[:with_flash] : true
+    yield
+    assert_redirected_to redirect_path
     # We display a message to ask the user to log in.
-    assert_not flash.empty?
+    assert_equal should_have_flash, !flash.empty?
     if integration_test?
       follow_redirect!
-      assert_template 'sessions/new'
+      assert_template redirect_template
     end
     fixture_log_in user
-    get path
+    yield
   end
 
   private

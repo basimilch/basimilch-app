@@ -19,8 +19,8 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     assert_template 'sessions/new'
     # ...and that a flash message appears.
     assert_not flash.empty?
-    # Visit another page (such as the Home page).
-    get root_path
+    # Reload the (login) page.
+    get login_path
     # Verify that the flash message doesn’t appear on the new page.
     assert flash.empty?
   end
