@@ -8,7 +8,11 @@ Rails.application.routes.draw do
   resources :users#, only: [:index, :new]
 
   # You can have the root of your site routed with "root"
-  root   'users#index'
+
+  root   'users#profile'
+
+  get    'profile'      => 'users#profile'
+  get    'profile/edit' => 'users#profile_edit'
 
   get    'login'   => 'sessions#new'
   post   'login'   => 'sessions#create'

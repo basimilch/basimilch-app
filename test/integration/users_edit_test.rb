@@ -33,4 +33,10 @@ class UsersEditTest < ActionDispatch::IntegrationTest
     # The things that are not provided remain unchanged.
     assert_equal original_first_name, @user.first_name
   end
+
+  test "edit with friendly forwarding" do
+    get edit_user_path(@user)
+    fixture_log_in @user
+    assert_redirected_to edit_user_path(@user)
+  end
 end

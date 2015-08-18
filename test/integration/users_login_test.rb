@@ -48,7 +48,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     delete logout_path
     assert_not fixture_logged_in?
     # Check the right redirect target.
-    assert_redirected_to root_url
+    assert_redirected_to login_url
     # Simulate user clicking logout in a second window/tab of the same browser.
     delete logout_path
     # Actually visit the target page.

@@ -15,24 +15,26 @@
       </div>
       <% if logged_in? %>
         <div class="collapse navbar-collapse" id="navigation-menu">
-          <ul class="nav navbar-nav">
-            <li><%= link_to t('.users'),    users_path %></li>
-            <li><%= link_to t('.new_user'), new_user_path %></li>
-            <% if Rails.env.development? %>
-              <!-- Demo drop down menu -->
-              <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                  Demo Menu <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                  <li><%= link_to t('hello'), "#" %></li>
-                  <li><%= link_to t('hello'), "#" %></li>
-                  <li role="separator" class="divider"></li>
-                  <li><%= link_to t('hello'), "#" %></li>
-                </ul>
-              </li>
-            <% end %>
-          </ul>
+          <% if current_user.admin? %>
+            <ul class="nav navbar-nav">
+              <li><%= link_to t('.users'),    users_path %></li>
+              <li><%= link_to t('.new_user'), new_user_path %></li>
+              <% if Rails.env.development? %>
+                <!-- Demo drop down menu -->
+                <li class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    Demo Menu <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><%= link_to t('hello'), "#" %></li>
+                    <li><%= link_to t('hello'), "#" %></li>
+                    <li role="separator" class="divider"></li>
+                    <li><%= link_to t('hello'), "#" %></li>
+                  </ul>
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
           <ul class="nav navbar-nav navbar-right">
             <!-- Demo drop down menu -->
             <li class="dropdown">

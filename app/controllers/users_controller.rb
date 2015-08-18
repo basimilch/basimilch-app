@@ -4,7 +4,8 @@ class UsersController < ApplicationController
 
   # All actions require a logged in user.
   before_action :require_logged_in_user
-  before_action :correct_user, only: [:edit, :update]
+  before_action :correct_user, only: [:view, :edit, :update]
+  before_action :admin_user,   only: [:new, :index, :destroy]
 
   PERMITTED_ATTRIBUTES = [:first_name,
                           :last_name,
@@ -51,6 +52,16 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+  end
+
+  def profile
+    @user = current_user
+    render 'show'
+  end
+
+  def profile_edit
+    @user = current_user
+    render 'edit'
   end
 
   def new
@@ -101,6 +112,7 @@ class UsersController < ApplicationController
     # Requires a logged in user.
     def require_logged_in_user
       unless logged_in?
+        store_location
         flash[:danger] = t('.please_log_in')
         redirect_to login_url
       end
@@ -110,6 +122,11 @@ class UsersController < ApplicationController
     def correct_user
       @user = User.find(params[:id])
       # TODO: Consider returning a 403 or 404 instead of redirecting to root.
-      redirect_to(root_url) unless current_user?(@user)
+      redirect_to(root_url) unless (current_user?(@user) || current_user.admin?)
+    end
+
+    # Confirms an admin user.
+    def admin_user
+      redirect_to(root_url) unless current_user.admin?
     end
 end
