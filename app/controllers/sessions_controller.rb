@@ -13,7 +13,9 @@ class SessionsController < ApplicationController
       flash.now[:danger]  = 'USER INACTIVE'
     elsif user.authenticate(params[:session][:password])
       log_in user
-      params[:session][:remember_me] == '1' ? remember(user) : forget(user)
+      # NOTE: By default we remember the user. Add a checkbox on the login form
+      #       with name 'remember_me' to offer the choice to the user.
+      params[:session][:remember_me] == '0' ? forget(user) : remember(user)
       redirect_back_or user
       return
     else
