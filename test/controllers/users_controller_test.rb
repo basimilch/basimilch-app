@@ -53,4 +53,18 @@ class UsersControllerTest < ActionController::TestCase
                                         email: @user.email }
     end
   end
+
+  test "should allow the admin attribute to be edited by non admins" do
+    fixture_log_in(@user)
+    assert_not @other_user.admin?
+    patch :update, id: @other_user, user: { admin: true }
+    assert @other_user.reload.admin?
+  end
+
+  test "should not allow the admin attribute to be edited by non admins" do
+    fixture_log_in(@other_user)
+    assert_not @other_user.admin?
+    patch :update, id: @other_user, user: { admin: true }
+    assert_not @other_user.reload.admin?
+  end
 end

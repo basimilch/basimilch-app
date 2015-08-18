@@ -46,7 +46,9 @@
       <%= f.field_for :last_name %>
     </div>
     <div class="col-lg-1 col-xs-2">
-      <%= f.field_for :admin %>
+      <% if current_user.admin? %>
+        <%= f.field_for :admin %>
+      <% end %>
     </div>
     <div class="col-lg-5 col-sm-4 col-xs-10">
       <%= f.field_for :email %>

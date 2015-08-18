@@ -4,6 +4,7 @@ class UsersEditTest < ActionDispatch::IntegrationTest
 
   def setup
     @user = users(:one)
+    @other_user = users(:two)
   end
 
   test "unsuccessful edit" do
@@ -38,5 +39,18 @@ class UsersEditTest < ActionDispatch::IntegrationTest
     get edit_user_path(@user)
     fixture_log_in @user
     assert_redirected_to edit_user_path(@user)
+  end
+
+  test "admins should see 'Admin' input in user edit form" do
+    assert_equal true,  @user.admin?
+    assert_equal false, @other_user.admin?
+    assert_protected_get edit_user_path(@other_user), login_as: @user
+    assert_select '#user_admin'
+  end
+
+  test "non admin users should not see 'Admin' input in user edit form" do
+    assert_equal false, @other_user.admin?
+    assert_protected_get edit_user_path(@other_user), login_as: @other_user
+    assert_select '#user_admin', count: 0
   end
 end

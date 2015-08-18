@@ -20,7 +20,6 @@ class UsersController < ApplicationController
                           :tel_home_formatted,
                           :tel_office,
                           :tel_office_formatted,
-                          :admin,
                           :notes]
 
   def index
@@ -104,7 +103,8 @@ class UsersController < ApplicationController
       # Pattern 'strong parameters' to secure form input.
       # Source:
       #   https://www.railstutorial.org/book/_single-page#sec-strong_parameters
-      params.require(:user).permit(PERMITTED_ATTRIBUTES)
+      params.require(:user).permit(PERMITTED_ATTRIBUTES +
+                                          (current_user.admin? ? [:admin] : []))
     end
 
     # Before filters
