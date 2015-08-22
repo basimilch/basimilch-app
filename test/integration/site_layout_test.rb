@@ -4,8 +4,6 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
 
   test "unlogged layout links" do
     get root_path
-    assert_redirected_to login_path
-    follow_redirect!
     assert_template 'sessions/new'
     # Ensure there is a link to the website
     assert_select  "a[href=?]", "http://basimil.ch"

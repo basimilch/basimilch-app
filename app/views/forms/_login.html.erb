@@ -5,7 +5,8 @@
       <%= f.field_for :password %>
       <div class="form-buttons">
         <%= f.submit_button t('.login') %>
-        <%= link_to t('.forgot_password'), '#', class: 'btn btn-link' %>
+        <%= link_to t('.forgot_password'), new_password_reset_path,
+                                           class: 'btn btn-link' %>
       </div>
     <% end %>
   </div>

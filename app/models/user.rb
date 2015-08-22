@@ -1,6 +1,13 @@
 class User < ActiveRecord::Base
 
-  attr_accessor :remember_token
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
+  VALID_SWISS_POSTAL_CODE_REGEX = /\A\d{4}\z/ # The 'CH-' part is not expected.
+  ONLY_SPACES       = /\A\s*\z/
+
+  ACTIVATION_TOKEN_VALIDITY = 2.weeks
+  PASSWORD_RESET_TOKEN_VALIDITY = 30.minutes
+
+  attr_accessor :remember_token, :activation_token, :password_reset_token
 
   # NOTE: A word of caution: 'after_initialize' means after the Ruby
   # initialize. Hence it is run every time a record is loaded from the
@@ -10,10 +17,6 @@ class User < ActiveRecord::Base
 
   # Inspired from
   #   https://www.railstutorial.org/book/_single-page#sec-format_validation
-
-  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
-  VALID_SWISS_POSTAL_CODE_REGEX = /\A\d{4}\z/ # The 'CH-' part is not expected.
-  ONLY_SPACES       = /\A\s*\z/
 
   validates :email,       presence: true,
                           length: { maximum: 255 },
@@ -123,16 +126,77 @@ class User < ActiveRecord::Base
   end
 
   # Returns true if the given token matches the digest.
-  # Source: https://www.railstutorial.org/book/_single-page#code-authenticated_p
-  def authenticated?(remember_token)
-    return false if remember_digest.blank?
-    BCrypt::Password.new(remember_digest).is_password?(remember_token)
+  # Source: https://www.railstutorial.org/book/_single-page
+  #                                            #code-generalized_authenticated_p
+  def authenticated?(attribute, token)
+    digest = send("#{attribute}_digest")
+    return false if digest.nil?
+    BCrypt::Password.new(digest).is_password?(token)
   end
 
   # Forgets a user.
   def forget
     update_attribute(:remember_token, nil)
     update_attribute(:remembered_since, nil)
+  end
+
+  # Returns the point in time until which the activation token is valid.
+  def activation_token_valid_until
+    activation_sent_at &&
+      activation_sent_at + ACTIVATION_TOKEN_VALIDITY
+  end
+
+  # Sends activation email.
+  def send_activation_email
+    create_activation_digest
+    update_attribute(:activation_sent_at, Time.current)
+    UserMailer.account_activation(self).deliver_now
+  end
+
+  # Activates an account.
+  def activate
+    update_attribute(:activated,          true)
+    update_attribute(:activated_at,       Time.current)
+    update_attribute(:activation_digest,  nil)
+  end
+
+  def set_password(params_arg)
+    update_attributes(params_arg
+                        .require(:user)
+                        .permit(:password, :password_confirmation))
+  end
+
+
+  # Returns true if a account activation link has expired.
+  def activation_expired?
+    activation_token_valid_until < Time.current
+  end
+
+  # Returns the point in time until which the activation token is valid.
+  def password_reset_token_valid_until
+    password_reset_sent_at &&
+      password_reset_sent_at + PASSWORD_RESET_TOKEN_VALIDITY
+  end
+
+  # Sends password reset email.
+  def send_password_reset_email
+    create_password_reset_digest
+    update_attribute(:password_reset_sent_at, Time.current)
+    UserMailer.password_reset(self).deliver_now
+  end
+
+  def reset_password(params_args)
+    updated = set_password(params_args)
+    if updated
+      update_attribute(:password_reset_at,      Time.current)
+      update_attribute(:password_reset_digest,  nil)
+    end
+    updated
+  end
+
+  # Returns true if a account activation link has expired.
+  def password_reset_expired?
+    password_reset_token_valid_until < Time.current
   end
 
   # Class methods
@@ -150,6 +214,7 @@ class User < ActiveRecord::Base
   def User.new_token
     SecureRandom.urlsafe_base64
   end
+
 
   # Private methods
 
@@ -171,5 +236,17 @@ class User < ActiveRecord::Base
       unless tel.blank?
         tel.phony_normalized(default_country_code: 'CH')
       end
+    end
+
+    # Creates and assigns the activation token and digest.
+    def create_activation_digest
+      self.activation_token  = User.new_token
+      update_attribute(:activation_digest, User.digest(activation_token))
+    end
+
+    # Sets the password reset attributes.
+    def create_password_reset_digest
+      self.password_reset_token = User.new_token
+      update_attribute(:password_reset_digest, User.digest(password_reset_token))
     end
 end

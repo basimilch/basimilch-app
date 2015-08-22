@@ -15,6 +15,8 @@ one:
   tel_office: +41 44 123 45 67
   status: 1
   notes: some notes
+  activated: true
+  activated_at: <%= Time.current %>
 
 two:
   email: two@example.com
@@ -30,4 +32,22 @@ two:
   tel_office: +41 44 111 11 11
   status: 1
   notes: some other notes
+  activated: true
+  activated_at: <%= Time.current %>
 
+three:
+  email: three@example.com
+  password_digest: <%= User.digest('password') %>
+  admin: false
+  first_name: Joseph
+  last_name: The Third
+  postal_code: 8003
+  city: Zürich
+  country: Schweiz
+  tel_mobile: +41 76 333 33 33
+  tel_home: +41 44 333 33 33
+  tel_office: +41 44 333 33 33
+  status: 1
+  notes: some other notes
+  activated: false
+  activated_at: nil

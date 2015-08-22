@@ -1,4 +1,4 @@
-<tr>
+<tr class="<%= user.activated? ? '' : 'danger' %>">
   <td>
     <%= link_to "#{user.full_name}", user %>
   </td>
@@ -6,7 +6,7 @@
     <%= mail_to user.email %>
   </td>
   <td>
-    <%= link_to "profile", user, class: "btn btn-default" %>
-    <%= link_to "edit", edit_user_path(user), class: "btn btn-default" %>
+    <%= link_to "profile", user, class: "btn btn-xs btn-default" %>
+    <%= link_to "edit", edit_user_path(user), class: "btn btn-xs btn-default" %>
   </td>
 </tr>

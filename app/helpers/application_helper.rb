@@ -26,7 +26,49 @@ module ApplicationHelper
   end
 
   # Source: http://stackoverflow.com/a/4983354
-  # def render_404
-  #   raise ActionController::RoutingError.new('Not Found')
-  # end
+  def raise_404
+    raise ActionController::RoutingError.new('Not Found')
+  end
+
+  # Friendly forwarding
+  # Source: https://www.railstutorial.org/book/_single-page
+  #                                                     #sec-friendly_forwarding
+
+  # Redirects to stored location (or to the default).
+  def redirect_back_or(default)
+    redirect_to(session[:forwarding_url] || default)
+    session.delete(:forwarding_url)
+  end
+
+  # Stores the URL trying to be accessed.
+  def store_location
+    session[:forwarding_url] = request.url if request.get?
+  end
+
+  # Adds a label to be displayed below the page title.
+  def title_label(arg, options = {type: :default})
+    (@title_labels ||= []) << options.merge(text: Symbol === arg ?
+                                            I18n.t("title_labels.#{arg}") : arg.to_s)
+  end
+
+  # Returns the localized string with the same behaviour than the default 't'
+  # helper in the views, i.e. prefixing the key by the current controller and
+  # view names.
+  def tc(k)
+    I18n.t("#{controller_name}.#{action_name}.#{k}")
+  end
+
+  # Adds a localised flash message with the given key and value. If the value is
+  # a string, it's directly used. If it's a symbol, it's considered a key for a
+  # localized string, see 't(k)' above.
+  # E.g. instead of using
+  #   flash[:success] = t('.email_successfully_sent')
+  # you can use
+  #   flash_t :success, :email_successfully_sent
+  def flash_t(k,v)
+    flash[k] = (Symbol === v) ? tc(v) : v
+  end
+  def flash_now_t(k,v)
+    flash.now[k] = (Symbol === v) ? tc(v) : v
+  end
 end

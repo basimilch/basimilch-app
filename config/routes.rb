@@ -6,13 +6,15 @@ Rails.application.routes.draw do
   # This maps HTTP verbs to controller actions automatically.
   # See 'master/README.md#implicit-routing' for more info on routing.
   resources :users#, only: [:index, :new]
+  resources :account_activations, only: [:create, :edit, :update]
+  resources :password_resets,     only: [:new, :create, :edit, :update]
 
   # You can have the root of your site routed with "root"
+  root   'sessions#new'
 
-  root   'users#profile'
-
-  get    'profile'      => 'users#profile'
-  get    'profile/edit' => 'users#profile_edit'
+  get    'profile'      => 'users#profile', as:         :profile
+  get    'profile/edit' => 'users#profile_edit', as:    :profile_edit
+  patch  'profile'      => 'users#profile_update', as:  :profile_update
 
   get    'login'   => 'sessions#new'
   post   'login'   => 'sessions#create'

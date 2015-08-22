@@ -247,6 +247,7 @@ footer {
 // Forms
 
 form {
+  padding-top: 25px;
   input,
   textarea,
   select,
@@ -350,4 +351,21 @@ form {
 .form-control:-ms-input-placeholder {
     /* IE 10+ */
     @include light_placeholder;
+}
+
+
+// Title labels
+
+.label {
+  font-weight: normal;
+}
+
+// Flash messages
+
+.flash-messages {
+  .alert {
+    > .glyphicon:first-child {
+      margin-right: 5px;
+    }
+  }
 }

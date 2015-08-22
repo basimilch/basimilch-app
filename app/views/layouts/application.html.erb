@@ -16,10 +16,16 @@
   <body>
     <%= render 'layouts/header' %>
     <div class="container">
-      <% flash.each do |message_type, message| %>
-        <%= content_tag :div, message, class: "alert alert-#{message_type}" %>
+      <%= render 'shared/flash_messages' %>
+      <h1>
+        <%= yield(:title) %>
+      </h1>
+      <% if !@title_labels.blank? %>
+        <% @title_labels.each do |title_label| %>
+          <%= content_tag :span, title_label[:text],
+                          class: "label label-#{title_label[:type]}" %>
+        <% end %>
       <% end %>
-      <h1><%= yield(:title) %></h1>
       <%= yield %>
       <%= render 'layouts/footer' %>
       <%#

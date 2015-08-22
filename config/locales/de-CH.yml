@@ -76,6 +76,10 @@ de-CH:
     submit: "Senden"
     edit: "Bearbeiten"
 
+  title_labels:
+    admin: "Admin"
+    active: "Aktiv"
+    inactive: "Inaktiv"
 
   # Models
 
@@ -100,11 +104,12 @@ de-CH:
       new_user:     "Neuer Benutzer"
       log_in_html:  "<span class='glyphicon glyphicon-log-in'></span> Einloggen"
       log_out_html: "<span class='glyphicon glyphicon-log-out'></span> Ausloggen"
+      profile:      "Profil"
 
   forms:
     login:
       login: "Einloggen"
-      forgot_password: "I han mis Passwort vergässe"
+      forgot_password: "Ich habe mein Passwort vergessen"
       remember_me_on_this_computer: "Angemeldet bleiben"
 
   users:
@@ -117,6 +122,10 @@ de-CH:
       please_log_in: "Bitte einloggen."
     show:
       title: "Profil"
+      send_activation_email: "Aktivierungsemail schicken"
+      send_activation_email_again: "Aktivierungsemail nochmals schicken"
+      activation_already_sent_at: "Aktivierungsemail bereits am %{sent_at} gesendet."
+      activation_not_yet_sent: "Dieser Benutzer ist noch nicht aktiv."
       flash:
         user_not_found: "Benutzer mit id '%{id}' nicht gefunden!"
     create:
@@ -132,16 +141,17 @@ de-CH:
       title: "Profil bearbeiten"
       flash:
         user_not_found: "Benutzer mit id '%{id}' nicht gefunden!"
+    profile_update:
+      update_ok: "Dein Profil wurde aktualiziert."
     form:
-      create_new_user:      "Neuen Benutzer anmelden"
-      update_user_profile:  "Benutzerprofil aktualisieren"
-      required_field:       "Pflichtfeld"
-
+      create_new_user:       "Neuen Benutzer anmelden"
+      update_user_profile:   "Benutzerprofil aktualisieren"
+      required_field:        "Pflichtfeld"
 
   # Controllers
 
   controllers:
-    sessions:
+    sessions: &contoller_dictionary
       new:
         attributes:
           <<: *attributes
@@ -152,3 +162,37 @@ de-CH:
           <<: *attributes
         placeholders:
           <<: *placeholders
+    password_resets: *contoller_dictionary
+
+  account_activations:
+    edit:
+      title: "Kontoaktivierung"
+      valid_activation_link: "Gültiges Aktivierungslink!"
+      invalid_activation_link: "Ungültiges Aktivierungslink!"
+      set_up_a_password_to_activate_your_account: "Gebe ein Passwort ein, um dein Konto zu aktivieren."
+      create_password_and_activate_account: "Passwort bestätigen und Konto aktivieren"
+      activation_link_has_expired: "Der Aktivierungslink ist nicht mehr gültig. Schreibe uns bitte eine Email, um es dir noch mal zu schicken.!"
+    update:
+      password_can_t_be_empty: "Du musst ein Passwort mit mindestest 8 Zeichen eingeben."
+      password_has_been_setup_and_account_activated: "Passwort konfiguriert und Konto aktiviert!"
+    create:
+      email_successfully_sent: "Die Aktivierungsemail wurde gerade gesendet."
+
+  password_resets:
+    new:
+      title: "Passwort zurücksetzen"
+      submit: "Senden"
+    create:
+      email_sent_with_password_reset_instructions: "Gucke auf deine Email, um dein Passwort zurückzusetzen."
+    edit:
+      title: "Passwort zurücksetzen"
+      valid_password_reset_link: "Gültiges Link, um dein Passwort zurückzusetzen."
+      update_password: "Passwort aktualizieren"
+    update:
+      password_has_been_reset: "Passwort aktualiziert."
+
+  user_mailer:
+    account_activation:
+      subject: "Kontoaktivierung"
+    password_reset:
+      subject: "Passwort Zurücksetzung"

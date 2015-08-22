@@ -1,0 +1,12 @@
+<% provide(:title, t('.title')) %>
+<%= render 'shared/error_messages', errors: @user.errors %>
+<div class="row">
+  <div class="col-sm-4 col-sm-offset-4 col-xs-10 col-xs-offset-1">
+    <%= form_for(@user, url: password_reset_path(params[:id])) do |f| %>
+      <%= hidden_field_tag :email, @user.email %>
+      <%= f.field_for :password %>
+      <%= f.field_for :password_confirmation %>
+      <%= f.submit_button t('.update_password') %>
+    <% end %>
+  </div>
+</div>

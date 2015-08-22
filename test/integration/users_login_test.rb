@@ -34,7 +34,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     fixture_log_in(@user)
     assert fixture_logged_in?
     # Check the right redirect target.
-    assert_redirected_to @user
+    assert_redirected_to profile_path
     # Actually visit the target page.
     follow_redirect!
     assert_template 'users/show'
@@ -43,7 +43,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     # Verify that a logout link appears
     assert_select "a[href=?]", logout_path
     # Verify that a profile link appears.
-    assert_select "a[href=?]", user_path(@user)
+    assert_select "a[href=?]", profile_path
     # Log out.
     delete logout_path
     assert_not fixture_logged_in?
@@ -100,7 +100,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
       assert_nil @user.last_seen_at
       assert_nil @user.remembered_since
       fixture_log_in(@user, remember_me: '1')
-      assert_redirected_to @user
+      assert_redirected_to profile_path
       follow_redirect!
       assert_template 'users/show'
       assert_not_nil cookies['remember_token']

@@ -20,7 +20,9 @@ User.create!(first_name:      "User",
              tel_home:        "098 765 43 21",
              tel_office:      "+41 (0) 11 222 33 44",
              # status:          "", # Use default
-             notes:           "The first user.") unless User.first
+             notes:           "The first user.",
+             activated: true,
+             activated_at: Time.current) unless User.first
 
 def maybe(str)
   # Source: http://stackoverflow.com/a/8012789
@@ -55,7 +57,9 @@ locales     = ['de-CH', 'fr-CH', 'it-CH']
                       tel_home:       maybe("0" + Faker::Number.number(9).to_s),
                       tel_office:     maybe("0" + Faker::Number.number(9).to_s),
                       # status:         "", # Use default
-                      notes:          maybe(Faker::Lorem.sentence))
+                      notes:          maybe(Faker::Lorem.sentence),
+                      activated:      false,
+                      activated_at:   nil)
   puts user.inspect
 end
 

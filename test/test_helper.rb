@@ -52,6 +52,12 @@ class ActiveSupport::TestCase
     end
   end
 
+  def assert_admin_protected(options = {})
+      assert_protected options.merge(admin_protected: true) do
+        yield
+      end
+  end
+
   # Checks a protected path before and after login.
   def assert_protected(options = {})
     user              = options[:login_as]
@@ -59,7 +65,9 @@ class ActiveSupport::TestCase
     redirect_path     = unlogged_redirect[:path]     || login_path
     redirect_template = unlogged_redirect[:template] || 'sessions/new'
     should_have_flash = unlogged_redirect.include?(:with_flash) ?
-                                           unlogged_redirect[:with_flash] : true
+                                          unlogged_redirect[:with_flash] : true
+    admin_protected   = options.include?(:admin_protected) ?
+                                          options[:admin_protected] : false
     yield
     assert_redirected_to redirect_path
     # We display a message to ask the user to log in.
@@ -69,7 +77,13 @@ class ActiveSupport::TestCase
       assert_template redirect_template
     end
     fixture_log_in user
-    yield
+    if admin_protected && !user.admin?
+      assert_raises ActionController::RoutingError do
+        yield
+      end
+    else
+      yield
+    end
   end
 
   private

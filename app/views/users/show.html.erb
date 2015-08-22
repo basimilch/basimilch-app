@@ -1,2 +1,17 @@
 <% provide(:title, "#{t('.title')}: #{@user.full_name}") %>
+<% if !@user.activated? %>
+  <div class="row">
+    <div class="col-md-3 col-md-offset-9 col-sm-4 col-sm-offset-8">
+      <%= button_to t(@user.activation_sent_at ?
+                        '.send_activation_email_again' :
+                        '.send_activation_email'),
+                    { controller: :account_activations,
+                      action: :create,
+                      email: @user.email },
+                    { class:  "btn btn-success" } %>
+
+    </div>
+  </div>
+<% end %>
+
 <%= render 'form', user: @user, view_mode: true %>

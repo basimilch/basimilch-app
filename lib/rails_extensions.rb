@@ -53,7 +53,8 @@ class ActionView::Helpers::FormBuilder
     string:   :text_field,
     text:     :text_area,
     boolean:  :check_box,
-    password: :password_field
+    password: :password_field,
+    password_confirmation: :password_field
   }
 
   REQUIRED_ATTRIBUTE_MARK = '*'

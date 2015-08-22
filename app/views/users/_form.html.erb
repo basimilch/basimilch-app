@@ -1,28 +1,34 @@
-<div class="row">
-  <div class="col-md-6">
-      <%= render 'shared/error_messages', errors: user.errors %>
-  </div>
-</div>
+<%= render 'shared/error_messages', errors: user.errors %>
 
 <%#
   NOTE: When constructing a form using form_for(user), Rails uses POST
         if @user.new_record? is true and PATCH if it is false.
 %>
 <%= form_for user, class: 'form-horizontal',
+             url: current_user.admin? ? user : profile_update_path ,
              view_mode: (defined?(view_mode) ? view_mode : false) do |f| %>
+
 
   <% form_buttons = capture do %>
     <div class="row form-buttons">
       <% if f.options[:view_mode] %>
         <div class="col-md-3 col-md-offset-9 col-sm-4 col-sm-offset-8">
-          <%= f.edit_button edit_user_path(@user) %>
+          <% if current_user.admin? %>
+            <%= f.edit_button edit_user_path(@user) %>
+          <% else %>
+            <%= f.edit_button profile_edit_path %>
+          <% end %>
         </div>
       <% else %>
         <div class="col-md-offset-7 col-sm-2 col-sm-offset-6 col-xs-4">
-          <% if user.new_record? %>
-            <%= f.cancel_button users_path %>
+          <% if current_user.admin? %>
+            <% if user.new_record? %>
+              <%= f.cancel_button users_path %>
+            <% else %>
+              <%= f.cancel_button user %>
+            <% end %>
           <% else %>
-            <%= f.cancel_button user %>
+            <%= f.cancel_button profile_path %>
           <% end %>
         </div>
         <div class="col-md-3 col-sm-4 col-xs-8">
@@ -51,7 +57,7 @@
       <% end %>
     </div>
     <div class="col-lg-5 col-sm-4 col-xs-10">
-      <%= f.field_for :email %>
+      <%= f.field_for :email, readonly: action_name != 'new' %>
     </div>
   </div>
 
