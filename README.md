@@ -160,6 +160,24 @@ For more details about how localization work you might refer to the
 [`app/views/users/index.html.erb`]: app/views/users/index.html.erb
 [`i18n` Rails guide]: http://guides.rubyonrails.org/i18n.html
 
+## Authentication
+
+There are [lots of authentication libraries] ready to use with Ruby on
+Rails. However in this application we based our implementation on the
+content of [Chapter 10: "Account activation and password reset"] of
+the [Rails Tutorial Book] by [Michael Hartl].
+
+Even [`Devise`], one on the most popular authentication libraries in
+this context, recommends to follow the indications of the mentioned
+chapter instead of using the library itself when beginning with Rails.
+In our case, this allows an easy-to-follow code for people that might
+contribute to our platform and that might not be familiar with [Ruby
+on Rails].
+
+[lots of authentication libraries]: https://www.ruby-toolbox.com/categories/rails_authentication
+[Chapter 10: "Account activation and password reset"]: https://www.railstutorial.org/book/account_activation_password_reset
+[`Devise`]: https://github.com/plataformatec/devise#starting-with-rails
+
 ## Notes on Rails
 
 ### Implicit routing
