@@ -74,7 +74,7 @@ Rails.application.configure do
   host = "#{ENV['HEROKU_APP_NAME']}.herokuapp.com"
   config.action_mailer.default_url_options = { host: host }
   # DOC: http://api.rubyonrails.org/classes/ActionMailer/Base.html
-  ActionMailer::Base.smtp_settings = {
+  config.action_mailer.smtp_settings = {
     address:              ENV['EMAIL_SMTP_ADDRESS'],
     port:                 ENV['EMAIL_SMTP_PORT'],
     authentication:       :login,
