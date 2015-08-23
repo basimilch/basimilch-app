@@ -73,14 +73,15 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   host = "#{ENV['HEROKU_APP_NAME']}.herokuapp.com"
   config.action_mailer.default_url_options = { host: host }
+  # DOC: http://api.rubyonrails.org/classes/ActionMailer/Base.html
   ActionMailer::Base.smtp_settings = {
-    :address        => 'smtp.mail-ch.ch',
-    :port           => '465',
-    :authentication => :plain,
-    :user_name      => ENV['EMAIL_SMTP_USERNAME'],
-    :password       => ENV['EMAIL_SMTP_PASSWORD'],
-    :domain         => 'heroku.com',
-    :enable_starttls_auto => true
+    address:              ENV['EMAIL_SMTP_ADDRESS'],
+    port:                 ENV['EMAIL_SMTP_PORT'],
+    authentication:       :login,
+    user_name:            ENV['EMAIL_SMTP_USERNAME'],
+    password:             ENV['EMAIL_SMTP_PASSWORD'],
+    domain:               ENV['EMAIL_SMTP_DOMAIN'],
+    enable_starttls_auto: true
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
