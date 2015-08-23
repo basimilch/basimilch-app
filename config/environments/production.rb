@@ -83,6 +83,10 @@ Rails.application.configure do
     user_name:            ENV['EMAIL_SMTP_USERNAME'],
     password:             ENV['EMAIL_SMTP_PASSWORD'],
     domain:               ENV['EMAIL_SMTP_DOMAIN'],
+    # For email SMTP configuration with SSL/TLS (encrypted) tls: must be given.
+    # Source:http://stackoverflow.com/questions/26166032/
+    #                           rails-4-netreadtimeout-when-calling-actionmailer
+    tls:                  true,
     enable_starttls_auto: true
   }
 
