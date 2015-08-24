@@ -43,10 +43,11 @@ class User < ActiveRecord::Base
   validates :last_name,   presence: true,
                           length: { maximum: 40 }
 
-  validates :postal_code, presence: true,
-                          format: { with: VALID_SWISS_POSTAL_CODE_REGEX }
-  validates :city,        presence: true
-  validates :country,     presence: true
+  validates :postal_address,  presence: true
+  validates :postal_code,     presence: true,
+                              format: { with: VALID_SWISS_POSTAL_CODE_REGEX }
+  validates :city,            presence: true
+  validates :country,         presence: true
 
   # Source:
   #  http://guides.rubyonrails.org/active_record_validations.html#validates-each
@@ -62,6 +63,8 @@ class User < ActiveRecord::Base
     end
   end
   before_save :normalize_tels
+
+  validate :at_least_one_tel
 
   def full_name
     "#{first_name} #{last_name}"
@@ -237,6 +240,12 @@ class User < ActiveRecord::Base
     def normalized_tel(tel)
       unless tel.blank?
         tel.phony_normalized(default_country_code: 'CH')
+      end
+    end
+
+    def at_least_one_tel
+      if tel_mobile.blank? && tel_home.blank? && tel_office.blank?
+        errors.add(:base, I18n.t("errors.messages.at_least_one_tel"))
       end
     end
 

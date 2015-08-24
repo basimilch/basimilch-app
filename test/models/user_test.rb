@@ -3,9 +3,11 @@ require 'test_helper'
 class UserTest < ActiveSupport::TestCase
 
   def setup
-    @user = User.new(first_name:              "User",
-                     last_name:               "Example",
-                     email:                   "user@example.com")
+    @user = User.new(first_name:     "User",
+                     last_name:      "Example",
+                     postal_address: "Somestreet 10",
+                     tel_mobile:     "076 111 11 11",
+                     email:          "user@example.com")
   end
 
   test "fixture user should be valid" do
@@ -148,8 +150,8 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  test "postal code, city and country should be present" do
-    assert_not  @user.required_attribute?(:postal_address)
+  test "postal adress, postal code, city and country should be present" do
+    assert      @user.required_attribute?(:postal_address)
     assert      @user.required_attribute?(:postal_code)
     assert      @user.required_attribute?(:city)
     assert      @user.required_attribute?(:country)
@@ -261,6 +263,18 @@ class UserTest < ActiveSupport::TestCase
                            "#{@user.errors.full_messages_for(:tel_mobile)}"
       assert_equal nil, @user.formatted_tel(:mobile)
     end
+  end
+
+  test "at least one phone number should be present" do
+    @user.tel_mobile = nil
+    assert_not @user.valid?
+    @user.tel_home = "044 111 11 11"
+    assert @user.valid?
+    @user.tel_home = nil
+    @user.tel_office = "044 222 22 22"
+    assert @user.valid?
+    @user.tel_mobile = @user.tel_home = @user.tel_office = nil
+    assert_not @user.valid?
   end
 
   test "authenticated? should return false for a user with nil digest" do

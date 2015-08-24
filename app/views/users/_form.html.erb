@@ -57,7 +57,7 @@
       <% end %>
     </div>
     <div class="col-lg-5 col-sm-4 col-xs-10">
-      <%= f.field_for :email, readonly: action_name != 'new' %>
+      <%= f.field_for :email, readonly: !['new', 'create'].include?(action_name) %>
     </div>
   </div>
 

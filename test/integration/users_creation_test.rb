@@ -7,7 +7,7 @@ class UsersCreationTest < ActionDispatch::IntegrationTest
     @valid_user_info = {first_name:     "User",
                         last_name:      "Example",
                         email:          "user@example.com",
-                        postal_address: "",
+                        postal_address: "Somestreet 1",
                         postal_code:    "8000",
                         city:           "Zurich",
                         country:        "Schweiz",

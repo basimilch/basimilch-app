@@ -49,11 +49,11 @@ locales     = ['de-CH', 'fr-CH', 'it-CH']
   user = User.create!(first_name:     first_name,
                       last_name:      last_name,
                       email:          email,
-                      postal_address: maybe(Faker::Address.street_address),
+                      postal_address: Faker::Address.street_address,
                       postal_code:    Faker::Number.number(4).to_s,
                       city:           Faker::Address.city,
                       # country:        "", # Use default
-                      tel_mobile:     maybe("0" + Faker::Number.number(9).to_s),
+                      tel_mobile:     "0" + Faker::Number.number(9).to_s,
                       tel_home:       maybe("0" + Faker::Number.number(9).to_s),
                       tel_office:     maybe("0" + Faker::Number.number(9).to_s),
                       # status:         "", # Use default

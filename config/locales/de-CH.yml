@@ -81,6 +81,12 @@ de-CH:
     active: "Aktiv"
     inactive: "Inaktiv"
 
+  # Error messages
+
+  errors:
+    messages:
+      at_least_one_tel: "Mindestens eine Telefonnummer muss ausgefüllt werden"
+
   # Models
 
   activerecord:

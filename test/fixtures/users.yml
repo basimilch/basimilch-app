@@ -7,6 +7,7 @@ one:
   admin: true
   first_name: User
   last_name: Example
+  postal_address: Somestreet 10
   postal_code: 8001
   city: Zürich
   country: Schweiz
@@ -24,6 +25,7 @@ two:
   admin: false
   first_name: Foo
   last_name: Bar
+  postal_address: Someotherstreet 20
   postal_code: 8002
   city: Zürich
   country: Schweiz
@@ -41,6 +43,7 @@ three:
   admin: false
   first_name: Joseph
   last_name: The Third
+  postal_address: Somestreet 30
   postal_code: 8003
   city: Zürich
   country: Schweiz
