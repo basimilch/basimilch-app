@@ -43,16 +43,16 @@ de-CH:
       postal_code:            "PLZ"
       city:                   "Ort"
       country:                "Land"
-      tel_mobile:             "Natel"
-      tel_mobile_formatted:   "Natel"
-      tel_home:               "Dihei"
-      tel_home_formatted:     "Dihei"
+      tel_mobile:             "Handy"
+      tel_mobile_formatted:   "Handy"
+      tel_home:               "Zuhause"
+      tel_home_formatted:     "Zuhause"
       tel_office:             "Büro"
       tel_office_formatted:   "Büro"
       status:                 "Status"
       notes:                  "Notizen"
       created_at:             "Erstellt am"
-      updated_at:             "Zuletzt aktualiziert am"
+      updated_at:             "Zuletzt aktualisiert am"
     placeholders: &placeholders
       first_name:             "Vorname"
       last_name:              "Nachname"
@@ -64,7 +64,7 @@ de-CH:
       city:                   "Stadt oder Gemeinde"
       tel_mobile:             "078 xxx xx xx"
       tel_landline:           "043 xxx xx xx"
-      notes:                  "Freier Feld für Notizen..."
+      notes:                  "Freies Feld für Notizen..."
 
   # Misc
 
@@ -73,7 +73,7 @@ de-CH:
 
   form:
     cancel: "Abbrechen"
-    submit: "Senden"
+    submit: "Absenden"
     edit: "Bearbeiten"
 
   title_labels:
@@ -86,8 +86,8 @@ de-CH:
   activerecord:
     models:
       user:
-        one:    "Benutzer"
-        other:  "Benutzer"
+        one:    "Genossenschafter"
+        other:  "Genossenschafter"
     attributes:
       user:
         <<: *attributes
@@ -100,8 +100,8 @@ de-CH:
 
   layouts:
     header:
-      users:        "Benutzer"
-      new_user:     "Neuer Benutzer"
+      users:        "Genossenschafter"
+      new_user:     "Neuer Genossenschafter"
       log_in_html:  "<span class='glyphicon glyphicon-log-in'></span> Einloggen"
       log_out_html: "<span class='glyphicon glyphicon-log-out'></span> Ausloggen"
       profile:      "Profil"
@@ -114,38 +114,38 @@ de-CH:
 
   users:
     index:
-      title: "Alle Benutzer"
+      title: "Alle Genossenschafter"
       only_from_zurich: "Nur in Zürich wohnend"
-      download_all_users_as_csv: "Alle Benutzer als CSV herunterladen"
-      csv_file_basemane: "basimilch_benutzer_liste"
-      no_users_found: "Keine Benutzer gefunden."
+      download_all_users_as_csv: "Alle Genossenschafter als CSV herunterladen"
+      csv_file_basemane: "basimilch_genossenschafter_liste"
+      no_users_found: "Keine Genossenschafter gefunden."
       please_log_in: "Bitte einloggen."
     show:
       title: "Profil"
-      send_activation_email: "Aktivierungsemail schicken"
-      send_activation_email_again: "Aktivierungsemail nochmals schicken"
-      activation_already_sent_at: "Aktivierungsemail bereits am %{sent_at} gesendet."
-      activation_not_yet_sent: "Dieser Benutzer ist noch nicht aktiv."
+      send_activation_email: "Aktivierungsmail schicken"
+      send_activation_email_again: "Aktivierungsmail nochmals schicken"
+      activation_already_sent_at: "Aktivierungsmail bereits am %{sent_at} gesendet."
+      activation_not_yet_sent: "Dieser Genossenschafter ist noch nicht aktiv."
       flash:
-        user_not_found: "Benutzer mit id '%{id}' nicht gefunden!"
+        user_not_found: "Genossenschafter mit id '%{id}' nicht gefunden!"
     create:
       flash:
         user_successfully_created:
-                "Benutzer '%{full_name}' (Id %{id}) angemeldet!"
+                "Genossenschafter '%{full_name}' (Id %{id}) angemeldet!"
     update:
       flash:
-        user_updated: "Benutzerprofil aktualiziert."
+        user_updated: "Genossenschafterprofil aktualisiert."
     new:
-      title: "Neuer Benutzer"
+      title: "Neuer Genossenschafter"
     edit:
       title: "Profil bearbeiten"
       flash:
-        user_not_found: "Benutzer mit id '%{id}' nicht gefunden!"
+        user_not_found: "Genossenschafter mit id '%{id}' nicht gefunden!"
     profile_update:
-      update_ok: "Dein Profil wurde aktualiziert."
+      update_ok: "Dein Profil wurde aktualisiert."
     form:
-      create_new_user:       "Neuen Benutzer anmelden"
-      update_user_profile:   "Benutzerprofil aktualisieren"
+      create_new_user:       "Neuen Genossenschafter anmelden"
+      update_user_profile:   "Genossenschafterprofil aktualisieren"
       required_field:        "Pflichtfeld"
 
   # Controllers
@@ -167,29 +167,29 @@ de-CH:
   account_activations:
     edit:
       title: "Kontoaktivierung"
-      valid_activation_link: "Gültiges Aktivierungslink!"
-      invalid_activation_link: "Ungültiges Aktivierungslink!"
-      set_up_a_password_to_activate_your_account: "Gebe ein Passwort ein, um dein Konto zu aktivieren."
+      valid_activation_link: "Gültiger Aktivierungslink!"
+      invalid_activation_link: "Ungültiger Aktivierungslink!"
+      set_up_a_password_to_activate_your_account: "Gib ein Passwort ein, um dein Konto zu aktivieren."
       create_password_and_activate_account: "Passwort bestätigen und Konto aktivieren"
-      activation_link_has_expired: "Der Aktivierungslink ist nicht mehr gültig. Schreibe uns bitte eine Email, um es dir noch mal zu schicken.!"
+      activation_link_has_expired: "Der Aktivierungslink ist nicht mehr gültig. Schreibe uns bitte eine E-Mail, damit wir ihn dir nochmals schicken können!"
     update:
       password_can_t_be_empty: "Du musst ein Passwort mit mindestest 8 Zeichen eingeben."
       password_has_been_setup_and_account_activated: "Passwort konfiguriert und Konto aktiviert!"
     create:
-      email_successfully_sent: "Die Aktivierungsemail wurde gerade gesendet."
+      email_successfully_sent: "Die Aktivierungsmail wurde gerade gesendet."
 
   password_resets:
     new:
       title: "Passwort zurücksetzen"
-      submit: "Senden"
+      submit: "Absenden"
     create:
-      email_sent_with_password_reset_instructions: "Gucke auf deine Email, um dein Passwort zurückzusetzen."
+      email_sent_with_password_reset_instructions: "Schaue in deinem Posteingang nach, um dein Passwort zurückzusetzen."
     edit:
       title: "Passwort zurücksetzen"
-      valid_password_reset_link: "Gültiges Link, um dein Passwort zurückzusetzen."
-      update_password: "Passwort aktualizieren"
+      valid_password_reset_link: "Der Link ist gültig."
+      update_password: "Passwort aktualisieren"
     update:
-      password_has_been_reset: "Passwort aktualiziert."
+      password_has_been_reset: "Passwort aktualisiert."
 
   user_mailer:
     account_activation:
