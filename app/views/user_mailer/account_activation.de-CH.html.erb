@@ -1,7 +1,7 @@
 <p>Hoi <%= @user.first_name %>,</p>
 
 <p>
-  Willkommen zu my.basimilch! Klicke auf den folgenden Link, um deinen Konto zu aktivieren:
+  Willkommen zu my.basimilch! Klicke auf den folgenden Link, um dein Konto zu aktivieren:
 </p>
 
 <%= link_to "Aktivieren", edit_account_activation_url(@user.activation_token,
@@ -9,6 +9,6 @@
 
 <p>
   <em>
-  NB: Der Link ist gültig nur bis zum <%= I18n.l @user.activation_token_valid_until, format: :short %>.
+  NB: Der Link ist nur gültig bis zum <%= I18n.l @user.activation_token_valid_until, format: :short %>.
   </em>
 </p>
