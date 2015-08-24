@@ -221,6 +221,8 @@ class User < ActiveRecord::Base
   private
 
     def default_values
+      # NOTE: To learn about the or-equals (i.e. '||=') form, see
+      #       https://www.railstutorial.org/book/_single-page#aside-or_equals
       self.postal_code  ||= Rails.configuration.x.defaults.user_postal_code
       self.city         ||= Rails.configuration.x.defaults.user_city
       self.country      ||= Rails.configuration.x.defaults.user_country
