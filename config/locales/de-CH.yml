@@ -184,6 +184,7 @@ de-CH:
       submit: "Absenden"
     create:
       email_sent_with_password_reset_instructions: "Schaue in deinem Posteingang nach, um dein Passwort zurückzusetzen."
+      email_address_not_found: "Diese E-Mail-Adresse wurde nicht gefunden."
     edit:
       title: "Passwort zurücksetzen"
       valid_password_reset_link: "Der Link ist gültig."
