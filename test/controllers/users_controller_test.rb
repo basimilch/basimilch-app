@@ -10,13 +10,13 @@ class UsersControllerTest < ActionController::TestCase
   test "should get index when logged in" do
     assert_protected_get :index, login_as: @user
     assert_response :success
-    assert_select "title", "Alle Benutzer | my.basimilch"
+    assert_select "title", "Alle Genossenschafter | my.basimilch"
   end
 
   test "should get new when logged in" do
     assert_protected_get :new, login_as: @user
     assert_response :success
-    assert_select "title", "Neuer Benutzer | my.basimilch"
+    assert_select "title", "Neuer Genossenschafter | my.basimilch"
   end
 
   test "should redirect edit when not logged in" do
