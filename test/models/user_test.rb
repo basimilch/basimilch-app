@@ -5,7 +5,9 @@ class UserTest < ActiveSupport::TestCase
   def setup
     @user = User.new(first_name:     "User",
                      last_name:      "Example",
-                     postal_address: "Somestreet 10",
+                     postal_address: "Alte Kindhauserstrasse 3",
+                     postal_code:    "8953",
+                     city:           "Dietikon",
                      tel_mobile:     "076 111 11 11",
                      email:          "user@example.com")
   end
@@ -134,16 +136,8 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
 
-  test "postal code validation should accept valid swiss codes" do
-    valid_codes = %w[0000 8004 9999]
-    valid_codes.each do |valid_code|
-      @user.postal_code = valid_code
-      assert @user.valid?, "#{valid_code.inspect} should be valid"
-    end
-  end
-
   test "postal code validation should reject invalid swiss codes" do
-    invalid_codes = %w[000 a004 99999 CH-1243 ch-1234 ch-1]
+    invalid_codes = %w[0000 000 a004 99999 CH-1243 ch-1234 ch-1]
     invalid_codes.each do |invalid_code|
       @user.postal_code = invalid_code
       assert_not @user.valid?, "#{invalid_code.inspect} should be invalid"
@@ -157,32 +151,31 @@ class UserTest < ActiveSupport::TestCase
     assert      @user.required_attribute?(:country)
     @user.postal_code = @user.city = @user.country = nil
     assert_not @user.valid?
-    assert_equal 4, @user.errors.count, @user.errors.full_messages.join(", ")
+    assert_equal 5, @user.errors.count, @user.errors.full_messages.join(", ")
   end
 
-  test "postal code, city and country should be set by default" do
-    assert_equal "8000",    @user.postal_code
-    assert_equal "Zürich",  @user.city
+  test "country should be set by default" do
     assert_equal "Schweiz", @user.country
   end
 
-  test "it should be to override default postal code, city and country" do
-    postal_code = "1234"
-    city        = "foo"
-    country     = "bar"
-    @user.update_attributes(postal_code: postal_code,
-                            city: city,
-                            country: country)
+  test "it should be possible to override default postal code, city and country
+        with real values" do
+    postal_address  = "Postgasse 1"
+    postal_code     = "3011"
+    city            = "Bern"
+    @user.update_attributes(postal_address: postal_address,
+                            postal_code:    postal_code,
+                            city:           city)
     # Before saving they should match
-    assert_equal postal_code, @user.postal_code
-    assert_equal city,        @user.city
-    assert_equal country,     @user.country
+    assert_equal postal_address,  @user.postal_address
+    assert_equal postal_code,     @user.postal_code
+    assert_equal city,            @user.city
     # But they should still match after saving
-    assert @user.save
+    assert @user.save, "Some unexpected errors: #{@user.errors.full_messages}"
     @user.reload
-    assert_equal postal_code, @user.postal_code
-    assert_equal city,        @user.city
-    assert_equal country,     @user.country
+    assert_equal postal_address,  @user.postal_address
+    assert_equal postal_code,     @user.postal_code
+    assert_equal city,            @user.city
   end
 
   test "valid phone numbers should be stored normalized" do

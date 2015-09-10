@@ -66,6 +66,84 @@ class User < ActiveRecord::Base
 
   validate :at_least_one_tel
 
+  validate :correct_full_postal_address
+
+  geocoded_by :full_postal_address
+
+  def full_postal_address(separator: ', ')
+    [postal_address, postal_code, city, country].compact.join(separator)
+  end
+
+  def coordinates_map_url
+    "http://maps.google.com/maps?q=#{latitude},#{longitude}" if geocoded?
+  end
+
+  def postal_address_map_url
+    if geocoded?
+      "http://maps.google.com/maps?q=#{full_postal_address separator: '+'}"
+    end
+  end
+
+  def correct_full_postal_address
+    if postal_address.blank? ||
+       postal_code.blank?    ||
+       city.blank?           ||
+       country.blank?
+      errors.add(:base, I18n.t("errors.messages.uncomplete_postal_address"))
+      return
+    end
+    unless postal_address_changed? ||
+           postal_code_changed?    ||
+           city_changed?           ||
+           country_changed?
+      return
+    end
+    initial_number_of_errors = errors.count
+    result = Geocoder.search(full_postal_address).first
+    unless result && result.route.present? && result.postal_code.present?
+      errors.add(:base, I18n.t("errors.messages.unrecornised_postal_address"))
+      return
+    end
+    result_postal_address = "#{result.route} #{result.street_number}".strip
+    self.postal_address = postal_address.strip
+    if postal_address != result_postal_address
+      errors.add(:postal_address,
+                 I18n.t("errors.messages.unrecornised_and_replaced",
+                        original:  postal_address,
+                        corrected: result_postal_address))
+      self.postal_address = result_postal_address
+    end
+    self.postal_code = postal_code.strip
+    if postal_code != result.postal_code
+      errors.add(:postal_code,
+                 I18n.t("errors.messages.unrecornised_and_replaced",
+                        original:  postal_code,
+                        corrected: result.postal_code))
+      self.postal_code = result.postal_code
+    end
+    self.city = city.strip
+    if city != result.city
+      errors.add(:city,
+                 I18n.t("errors.messages.unrecornised_and_replaced",
+                        original:  city,
+                        corrected: result.city))
+      self.city = result.city
+    end
+    self.country = country.strip
+    if country != result.country
+      errors.add(:country,
+                 I18n.t("errors.messages.unrecornised_and_replaced",
+                        original:  country,
+                        corrected: result.country))
+      self.country = result.country
+    end
+    if errors.count == initial_number_of_errors
+      # Manually geocode the user, to prevent a second API request
+      self.latitude       = result.latitude
+      self.longitude      = result.longitude
+    end
+  end
+
   def full_name
     "#{first_name} #{last_name}"
   end
@@ -252,12 +330,14 @@ class User < ActiveRecord::Base
     # Creates and assigns the activation token and digest.
     def create_activation_digest
       self.activation_token  = User.new_token
-      update_attribute(:activation_digest, User.digest(activation_token))
+      update_attribute(:activation_digest,
+                       User.digest(activation_token))
     end
 
     # Sets the password reset attributes.
     def create_password_reset_digest
       self.password_reset_token = User.new_token
-      update_attribute(:password_reset_digest, User.digest(password_reset_token))
+      update_attribute(:password_reset_digest,
+                       User.digest(password_reset_token))
     end
 end

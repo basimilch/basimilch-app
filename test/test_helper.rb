@@ -86,6 +86,40 @@ class ActiveSupport::TestCase
     end
   end
 
+  # SOURCE: https://github.com/alexreisner/geocoder/tree/v1.2.9
+  #                                              #testing-apps-that-use-geocoder
+  Geocoder.configure lookup: :test
+  Geocoder::Lookup::Test.set_default_stub(
+    [
+      {
+        'latitude'       => 47.3971058,
+        'longitude'      => 8.392147,
+        'full_address'   => "Alte Kindhauserstrasse 3, 8953 Dietikon, Switzerland",
+        'route'          => "Alte Kindhauserstrasse",
+        'street_number'  => "3",
+        'city'           => "Dietikon",
+        'postal_code'    => "8953",
+        'state_province' => "Zürich",
+        'country'        => "Schweiz"
+      }
+    ]
+  )
+  Geocoder::Lookup::Test.add_stub(
+    "Postgasse 1, 3011, Bern, Schweiz", [
+      {
+        'latitude'       => 46.9487433,
+        'longitude'      => 7.4538432,
+        'address'        => "Postgasse 1, 3011 Bern, Switzerland",
+        'route'          => "Postgasse",
+        'street_number'  => "1",
+        'city'           => "Bern",
+        'postal_code'    => "3011",
+        'state_province' => "Bern",
+        'country'        => "Schweiz"
+      }
+    ]
+  )
+
   private
 
     # Returns true inside an integration test, and false inside other

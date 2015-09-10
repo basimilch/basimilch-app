@@ -6,16 +6,11 @@ class UsersCreationTest < ActionDispatch::IntegrationTest
     @user = users(:one)
     @valid_user_info = {first_name:     "User",
                         last_name:      "Example",
-                        email:          "user@example.com",
-                        postal_address: "Somestreet 1",
-                        postal_code:    "8000",
-                        city:           "Zurich",
-                        country:        "Schweiz",
-                        tel_mobile:     "076 123 45 67",
-                        tel_home:       "044 123 45 67",
-                        tel_office:     "+41 (0) 22 123 45 67",
-                        admin:          "0",
-                        notes:          ""}
+                        postal_address: "Alte Kindhauserstrasse 3",
+                        postal_code:    "8953",
+                        city:           "Dietikon",
+                        tel_mobile:     "076 111 11 11",
+                        email:          "user@example.com"}
   end
 
   # Inspired from:
@@ -47,5 +42,18 @@ class UsersCreationTest < ActionDispatch::IntegrationTest
     assert_select 'div#error_explanation',      count: 1
     assert_select 'div#error_explanation li',   count: 4
     assert_select 'form div.field_with_errors', count: 3 * 2
+  end
+
+  test "invalid postal address in user creation information" do
+    assert_protected_get new_user_path, login_as: @user
+    assert_template 'users/new'
+    assert_no_difference 'User.count' do
+      @valid_user_info[:postal_code] = "8952"
+      post users_path, user: @valid_user_info
+    end
+    assert_template 'users/new'
+    assert_select 'div#error_explanation',      count: 1
+    assert_select 'div#error_explanation li',   count: 1
+    assert_select 'form div.field_with_errors', count: 1 * 2
   end
 end

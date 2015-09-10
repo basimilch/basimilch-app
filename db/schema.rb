@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150819174255) do
+ActiveRecord::Schema.define(version: 20150825194407) do
 
   create_table "users", force: :cascade do |t|
     t.string   "email"
@@ -40,6 +40,8 @@ ActiveRecord::Schema.define(version: 20150819174255) do
     t.string   "password_reset_digest"
     t.datetime "password_reset_at"
     t.datetime "password_reset_sent_at"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

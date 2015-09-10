@@ -86,6 +86,9 @@ de-CH:
   errors:
     messages:
       at_least_one_tel: "Mindestens eine Telefonnummer muss ausgefüllt werden"
+      unrecornised_postal_address: "Postadresse nicht erkannt"
+      uncomplete_postal_address: "Postadresse unvollständig"
+      unrecornised_and_replaced: "\"%{original}\" wurde mit \"%{corrected}\" ersetzt"
 
   # Models
 
@@ -132,6 +135,7 @@ de-CH:
       send_activation_email_again: "Aktivierungsmail nochmals schicken"
       activation_already_sent_at: "Aktivierungsmail bereits am %{sent_at} gesendet."
       activation_not_yet_sent: "Dieser Genossenschafter ist noch nicht aktiv."
+      show_postal_address_on_map: "Postadresse auf der Karte anzeigen"
       flash:
         user_not_found: "Genossenschafter mit id '%{id}' nicht gefunden!"
     create:

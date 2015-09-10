@@ -247,7 +247,9 @@ footer {
 // Forms
 
 form {
-  padding-top: 25px;
+  .user-form {
+    padding-top: 25px;
+  }
   input,
   textarea,
   select,

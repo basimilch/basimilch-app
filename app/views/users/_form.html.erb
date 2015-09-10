@@ -4,7 +4,7 @@
   NOTE: When constructing a form using form_for(user), Rails uses POST
         if @user.new_record? is true and PATCH if it is false.
 %>
-<%= form_for user, class: 'form-horizontal',
+<%= form_for user, class: 'form-horizontal user-form',
              url: current_user.admin? ? user : profile_update_path ,
              view_mode: (defined?(view_mode) ? view_mode : false) do |f| %>
 
