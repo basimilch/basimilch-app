@@ -213,3 +213,28 @@ HTTP request | URL     | Action   | Named route      | Purpose
 _Source: [Table 7.1.] in [Rails Tutorial Book]_
 
 [Table 7.1.]: https://www.railstutorial.org/book/_single-page#table-RESTful_users
+
+### Session cookie data and security
+
+In Rails 2 & 3, the value of the session is stored in a cookie as a
+`base64` encoded serialized string with an added signature. Session
+data is thus almost clear text (see [Decoding Rails Session Cookies]
+for example about how to decode it).
+
+However, in Rails 4 (which we are using), the value of the cookie is
+an encrypted string. You have to have access to both the production
+`secret_key_base` and to the source code of the application so that
+you can use the built-in infrastructure to decode the session as
+explained in [Session storage and security in Rails] and demoed in
+[this gist].
+
+For more info about security, read the [Ruby on Rails Security Guide].
+
+As a general reminder, cookies can only contain [4K of data] for the
+entire cookie, including name, value, expiry date, etc.
+
+[Decoding Rails Session Cookies]: http://www.andylindeman.com/decoding-rails-session-cookies/
+[Session storage and security in Rails]: http://dev.housetrip.com/2014/01/14/session-store-and-security/
+[this gist]: https://gist.github.com/profh/e36e5dd0bec124fef04c
+[Ruby on Rails Security Guide]: http://guides.rubyonrails.org/v4.2.3/security.html
+[4K of data]: http://stackoverflow.com/questions/640938/what-is-the-maximum-size-of-a-web-browsers-cookies-key
