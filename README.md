@@ -178,6 +178,15 @@ on Rails].
 [Chapter 10: "Account activation and password reset"]: https://www.railstutorial.org/book/account_activation_password_reset
 [`Devise`]: https://github.com/plataformatec/devise#starting-with-rails
 
+## Geolocalization
+
+To validate the user postal addresses on singup we use the
+geolocalization library [Geocoder v1.2.9]. This library will allow us
+also operations related to geographical relations between users,
+depots and other entities.
+
+[Geocoder v1.2.9]: https://github.com/alexreisner/geocoder/tree/v1.2.9
+
 ## Notes on Rails
 
 ### Implicit routing
