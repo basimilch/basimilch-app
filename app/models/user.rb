@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
                           length: { maximum: 255 },
                           format: { with: VALID_EMAIL_REGEX },
                           uniqueness: { case_sensitive: false }
-  before_save { self.email = email.downcase }
+  before_save :downcase_email
 
   has_secure_password validations: false
   validates :password,    presence: false, # Users will create a password after
@@ -37,9 +37,11 @@ class User < ActiveRecord::Base
                                                 # active_model/secure_
                                                 # password.rb#L21
 
+  before_validation :capitalize_first_name
   validates :first_name,  presence: true,
                           length: { maximum: 40 }
 
+  before_validation :capitalize_last_name
   validates :last_name,   presence: true,
                           length: { maximum: 40 }
 
@@ -339,5 +341,19 @@ class User < ActiveRecord::Base
       self.password_reset_token = User.new_token
       update_attribute(:password_reset_digest,
                        User.digest(password_reset_token))
+    end
+
+    # Before filters
+
+    def downcase_email
+      self.email = email.downcase
+    end
+
+    def capitalize_first_name
+      self.first_name = first_name.try(:capitalize)
+    end
+
+    def capitalize_last_name
+      self.last_name = last_name.try(:capitalize)
     end
 end
