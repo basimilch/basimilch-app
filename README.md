@@ -4,22 +4,52 @@
 [![Code Climate](https://codeclimate.com/github/basimilch/basimilch-app/badges/gpa.svg)](https://codeclimate.com/github/basimilch/basimilch-app)
 [![Test Coverage](https://codeclimate.com/github/basimilch/basimilch-app/badges/coverage.svg)](https://codeclimate.com/github/basimilch/basimilch-app/coverage)
 
-Web app of the basimilch cooperative.
+Web app of the [basimilch] cooperative.
 
-Done with [Ruby on Rails].
+[basimilch]: http://basimil.ch
 
-[Ruby on Rails]: http://rubyonrails.org
+Done with [Ruby] on [Rails].
+
+[Ruby]: https://www.ruby-lang.org/en/
+[Rails]: http://rubyonrails.org
+
+## First steps in Rails
+
+If you are new to Rails, you might want to take the time to read at
+least the official [Getting Started with Rails] guide. If you are
+interested in a more in-depth introduction to Ruby on Rails
+development you might want to look at the _excellent_ [Rails Tutorial]
+by [Michael Hartl] including more than 15 hours of screencast lessons.
+The corresponding [Rails Tutorial Book] can be read online for free.
+
+[Getting Started with Rails]: http://guides.rubyonrails.org/v4.2.3/getting_started.html
+[Rails Tutorial]: https://www.railstutorial.org/
+[Michael Hartl]: http://www.michaelhartl.com
+[Rails Tutorial Book]: https://www.railstutorial.org/book/_single-page
 
 ## Dev documentation
 
-- [Rails Tutorial Book] by [Michael Hartl]
+### Ruby
+
+- [Ruby Code (v2.2.1)]
+- [Ruby 2.2.1 Standard Library Documentation]
 - [Ruby Style Guide]
 - [`rvm`] as the Ruby Version Manager
 
-[Rails Tutorial Book]: https://www.railstutorial.org/book
-[Michael Hartl]: http://www.michaelhartl.com
+[Ruby Code (v2.2.1)]: https://github.com/ruby/ruby/tree/v2_2_1
+[Ruby 2.2.1 Standard Library Documentation]: http://ruby-doc.org/stdlib-2.2.1/
 [Ruby Style Guide]: https://github.com/bbatsov/ruby-style-guide
 [`rvm`]: https://rvm.io
+
+### Rails
+
+- [Rails Code (v4.2.3)]
+- [The API Documentation (v4.2.3)]
+- [Ruby on Rails Guides (v4.2.3)]
+
+[Rails Code (v4.2.3)]: https://github.com/rails/rails/tree/v4.2.3
+[The API Documentation (v4.2.3)]: http://api.rubyonrails.org/v4.2.3/
+[Ruby on Rails Guides (v4.2.3)]: http://guides.rubyonrails.org/v4.2.3/
 
 ## Environment
 
