@@ -8,10 +8,18 @@ Web app of the basimilch cooperative.
 
 Done with [Ruby on Rails].
 
+[Ruby on Rails]: http://rubyonrails.org
+
 ## Dev documentation
 
-- [Rails Tutorial Book] by [Michael Hartl].
-- [`rvm`] as the Ruby Version Manager.
+- [Rails Tutorial Book] by [Michael Hartl]
+- [Ruby Style Guide]
+- [`rvm`] as the Ruby Version Manager
+
+[Rails Tutorial Book]: https://www.railstutorial.org/book
+[Michael Hartl]: http://www.michaelhartl.com
+[Ruby Style Guide]: https://github.com/bbatsov/ruby-style-guide
+[`rvm`]: https://rvm.io
 
 ## Environment
 
@@ -66,10 +74,6 @@ $ ps aux | grep spring
 $ pkill -9 -f spring
 ```
 
-[Ruby on Rails]: http://rubyonrails.org
-[Rails Tutorial Book]: https://www.railstutorial.org/book
-[Michael Hartl]: http://www.michaelhartl.com
-[`rvm`]: https://rvm.io
 [heroku]: http://heroku.com
 [heroku toolbelt]: https://toolbelt.heroku.com
 [Advanced testing setup]: https://www.railstutorial.org/book/static_pages#sec-advanced_testing_setup
