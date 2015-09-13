@@ -51,6 +51,14 @@ module ApplicationHelper
                                             I18n.t("title_labels.#{arg}") : arg.to_s)
   end
 
+
+  def div_for_action(class_suffix: "content")
+    content_tag :div,
+                class: "#{controller_name}-#{action_name}-#{class_suffix}" do
+      yield
+    end
+  end
+
   # Returns the localized string with the same behaviour than the default 't'
   # helper in the views, i.e. prefixing the key by the current controller and
   # view names.
@@ -65,10 +73,24 @@ module ApplicationHelper
   #   flash[:success] = t('.email_successfully_sent')
   # you can use
   #   flash_t :success, :email_successfully_sent
-  def flash_t(k,v)
-    flash[k] = (Symbol === v) ? tc(v) : v
+  def flash_t(k, v, global: false)
+    flash[k] = case
+    when global
+      I18n.t("flash.#{v}")
+    when (Symbol === v)
+      tc(v)
+    else
+      v
+    end
   end
-  def flash_now_t(k,v)
-    flash.now[k] = (Symbol === v) ? tc(v) : v
+  def flash_now_t(k, v, global: false)
+    flash.now[k] = case
+    when global
+      I18n.t("flash.#{v}")
+    when (Symbol === v)
+      tc(v)
+    else
+      v
+    end
   end
 end

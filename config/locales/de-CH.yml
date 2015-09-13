@@ -18,6 +18,9 @@
 #
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
+#
+# The localization files are written in YAML. For info about this format:
+# DOC: http://symfony.com/doc/current/components/yaml/yaml_format.html
 
 de-CH:
   hello: "Hoi Welt!"
@@ -81,6 +84,12 @@ de-CH:
     active: "Aktiv"
     inactive: "Inaktiv"
 
+  # Global flash messages
+
+  flash:
+    please_log_in: "Bitte einloggen."
+
+
   # Error messages
 
   errors:
@@ -128,7 +137,6 @@ de-CH:
       download_all_users_as_csv: "Alle Genossenschafter als CSV herunterladen"
       csv_file_basemane: "basimilch_genossenschafter_liste"
       no_users_found: "Keine Genossenschafter gefunden."
-      please_log_in: "Bitte einloggen."
     show:
       title: "Profil"
       send_activation_email: "Aktivierungsmail schicken"
@@ -154,6 +162,7 @@ de-CH:
     profile_update:
       update_ok: "Dein Profil wurde aktualisiert."
     form:
+      signup:                "Anmelden"
       create_new_user:       "Neuen Genossenschafter anmelden"
       update_user_profile:   "Genossenschafterprofil aktualisieren"
       required_field:        "Pflichtfeld"
@@ -173,6 +182,14 @@ de-CH:
         placeholders:
           <<: *placeholders
     password_resets: *contoller_dictionary
+    signups:
+      validation: &signups_dictionary
+        attributes:
+          email_validation_code: "Validierungscode"
+        placeholders:
+          email_validation_code: "Validierungscode"
+      create:
+        <<: *signups_dictionary
 
   account_activations:
     edit:
@@ -202,8 +219,40 @@ de-CH:
     update:
       password_has_been_reset: "Passwort aktualisiert."
 
+  signups:
+    new:
+      title: "Anmelden"
+    validation:
+      title: "Validierung der E-Mail-Adresse"
+      description_html: >
+        Wir haben dir einen Validierungscode auf deine E-Mail-Adresse
+        <code>%{email}</code>
+        gerade geschickt.
+    create:
+      title: "Anmeldung erfolgreich"
+      description_html: >
+          Vielen Dank für dein Interesse an unsere (hoffentlich bald
+          auch deine) Genossenschaft! Deine Anmeldung haben wir
+          richtig empfangen und wir haben dir eine Bestätigungsemail
+          geschickt. Bald wirdst du von uns hören! Wenn die Anmeldung
+          abgeschlossen wird und die Anteilscheine bezahlt sind, wirst
+          du Zugang auf diese Plattform bekommen, um deine Daten und
+          dein Abo zu verwalten, und um ab 2016 auch dich für
+          Milarbeitjobs anzumelden. Du kannst uns jederzeit unter
+          <a href="mailto:info@basimil.ch">info@basimil.ch</a> erreichen
+          und alle Informationen über die Genossenschaft auf
+          <a href="http://basimil.ch">basimil.ch</a> finden.
+
+      wrong_email_validation_code: "Der Code ist nicht gültig."
+      unable_to_create_user: >
+        Ein Fehler ist aufgetretten! Versuch dich nochmal erneut anzumelden.
+
   user_mailer:
     account_activation:
       subject: "Kontoaktivierung"
     password_reset:
       subject: "Passwort Zurücksetzung"
+    email_validation:
+      subject: "Validierung der E-Mail-Adresse"
+    signup_successful:
+      subject: "Anmeldung erfolgreich"

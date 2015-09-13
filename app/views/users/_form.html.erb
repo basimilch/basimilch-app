@@ -5,15 +5,22 @@
         if @user.new_record? is true and PATCH if it is false.
 %>
 <%= form_for user, class: 'form-horizontal user-form',
-             url: current_user.admin? ? user : profile_update_path ,
+             # url: current_user_admin? ? user : profile_update_path ,
+             url: case
+                    when controller_name == 'signups'
+                      signup_validation_path
+                    when current_user_admin?
+                      user
+                    else
+                      profile_update_path
+                    end,
              view_mode: (defined?(view_mode) ? view_mode : false) do |f| %>
-
 
   <% form_buttons = capture do %>
     <div class="row form-buttons">
       <% if f.options[:view_mode] %>
         <div class="col-md-3 col-md-offset-9 col-sm-4 col-sm-offset-8">
-          <% if current_user.admin? %>
+          <% if current_user_admin? %>
             <%= f.edit_button edit_user_path(@user) %>
           <% else %>
             <%= f.edit_button profile_edit_path %>
@@ -21,7 +28,11 @@
         </div>
       <% else %>
         <div class="col-md-offset-7 col-sm-2 col-sm-offset-6 col-xs-4">
-          <% if current_user.admin? %>
+          <% if ! logged_in? %>
+            <%= f.cancel_button(
+            "http://basimil.ch/genossenschaft/#genosschenschafterin-werden"
+            ) %>
+          <% elsif current_user_admin? %>
             <% if user.new_record? %>
               <%= f.cancel_button users_path %>
             <% else %>
@@ -32,7 +43,9 @@
           <% end %>
         </div>
         <div class="col-md-3 col-sm-4 col-xs-8">
-          <% if user.new_record? %>
+          <% if ! logged_in? %>
+            <%= f.submit_button t('.signup') %>
+          <% elsif user.new_record? %>
             <%= f.submit_button t('.create_new_user') %>
           <% else %>
             <%= f.submit_button t('.update_user_profile') %>
@@ -52,12 +65,13 @@
       <%= f.field_for :last_name %>
     </div>
     <div class="col-lg-1 col-xs-2">
-      <% if current_user.admin? %>
+      <% if current_user_admin? %>
         <%= f.field_for :admin %>
       <% end %>
     </div>
     <div class="col-lg-5 col-sm-4 col-xs-10">
-      <%= f.field_for :email, readonly: !['new', 'create'].include?(action_name) %>
+      <%= f.field_for :email,
+      readonly: !['new', 'create', 'validation'].include?(action_name) %>
     </div>
   </div>
 
@@ -77,7 +91,7 @@
   </div>
 
   <% if user.new_record? %>
-    <%# The form for new users cannot user the formatted versions yet %>
+    <%# The form for new users cannot use the formatted versions yet %>
     <div class="row">
       <div class="col-sm-4">
         <%= f.field_for :tel_mobile,  placeholder: :tel_mobile %>

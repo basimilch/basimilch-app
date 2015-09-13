@@ -17,6 +17,11 @@ class Hash
   end
 end
 
+class String
+  def number
+    scan(/\d/).join
+  end
+end
 
 class ActiveRecord::Base
 
@@ -112,13 +117,13 @@ class ActionView::Helpers::FormBuilder
   end
 
   # Returns HTML for a cancel form button using Bootstrap classes.
-  def cancel_button(destination_path = '/')
+  def cancel_button(destination_path)
     @template.link_to I18n.t('form.cancel'), destination_path,
                                              class: "btn btn-default"
   end
 
   # Returns HTML for a edit form button using Bootstrap classes.
-  def edit_button(destination_path = '/')
+  def edit_button(destination_path)
     # Consider using:
     # ActionDispatch::Routing::PolymorphicRoutes::edit_polymorphic_path(@object)
     @template.link_to I18n.t('form.edit'), destination_path,

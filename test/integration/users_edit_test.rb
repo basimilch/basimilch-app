@@ -21,7 +21,7 @@ class UsersEditTest < ActionDispatch::IntegrationTest
     assert_protected_get edit_user_path(@user), login_as: @user
     assert_template 'users/edit'
     email = "new_user@example.net"
-    last_name = User.new_token # A random string
+    last_name = User.new_token.capitalize # A random string
     original_first_name = @user.first_name
     patch user_path(@user), user: { email:      email,
                                     last_name:  last_name }

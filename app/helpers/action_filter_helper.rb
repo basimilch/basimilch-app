@@ -6,8 +6,15 @@ module ActionFilterHelper
   def require_logged_in_user
     unless logged_in?
       store_location
-      flash[:danger] = t('.please_log_in')
+      flash_t :danger, :please_log_in, global: true
       redirect_to login_url
+    end
+  end
+
+  # Requires that no user is logged in, and redirects to /profile if so.
+  def require_no_logged_in_user
+    if logged_in?
+      redirect_to profile_path
     end
   end
 

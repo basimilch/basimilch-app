@@ -371,3 +371,20 @@ form {
     }
   }
 }
+
+// Signup
+
+.signups-validation-content {
+  margin: {
+    bottom: 50px;
+  }
+  code {
+    color: $basiblau;
+    background-color: transparent;
+  }
+}
+.signups-create-content {
+  margin: {
+    bottom: 100px;
+  }
+}

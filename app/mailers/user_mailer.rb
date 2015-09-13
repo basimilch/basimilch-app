@@ -13,9 +13,30 @@ class UserMailer < ApplicationMailer
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
-  #   en.user_mailer.password_reset.subject
+  #   de-CH.user_mailer.password_reset.subject
   #
   def password_reset(user)
+    @user = user
+    mail to: "#{user.full_name} <#{user.email}>"
+  end
+
+  # Subject can be set in your I18n file at config/locales/en.yml
+  # with the following lookup:
+  #
+  #   de-CH.user_mailer.email_validation.subject
+  #
+  def email_validation(user, email_validation_code)
+    @user = user
+    @email_validation_code = email_validation_code
+    mail to: "#{user.full_name} <#{user.email}>"
+  end
+
+  # Subject can be set in your I18n file at config/locales/en.yml
+  # with the following lookup:
+  #
+  #   de-CH.user_mailer.signup_successful.subject
+  #
+  def signup_successful(user)
     @user = user
     mail to: "#{user.full_name} <#{user.email}>"
   end

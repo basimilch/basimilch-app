@@ -1,0 +1,5 @@
+<% provide(:title, t('.title')) %>
+<%= div_for_action do %>
+  <%= t('.description_html', email: @user.email) %>
+<% end %>
+<%= render 'forms/validate_email'%>

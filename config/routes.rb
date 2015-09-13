@@ -5,20 +5,25 @@ Rails.application.routes.draw do
 
   # This maps HTTP verbs to controller actions automatically.
   # See 'master/README.md#implicit-routing' for more info on routing.
-  resources :users#, only: [:index, :new]
+  resources :users
   resources :account_activations, only: [:create, :edit, :update]
   resources :password_resets,     only: [:new, :create, :edit, :update]
 
   # You can have the root of your site routed with "root"
-  root   'sessions#new'
+  root    'sessions#new'
 
-  get    'profile'      => 'users#profile', as:         :profile
-  get    'profile/edit' => 'users#profile_edit', as:    :profile_edit
-  patch  'profile'      => 'users#profile_update', as:  :profile_update
+  get     'profile'       => 'users#profile',         as: :profile
+  get     'profile/edit'  => 'users#profile_edit',    as: :profile_edit
+  patch   'profile'       => 'users#profile_update',  as: :profile_update
 
-  get    'login'   => 'sessions#new'
-  post   'login'   => 'sessions#create'
-  delete 'logout'  => 'sessions#destroy'
+  get     'login'         => 'sessions#new'
+  post    'login'         => 'sessions#create'
+  delete  'logout'        => 'sessions#destroy'
+
+  get     'signup'        => 'signups#new',           as: :signup
+  post    'signup'        => 'signups#validation',    as: :signup_validation
+  put     'signup'        => 'signups#create',        as: :signup_create
+
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

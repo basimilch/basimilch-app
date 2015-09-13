@@ -9,4 +9,5 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
   include ActionFilterHelper
   include SessionsHelper
+  include UsersHelper
 end

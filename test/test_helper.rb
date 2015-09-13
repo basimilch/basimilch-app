@@ -78,10 +78,16 @@ class ActiveSupport::TestCase
     end
     fixture_log_in user
     if admin_protected && !user.admin?
-      assert_raises ActionController::RoutingError do
+      assert_404_error do
         yield
       end
     else
+      yield
+    end
+  end
+
+  def assert_404_error
+    assert_raises ActionController::RoutingError do
       yield
     end
   end

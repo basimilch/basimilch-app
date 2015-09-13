@@ -5,21 +5,6 @@ class UsersController < ApplicationController
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user,   only: [:new, :show, :index, :destroy]
 
-  PERMITTED_ATTRIBUTES = [:first_name,
-                          :last_name,
-                          :email,
-                          :postal_address,
-                          :postal_code,
-                          :city,
-                          :country,
-                          :tel_mobile,
-                          :tel_mobile_formatted,
-                          :tel_home,
-                          :tel_home_formatted,
-                          :tel_office,
-                          :tel_office_formatted,
-                          :notes]
-
   def index
     if filter = params[:filter]
       # NOTE: .find_by(...) is like .where(...).first
@@ -83,11 +68,6 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
-    @form_field_options = {
-      country:  { readonly: true },
-      admin:    { field_type: 'check_box' },
-      notes:    { field_type: 'text_area' }
-    }
   end
 
   def create
@@ -116,14 +96,6 @@ class UsersController < ApplicationController
   end
 
   private
-
-    def user_params
-      # Pattern 'strong parameters' to secure form input.
-      # Source:
-      #   https://www.railstutorial.org/book/_single-page#sec-strong_parameters
-      params.require(:user).permit(PERMITTED_ATTRIBUTES +
-                                          (current_user.admin? ? [:admin] : []))
-    end
 
     # Before filters
 
