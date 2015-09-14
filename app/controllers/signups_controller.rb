@@ -57,7 +57,8 @@ private
   end
 
   def forget_successful_signup
-    # cookies.delete(:already_successful_signup)
+    session[:already_successful_signup] = nil
+    cookies.delete(:already_successful_signup)
   end
 
   def already_successful_signup
