@@ -26,8 +26,11 @@ module ActionFilterHelper
   def require_request_from_swiss_ip
     return unless Rails.env.production?
     result = Geocoder.search(request.remote_ip).first
-    unless result && result.country == "Schweiz"
-      raise_403
+    unless result && result.country_code == "CH"
+      logger.warn "Unauthorised signup request from IP " +
+                   "#{request.remote_ip.inspect}: #{result.inspect}"
+      # TODO: Render a page explaining that the signup can only be done from CH.
+      raise_404
     end
   end
 end

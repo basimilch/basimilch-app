@@ -25,10 +25,6 @@ module ApplicationHelper
     commit_msgs_html += "</div>"
   end
 
-  def raise_403
-    raise ActionController::RoutingError.new('Forbidden')
-  end
-
   # Source: http://stackoverflow.com/a/4983354
   def raise_404
     raise ActionController::RoutingError.new('Not Found')
