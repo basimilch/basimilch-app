@@ -18,7 +18,7 @@ class SignupTest < ActionDispatch::IntegrationTest
                         last_name:      "example",
                         postal_address: "Alte Kindhauserstr 3"
                       })
-    end
+  end
 
   test "signup workflow" do
     # Landing to the singup page
@@ -70,5 +70,6 @@ class SignupTest < ActionDispatch::IntegrationTest
     # Check that the session is cleaned from signup info
     assert_equal nil, session[:signup_info]
     assert_equal nil, session[:signup_validation_code]
+    
   end
 end
