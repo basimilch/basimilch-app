@@ -1,6 +1,6 @@
 Hoi <%= @user.first_name %>,
 
-Willkommen zu my.basimilch! Klicke auf den folgenden Link, um dein Konto zu aktivieren:
+Willkommen zu meine.basimil.ch! Klicke auf den folgenden Link, um dein Konto zu aktivieren:
 
 <%= edit_account_activation_url(@user.activation_token, email: @user.email) %>
 

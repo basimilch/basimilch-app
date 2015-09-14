@@ -7,7 +7,7 @@ unless (app_name = ENV["HEROKU_APP_NAME"]).nil?
   #
   # Create a new authorization token:
   #   $ heroku authorizations:create \
-  #            --description "For use within the my.basimilch Rails app" \
+  #            --description "For use within the meine.basimil.ch Rails app" \
   #            --scope identity,read-protected
   #
   # Setup the necessary ENV variablables in Heroku:

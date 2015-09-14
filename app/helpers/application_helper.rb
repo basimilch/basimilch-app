@@ -1,6 +1,6 @@
 module ApplicationHelper
 
-  APP_NAME = "my.basimilch"
+  APP_NAME = "meine.basimil.ch"
 
   # Returns the full title of the page
   def full_title(page_title = '')

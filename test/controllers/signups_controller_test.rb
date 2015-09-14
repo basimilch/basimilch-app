@@ -5,7 +5,7 @@ class SignupsControllerTest < ActionController::TestCase
   test "should get signup page when no logged in" do
     get :new
     assert_response :success
-    assert_select "title", "Anmelden | my.basimilch"
+    assert_select "title", "Anmelden | meine.basimil.ch"
   end
 
   test "should get redirected to profile page when logged in" do
