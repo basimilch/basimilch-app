@@ -14,13 +14,18 @@ Geocoder.configure(
   lookup:     :google,     # Geocoder's default
 
   # IP address geocoding service:
-  ip_lookup:  :freegeoip,     # Geocoder's default
+
+  # DOC: https://github.com/fiorix/freegeoip/blob/master/README.md
+  # ip_lookup:  :freegeoip,     # Geocoder's default
+
+  # DOC: http://www.telize.com
+  ip_lookup:  :telize,
 
   # ISO-639 language code
   language:   :de,
 
   # use HTTPS for lookup requests
-  # use_https:  true,
+  use_https:  Rails.env.production?,
   # FIXME: http://railsapps.github.io/openssl-certificate-verify-failed.html
 
   # set default units to kilometers
