@@ -3,6 +3,7 @@ class SignupsController < ApplicationController
   include SignupsHelper
 
   before_action :require_no_logged_in_user
+  before_action :require_request_from_swiss_ip
 
   def new
     forget_successful_signup

@@ -22,4 +22,12 @@ module ActionFilterHelper
   def admin_user
     raise_404 unless current_user.admin?
   end
+
+  def require_request_from_swiss_ip
+    return unless Rails.env.production?
+    result = Geocoder.search(@remote_ip).first
+    unless result && result.country == "Schweiz"
+      raise_404
+    end
+  end
 end
