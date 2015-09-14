@@ -25,9 +25,9 @@ module ActionFilterHelper
 
   def require_request_from_swiss_ip
     return unless Rails.env.production?
-    result = Geocoder.search(@remote_ip).first
+    result = Geocoder.search(request.remote_ip).first
     unless result && result.country == "Schweiz"
-      raise_404
+      raise_403
     end
   end
 end

@@ -33,11 +33,7 @@
         https://www.railstutorial.org/book/_single-page#sec-rails_environments
       %>
       <%= debug(params) if Rails.env.development? %>
-      <%= debug("request.ip: #{request.ip.inspect}") %>
-      <%= debug("request.remote_ip: #{request.remote_ip.inspect}") %>
-      <%= debug("@ip: #{@ip.inspect}") %>
-      <%= debug("@remote_ip: #{@remote_ip.inspect}") %>
-      <%= debug("Geocoder.search(@remote_ip).first: #{Geocoder.search(@remote_ip).first.inspect}") %>
+      <%= debug(Geocoder.search(request.remote_ip).first) %>
     </div>
   </body>
 </html>
