@@ -30,6 +30,13 @@ class UserMailerPreview < ActionMailer::Preview
   end
 
   # Preview this email at
+  #   http://localhost:3000/rails/mailers/user_mailer/finish_signup_later
+  def finish_signup_later
+    user = User.first
+    UserMailer.finish_signup_later(user)
+  end
+
+  # Preview this email at
   #   http://localhost:3000/rails/mailers/user_mailer/signup_successful
   def signup_successful
     user = User.first

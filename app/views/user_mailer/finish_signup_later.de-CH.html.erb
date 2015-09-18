@@ -1,0 +1,53 @@
+<p>
+  Hoi <%= @user.first_name %>
+</p>
+
+<p>
+  Vielen Dank für dein Interesse an unserer (hoffentlich bald auch deiner)
+  Genossenschaft!
+</p>
+
+<p>
+  <%= link_to "Anmeldung fortfahren",
+              signup_url(@user.attributes.slice('first_name',
+                          'last_name',
+                          'email',
+                          'postal_address',
+                          'postal_code',
+                          'city',
+                          'tel_mobile_formatted',
+                          'tel_home_formatted',
+                          'tel_office_formatted',
+                          'notes')) %>
+</p>
+
+TODO: Der alter validierung code gilt jetzt nicht mehr. Aber ein neus wirds dann genereiert, wenn du auf diesen link klikst
+
+<p>
+  Falls du noch Fragen hast, kannst du uns jederzeit unter
+  <a href="mailto:info@basimil.ch">info@basimil.ch</a>
+  erreichen und alle Informationen <br>
+  über die Genossenschaft auf
+  <a href="http://basimil.ch">basimil.ch</a>
+  finden.
+</p>
+
+<p>
+  Vielen Dank und bis bald!
+</p>
+
+<p>
+  Milchgrüsse,
+</p>
+
+<p>
+  deine Betriebsgruppe von basimilch
+</p>
+
+<em>
+  NB: Wenn Du diese E-Mail nicht angefordert hast, ignoriere sie bitte.
+  Jemand hat deine E-Mail-Adresse angegeben, um sich auf
+  <a href="http://basimil.ch">http://basimil.ch</a>
+  anzumelden.
+</em>
+

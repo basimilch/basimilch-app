@@ -34,6 +34,16 @@ class UserMailer < ApplicationMailer
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
+  #   de-CH.user_mailer.finish_signup_later.subject
+  #
+  def finish_signup_later(user)
+    @user = user
+    mail to: "#{user.full_name} <#{user.email}>"
+  end
+
+  # Subject can be set in your I18n file at config/locales/en.yml
+  # with the following lookup:
+  #
   #   de-CH.user_mailer.signup_successful.subject
   #
   def signup_successful(user)

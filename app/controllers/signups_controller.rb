@@ -7,7 +7,7 @@ class SignupsController < ApplicationController
 
   def new
     forget_successful_signup
-    @user = User.new
+    @user = User.new(query_params)
   end
 
   def validation

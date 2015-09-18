@@ -22,4 +22,8 @@ module UsersHelper
     params.require(:user).permit(PERMITTED_ATTRIBUTES +
                                         (current_user_admin? ? [:admin] : []))
   end
+
+  def query_params
+    params.permit(PERMITTED_ATTRIBUTES)
+  end
 end
