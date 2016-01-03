@@ -5,7 +5,6 @@ class User < ActiveRecord::Base
   ONLY_SPACES       = /\A\s*\z/
 
   ACTIVATION_TOKEN_VALIDITY = 2.weeks
-  PASSWORD_RESET_TOKEN_VALIDITY = 30.minutes
 
   attr_accessor :remember_token, :activation_token, :password_reset_token
 
@@ -255,32 +254,6 @@ class User < ActiveRecord::Base
     activation_token_valid_until < Time.current
   end
 
-  # Returns the point in time until which the activation token is valid.
-  def password_reset_token_valid_until
-    password_reset_sent_at &&
-      password_reset_sent_at + PASSWORD_RESET_TOKEN_VALIDITY
-  end
-
-  # Sends password reset email.
-  def send_password_reset_email
-    create_password_reset_digest
-    update_attribute(:password_reset_sent_at, Time.current)
-    UserMailer.password_reset(self).deliver_now
-  end
-
-  def reset_password(params_args)
-    updated = set_password(params_args)
-    if updated
-      update_attribute(:password_reset_at,      Time.current)
-      update_attribute(:password_reset_digest,  nil)
-    end
-    updated
-  end
-
-  # Returns true if a account activation link has expired.
-  def password_reset_expired?
-    password_reset_token_valid_until < Time.current
-  end
 
   # Class methods
 
