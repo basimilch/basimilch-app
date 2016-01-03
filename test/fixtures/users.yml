@@ -3,7 +3,6 @@
 
 one:
   email: one@example.com
-  password_digest: <%= User.digest('password') %>
   admin: true
   first_name: User
   last_name: Example
@@ -21,7 +20,6 @@ one:
 
 two:
   email: two@example.com
-  password_digest: <%= User.digest('password') %>
   admin: false
   first_name: Foo
   last_name: Bar
@@ -39,7 +37,6 @@ two:
 
 three:
   email: three@example.com
-  password_digest: <%= User.digest('password') %>
   admin: false
   first_name: Joseph
   last_name: The Third

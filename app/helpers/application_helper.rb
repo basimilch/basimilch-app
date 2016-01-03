@@ -59,6 +59,11 @@ module ApplicationHelper
     end
   end
 
+  # Returns a string with two 3-digit numbers separated by a space.
+  def rand_validation_code
+    "#{rand.to_s[2..4]} #{rand.to_s[2..4]}"
+  end
+
   # Returns the localized string with the same behaviour than the default 't'
   # helper in the views, i.e. prefixing the key by the current controller and
   # view names.

@@ -204,7 +204,7 @@ class User < ActiveRecord::Base
   #                                                    #code-user_model_remember
   def remember
     self.remember_token = User.new_token
-    update_attribute(:remember_digest, User.digest(remember_token))
+    update_attribute(:remember_digest, remember_token.digest)
     update_attribute(:remembered_since, Time.current)
   end
 
@@ -214,7 +214,7 @@ class User < ActiveRecord::Base
   def authenticated?(attribute, token)
     digest = send("#{attribute}_digest")
     return false if digest.nil?
-    BCrypt::Password.new(digest).is_password?(token)
+    digest.is_digest_for? token
   end
 
   # Forgets a user.
@@ -284,14 +284,6 @@ class User < ActiveRecord::Base
 
   # Class methods
 
-  # Returns the hash digest of the given string.
-  # Source: https://www.railstutorial.org/book/_single-page#code-digest_method
-  def User.digest(string)
-    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
-                                                  BCrypt::Engine.cost
-    BCrypt::Password.create(string, cost: cost)
-  end
-
   # Returns a random token.
   # Source: https://www.railstutorial.org/book/_single-page#code-token_method
   def User.new_token
@@ -333,14 +325,14 @@ class User < ActiveRecord::Base
     def create_activation_digest
       self.activation_token  = User.new_token
       update_attribute(:activation_digest,
-                       User.digest(activation_token))
+                       activation_token.digest)
     end
 
     # Sets the password reset attributes.
     def create_password_reset_digest
       self.password_reset_token = User.new_token
       update_attribute(:password_reset_digest,
-                       User.digest(password_reset_token))
+                       password_reset_token.digest)
     end
 
     # Before filters

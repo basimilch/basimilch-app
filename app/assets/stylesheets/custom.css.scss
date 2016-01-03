@@ -305,14 +305,21 @@ form {
     }
   }
   .checkbox {
+    label{
+      padding: {
+          top: 25px;
+        }
+      &[disabled] {
+          cursor: default;
+        }
+      }
     span {
       margin-left: 20px;
       font-weight: normal;
     }
-    #session_remember_me {
+    input[type=checkbox] {
       width: auto;
-      margin-top: 8px;
-      margin-left: 0;
+      margin-top: 7px;
     }
   }
 
@@ -368,6 +375,10 @@ form {
   .alert {
     > .glyphicon:first-child {
       margin-right: 5px;
+    }
+    code {
+      color: inherit;
+      background: transparent;
     }
   }
 }

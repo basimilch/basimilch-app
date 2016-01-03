@@ -40,42 +40,42 @@ class SignupsController < ApplicationController
     end
   end
 
-private
+  private
 
-  def remember_signup_for(user, validation_code)
-    session[:signup_info] = user
-    session[:signup_validation_code] = validation_code && validation_code.number
-  end
+    def remember_signup_for(user, validation_code)
+      session[:signup_info] = user
+      session[:signup_validation_code] = validation_code && validation_code.number
+    end
 
-  def forget_signup
-    remember_signup_for nil, nil
-    cookies.delete(:signup_validation_code)
-    cookies.delete(:signup_info)
-  end
+    def forget_signup
+      remember_signup_for nil, nil
+      cookies.delete(:signup_validation_code)
+      cookies.delete(:signup_info)
+    end
 
-  def remember_successful_signup
-    session[:already_successful_signup] = true
-  end
+    def remember_successful_signup
+      session[:already_successful_signup] = true
+    end
 
-  def forget_successful_signup
-    session[:already_successful_signup] = nil
-    cookies.delete(:already_successful_signup)
-  end
+    def forget_successful_signup
+      session[:already_successful_signup] = nil
+      cookies.delete(:already_successful_signup)
+    end
 
-  def already_successful_signup
-    session[:already_successful_signup]
-  end
+    def already_successful_signup
+      session[:already_successful_signup]
+    end
 
-  def entered_validation_code
-    params.require(:signup)[:email_validation_code].number
-  end
+    def entered_validation_code
+      params.require(:signup)[:email_validation_code].number
+    end
 
-  def send_email_validation_email(user, validation_code)
-    UserMailer.email_validation(user, validation_code).deliver_now
-  end
+    def send_email_validation_email(user, validation_code)
+      UserMailer.email_validation(user, validation_code).deliver_now
+    end
 
-  def send_signup_successful_email(user)
-    UserMailer.signup_successful(user).deliver_now
-  end
+    def send_signup_successful_email(user)
+      UserMailer.signup_successful(user).deliver_now
+    end
 
 end

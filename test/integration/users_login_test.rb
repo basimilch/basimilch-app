@@ -13,8 +13,15 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     get login_path
     # Verify that the new sessions form renders properly.
     assert_template 'sessions/new'
-    # Post to the sessions path with an invalid params hash.
-    post login_path, session: {email: "", password: ""}
+    # Verify that there is an email field
+    assert_select "input#session_email", count: 1
+    # Verify that there is no password field
+    assert_select "input#session_password", count: 0
+    # Verify that there is the submit button
+    assert_select "input[type=submit]", count: 1
+    # Try to login with a non-existent user email.
+    # i.e. post to the sessions path with an invalid params hash.
+    post login_path, session: {email: "non-existent-email"}
     # Verify that the new sessions form gets re-rendered,
     assert_template 'sessions/new'
     # ...and that a flash message appears.
@@ -32,7 +39,6 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     get login_path
     # Post valid information to the sessions path.
     fixture_log_in(@user)
-    assert fixture_logged_in?
     # Check the right redirect target.
     assert_redirected_to profile_path
     # Actually visit the target page.
@@ -68,7 +74,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
 
   test "login with remembering" do
     get login_path
-    fixture_log_in(@user, remember_me: '1')
+    fixture_log_in(@user, secure_computer_acknowledged: '1')
     # NOTE: for some reason inside tests the cookies method doesn’t work
     # with symbols as keys. It has to be a string.
     assert_not_nil cookies['remember_token']
@@ -82,7 +88,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
 
   test "login without remembering" do
     get login_path
-    fixture_log_in(@user, remember_me: '0')
+    fixture_log_in(@user, secure_computer_acknowledged: '0')
     assert_nil cookies['remember_token']
     assert_nil @user.reload.remembered_since
     assert fixture_logged_in?
@@ -99,7 +105,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
       get login_path
       assert_nil @user.last_seen_at
       assert_nil @user.remembered_since
-      fixture_log_in(@user, remember_me: '1')
+      fixture_log_in(@user, secure_computer_acknowledged: '1')
       assert_redirected_to profile_path
       follow_redirect!
       assert_template 'users/show'

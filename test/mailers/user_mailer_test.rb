@@ -2,7 +2,7 @@ require 'test_helper'
 
 class UserMailerTest < ActionMailer::TestCase
 
-  include SignupsHelper
+  include ApplicationHelper
 
   test "account_activation" do
     user = users(:two)
@@ -37,6 +37,19 @@ class UserMailerTest < ActionMailer::TestCase
     assert_equal [user.email],                      mail.to
     assert_equal ["noreply@basimil.ch"],            mail.from
     assert_match email_validation_code,             mail.body.encoded
+  end
+
+  test "login_code" do
+    user = users(:three)
+    login_code = rand_validation_code
+    mail = UserMailer.login_code(user,
+                                 login_code,
+                                 SessionsController::LOGIN_CODE_VALIDITY)
+    assert_equal "Login code",                  mail.subject
+    assert_equal [user.email],                  mail.to
+    assert_equal ["noreply@basimil.ch"],        mail.from
+    assert_match login_code,                    mail.body.encoded
+    assert_match "login/#{login_code.number}",  mail.body.encoded
   end
 
   test "signup_successful" do

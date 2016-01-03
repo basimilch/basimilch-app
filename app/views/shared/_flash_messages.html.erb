@@ -6,9 +6,9 @@
   <%= content_tag :div, class: "flash-messages" do %>
     <% flash.each do |message_type, message| %>
       <%= content_tag :div, class: "alert alert-#{message_type}" do %>
-        <%= content_tag :span, nil,
+        <%= content_tag :span, nil, escape: false,
             class: "glyphicon glyphicon-#{icons[message_type.to_sym]}" %>
-        <%= message %>
+        <%= message.html_safe unless message.blank? %>
       <% end %>
     <% end %>
   <% end %>

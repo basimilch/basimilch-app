@@ -56,6 +56,8 @@ de-CH:
       notes:                  "Notizen"
       created_at:             "Erstellt am"
       updated_at:             "Zuletzt aktualisiert am"
+      login_code:             "Login Code"
+      secure_computer_acknowledged: Dies ist mein Computer
     placeholders: &placeholders
       first_name:             "Vorname"
       last_name:              "Nachname"
@@ -68,6 +70,7 @@ de-CH:
       tel_mobile:             "078 xxx xx xx"
       tel_landline:           "043 xxx xx xx"
       notes:                  "Freies Feld für Notizen..."
+      login_code:             "xxx xxx"
 
   # Misc
 
@@ -126,9 +129,10 @@ de-CH:
 
   forms:
     login:
+      request_login_code: Login-Code anfordern
+      # remember_me_on_this_computer: "Angemeldet bleiben"
+    login_code:
       login: "Einloggen"
-      forgot_password: "Ich habe mein Passwort vergessen"
-      remember_me_on_this_computer: "Angemeldet bleiben"
 
   users:
     index:
@@ -176,6 +180,16 @@ de-CH:
           <<: *attributes
         placeholders:
           <<: *placeholders
+      validation:
+        attributes:
+          <<: *attributes
+        placeholders:
+          <<: *placeholders
+      create_from_url:
+        attributes:
+          <<: *attributes
+        placeholders:
+          <<: *placeholders
       create:
         attributes:
           <<: *attributes
@@ -218,6 +232,44 @@ de-CH:
       update_password: "Passwort aktualisieren"
     update:
       password_has_been_reset: "Passwort aktualisiert."
+
+  sessions:
+    validation:
+      title: "Einloggen"
+      login_code_email_sent_html: >
+        Ein Login-Code wurde gerade auf deine E-Mail-Adresse
+        <code>%{email}</code> geschickt.
+      user_not_found: >
+        Dieser E-Mail-Adresse ist uns unbekannt. Wenn das kein Sinn für dich
+        macht, schreib bitte uns auf
+        <code><a href="mailto:meine@basimil.ch">meine@basimil.ch</a></code>.
+      user_inactive: >
+        Der Benutzer mit dieser E-Mail-Adresse ist zwar angemeldet, aber noch
+        nicht aktiviert. Wenn das kein Sinn für dich macht, schreib bitte uns
+        auf <code><a href="mailto:meine@basimil.ch">meine@basimil.ch</a></code>.
+    create: &sessions_create
+      not_the_expected_ip_address: >
+        Oups, die IP-Adresse stimmt nicht überein, mit der, die ich mir gemerkt
+        hatte. Versuch es bitte noch Mal. Wenn das sich wiederholt, schreib
+        bitte uns auf <code><a href="mailto:meine@basimil.ch">meine@basimil.ch</a></code>.
+      login_code_expired: >
+        Der Login-Code ist abgelaufen. Login-Codes sind nur
+        %{login_code_validity} gültig.
+      wrong_login_code: >
+        Der Login-Code ist nicht richtig. Du kannst noch
+        %{remaining_attempts} Mal versuchen.
+      wrong_login_code_no_more_attempts: >
+        Der Login-Code ist nicht richtig. Gib bitte deine E-Mail erneut ein, um
+        einen neuen Code anzufordern.
+      email_not_found_in_session: >
+        Dieser Login-Code ist nicht gültig auf diesem Browser. Du kannst nur
+        einloggen im gleichem Browser, aus dem du den Code angefordert hast.
+      weird_login_problem: >
+        Oups. Es gibt ein Problem und du könntest nicht eingeloggt werden.
+        Starte dieses (oder ein anderes) Browser erneut und versuch es bitte
+        noch Mal. Wenn das sich wiederholt, schreib bitte uns auf
+        <code><a href="mailto:meine@basimil.ch">meine@basimil.ch</a></code>.
+    create_from_url: *sessions_create
 
   signups:
     new:

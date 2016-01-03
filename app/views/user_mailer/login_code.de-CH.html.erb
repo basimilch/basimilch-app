@@ -1,0 +1,12 @@
+<p>
+  Um dich einzuloggen, gebe bitte folgende 6-stellige Zahl
+  im Login-Feld ein:
+</p>
+
+<h1>
+  <a href="<%= login_direct_url(code: @login_code.number) %>"><%= @login_code %></a>
+</h1>
+
+<p><i>
+  NB: Dieser Code ist nur <%= @login_code_validity.in_words %> gültig und kann nur im Computer benutzt werden, wo dieser angefordert wurde.
+</i></p>

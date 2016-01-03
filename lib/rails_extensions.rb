@@ -21,6 +21,76 @@ class String
   def number
     scan(/\d/).join
   end
+
+  # SOURCE: http://stackoverflow.com/a/5492450
+  # SOURCE: http://www.monkeyandcrow.com/blog/
+  #                               reading_rails_how_does_message_encryptor_work/
+  @@persistent_encryptor = ActiveSupport::MessageEncryptor
+                          .new(Rails.application.secrets.secret_key_base)
+
+  # NOTE: The volatile encryptor uses an on-run-time created key and
+  # salt, so that it's not possible to retrieve them. However, on system
+  # restart, the encryptor and so its key and salt will be regenerated.
+  # Strings encrypted with an old @@volatile_encryptor will not be able
+  # to be decrypted again.
+  volatile_encryption_key = ActiveSupport::KeyGenerator
+                              .new(SecureRandom.uuid + SecureRandom.uuid)
+                              .generate_key(SecureRandom.urlsafe_base64)
+  @@volatile_encryptor = ActiveSupport::MessageEncryptor
+                          .new(volatile_encryption_key)
+
+
+  def encrypt
+    @@persistent_encryptor.encrypt_and_sign(self)
+  end
+
+  def decrypt
+    @@persistent_encryptor.decrypt_and_verify(self)
+  end
+
+  # See NOTE on @@volatile_encryptor
+  def volatile_encrypt
+    @@volatile_encryptor.encrypt_and_sign(self)
+  end
+
+  # See NOTE on @@volatile_encryptor
+  def volatile_decrypt
+    @@volatile_encryptor.decrypt_and_verify(self)
+  end
+
+  # Returns the hash digest of the given string.
+  # SOURCE: https://www.railstutorial.org/book/_single-page#code-digest_method
+  def digest
+    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
+                                                  BCrypt::Engine.cost
+    BCrypt::Password.create(self, cost: cost)
+  end
+
+  # Returns true if the hash digest matches the given string.
+  # SOURCE: https://www.railstutorial.org/book/_single-page#code-digest_method
+  def is_digest_for?(string)
+    return false unless BCrypt::Password.valid_hash? self
+    BCrypt::Password.new(self).is_password?(string)
+  end
+
+  def secure_temp_digest
+    digest.volatile_encrypt
+  end
+
+  def is_secure_temp_digest_for?(string)
+    volatile_decrypt.is_digest_for? string
+  end
+end
+
+class ActiveSupport::Duration
+
+  # SOURCE: http://stackoverflow.com/a/28667334
+  # DOC: http://api.rubyonrails.org/classes/ActionView/Helpers/DateHelper.html
+  include ActionView::Helpers::DateHelper
+
+  def in_words
+    distance_of_time_in_words(self, 0, include_seconds: true)
+  end
 end
 
 class ActiveRecord::Base
@@ -84,6 +154,8 @@ class ActionView::Helpers::FormBuilder
     input_class   << ' view-mode'   if is_view_mode
     readonly      = options.include?(:readonly) ? options[:readonly] : false
     label_text    = ""
+    value         = options.include?(:value) ? options[:value]
+                                             : object.try(attribute)
 
     if @object
       label_text  = @object.class.human_attribute_name(attribute)
@@ -101,18 +173,40 @@ class ActionView::Helpers::FormBuilder
                                  ".#{t_key_placeholder}")
     end
 
-    # Source: https://robots.thoughtbot.com/nesting-content-tag-in-rails-3
-    @template.content_tag :div, class: 'form-group' do
-      @template.concat( label(attribute, class: 'control-label') do
-        @template.concat label_text
-        if !is_view_mode && @object.try(:required_attribute?, attribute)
-          @template.concat REQUIRED_ATTRIBUTE_MARK
-        end
-      end)
-      @template.concat send(input_type, attribute, class:       input_class,
-                                                   placeholder: placeholder,
-                                                   readonly:    readonly,
-                                                   disabled:    is_view_mode)
+
+    if is_checkbox
+      # NOTE: HTML structure of a checkbox in bootstrap:
+      #       <div class="checkbox">
+      #         <label>
+      #           <input type="checkbox"> Check me out
+      #         </label>
+      #       </div>
+
+      @template.content_tag :div, class: 'checkbox' do
+        @template.concat( label(attribute, disabled: is_view_mode) do
+          @template.concat check_box(attribute, class:    input_class,
+                                                readonly: readonly,
+                                                disabled: is_view_mode,
+                                                checked:  value)
+          @template.concat label_text
+        end)
+      end
+
+    else
+      # Source: https://robots.thoughtbot.com/nesting-content-tag-in-rails-3
+      @template.content_tag :div, class: 'form-group' do
+        @template.concat( label(attribute, class: 'control-label') do
+          @template.concat label_text
+          if !is_view_mode && @object.try(:required_attribute?, attribute)
+            @template.concat REQUIRED_ATTRIBUTE_MARK
+          end
+        end)
+        @template.concat send(input_type, attribute, class:       input_class,
+                                                     placeholder: placeholder,
+                                                     readonly:    readonly,
+                                                     value:       value,
+                                                     disabled:    is_view_mode)
+      end
     end
   end
 

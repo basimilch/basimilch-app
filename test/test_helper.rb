@@ -33,16 +33,34 @@ class ActiveSupport::TestCase
   end
 
   # Logs in a test user
-  def fixture_log_in(user, options = {})
-    password    = options[:password]    || 'password'
-    remember_me = options[:remember_me] || '1'
-    if integration_test?
-      post login_path, session: {email: user.email,
-                                 password: password,
-                                 remember_me: remember_me}
-    else
+  def fixture_log_in(user, secure_computer_acknowledged: '1')
+    unless integration_test?
       session[:user_id] = user.id
+      return
     end
+    assert_equal false, fixture_logged_in?
+    login_code = request_login_code(user,
+                     secure_computer_acknowledged: secure_computer_acknowledged)
+    # Try to login with a wrong login code 3 times
+    3.times do |i|
+      put login_path, login_code_form: {login_code: "wrong code"}
+      if i == 2
+        # Last try
+        follow_redirect!
+        assert_template 'sessions/new'
+        assert_equal nil, session[:login_code]
+      else
+        assert_template 'sessions/validation'
+        assert_not_equal nil, session[:login_code]
+      end
+      assert_select '.flash-messages .alert.alert-danger',   count: 1
+    end
+    # Request a new code
+    login_code = request_login_code(user,
+                     secure_computer_acknowledged: secure_computer_acknowledged)
+    # and log in properly
+    put login_path, login_code_form: {login_code: login_code}
+    assert_equal true, fixture_logged_in?
   end
 
   # Checks a protected get before and after login.
@@ -139,6 +157,35 @@ class ActiveSupport::TestCase
     #                                           #sec-testing_the_remember_me_box
     def integration_test?
       defined?(post_via_redirect)
+    end
+
+    def request_login_code(user, secure_computer_acknowledged: '1')
+      assert_difference 'ActionMailer::Base.deliveries.size', 1 do
+        # When the user inputs her email and sends the form with the "request
+        # login code" button, one email is sent with the login code
+        post_via_redirect(
+          login_path,
+          session: {
+            email: user.email,
+            secure_computer_acknowledged: secure_computer_acknowledged
+          }
+        )
+      end
+      # ...and the login-code screen appears
+      assert_template 'sessions/validation'
+      # ...and the login-code appears (secured) in the session cookie
+      assert_not_equal nil, session[:login_code]
+      # ...and there is a field to input the code received per email
+      assert_select "#login_code_form_login_code",   count: 1
+      # SOURCE: http://stackoverflow.com/a/3517684
+      login_code_email = ActionMailer::Base.deliveries.last
+      # Retrieve the login code from the email
+      login_code = login_code_email.body.to_s.scan(/login\/\d{6}/).first.number
+      # The hash of the login code is encrypted and securely stored in the
+      # session cookie.
+      assert_equal true,
+                   session[:login_code].is_secure_temp_digest_for?(login_code)
+      return login_code
     end
 end
 

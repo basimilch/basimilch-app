@@ -12,17 +12,19 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root    'sessions#new'
 
-  get     'profile'       => 'users#profile',         as: :profile
-  get     'profile/edit'  => 'users#profile_edit',    as: :profile_edit
-  patch   'profile'       => 'users#profile_update',  as: :profile_update
+  get     'profile'       => 'users#profile',             as: :profile
+  get     'profile/edit'  => 'users#profile_edit',        as: :profile_edit
+  patch   'profile'       => 'users#profile_update',      as: :profile_update
 
-  get     'login'         => 'sessions#new'
-  post    'login'         => 'sessions#create'
-  delete  'logout'        => 'sessions#destroy'
+  get     'login'         => 'sessions#new',              as: :login
+  get     'login/:code'   => 'sessions#create_from_url',  as: :login_direct
+  post    'login'         => 'sessions#validation',       as: :login_validation
+  put     'login'         => 'sessions#create',           as: :login_create
+  delete  'logout'        => 'sessions#destroy',          as: :logout
 
-  get     'signup'        => 'signups#new',           as: :signup
-  post    'signup'        => 'signups#validation',    as: :signup_validation
-  put     'signup'        => 'signups#create',        as: :signup_create
+  get     'signup'        => 'signups#new',               as: :signup
+  post    'signup'        => 'signups#validation',        as: :signup_validation
+  put     'signup'        => 'signups#create',            as: :signup_create
 
 
   # Example of regular route:
