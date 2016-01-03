@@ -278,3 +278,47 @@ entire cookie, including name, value, expiry date, etc.
 [this gist]: https://gist.github.com/profh/e36e5dd0bec124fef04c
 [Ruby on Rails Security Guide]: http://guides.rubyonrails.org/v4.2.3/security.html
 [4K of data]: http://stackoverflow.com/questions/640938/what-is-the-maximum-size-of-a-web-browsers-cookies-key
+
+### Reminder about migrations
+
+Active Record provides a generator to handle the generation of
+migration files:
+
+```
+rails generate migration name_of_the_migration
+```
+
+Additionally, as stated in the [RailsGuide about migrations]:
+
+> If the migration name is of the form "AddXXXToYYY" or
+> "RemoveXXXFromYYY" and is followed by a list of column names and
+> types then a migration containing the appropriate add_column and
+> remove_column statements will be created.
+
+Note that this also works for _`snake_case`_ migration names as we use
+it here: `add_xxx_to_yyy` or `remove_xxx_from_yyy`. The _list of
+column names and types_ mentioned in the quoted documentation text has
+to be given in the following form: `column_name:data_type`.
+
+As an example, to remove columns there is a `rails generate` operation
+that will generate the expected migration:
+
+```
+$ rails generate migration remove_password_related_columns_from_users password_digest:string password_reset_digest:string password_reset_at:datetime password_reset_sent_at:datetime
+      invoke  active_record
+      create    db/migrate/20160103160340_remove_password_related_columns_from_users.rb
+
+$ bundle exec rake db:migrate
+== 20160103160340 RemovePasswordRelatedColumnsFromUsers: migrating ============
+-- remove_column(:users, :password_digest, :string)
+   -> 0.0751s
+-- remove_column(:users, :password_reset_digest, :string)
+   -> 0.0728s
+-- remove_column(:users, :password_reset_at, :datetime)
+   -> 0.0680s
+-- remove_column(:users, :password_reset_sent_at, :datetime)
+   -> 0.0746s
+== 20160103160340 RemovePasswordRelatedColumnsFromUsers: migrated (0.2908s) ===
+```
+
+[RailsGuide about migrations]: http://guides.rubyonrails.org/v4.2.3/active_record_migrations.html#creating-a-migration
