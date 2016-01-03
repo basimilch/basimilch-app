@@ -194,7 +194,7 @@ For more details about how localization work you might refer to the
 [`app/views/users/index.html.erb`]: app/views/users/index.html.erb
 [`i18n` Rails guide]: http://guides.rubyonrails.org/i18n.html
 
-## Authentication
+## Passwordless authentication
 
 There are [lots of authentication libraries] ready to use with Ruby on
 Rails. However in this application we based our implementation on the
@@ -203,14 +203,24 @@ the [Rails Tutorial Book] by [Michael Hartl].
 
 Even [`Devise`], one on the most popular authentication libraries in
 this context, recommends to follow the indications of the mentioned
-chapter instead of using the library itself when beginning with Rails.
-In our case, this allows an easy-to-follow code for people that might
-contribute to our platform and that might not be familiar with [Ruby
-on Rails].
+chapter instead of using the library itself when beginning with Rails
+in order to get used to it.
+
+Our first implementation followed the traditional
+`username`/`password` model described in the documentation mentioned
+above. Very soon, though, we switched to a passwordless login workflow
+which offers [plenty of advantages] for our use case. When a user
+wants to log in the application, she requests a `login code` to her
+email address, which is immediately delivered. She can then log in by
+either manually entering the code into the corresponding field in the
+browser or by clicking on the code in the email itself. The `login
+code` is only valid 5 minutes and has to be used in the **same
+computer and browser** where it has been requested.
 
 [lots of authentication libraries]: https://www.ruby-toolbox.com/categories/rails_authentication
 [Chapter 10: "Account activation and password reset"]: https://www.railstutorial.org/book/account_activation_password_reset
 [`Devise`]: https://github.com/plataformatec/devise#starting-with-rails
+[plenty of advantages]: https://medium.com/search?q=passwordless
 
 ## Geolocalization
 
