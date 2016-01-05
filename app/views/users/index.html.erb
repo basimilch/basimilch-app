@@ -1,11 +1,45 @@
-<% provide(:title, t('.title')) %>
-<div class="table-responsive">
-  <table class="table table-hover table-condensed">
-    <%= render(@users) || t('.no_users_found') %>
-  </table>
+<% if !@view || @view == "all" %>
+  <% provide(:title, t('.title.all_users')) %>
+<% else %>
+  <% provide(:title, t('.title.' + @view + '_users')) %>
+<% end %>
+<% unless @users.blank? %>
+  <div class="user-count-label">
+    <% if @users.count == User.count %>
+      <%= t ".showing_all_x_users", user_count: @users.count %>
+    <% elsif @users.count == 1 %>
+      <%= t ".one_user_found" %>
+    <% else %>
+      <%= t ".x_users_found", user_count: @users.count %>
+    <% end %>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-hover table-condensed">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+          <th><%= t('table_headers.id') %></th>
+          <th><%= t('table_headers.name') %></th>
+          <th><%= t('table_headers.email') %></th>
+          <th><%= t('table_headers.last_seen_at') %></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render(@users) %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div>
+    <%= t('.no_users_found') %>
+  </div>
+<% end %>
+<div>
+  <small>
+    <%= link_to t('.only_from_zurich'), "?filter[postal_code]=8000" %>
+    |
+    <%= link_to t('.download_all_users_as_csv'), users_path(format: :csv) %>
+  </small>
 </div>
-<small>
-  <%= link_to t('.only_from_zurich'), "?filter[postal_code]=8000" %>
-  |
-  <%= link_to t('.download_all_users_as_csv'), users_path(format: :csv) %>
-</small>

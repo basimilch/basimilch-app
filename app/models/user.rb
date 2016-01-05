@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   ONLY_SPACES       = /\A\s*\z/
 
   ACTIVATION_TOKEN_VALIDITY = 2.weeks
+  STALE_THRESHOLD = 4.months.ago
 
   attr_accessor :remember_token, :activation_token, :password_reset_token
 
@@ -242,6 +243,22 @@ class User < ActiveRecord::Base
     update_attribute(:activation_digest,  nil)
   end
 
+  def recently_online?
+    last_seen_at && last_seen_at > 5.minutes.ago
+  end
+
+  def allowed_to_login?
+    activated? || activation_sent_at
+  end
+
+  def never_logged_in?
+    !activated?
+  end
+
+  def stale?
+    last_seen_at && last_seen_at < STALE_THRESHOLD
+  end
+
   def set_password(params_arg)
     update_attributes(params_arg
                         .require(:user)
@@ -259,10 +276,26 @@ class User < ActiveRecord::Base
 
   # Returns a random token.
   # Source: https://www.railstutorial.org/book/_single-page#code-token_method
-  def User.new_token
+  def self.new_token
     SecureRandom.urlsafe_base64
   end
 
+  def self.view(view)
+    users_table = User.arel_table
+    case view.try(:to_sym)
+    when :inactive
+      User.where(activated: [nil, false], activation_sent_at: nil)
+    when :pending_activation
+      User.where(activated: [nil, false])
+          .where(users_table[:activation_sent_at].not_eq(nil))
+    when :active
+      User.where(users_table[:last_seen_at].not_eq(nil))
+    when :stale
+      User.where(users_table[:last_seen_at].lt(STALE_THRESHOLD))
+    else
+      User.all
+    end
+  end
 
   # Private methods
 

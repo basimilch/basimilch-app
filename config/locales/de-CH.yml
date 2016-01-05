@@ -72,6 +72,16 @@ de-CH:
       notes:                  "Freies Feld für Notizen..."
       login_code:             "xxx xxx"
 
+  table_headers:
+    id:           Id
+    name:         Name
+    email:        E-Mail-Adresse
+    last_seen_at: Zuletzt online
+
+  time:
+    now:          jetzt
+    x_time_ago:   vor %{duration}
+
   # Misc
 
   switzerland: "Schweiz"
@@ -121,11 +131,15 @@ de-CH:
 
   layouts:
     header:
-      users:        "Genossenschafter"
-      new_user:     "Neuer Genossenschafter"
-      log_in_html:  "<span class='glyphicon glyphicon-log-in'></span> Einloggen"
-      log_out_html: "<span class='glyphicon glyphicon-log-out'></span> Ausloggen"
-      profile:      "Profil"
+      users:            "Genossenschafter"
+      users_all:        "Alle"
+      users_active:     "Aktiv"
+      users_pending_activation:  "Nie eingeloggt"
+      users_inactive:   "Inaktiv"
+      users_stale:      "Verschwunden"
+      new_user:         "Neue_r Genossenschafter_in"
+      log_out:          "Ausloggen"
+      profile:          "Profil"
 
   forms:
     login:
@@ -135,12 +149,23 @@ de-CH:
       login: "Einloggen"
 
   users:
+    user:
+      never_logged_in_yet: noch nie online
+      inactive:            "-"
     index:
-      title: "Alle Genossenschafter"
+      title:
+        all_users: "Alle Genossenschafter_innen"
+        active_users: "Aktive Genossenschafter_innen"
+        pending_activation_users: "Neue Genossenschafter_innen"
+        inactive_users: "Inaktive Genossenschafter_innen"
+        stale_users: "Verschwundene Genossenschafter_innen"
+      one_user_found:   "Ein_e Genossenschafter_in gefunden."
+      x_users_found:    "%{user_count} Genossenschafter_innen gefunden."
+      showing_all_x_users:   "Alle %{user_count} Genossenschafter_innen angezeigt"
       only_from_zurich: "Nur in Zürich wohnend"
-      download_all_users_as_csv: "Alle Genossenschafter als CSV herunterladen"
+      download_all_users_as_csv: "Alle Genossenschafter_innen als CSV herunterladen"
       csv_file_basemane: "basimilch_genossenschafter_liste"
-      no_users_found: "Keine Genossenschafter gefunden."
+      no_users_found: "Keine Genossenschafter_innen gefunden."
     show:
       title: "Profil"
       send_activation_email: "Aktivierungsmail schicken"
@@ -152,8 +177,7 @@ de-CH:
         user_not_found: "Genossenschafter mit id '%{id}' nicht gefunden!"
     create:
       flash:
-        user_successfully_created:
-                "Genossenschafter '%{full_name}' (Id %{id}) angemeldet!"
+        user_successfully_created: "Genossenschafter '%{full_name}' (Id %{id}) angemeldet!"
     update:
       flash:
         user_updated: "Genossenschafterprofil aktualisiert."
@@ -165,6 +189,10 @@ de-CH:
         user_not_found: "Genossenschafter mit id '%{id}' nicht gefunden!"
     profile_update:
       update_ok: "Dein Profil wurde aktualisiert."
+    activate:
+      account_activated_and_email_successfully_sent: >
+        Das Benutzerkonto wurde aktiviert und eine Benachrichtigung wurde an
+        <code>%{email}</code> gerade geschickt.
     form:
       signup:                "Anmelden"
       create_new_user:       "Neuen Genossenschafter anmelden"
@@ -205,19 +233,17 @@ de-CH:
       create:
         <<: *signups_dictionary
 
-  account_activations:
-    edit:
-      title: "Kontoaktivierung"
-      valid_activation_link: "Gültiger Aktivierungslink!"
-      invalid_activation_link: "Ungültiger Aktivierungslink!"
-      set_up_a_password_to_activate_your_account: "Gib ein Passwort ein, um dein Konto zu aktivieren."
-      create_password_and_activate_account: "Passwort bestätigen und Konto aktivieren"
-      activation_link_has_expired: "Der Aktivierungslink ist nicht mehr gültig. Schreibe uns bitte eine E-Mail, damit wir ihn dir nochmals schicken können!"
-    update:
-      password_can_t_be_empty: "Du musst ein Passwort mit mindestest 8 Zeichen eingeben."
-      password_has_been_setup_and_account_activated: "Passwort konfiguriert und Konto aktiviert!"
-    create:
-      email_successfully_sent: "Die Aktivierungsmail wurde gerade gesendet."
+  # account_activations:
+  #   edit:
+  #     title: "Kontoaktivierung"
+  #     valid_activation_link: "Gültiger Aktivierungslink!"
+  #     invalid_activation_link: "Ungültiger Aktivierungslink!"
+  #     set_up_a_password_to_activate_your_account: "Gib ein Passwort ein, um dein Konto zu aktivieren."
+  #     create_password_and_activate_account: "Passwort bestätigen und Konto aktivieren"
+  #     activation_link_has_expired: "Der Aktivierungslink ist nicht mehr gültig. Schreibe uns bitte eine E-Mail, damit wir ihn dir nochmals schicken können!"
+  #   update:
+  #     password_can_t_be_empty: "Du musst ein Passwort mit mindestest 8 Zeichen eingeben."
+  #     password_has_been_setup_and_account_activated: "Passwort konfiguriert und Konto aktiviert!"
 
   password_resets:
     new:

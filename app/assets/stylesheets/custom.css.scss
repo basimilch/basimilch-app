@@ -57,6 +57,10 @@ body {
   margin-top: 45px;
   @include box_sizing;
 }
+.translation_missing {
+  background-color: yellow;
+  color: black;
+}
 
 // Fonts
 
@@ -106,9 +110,13 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
   color: $gray;
-  font-size: 3em;
+  font-size: 2.5em;
   letter-spacing: -2px;
   margin-bottom: 30px;
+  @media (max-width: 767px) {
+    font-size: 1.6em;
+    letter-spacing: 0;
+  }
 }
 
 h2 {
@@ -397,5 +405,43 @@ form {
 .signups-create-content {
   margin: {
     bottom: 100px;
+  }
+}
+
+// User index
+
+.user-badge-admin {
+  color: $brand-warning;
+}
+
+.user-badge-activation-status-recently-online {
+  color: $brand-success;
+}
+.user-badge-activation-status-active {
+  // default color
+}
+.user-badge-activation-status-stale {
+  color: $gray-medium-light;
+}
+.user-badge-activation-status-waiting {
+  color: $brand-warning;
+}
+.user-badge-activation-status-inactive {
+  color: $brand-danger;
+}
+
+.user-never-logged-in-yet-label,
+.user-inactive-label {
+  font-style: italic;
+  color: $gray-medium-light;
+}
+
+.user-count-label {
+  padding-bottom: 25px;
+}
+
+.users-view-menu {
+  .glyphicon {
+    padding-right: 5px;
   }
 }

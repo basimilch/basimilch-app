@@ -3,13 +3,15 @@ class UsersController < ApplicationController
   # All actions require a logged in user.
   before_action :require_logged_in_user
   before_action :correct_user, only: [:edit, :update]
-  before_action :admin_user,   only: [:new, :show, :index, :destroy]
+  before_action :admin_user,   only: [:new, :show, :index, :destroy, :activate]
 
   def index
     if filter = params[:filter]
       # NOTE: .find_by(...) is like .where(...).first
       # Source: http://stackoverflow.com/a/22833860
       @users = User.where(filter.permit(PERMITTED_ATTRIBUTES))
+    elsif @view = params[:view]
+      @users = User.view(@view)
     else
       @users = User.all
     end
@@ -93,6 +95,13 @@ class UsersController < ApplicationController
     else
       render 'edit'
     end
+  end
+
+  def activate
+    @user = User.find(params[:id])
+    @user.send_activation_email
+    flash_t :success, :account_activated_and_email_successfully_sent
+    redirect_to @user
   end
 
   private

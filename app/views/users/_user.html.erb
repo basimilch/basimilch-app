@@ -1,9 +1,44 @@
-<tr class="<%= user.activated? ? '' : 'danger' %>">
+<tr class="user-index-row">
+  <td>
+    <% if user.admin? %>
+      <span class="glyphicon glyphicon-star user-badge-admin" aria-hidden="true" title="Admin"></span>
+    <% end %>
+  </td>
+  <td>
+    <% if user.recently_online? %>
+      <span class="glyphicon glyphicon-ok-circle user-badge-activation-status-recently-online" aria-hidden="true" title="Recently online"></span>
+    <% elsif user.stale? %>
+      <span class="glyphicon glyphicon-record user-badge-activation-status-stale" aria-hidden="true" title="Stale"></span>
+    <% elsif user.activated? %>
+      <span class="glyphicon glyphicon-ok-circle user-badge-activation-status-active" aria-hidden="true" title="Active"></span>
+    <% elsif user.activation_sent_at %>
+      <span class="glyphicon glyphicon-time user-badge-activation-status-waiting" aria-hidden="true" title="Activation sent at <%= user.activation_sent_at.to_s(:long)%>"></span>
+    <% else %>
+      <span class="glyphicon glyphicon-remove-circle user-badge-activation-status-inactive" aria-hidden="true" title="Inactive"></span>
+    <% end %>
+  </td>
+  <td>
+    <%= user.id %>
+  </td>
   <td>
     <%= link_to "#{user.full_name}", user %>
   </td>
   <td>
     <%= mail_to user.email %>
+  </td>
+  <td>
+    <% if not user.allowed_to_login? %>
+      <%= t ".inactive", class: "user-inactive-label" %>
+    <% elsif user.recently_online? %>
+      <%= t "time.now" %>
+    <% elsif user.last_seen_at %>
+      <%= time_tag user.last_seen_at, title: user.last_seen_at.to_s(:long) do %>
+        <%= t "time.x_time_ago",
+              duration: user.last_seen_at.relative_in_words %>
+      <% end %>
+    <% else %>
+      <%= t ".never_logged_in_yet", class: "user-never-logged-in-yet-label" %>
+    <% end %>
   </td>
   <td>
     <%= link_to "profile", user, class: "btn btn-xs btn-default" %>

@@ -179,6 +179,7 @@ class ActiveSupport::TestCase
       assert_select "#login_code_form_login_code",   count: 1
       # SOURCE: http://stackoverflow.com/a/3517684
       login_code_email = ActionMailer::Base.deliveries.last
+      assert_match user.email, login_code_email[:to].value
       # Retrieve the login code from the email
       login_code = login_code_email.body.to_s.scan(/login\/\d{6}/).first.number
       # The hash of the login code is encrypted and securely stored in the

@@ -13,9 +13,9 @@
       <%= button_to t(@user.activation_sent_at ?
                         '.send_activation_email_again' :
                         '.send_activation_email'),
-                    { controller: :account_activations,
-                      action: :create,
-                      email: @user.email },
+                    { controller: :users,
+                      action:     :activate,
+                      id:         @user.id},
                     { class:  "btn btn-success" } %>
     <% end %>
   </div>
