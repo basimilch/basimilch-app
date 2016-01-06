@@ -71,44 +71,6 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "user@example.com", @user.reload.email
   end
 
-  test "password and confirmation do not have to be present" do
-    @user.password = @user.password_confirmation = nil
-    assert @user.valid?, @user.errors.full_messages.join(", ")
-    @user.password = @user.password_confirmation = ""
-    assert @user.valid?, @user.errors.full_messages.join(", ")
-  end
-
-  test "user should be able to authenticate if password is not blank" do
-    @user.password = @user.password_confirmation = "some_secret"
-    assert @user.save, @user.errors.full_messages.join(", ")
-    assert_equal false, @user.authenticate("not_right")
-    assert @user.authenticate("some_secret")
-  end
-
-  test "password and confirmation cannot be only spaces" do
-    @user.password = @user.password_confirmation = " " * 10
-    assert_not @user.valid?
-    @user.password = @user.password_confirmation = "\t" * 10
-    assert_not @user.valid?
-  end
-
-  test "password and confirmation should match if both given" do
-    @user.password = @user.password_confirmation = "a" * 10
-    assert @user.valid?
-    @user.password = "a" * 10
-    @user.password_confirmation = "b" * 10
-    assert_not @user.valid?
-  end
-
-  test "password must have a minimum and maximum length" do
-    @user.password = @user.password_confirmation = "a" * 7
-    assert_not @user.valid?
-    @user.password = @user.password_confirmation = " " * 7 + "a"
-    assert @user.valid?
-    @user.password = @user.password_confirmation = "a" * 101
-    assert_not @user.valid?
-  end
-
   test "admin should be false by default" do
     assert_equal false, @user.admin
     assert_equal false, @user.admin?

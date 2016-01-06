@@ -4,10 +4,9 @@ class User < ActiveRecord::Base
   VALID_SWISS_POSTAL_CODE_REGEX = /\A\d{4}\z/ # The 'CH-' part is not expected.
   ONLY_SPACES       = /\A\s*\z/
 
-  ACTIVATION_TOKEN_VALIDITY = 2.weeks
   STALE_THRESHOLD = 4.months.ago
 
-  attr_accessor :remember_token, :activation_token, :password_reset_token
+  attr_accessor :remember_token
 
   # NOTE: A word of caution: 'after_initialize' means after the Ruby
   # initialize. Hence it is run every time a record is loaded from the
@@ -223,15 +222,8 @@ class User < ActiveRecord::Base
     update_attribute(:remembered_since, nil)
   end
 
-  # Returns the point in time until which the activation token is valid.
-  def activation_token_valid_until
-    activation_sent_at &&
-      activation_sent_at + ACTIVATION_TOKEN_VALIDITY
-  end
-
   # Sends activation email.
   def send_activation_email
-    create_activation_digest
     update_attribute(:activation_sent_at, Time.current)
     UserMailer.account_activation(self).deliver_now
   end
@@ -240,7 +232,6 @@ class User < ActiveRecord::Base
   def activate
     update_attribute(:activated,          true)
     update_attribute(:activated_at,       Time.current)
-    update_attribute(:activation_digest,  nil)
   end
 
   def recently_online?
@@ -263,12 +254,6 @@ class User < ActiveRecord::Base
     update_attributes(params_arg
                         .require(:user)
                         .permit(:password, :password_confirmation))
-  end
-
-
-  # Returns true if a account activation link has expired.
-  def activation_expired?
-    activation_token_valid_until < Time.current
   end
 
 
@@ -325,20 +310,6 @@ class User < ActiveRecord::Base
       if tel_mobile.blank? && tel_home.blank? && tel_office.blank?
         errors.add(:base, I18n.t("errors.messages.at_least_one_tel"))
       end
-    end
-
-    # Creates and assigns the activation token and digest.
-    def create_activation_digest
-      self.activation_token  = User.new_token
-      update_attribute(:activation_digest,
-                       activation_token.digest)
-    end
-
-    # Sets the password reset attributes.
-    def create_password_reset_digest
-      self.password_reset_token = User.new_token
-      update_attribute(:password_reset_digest,
-                       password_reset_token.digest)
     end
 
     # Before filters

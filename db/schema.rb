@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160103160340) do
+ActiveRecord::Schema.define(version: 20160106142559) do
 
   create_table "users", force: :cascade do |t|
     t.string   "email"
@@ -32,7 +32,6 @@ ActiveRecord::Schema.define(version: 20160103160340) do
     t.string   "remember_digest"
     t.datetime "last_seen_at"
     t.datetime "remembered_since"
-    t.string   "activation_digest"
     t.boolean  "activated",          default: false
     t.datetime "activated_at"
     t.datetime "activation_sent_at"

@@ -1,14 +1,14 @@
 <p>Hoi <%= @user.first_name %>,</p>
 
 <p>
-  Willkommen zu meine.basimil.ch! Klicke auf den folgenden Link, um dein Konto zu aktivieren:
+  Willkommen zu meine.basimil.ch!
 </p>
-
-<%= link_to "Aktivieren", edit_account_activation_url(@user.activation_token,
-                                                      email: @user.email) %>
 
 <p>
-  <em>
-  NB: Der Link ist nur gültig bis zum <%= I18n.l @user.activation_token_valid_until, format: :short %>.
-  </em>
+  Dein Konto wurde gerade aktiviert. Klicke auf den folgenden Link, um einzuloggen:
 </p>
+
+<%= link_to "Einloggen", login_url(email: @user.email) %>
+
+Herzliche Grüsse,
+deine basimilch Betriebsgruppe
