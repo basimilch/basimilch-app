@@ -100,7 +100,9 @@ class UsersController < ApplicationController
   def activate
     @user = User.find(params[:id])
     @user.send_activation_email
-    flash_t :success, :account_activated_and_email_successfully_sent
+    flash_t :success,
+            t(".account_activated_and_email_successfully_sent",
+              email: @user.email)
     redirect_to @user
   end
 
