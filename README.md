@@ -113,17 +113,42 @@ $ pkill -9 -f spring
 ## Dev DB data
 
 Also inspired by the [Rails Tutorial Book], [section 9.3.2], we use
-the _very funny_ [Faker] library :joy: to generate fake random data in
-the file [`db/seeds.rb`]. It can be applied with:
+the _very funny_ [Faker] library :joy: to generate fake random data to
+pre-populate the DB for dev purposes. This population is defined in
+the file [`db/seeds.rb`]. As recommended in this article about [Rails
+Migration Etiquette], to create a local DB usable for dev simply
+execute:
 
 ``` bash
-$ bundle exec rake db:migrate:reset # optional to clean the DB
-$ bundle exec rake db:seed          # adds 100 randon users each time
+$ bundle exec rake db:setup
 ```
 
+This command (re)creates a clean database directly from the file
+[`db/schema.rb`], which is maintained by Rails itself, (i.e. `rake
+db:schema:load`), and then seeds it with the demo data in the file
+[`db/seeds.rb`] mentioned above (i.e. `rake db:seed`). Doing so you
+prevent running all migrations from scratch (done with `rake
+db:migrate:reset`)
+
+[Rails Migration Etiquette]: http://jordanhollinger.com/2014/07/30/rails-migration-etiquette/
 [section 9.3.2]: https://www.railstutorial.org/book/_single-page#sec-sample_users
 [Faker]: https://github.com/stympy/faker
 [`db/seeds.rb`]: db/seeds.rb
+[`db/schema.rb`]: db/schema.rb
+
+### Squashing migrations
+
+The datamodel has evolved quite a lot during development. To simplify
+things, we are merging all migrations into one initial [null
+migration] before the first _production_ launch. To prevent manual
+errors, we are using a gem called [`squasher`].
+
+However, merging migrations is not a good idea after the first
+production usage, or when several people are working on the same
+project.
+
+[null migration]: http://homeonrails.com/2012/11/null-migration-or-what-to-do-when-there-are-too-many-migrations/
+[`squasher`]: https://github.com/jalkoby/squasher
 
 ## Localization
 
