@@ -67,7 +67,7 @@ class User < ActiveRecord::Base
 
   validate :at_least_one_tel
 
-  validate :correct_full_postal_address unless Rails.env.development?
+  validate :correct_full_postal_address
 
   geocoded_by :full_postal_address
 
