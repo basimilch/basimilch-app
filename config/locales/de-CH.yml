@@ -265,6 +265,13 @@ de-CH:
       login_code_email_sent_html: >
         Ein Login-Code wurde gerade auf deine E-Mail-Adresse
         <code>%{email}</code> geschickt.
+      first_login_attempt_html: >
+        <strong>Willkommen!</strong> Eine gute Nachricht: für unsere (und
+        jetzt auch deine) online Platform musst du keine Benutzernamen oder
+        Passwörter dir merken. Wenn du dich einloggen möchtest, schicken wir
+        dir einen einmaligen Login-Code auf deine E-Mail-Adresse
+        <code>%{email}</code>. Wenn das dein Computer ist, brauchst du dich
+        nicht auszuloggen, so dass du das nächste mal direkt reinkommst.
       user_not_found: >
         Dieser E-Mail-Adresse ist uns unbekannt. Wenn das kein Sinn für dich
         macht, schreib bitte uns auf
@@ -274,6 +281,11 @@ de-CH:
         nicht aktiviert. Wenn das kein Sinn für dich macht, schreib bitte uns
         auf <code><a href="mailto:meine@basimil.ch">meine@basimil.ch</a></code>.
     create: &sessions_create
+      first_login_successful_html: >
+        <strong>Willkommen!</strong> Du hast dich richtig eingeloggt. Das ist
+        dein Benutzerprofil. Wenn du mal fragen zur Plaform hast, schreib
+        bitte uns auf
+        <code><a href="mailto:meine@basimil.ch">meine@basimil.ch</a></code>.
       not_the_expected_ip_address: >
         Oups, die IP-Adresse stimmt nicht überein, mit der, die ich mir gemerkt
         hatte. Versuch es bitte noch Mal. Wenn das sich wiederholt, schreib

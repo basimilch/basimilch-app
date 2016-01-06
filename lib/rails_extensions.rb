@@ -213,10 +213,11 @@ class ActionView::Helpers::FormBuilder
           end
         end)
         @template.concat send(input_type, attribute, class:       input_class,
-                                                     placeholder: placeholder,
-                                                     readonly:    readonly,
-                                                     value:       value,
-                                                     disabled:    is_view_mode)
+                                          placeholder: placeholder,
+                                          readonly:    readonly,
+                                          value:       value,
+                                          autofocus:   options[:autofocus],
+                                          disabled:    is_view_mode)
       end
     end
   end

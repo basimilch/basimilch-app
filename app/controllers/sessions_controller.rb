@@ -24,7 +24,7 @@ class SessionsController < ApplicationController
                   "(from IP: request.remote_ip.inspect)"
       flash_now_t :danger, :user_not_found
       render 'new'
-    elsif !@user.activated?
+    elsif not @user.allowed_to_login?
       logger.info "Login User inactive: #{@user.email} " +
                   "(from IP: request.remote_ip.inspect)"
       flash_now_t :danger, :user_inactive
@@ -36,6 +36,9 @@ class SessionsController < ApplicationController
                                  login_code.number,
                                  params[:session][:secure_computer_acknowledged]
       send_login_code_email @user, login_code
+      if @user.never_logged_in?
+        flash_now_t :success, t(".first_login_attempt_html", email: @user.email)
+      end
       flash_now_t :info, t(".login_code_email_sent_html", email: @user.email)
     end
   end
@@ -56,11 +59,11 @@ class SessionsController < ApplicationController
       flash_t :danger, :weird_login_problem
       redirect_to login_path
       return
-    elsif !@user.activated?
+    elsif !@user.allowed_to_login?
       # NOTE: Should not happen. Maybe tampering with the cookies or the user
       #       got deactivated in the meantime.
-      logger.warn "Login attempt but the use from the email in the session" +
-                  "cookie appears as not active:" +
+      logger.warn "Login attempt but the user from the email in the session" +
+                  " cookie appears as not active:" +
                   "'#{session[:login_email].downcase}'."
       flash_t :danger, :weird_login_problem
       redirect_to login_path
@@ -84,6 +87,10 @@ class SessionsController < ApplicationController
     if session[:login_code].is_secure_temp_digest_for?(login_code)
       # Everything looks right: let's log in the user
       log_in @user
+      if @user.never_logged_in?
+        @user.activate
+        flash_t :success, :first_login_successful_html
+      end
       session[:secure_computer_acknowledged] == '0' ? forget(@user)
                                                     : remember(@user)
       forget_login_attempt

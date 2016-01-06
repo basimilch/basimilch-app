@@ -1,7 +1,9 @@
 <div class="row">
   <div class="col-sm-4 col-sm-offset-4 col-xs-10 col-xs-offset-1">
     <%= form_for(:session, url: login_path) do |f| %>
-      <%= f.field_for :email, as_type: :string, value: @email %>
+      <%= f.field_for :email, as_type: :string,
+                              value: @email,
+                              autofocus: true %>
       <div class="form-buttons">
         <%= f.submit_button t('.request_login_code') %>
       </div>

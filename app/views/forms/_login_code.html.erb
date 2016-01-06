@@ -2,7 +2,7 @@
   <div class="col-sm-4 col-sm-offset-4 col-xs-10 col-xs-offset-1">
     <%= form_for(:login_code_form, url: login_create_path,
                 html: { method: :put }) do |f| %>
-      <%= f.field_for :login_code, as_type: :string %>
+      <%= f.field_for :login_code, as_type: :string, autofocus: true %>
       <div class="form-buttons">
         <%= f.submit_button t('.login') %>
       </div>
