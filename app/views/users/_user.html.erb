@@ -1,4 +1,8 @@
-<tr class="user-index-row">
+<% if user.id == current_user.id %>
+  <tr class="user-index-row info">
+<% else %>
+  <tr class="user-index-row">
+<% end %>
   <td>
     <% if user.admin? %>
       <span class="glyphicon glyphicon-star user-badge-admin" aria-hidden="true" title="Admin"></span>

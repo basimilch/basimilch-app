@@ -167,7 +167,7 @@ de-CH:
       csv_file_basemane: "basimilch_genossenschafter_liste"
       no_users_found: "Keine Genossenschafter_innen gefunden."
     show:
-      title: "Profil"
+      title: "Dein Profil"
       send_activation_email: "Aktivierungsmail schicken"
       send_activation_email_again: "Aktivierungsmail nochmals schicken"
       activation_already_sent_at: "Aktivierungsmail bereits am %{sent_at} gesendet."

@@ -36,7 +36,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    title_label :admin, type: :warning if @user.admin
+    title_label :admin, type: :warning if @user.admin?
     if !@user.activated?
       title_label :inactive
       if @user.activation_sent_at && @user.activation_sent_at < 5.seconds.ago
@@ -49,6 +49,10 @@ class UsersController < ApplicationController
   end
 
   def profile
+    if current_user.admin?
+      title_label :admin, type: :warning
+      title_label :active, type: :success
+    end
     @user = User.find(current_user.id)
     render 'show'
   end

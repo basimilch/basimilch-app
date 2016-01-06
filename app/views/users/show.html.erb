@@ -1,4 +1,8 @@
-<% provide(:title, "#{t('.title')}: #{@user.full_name}") %>
+<% if params[:action] == "profile" || params[:id] == current_user.id.to_s %>
+  <% provide(:title, "#{t('.title')}") %>
+<% else %>
+  <% provide(:title, "#{@user.full_name}") %>
+<% end %>
 <div class="row">
   <div class="col-md-3 col-md-offset-6 col-sm-8">
     <% if @user.geocoded? %>
