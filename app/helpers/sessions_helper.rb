@@ -29,8 +29,15 @@ module SessionsHelper
       @current_user
     elsif (user_id = session[:user_id])
       @current_user = User.find_by(id: user_id)
-      @current_user.seen if @current_user
-      @current_user
+      if @current_user
+        @current_user.seen
+        @current_user
+      else
+        # The user id in the cookie does not exist in the DB anymore.
+        # This might happen e.g. after re-seeding a dev DB.
+        session.delete(:user_id)
+        nil
+      end
     elsif (user_id = cookies.signed[:user_id])
       user = User.find_by(id: user_id)
       if user && user.authenticated?(:remember, cookies[:remember_token])
