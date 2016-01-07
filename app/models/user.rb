@@ -261,7 +261,7 @@ class User < ActiveRecord::Base
       User.where(activated: [nil, false])
           .where(users_table[:activation_sent_at].not_eq(nil))
     when :active
-      User.where(users_table[:last_seen_at].not_eq(nil))
+      User.where(activated: true)
     when :stale
       User.where(users_table[:last_seen_at].lt(STALE_THRESHOLD))
     else
