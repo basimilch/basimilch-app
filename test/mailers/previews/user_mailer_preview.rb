@@ -1,7 +1,7 @@
 # Preview all emails at http://localhost:3000/rails/mailers/user_mailer
 class UserMailerPreview < ActionMailer::Preview
 
-  include SignupsHelper
+  include ApplicationHelper
 
   # Preview this email at
   #   http://localhost:3000/rails/mailers/user_mailer/account_activation
@@ -17,6 +17,15 @@ class UserMailerPreview < ActionMailer::Preview
     user = User.first
     email_validation_code = rand_validation_code
     UserMailer.email_validation(user, email_validation_code)
+  end
+
+  # Preview this email at
+  #   http://localhost:3000/rails/mailers/user_mailer/login_code
+  def login_code
+    user = User.first
+    login_code_code = rand_validation_code
+    UserMailer.login_code(user, login_code_code,
+                          SessionsController::LOGIN_CODE_VALIDITY)
   end
 
   # Preview this email at

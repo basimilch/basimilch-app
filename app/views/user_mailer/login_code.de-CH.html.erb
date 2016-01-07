@@ -4,7 +4,9 @@
 </p>
 
 <h1>
-  <a href="<%= login_direct_url(code: @login_code.number) %>"><%= @login_code %></a>
+  <code>
+    <a style="text-decoration: none;" href="<%= login_direct_url(code: @login_code.number) %>"><%= @login_code %></a>
+  </code>
 </h1>
 
 <p><i>
