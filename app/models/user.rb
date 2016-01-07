@@ -23,19 +23,6 @@ class User < ActiveRecord::Base
                           uniqueness: { case_sensitive: false }
   before_save :downcase_email
 
-  has_secure_password validations: false
-  validates :password,    presence: false, # Users will create a password after
-                                           # account validation.
-                          allow_nil: true,
-                          allow_blank: false,
-                          confirmation: true,
-                          format: { without: ONLY_SPACES },
-                          length: { in: 8..72 } # Max restored from:
-                                                # https://github.com/rails/rails
-                                                # /blob/v4.2.3/activemodel/lib/
-                                                # active_model/secure_
-                                                # password.rb#L21
-
   before_validation :capitalize_first_name
   validates :first_name,  presence: true,
                           length: { maximum: 40 }
