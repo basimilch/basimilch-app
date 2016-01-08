@@ -347,3 +347,53 @@ $ bundle exec rake db:migrate
 ```
 
 [RailsGuide about migrations]: http://guides.rubyonrails.org/v4.2.3/active_record_migrations.html#creating-a-migration
+
+## Heroku
+
+### Timeout awaiting process: `heroku run` error
+
+As mentioned in the heroku documentation about the [Timeout awaiting
+process]:
+
+> The heroku run command opens a connection to Heroku on port 5000. If
+> your local network or ISP is blocking port 5000, or you are
+> experiencing a connectivity issue, you will see an error similar to:
+>
+> ```
+> $ heroku run rails console
+> Running rails console attached to terminal...
+> Timeout awaiting process
+> ```
+
+In the logs this error appears as `Error R13 (Attach error) -> Failed
+to attach to process`. If you cannot fix the problem (e.g. opening port
+`5000`), some tasks can be performed in a [`detached` mode] as a
+workaround:
+
+```
+$ heroku run:detached rake db:migrate
+Running rake db:migrate... up, run.2
+Use 'heroku logs -p run.2' to view the log output.
+```
+
+But not all command can be executed in a background way: e.g.
+`heroku run rails console` makes no sense in a detached context.
+
+[Timeout awaiting process]: https://devcenter.heroku.com/articles/one-off-dynos#timeout-awaiting-process
+[`detached` mode]: https://devcenter.heroku.com/articles/one-off-dynos#running-tasks-in-background
+
+### DB
+
+To start with a fresh **dev** db on heroku do following commands:
+
+```
+heroku pg:reset --app basimilch-dev DATABASE
+heroku run rake db:migrate
+heroku run rake db:seed
+```
+
+To create a user with your email address, start a rails console on heroku (`heroku run rails console`) an run following command:
+
+```
+User.new(first_name: "your_first_name", last_name: "your_last_name", email: "your_email@example.com", admin: true, activation_sent_at: Time.current).save(validate: false)
+```
