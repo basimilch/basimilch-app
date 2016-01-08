@@ -16,10 +16,7 @@ Geocoder.configure(
   # IP address geocoding service:
 
   # DOC: https://github.com/fiorix/freegeoip/blob/master/README.md
-  # ip_lookup:  :freegeoip,     # Geocoder's default
-
-  # DOC: http://www.telize.com
-  ip_lookup:  :telize,
+  ip_lookup:  :freegeoip,     # Geocoder's default
 
   # ISO-639 language code
   language:   :de,
