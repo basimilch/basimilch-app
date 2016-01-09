@@ -26,14 +26,14 @@ class String
   include ERB::Util
   def url_encoded(only_spaces: false)
     if only_spaces
-      gsub " ", "%20"
+      gsub(" ", "%20")
     else
       url_encode(self)
     end
   end
 
   def replace_spaces_with(replacement)
-    gsub /\s+/, replacement
+    gsub(/\s+/, replacement)
   end
 
   # SOURCE: http://stackoverflow.com/a/5492450
