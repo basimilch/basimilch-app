@@ -351,4 +351,4 @@ de-CH:
       subject: "Anmeldung erfolgreich"
     new_signup_notification:
       subject: "Neue Anmeldung: %{id}. %{full_name}"
-      signup_from: "Anmeldung aus:"
+      signup_from: "Anmeldung aus"

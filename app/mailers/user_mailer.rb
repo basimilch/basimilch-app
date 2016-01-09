@@ -64,7 +64,7 @@ class UserMailer < ApplicationMailer
                   " No new_signup_notification sent."
       return
     end
-    logger.warn "Sending notification about new user #{user.id} to '#{email}')"
+    logger.info "Sending notification about new user #{user.id} to '#{email}')"
     @user = user
     @location_info = location_info
     mail to: email,

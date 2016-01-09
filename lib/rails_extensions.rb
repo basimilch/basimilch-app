@@ -132,7 +132,7 @@ end
 class ActionDispatch::Request
 
   def remote_ip_and_address
-    address = location.try(:formatted_address) || "address not found"
+    address = location.try(:address) || "address not found"
     "#{remote_ip.inspect} (aprox #{address})"
   end
 end
