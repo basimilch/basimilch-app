@@ -35,6 +35,7 @@ de-CH:
 
   dictionary:
     attributes: &attributes
+      id:                     "Id"
       email:                  "E-Mail-Adresse"
       password:               "Passwort"
       password_confirmation:  "Passwortwiederholung"
@@ -46,6 +47,7 @@ de-CH:
       postal_code:            "PLZ"
       city:                   "Ort"
       country:                "Land"
+      map_url:                "Karte"
       tel_mobile:             "Handy"
       tel_mobile_formatted:   "Handy"
       tel_home:               "Zuhause"
@@ -57,6 +59,7 @@ de-CH:
       created_at:             "Erstellt am"
       updated_at:             "Zuletzt aktualisiert am"
       login_code:             "Login Code"
+      profile:                "Profil"
       secure_computer_acknowledged: Dies ist mein Computer
     placeholders: &placeholders
       first_name:             "Vorname"
@@ -340,9 +343,12 @@ de-CH:
   user_mailer:
     account_activation:
       subject: "Kontoaktivierung"
-    password_reset:
-      subject: "Passwort Zurücksetzung"
+    login_code:
+      subject: "Login Code"
     email_validation:
       subject: "Validierung der E-Mail-Adresse"
     signup_successful:
       subject: "Anmeldung erfolgreich"
+    new_signup_notification:
+      subject: "Neue Anmeldung: %{id}. %{full_name}"
+      signup_from: "Anmeldung aus:"

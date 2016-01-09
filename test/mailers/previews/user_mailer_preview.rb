@@ -41,4 +41,14 @@ class UserMailerPreview < ActionMailer::Preview
     user = User.first
     UserMailer.signup_successful(user)
   end
+
+  # Preview this email at
+  #   http://localhost:3000/rails/mailers/user_mailer/new_signup_notification
+  def new_signup_notification
+    # ENV['EMAIL_NEW_USER_NOTIFICATION_ADDRESS'] hat to be set in order to
+    # send the notification.
+    ENV['EMAIL_NEW_USER_NOTIFICATION_ADDRESS'] = "admin@example.org"
+    user = User.first
+    UserMailer.new_signup_notification(user)
+  end
 end

@@ -68,7 +68,8 @@ class User < ActiveRecord::Base
 
   def postal_address_map_url
     if geocoded?
-      "http://maps.google.com/maps?q=#{full_postal_address separator: '+'}"
+      q = full_postal_address(separator: '+').replace_spaces_with("+")
+      "http://maps.google.com/maps?q=#{q}"
     end
   end
 

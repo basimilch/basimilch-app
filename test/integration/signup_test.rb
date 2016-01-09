@@ -75,13 +75,18 @@ class SignupTest < ActionDispatch::IntegrationTest
       end
       assert_template 'signups/validation'
 
-      assert_difference ['User.count', 'ActionMailer::Base.deliveries.size'], 1 do
-        # With the valid code, the user gets created
-        # and a welcome email is sent
-        put_via_redirect signup_create_path,
-                         signup: {
-                          email_validation_code: signup_validation_code
-                        }
+      assert_difference 'ActionMailer::Base.deliveries.size', 2 do
+        # ENV['EMAIL_NEW_USER_NOTIFICATION_ADDRESS'] hat to be set in order to
+        # send the notification.
+        ENV['EMAIL_NEW_USER_NOTIFICATION_ADDRESS'] = "admin@example.org"
+        assert_difference 'User.count', 1 do
+          # With the valid code, the user gets created
+          # and a welcome email is sent
+          put_via_redirect signup_create_path,
+                           signup: {
+                            email_validation_code: signup_validation_code
+                          }
+        end
       end
       assert_template 'signups/create'
 

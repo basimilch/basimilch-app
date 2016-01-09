@@ -27,6 +27,7 @@ class SignupsController < ApplicationController
       if entered_validation_code == session[:signup_validation_code]
         if @user.save
           send_signup_successful_email(@user)
+          send_new_signup_notification(@user)
           forget_signup
           remember_successful_signup
         else
@@ -76,6 +77,11 @@ class SignupsController < ApplicationController
 
     def send_signup_successful_email(user)
       UserMailer.signup_successful(user).deliver_now
+    end
+
+    def send_new_signup_notification(user)
+      location_info = request.remote_ip_and_address
+      UserMailer.new_signup_notification(user, location_info).deliver_now
     end
 
 end

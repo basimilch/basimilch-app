@@ -31,7 +31,7 @@ class UserMailerTest < ActionMailer::TestCase
     mail = UserMailer.login_code(user,
                                  login_code,
                                  SessionsController::LOGIN_CODE_VALIDITY)
-    assert_equal "Login code",                  mail.subject
+    assert_equal "Login Code",                  mail.subject
     assert_equal [user.email],                  mail.to
     assert_equal ["noreply@basimil.ch"],        mail.from
     assert_match login_code,                    mail.body.encoded

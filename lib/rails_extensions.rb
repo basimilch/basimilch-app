@@ -22,6 +22,20 @@ class String
     scan(/\d/).join
   end
 
+  # DOC: http://www.rubydoc.info/stdlib/erb/ERB%2FUtil.url_encode
+  include ERB::Util
+  def url_encoded(only_spaces: false)
+    if only_spaces
+      gsub " ", "%20"
+    else
+      url_encode(self)
+    end
+  end
+
+  def replace_spaces_with(replacement)
+    gsub /\s+/, replacement
+  end
+
   # SOURCE: http://stackoverflow.com/a/5492450
   # SOURCE: http://www.monkeyandcrow.com/blog/
   #                               reading_rails_how_does_message_encryptor_work/
@@ -115,6 +129,13 @@ class ActiveRecord::Base
   end
 end
 
+class ActionDispatch::Request
+
+  def remote_ip_and_address
+    address = location.try(:formatted_address) || "address not found"
+    "#{remote_ip.inspect} (aprox #{address})"
+  end
+end
 
 class ActionView::Helpers::FormBuilder
 

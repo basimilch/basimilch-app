@@ -28,9 +28,16 @@ class SignupsControllerTest < ActionController::TestCase
     validation_code = "123-123"
     session[:signup_info] = valid_user_info
     session[:signup_validation_code] = validation_code.number
-    post :create, signup: {
-      email_validation_code: validation_code
-    }
+    # ENV['EMAIL_NEW_USER_NOTIFICATION_ADDRESS'] hat to be set in order to
+    # send the notification.
+    ENV['EMAIL_NEW_USER_NOTIFICATION_ADDRESS'] = "admin@example.org"
+    assert_difference 'ActionMailer::Base.deliveries.size', 2 do
+      # A successful user sign up should send 2 emails: a confirmation to the
+      # user and a notification to the app owner.
+      post :create, signup: {
+        email_validation_code: validation_code
+      }
+    end
     assert_response :success
     assert User.find_by(email: valid_user_info[:email]), "User not created"
     assert_equal false, User.find_by(email: valid_user_info[:email]).activated?
