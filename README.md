@@ -66,6 +66,15 @@ The local Rails server can be started with:
 $ rails server
 ```
 
+### Environment variables
+
+You don't need to setup any environment variables by hand on your
+local dev machine. Those values are automatically handled from the
+file [`.env`] file by the [dotenv] gem.
+
+[dotenv]: https://github.com/bkeepers/dotenv
+[`.env`]: .env
+
 ## Testing
 
 We use the testing setup suggested in the [Advanced testing setup]
