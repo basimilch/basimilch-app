@@ -11,6 +11,9 @@ class AddAppPrefixToEmailSubject
     prefixes = []
     prefixes << EMAIL_PREFIX
     prefixes << Rails.env.upcase unless Rails.env.production?
+    if env_prefix = ENV['EMAIL_SUBJECT_PREFIX']
+      prefixes << env_prefix
+    end
     "[#{prefixes.join(' ')}] "
   end
 end
