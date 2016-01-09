@@ -79,23 +79,25 @@ file [`.env`] file by the [dotenv] gem.
 
 We use the testing setup suggested in the [Advanced testing setup]
 section of the [Rails Tutorial Book] mentioned above. This setup
-includes color enhanced representation of test results (with `minitest
-reporters`), a `backtrace silencer` configuration and the usage of
-`Guard` for automatic test execution of file changes.
+includes color enhanced representation of test results (with
+[`minitest`] reporters), a `backtrace silencer` configuration and the
+usage of `Guard` (with [`guard-minitest`]) for automatic test
+execution of file changes.
 
-Once everything is set up as described in the tutorial, you can run
-`Guard` at the command line as follows:
+Once everything is set up as described in the mentioned section of the
+[Rails Tutorial Book], you can run `Guard` at the command line as
+follows:
 
 ``` bash
 $ bundle exec guard
 ```
 
-The rules in the corresponding [`Guardfile`] are seeded with the content
-of [Listing 3.42] of the [Rails Tutorial Book]. For example, the
-integration tests automatically run when a controller is changed. To
-run all the tests, hit `return` at the `guard>` prompt. As mentioned
-in the [Rails Tutorial Book], this may sometimes give an error
-indicating a failure to connect to the Spring server. To fix the
+The rules in the corresponding [`Guardfile`] are seeded with the
+content of [Listing 3.42] of the [Rails Tutorial Book]. For example,
+the integration tests automatically run when a controller is changed.
+To run all the tests, hit `return` at the `guard>` prompt. As
+mentioned in the [Rails Tutorial Book], this may sometimes give an
+error indicating a failure to connect to the Spring server. To fix the
 problem, just hit return again. To exit `Guard`, press `Ctrl-D`.
 
 The [Rails Tutorial Book] mentions also following hint:
@@ -118,6 +120,8 @@ $ pkill -9 -f spring
 [Advanced testing setup]: https://www.railstutorial.org/book/static_pages#sec-advanced_testing_setup
 [Listing 3.42]: https://www.railstutorial.org/book/static_pages#code-guardfile
 [`Guardfile`]: Guardfile
+[`minitest`]: https://github.com/seattlerb/minitest
+[`guard-minitest`]: https://github.com/guard/guard-minitest
 
 ## Dev DB data
 
