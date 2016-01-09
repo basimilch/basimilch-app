@@ -1,5 +1,5 @@
 # DOC: http://guides.rubyonrails.org/action_mailer_basics.html
 class ApplicationMailer < ActionMailer::Base
-  default from: "noreply@basimil.ch"
+  default from: ENV['EMAIL_DEFAULT_FROM_ADDRESS']
   layout 'mailer'
 end

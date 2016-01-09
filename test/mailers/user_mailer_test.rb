@@ -10,7 +10,7 @@ class UserMailerTest < ActionMailer::TestCase
     mail = UserMailer.account_activation(user)
     assert_equal "Kontoaktivierung", mail.subject
     assert_equal [user.email], mail.to
-    assert_equal ["noreply@basimil.ch"],  mail.from
+    assert_equal ["noreply@example.org"],  mail.from
     assert_match user.first_name,         mail.body.encoded
     assert_match CGI::escape(user.email), mail.body.encoded
   end
@@ -21,7 +21,7 @@ class UserMailerTest < ActionMailer::TestCase
     mail = UserMailer.email_validation(user, email_validation_code)
     assert_equal "Validierung der E-Mail-Adresse",  mail.subject
     assert_equal [user.email],                      mail.to
-    assert_equal ["noreply@basimil.ch"],            mail.from
+    assert_equal ["noreply@example.org"],            mail.from
     assert_match email_validation_code,             mail.body.encoded
   end
 
@@ -33,7 +33,7 @@ class UserMailerTest < ActionMailer::TestCase
                                  SessionsController::LOGIN_CODE_VALIDITY)
     assert_equal "Login Code",                  mail.subject
     assert_equal [user.email],                  mail.to
-    assert_equal ["noreply@basimil.ch"],        mail.from
+    assert_equal ["noreply@example.org"],        mail.from
     assert_match login_code,                    mail.body.encoded
     assert_match "login/#{login_code.number}",  mail.body.encoded
   end
@@ -43,6 +43,6 @@ class UserMailerTest < ActionMailer::TestCase
     mail = UserMailer.signup_successful(user)
     assert_equal "Anmeldung erfolgreich",  mail.subject
     assert_equal [user.email],             mail.to
-    assert_equal ["noreply@basimil.ch"],   mail.from
+    assert_equal ["noreply@example.org"],   mail.from
   end
 end

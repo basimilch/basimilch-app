@@ -8,6 +8,13 @@ require 'rails/test_help'
 require 'minitest/reporters'
 Minitest::Reporters.use!
 
+# NOTE: Using `rake test` does correctly uses dotenv to load the .env files.
+# However, when using guard to run the tests automatically on file changes the
+# .env files does not seem to be loaded properly. Therefor we add this call here
+# to force load the .env files.
+# DOC: https://github.com/bkeepers/dotenv#note-on-load-order
+Dotenv::Railtie.load
+
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical
   # order.
