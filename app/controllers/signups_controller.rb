@@ -12,11 +12,14 @@ class SignupsController < ApplicationController
 
   def validation
     @user = User.new(user_params)
+    logger.debug "Validating signup information: #{@user.inspect}"
     if @user.validate
+      logger.debug " => validation ok. Sending validation email."
       validation_code = rand_validation_code
       remember_signup_for @user, validation_code.number
       send_email_validation_email @user, validation_code
     else
+      logger.debug " => validation failed. Asking to fix the information."
       render 'new'
     end
   end
@@ -26,6 +29,9 @@ class SignupsController < ApplicationController
     unless already_successful_signup
       if entered_validation_code == session[:signup_validation_code]
         if @user.save
+          logger.info "New successful signup for user id #{@user.id}" +
+                      " (#{@user.email})"
+          logger.debug "#{@user.inspect}"
           send_signup_successful_email(@user)
           send_new_signup_notification(@user)
           forget_signup
