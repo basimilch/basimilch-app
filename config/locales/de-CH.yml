@@ -134,15 +134,17 @@ de-CH:
 
   layouts:
     header:
-      users:            "Genossenschafter"
-      users_all:        "Alle"
-      users_active:     "Aktiv"
-      users_pending_activation:  "Nie eingeloggt"
-      users_inactive:   "Inaktiv"
-      users_stale:      "Verschwunden"
-      new_user:         "Neue_r Genossenschafter_in"
-      log_out:          "Ausloggen"
-      profile:          "Profil"
+      user_menu:
+        log_out:          "Ausloggen"
+        profile:          "Profil"
+      users_menu:
+        users:            "Genossenschafter"
+        users_all:        "Alle"
+        users_active:     "Aktiv"
+        users_pending_activation:  "Nie eingeloggt"
+        users_inactive:   "Inaktiv"
+        users_stale:      "Verschwunden"
+        new_user:         "Neue_r Genossenschafter_in"
 
   forms:
     login:

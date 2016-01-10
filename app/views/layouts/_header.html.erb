@@ -17,74 +17,11 @@
         <div class="collapse navbar-collapse" id="navigation-menu">
           <% if current_user.admin? %>
             <ul class="nav navbar-nav">
-
-
-              <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                  <%= t('.users') %> <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                  <li><%= link_to t('.users_all'), users_path %></li>
-                  <li role="separator" class="divider"></li>
-                  <li>
-                    <%= link_to users_path(view: :active), class: "users-view-menu" do %>
-                    <span class='glyphicon glyphicon-ok-circle'></span> <%= t('.users_active') %>
-                    <% end %>
-                  </li>
-                  <li>
-                    <%= link_to users_path(view: :pending_activation), class: "users-view-menu" do %>
-                    <span class='glyphicon glyphicon-time'></span> <%= t('.users_pending_activation') %>
-                    <% end %>
-                  </li>
-                  <li>
-                    <%= link_to users_path(view: :inactive), class: "users-view-menu" do %>
-                    <span class='glyphicon glyphicon-remove-circle'></span> <%= t('.users_inactive') %>
-                    <% end %>
-                  </li>
-                  <li>
-                    <%= link_to users_path(view: :stale), class: "users-view-menu" do %>
-                    <span class='glyphicon glyphicon-record'></span> <%= t('.users_stale') %>
-                    <% end %>
-                  </li>
-                  <li role="separator" class="divider"></li>
-                  <li><%= link_to t('.new_user'), new_user_path %></li>
-                </ul>
-              </li>
-
-
-              <% if Rails.env.development? %>
-                <!-- Demo drop down menu -->
-                <li class="dropdown">
-                  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    Demo Menu <span class="caret"></span>
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li><%= link_to t('hello'), "#" %></li>
-                    <li><%= link_to t('hello'), "#" %></li>
-                    <li role="separator" class="divider"></li>
-                    <li><%= link_to t('hello'), "#" %></li>
-                  </ul>
-                </li>
-              <% end %>
+              <%= render 'layouts/header/users_menu' %>
             </ul>
           <% end %>
           <ul class="nav navbar-nav navbar-right">
-            <!-- Demo drop down menu -->
-            <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <%= current_user.first_name %> <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                <li><%= link_to t('.profile'), profile_path %></li>
-                <li role="separator" class="divider"></li>
-                <li>
-                  <%= link_to logout_path, method: "delete" do%>
-                    <span class='glyphicon glyphicon-log-out'></span>
-                    <%= t('.log_out') %>
-                  <% end %>
-                </li>
-              </ul>
-            </li>
+            <%= render 'layouts/header/user_menu' %>
           </ul>
         </div>
       <% end %>
