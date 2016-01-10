@@ -68,12 +68,31 @@ $ rails server
 
 ### Environment variables
 
-You don't need to setup any environment variables by hand on your
-local dev machine. Those values are automatically handled from the
-file [`.env`] file by the [dotenv] gem.
+You don't need to setup any required environment variables by hand on
+your local dev machine. Those values are automatically handled from
+the file [`.env`] file by the [dotenv] gem.
 
 [dotenv]: https://github.com/bkeepers/dotenv
 [`.env`]: .env
+
+#### Optional ENV keys
+
+Further environment variables that are not required but you might want to set up, specially on heroku, include:
+
+- `EMAIL_SMTP_USERNAME`
+- `EMAIL_SMTP_PASSWORD`
+- `EMAIL_SMTP_DOMAIN`
+- `EMAIL_SMTP_ADDRESS`
+- `EMAIL_SMTP_PORT`
+
+- `EMAIL_RECIPIENTS_WHITELIST`: If this ENV variable has a non-blank
+value, only addresses matching the comma-separated list of emails will
+be send emails to. See the file [`config/initializers/mailer.rb`].
+
+[`config/initializers/mailer.rb`]: config/initializers/mailer.rb
+
+Note that those environment variables might have different values for
+staging and production servers.
 
 ## Testing
 
