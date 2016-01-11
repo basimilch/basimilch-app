@@ -288,6 +288,54 @@ depots and other entities.
 
 [Geocoder v1.2.9]: https://github.com/alexreisner/geocoder/tree/v1.2.9
 
+## Model auditing and versioning
+
+### [paper_trail (v4.0.1)]
+
+We use the gem [paper_trail (v4.0.1)] to audit changes on models. This
+gem creates versions each time a model item changes by simply adding
+`has_paper_trail` to the model. It allows to inspect, compare or
+revert to how things looked at a given point in time.
+
+While following the [installation] documentation, we added the option
+`--with-changes` as mentioned in the [diffing versions] section. The
+final installation commands were the following:
+
+``` bash
+$ bundle exec rails generate paper_trail:install --with-changes
+   create  db/migrate/20160111140705_create_versions.rb
+   create  db/migrate/20160111140706_add_object_changes_to_versions.rb
+$ bundle exec rake db:migrate
+   ...
+```
+
+The option `--with-changes` adds an additional column to the
+`Versions` table that allows to directly query the changes between
+directly adjacent versions with the method `.changeset`. E.g. to learn
+what last changed in a user do:
+
+``` ruby
+User.find(42).update(first_name: "Bar")
+# => true
+User.find(42).update(first_name: "Foo")
+# => true
+User.find(42).versions.last.changeset
+# => {"first_name"=>["Foo", "Bar"],
+      "updated_at"=>[2016-01-11 14:13:30 UTC, 2016-01-11 14:13:44 UTC]}
+```
+
+Finally we also added two further columns `request_remote_ip` and
+`request_user_agent` to the `Versions` table to store [metadata from
+controllers] in order to track from where the change was originated.
+The population of this metadata is implemented in the file
+[`/app/controllers/application_controller.rb`].
+
+[paper_trail (v4.0.1)]: https://github.com/airblade/paper_trail/tree/v4.0.1
+[installation]: https://github.com/airblade/paper_trail/tree/v4.0.1#installation
+[diffing versions]: https://github.com/airblade/paper_trail/tree/v4.0.1#diffing-versions
+[metadata from controllers]: https://github.com/airblade/paper_trail/tree/v4.0.1#metadata-from-controllers
+[`/app/controllers/application_controller.rb`]: /app/controllers/application_controller.rb
+
 ## Notes on Rails
 
 ### Implicit routing

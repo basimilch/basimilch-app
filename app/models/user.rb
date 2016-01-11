@@ -1,5 +1,8 @@
 class User < ActiveRecord::Base
 
+  # DOC: https://github.com/airblade/paper_trail/tree/v4.0.1#basic-usage
+  has_paper_trail ignore: [:updated_at, :last_seen_at]
+
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   VALID_SWISS_POSTAL_CODE_REGEX = /\A\d{4}\z/ # The 'CH-' part is not expected.
   ONLY_SPACES       = /\A\s*\z/

@@ -28,6 +28,7 @@ gem 'platform-api',             '0.3.0' # For Heroku API
 gem 'rails-i18n',               '4.0.4'
 gem 'phony_rails',              '0.12.9'
 gem 'geocoder',                 '1.2.9'
+gem 'paper_trail',              '4.0.1' # Track changes to models' data.
 
 group :development, :test do
   gem 'sqlite3',                '1.3.9'
