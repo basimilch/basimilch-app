@@ -86,13 +86,13 @@ class SessionsController < ApplicationController
     end
     if session[:login_code].is_secure_temp_digest_for?(login_code)
       # Everything looks right: let's log in the user
-      log_in @user
-      if @user.never_logged_in?
-        @user.activate
+      log_in @user # @user becomes current_user
+      if current_user.never_logged_in?
+        current_user.activate
         flash_t :success, :first_login_successful_html
       end
-      session[:secure_computer_acknowledged] == '0' ? forget(@user)
-                                                    : remember(@user)
+      session[:secure_computer_acknowledged] == '0' ? forget(current_user)
+                                                    : remember(current_user)
       forget_login_attempt
       redirect_back_or profile_path
       return

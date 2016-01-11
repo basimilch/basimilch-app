@@ -194,8 +194,8 @@ class User < ActiveRecord::Base
   #                                                    #code-user_model_remember
   def remember
     self.remember_token = User.new_token
-    update_attribute(:remember_digest, remember_token.digest)
-    update_attribute(:remembered_since, Time.current)
+    update_attributes!(remember_digest:  remember_token.digest,
+                       remembered_since: Time.current)
   end
 
   # Returns true if the given token matches the digest.
@@ -209,20 +209,20 @@ class User < ActiveRecord::Base
 
   # Forgets a user.
   def forget
-    update_attribute(:remember_token, nil)
-    update_attribute(:remembered_since, nil)
+    update_attributes!(remember_digest:   nil,
+                       remembered_since:  nil)
   end
 
   # Sends activation email.
   def send_activation_email
-    update_attribute(:activation_sent_at, Time.current)
+    update_attributes!(activation_sent_at: Time.current)
     UserMailer.account_activation(self).deliver_now
   end
 
   # Activates an account.
   def activate
-    update_attribute(:activated,          true)
-    update_attribute(:activated_at,       Time.current)
+    update_attributes!(activated:    true,
+                       activated_at: Time.current)
   end
 
   def recently_online?
