@@ -302,9 +302,9 @@ depots and other entities.
 
 ## Model auditing and versioning
 
-### [paper_trail (v4.0.1)]
+### `paper_trail`
 
-We use the gem [paper_trail (v4.0.1)] to audit changes on models. This
+We use the gem [`paper_trail` (v4.0.1)] to audit changes on models. This
 gem creates versions each time a model item changes by simply adding
 `has_paper_trail` to the model. It allows to inspect, compare or
 revert to how things looked at a given point in time.
@@ -333,7 +333,7 @@ User.find(42).update(first_name: "Foo")
 # => true
 User.find(42).versions.last.changeset
 # => {"first_name"=>["Foo", "Bar"],
-      "updated_at"=>[2016-01-11 14:13:30 UTC, 2016-01-11 14:13:44 UTC]}
+#     "updated_at"=>[2016-01-11 14:13:30 UTC, 2016-01-11 14:13:44 UTC]}
 ```
 
 Finally we also added two further columns `request_remote_ip` and
@@ -342,7 +342,7 @@ controllers] in order to track from where the change was originated.
 The population of this metadata is implemented in the file
 [`/app/controllers/application_controller.rb`].
 
-[paper_trail (v4.0.1)]: https://github.com/airblade/paper_trail/tree/v4.0.1
+[`paper_trail` (v4.0.1)]: https://github.com/airblade/paper_trail/tree/v4.0.1
 [installation]: https://github.com/airblade/paper_trail/tree/v4.0.1#installation
 [diffing versions]: https://github.com/airblade/paper_trail/tree/v4.0.1#diffing-versions
 [metadata from controllers]: https://github.com/airblade/paper_trail/tree/v4.0.1#metadata-from-controllers
