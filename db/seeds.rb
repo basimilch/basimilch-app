@@ -56,9 +56,9 @@ locales     = ['de-CH', 'fr-CH', 'it-CH']
                   postal_code:    Faker::Number.number(4).to_s,
                   city:           Faker::Address.city,
                   # country:        "", # Use default
-                  tel_mobile:     "0" + Faker::Number.number(9).to_s,
-                  tel_home:       maybe("0" + Faker::Number.number(9).to_s),
-                  tel_office:     maybe("0" + Faker::Number.number(9).to_s),
+                  tel_mobile:     "+41 7" + Faker::Number.number(8).to_s,
+                  tel_home:       maybe("+41 4" + Faker::Number.number(8).to_s),
+                  tel_office:     maybe("+41 4" + Faker::Number.number(8).to_s),
                   # status:         "", # Use default
                   notes:          maybe(Faker::Lorem.sentence),
                   activated:      false,
