@@ -136,9 +136,9 @@
             " #{user.created_at.to_s(:short)}" %>.
       </div>
       <div class="col-sm-4">
-        <% unless user.updated_at == user.created_at %>
-          <%= User.human_attribute_name(:updated_at) +
-              " #{user.updated_at.to_s(:short)}" %>.
+        <% if current_user_admin? && user.activated_at %>
+          <%= User.human_attribute_name(:activated_at) +
+              " #{user.activated_at.to_s(:short)}" %>.
         <% end %>
       </div>
     <% end %>

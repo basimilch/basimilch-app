@@ -198,6 +198,11 @@ class User < ActiveRecord::Base
                        remembered_since: Time.current)
   end
 
+  def record_last_login(from: nil)
+    update_attributes!(last_login_at:   Time.current,
+                       last_login_from: from)
+  end
+
   # Returns true if the given token matches the digest.
   # Source: https://www.railstutorial.org/book/_single-page
   #                                            #code-generalized_authenticated_p

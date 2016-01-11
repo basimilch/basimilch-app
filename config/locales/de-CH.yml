@@ -58,6 +58,8 @@ de-CH:
       notes:                  "Notizen"
       created_at:             "Erstellt am"
       updated_at:             "Zuletzt aktualisiert am"
+      activated_at:           "Aktiviert am"
+      last_login_at:          "Zuletzt eingelogt am"
       login_code:             "Login Code"
       profile:                "Profil"
       secure_computer_acknowledged: Dies ist mein Computer
