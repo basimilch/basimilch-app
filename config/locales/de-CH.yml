@@ -240,18 +240,6 @@ de-CH:
       create:
         <<: *signups_dictionary
 
-  # account_activations:
-  #   edit:
-  #     title: "Kontoaktivierung"
-  #     valid_activation_link: "Gültiger Aktivierungslink!"
-  #     invalid_activation_link: "Ungültiger Aktivierungslink!"
-  #     set_up_a_password_to_activate_your_account: "Gib ein Passwort ein, um dein Konto zu aktivieren."
-  #     create_password_and_activate_account: "Passwort bestätigen und Konto aktivieren"
-  #     activation_link_has_expired: "Der Aktivierungslink ist nicht mehr gültig. Schreibe uns bitte eine E-Mail, damit wir ihn dir nochmals schicken können!"
-  #   update:
-  #     password_can_t_be_empty: "Du musst ein Passwort mit mindestest 8 Zeichen eingeben."
-  #     password_has_been_setup_and_account_activated: "Passwort konfiguriert und Konto aktiviert!"
-
   password_resets:
     new:
       title: "Passwort zurücksetzen"
@@ -339,7 +327,6 @@ de-CH:
           <a href="mailto:info@basimil.ch">info@basimil.ch</a> erreichen
           und alle Informationen über die Genossenschaft auf
           <a href="http://basimil.ch">basimil.ch</a> finden.
-
       wrong_email_validation_code: "Der Code ist nicht gültig."
       unable_to_create_user: >
         Ein Fehler ist aufgetretten! Versuch dich nochmal erneut anzumelden.
