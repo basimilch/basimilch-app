@@ -148,25 +148,37 @@ Also inspired by the [Rails Tutorial Book], [section 9.3.2], we use
 the _very funny_ [Faker] library :joy: to generate fake random data to
 pre-populate the DB for dev purposes. This population is defined in
 the file [`db/seeds.rb`]. As recommended in this article about [Rails
-Migration Etiquette], to create a local DB usable for dev simply
-execute:
+Migration Etiquette], to create a local DB usable for dev execute:
 
 ``` bash
 $ bundle exec rake db:setup
 ```
 
-This command (re)creates a clean database directly from the file
+This command creates a clean database directly from the file
 [`db/schema.rb`], which is maintained by Rails itself, (i.e. `rake
 db:schema:load`), and then seeds it with the demo data in the file
 [`db/seeds.rb`] mentioned above (i.e. `rake db:seed`). Doing so you
 prevent running all migrations from scratch (done with `rake
 db:migrate:reset`)
 
+To start over with a new local dev DB execute:
+
+``` bash
+$ bundle exec rake db:reset
+```
+
+This will automatically delete the previous local DB and proceed with
+a `db:setup`.
+
+To learn how to perform DB operations on heroku see [Heroku > DB]
+below.
+
 [Rails Migration Etiquette]: http://jordanhollinger.com/2014/07/30/rails-migration-etiquette/
 [section 9.3.2]: https://www.railstutorial.org/book/_single-page#sec-sample_users
 [Faker]: https://github.com/stympy/faker
 [`db/seeds.rb`]: db/seeds.rb
 [`db/schema.rb`]: db/schema.rb
+[Heroku > DB]: #db
 
 ### Squashing migrations
 
