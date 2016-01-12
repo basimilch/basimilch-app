@@ -7,7 +7,7 @@
     <li role="separator" class="divider"></li>
     <li>
       <%= link_to users_path(view: :active), class: "users-view-menu" do %>
-      <span class='glyphicon glyphicon-ok-circle'></span> <%= t('.users_active') %>
+        <span class='glyphicon glyphicon-ok-circle'></span> <%= t('.users_active') %>
       <% end %>
     </li>
     <li>
@@ -25,6 +25,8 @@
       <span class='glyphicon glyphicon-record'></span> <%= t('.users_stale') %>
       <% end %>
     </li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to t('.share_certificates'), "#" %></li>
     <li role="separator" class="divider"></li>
     <li><%= link_to t('.new_user'), new_user_path %></li>
   </ul>

@@ -18,6 +18,9 @@
           <% if current_user.admin? %>
             <ul class="nav navbar-nav">
               <%= render 'layouts/header/users_menu' %>
+              <%= render 'layouts/header/subscriptions_menu' %>
+              <%= render 'layouts/header/depots_menu' %>
+              <%= render 'layouts/header/jobs_menu' %>
             </ul>
           <% end %>
           <ul class="nav navbar-nav navbar-right">
