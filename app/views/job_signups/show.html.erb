@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @job_signup.user %>
+</p>
+
+<p>
+  <strong>Job:</strong>
+  <%= @job_signup.job %>
+</p>
+
+<%= link_to 'Edit', edit_job_signup_path(@job_signup) %> |
+<%= link_to 'Back', job_signups_path %>

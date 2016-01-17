@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160117150835) do
+ActiveRecord::Schema.define(version: 20160117154735) do
+
+  create_table "job_signups", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "job_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "job_signups", ["job_id"], name: "index_job_signups_on_job_id"
+  add_index "job_signups", ["user_id"], name: "index_job_signups_on_user_id"
 
   create_table "jobs", force: :cascade do |t|
     t.string   "title"
@@ -40,6 +50,16 @@ ActiveRecord::Schema.define(version: 20160117150835) do
   end
 
   add_index "share_certificates", ["user_id"], name: "index_share_certificates_on_user_id"
+
+  create_table "signups", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "job_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "signups", ["job_id"], name: "index_signups_on_job_id"
+  add_index "signups", ["user_id"], name: "index_signups_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email"
