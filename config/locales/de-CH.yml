@@ -162,9 +162,10 @@ de-CH:
         new_depot: "Neues Depots"
       jobs_menu:
         jobs: "Mitarbeit"
-        show_open_jobs: "Offene Aufgaben"
-        new_job: "Neue Aufgabe"
-        new_job_series: "Neue Aufgabenreihe"
+        all_jobs: "Alle Einsätze"
+        show_open_jobs: "Offene Einsätze"
+        new_job: "Neuer Einsatz"
+        new_job_series: "Neue Einsätzereihe"
 
   forms:
     login:
