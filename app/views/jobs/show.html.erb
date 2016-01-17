@@ -1,49 +1,63 @@
-<p id="notice"><%= notice %></p>
+<% provide(:title, "#{t '.title'}: #{@job.title}") %>
 
 <p>
-  <strong>Title:</strong>
-  <%= @job.title %>
-</p>
-
-<p>
-  <strong>Description:</strong>
+  <strong><%= t '.description' %>: </strong>
   <%= @job.description %>
 </p>
 
 <p>
-  <strong>Date:</strong>
-  <%= @job.date %>
+  <strong><%= t '.date' %>: </strong>
+  <%= @job.date.to_localized_s :long %>
 </p>
 
 <p>
-  <strong>Start time:</strong>
-  <%= @job.start_time %>
+  <strong><%= t '.start_time' %>: </strong>
+  <%= "#{@job.start_time.to_s(:time)} - #{@job.end_time.to_s(:time)}" %>
 </p>
 
 <p>
-  <strong>End time:</strong>
-  <%= @job.end_time %>
-</p>
-
-<p>
-  <strong>Place:</strong>
+  <strong><%= t '.place' %>: </strong>
   <%= @job.place %>
 </p>
 
 <p>
-  <strong>Address:</strong>
+  <strong><%= t '.address' %>: </strong>
   <%= @job.address %>
 </p>
 
 <p>
-  <strong>Size:</strong>
-  <%= @job.size %>
+  <strong><%= t '.contact_user' %>: </strong>
+  <% if current_user_admin? %>
+    <%= link_to @job.user.full_name, @job.user %>
+  <% else %>
+    <%= @job.user.full_name %>
+  <% end %>
+  - <code><%= mail_to @job.user.email %></code>
+
 </p>
 
 <p>
-  <strong>User:</strong>
-  <%= @job.user %>
+  <strong><%= t '.size' %>: </strong>
+  <%= "#{@job.job_signups.count} von #{@job.size}" %>
 </p>
 
-<%= link_to 'Edit', edit_job_path(@job) %> |
-<%= link_to 'Back', jobs_path %>
+<ol>
+  <%= render @job.job_signups %>
+</ol>
+
+<% if current_user_admin? %>
+  <%= link_to 'Edit', edit_job_path(@job) %> |
+  <%= link_to 'Destroy', @job, method: :delete, data: { confirm: 'Are you sure?' } %> |
+  <%= link_to 'Back', jobs_path %>
+<% else %>
+  <%# button_to , job_signups_path(job_signup: {job_id: @job.id}) %>
+        <%# button_to t(@user.activation_sent_at ?
+                        '.send_activation_email_again' :
+                        '.send_activation_email'),
+                    { controller: :users,
+                      action:     :activate,
+                      id:         @user.id},
+                    { class:  "btn btn-success" } %>
+
+<% end %>
+

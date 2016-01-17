@@ -1,43 +1,28 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Listing Jobs</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Date</th>
-      <th>Start time</th>
-      <th>End time</th>
-      <th>Place</th>
-      <th>Address</th>
-      <th>Size</th>
-      <th>User</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @jobs.each do |job| %>
+<% provide(:title, t('.title')) %>
+<div class="table-responsive">
+  <table class="table table-hover table-condensed">
+    <thead>
       <tr>
-        <td><%= job.title %></td>
-        <td><%= job.description %></td>
-        <td><%= job.date %></td>
-        <td><%= job.start_time %></td>
-        <td><%= job.end_time %></td>
-        <td><%= job.place %></td>
-        <td><%= job.address %></td>
-        <td><%= job.size %></td>
-        <td><%= job.user %></td>
-        <td><%= link_to 'Show', job %></td>
-        <td><%= link_to 'Edit', edit_job_path(job) %></td>
-        <td><%= link_to 'Destroy', job, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th><%= t 'table_headers.job_title' %></th>
+        <th><%= t 'table_headers.date' %></th>
+        <th><%= t 'table_headers.start_time' %></th>
+        <th><%= t 'table_headers.place' %></th>
+        <th><%= t 'table_headers.address' %></th>
+        <th><%= t 'table_headers.size' %></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Job', new_job_path %>
+    </thead>
+    <tbody>
+      <% @jobs.each do |job| %>
+        <tr class="<%= job.singup_status %>">
+          <td><%= link_to job.title, job %></td>
+          <td><%= job.date.to_localized_s :short %></td>
+          <td><%= "#{job.start_time.to_s(:time)} - #{job.end_time.to_s(:time)}" %></td>
+          <td><%= job.place %></td>
+          <td><%= job.address %></td>
+          <td><%= "#{job.job_signups.count}/#{job.size}" %></td>
+          <td></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

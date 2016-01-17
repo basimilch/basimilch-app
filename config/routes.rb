@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
 
-  resources :job_signups
-  resources :jobs
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -9,6 +7,7 @@ Rails.application.routes.draw do
   # See 'master/README.md#implicit-routing' for more info on routing.
   resources :users
   resources :share_certificates
+  resources :jobs
 
   # You can have the root of your site routed with "root"
   root    'sessions#new'

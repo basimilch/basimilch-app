@@ -1,0 +1,8 @@
+<li>
+  <% if current_user_admin? %>
+    <%= link_to job_signup.user.full_name, job_signup.user %>
+    - <code><%= mail_to job_signup.user.email %></code>
+  <% else %>
+    <%= job_signup.user.full_name %>
+  <% end %>
+</li>

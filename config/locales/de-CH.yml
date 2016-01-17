@@ -77,7 +77,7 @@ de-CH:
       notes:                  "Freies Feld für Notizen..."
       login_code:             "xxx xxx"
 
-  table_headers:
+  table_headers: &table_headers
     id:           Id
     name:         Name
     user:         Genossenschafter
@@ -87,6 +87,13 @@ de-CH:
     returned_at:  Rückerstattet
     last_seen_at: Zuletzt online
     notes:        Notizen
+    job_title:    Einsatz
+    description:  Beschreibung
+    date:         Datum
+    start_time:   Zeit
+    place:        Ort
+    address:      Adresse
+    size:         Teilnehmer-Anzahl
 
   time:
     now:          jetzt
@@ -383,3 +390,12 @@ de-CH:
       returned_at: "Rückerstattet am %{date}."
       notes: "Notizen"
       see_full_notes: "Ansehen"
+
+  jobs:
+    index:
+      title: Einsätze
+    show:
+      <<: *table_headers
+      title: Einsatz
+      contact_user: Ansprechperson
+
