@@ -9,7 +9,7 @@ one:
   place: MyString
   address: MyString
   size: 1
-  user_id: 
+  user_id: 1
 
 two:
   title: MyString
@@ -20,4 +20,4 @@ two:
   place: MyString
   address: MyString
   size: 1
-  user_id: 
+  user_id: 1
