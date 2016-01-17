@@ -64,11 +64,55 @@ locales     = ['de-CH', 'fr-CH', 'it-CH']
                   activated:      false,
                   activated_at:   nil)
   user.save(validate: false)
+
+
+  Faker::Number.between(0, 4).times do
+    sent_date = Faker::Date.backward(30)
+    user.share_certificates.create(
+      sent_at:  sent_date,
+      payed_at: maybe(sent_date + Faker::Number.between(2, 40).days)
+    )
+  end
+
   puts user.inspect
 end
 
+start_end_times = [["08:00", "11:00"], ["12:00", "16:00"], ["16:00", "20:00"]]
+
+50.times do |n|
+  Faker::Config.locale = locales.sample
+  start_time_string, end_time_string = start_end_times.sample
+
+  job = Job.new(
+    title:        Faker::Lorem.sentence,           # t.string
+    description:  Faker::Lorem.paragraph,          # t.text
+    date:         Faker::Date.forward(365),        # t.date
+    start_time:   Time.parse(start_time_string),   # t.time
+    end_time:     Time.parse(end_time_string),     # t.time
+    place:        Faker::Commerce.department,      # t.string
+    address:      "#{Faker::Address.street_address}," + # t.string
+                  " #{Faker::Number.number(4)} #{Faker::Address.city}",
+    size:         Faker::Number.between(2, 15),    # t.integer
+    user_id:      Faker::Number.between(1, 5)      # t.integer
+  )
+  job.save(validate: true)
+  puts job.inspect
+end
+
+50.times do |n|
+  JobSignup.create(
+    user_id: Faker::Number.between(2, 100),
+    job_id:  Faker::Number.between(1, 50)
+  )
+end
+
+
 puts
-puts "DB has now #{User.count} users."
+puts "DB has now:"
+puts "  #{User.count} users"
+puts "  #{ShareCertificate.count} share_certificates"
+puts "  #{Job.count} jobs"
+puts "  #{JobSignup.count} job_signups"
 puts
 puts "NB: Model validations were skipped for seeding, since the adresses are" +
      " not valid."
