@@ -1,0 +1,2 @@
+module ShareCertificatesHelper
+end

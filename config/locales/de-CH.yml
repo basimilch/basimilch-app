@@ -80,8 +80,13 @@ de-CH:
   table_headers:
     id:           Id
     name:         Name
+    user:         Genossenschafter
     email:        E-Mail-Adresse
+    sent_at:      Abgeschikt
+    payed_at:     Bezahlt
+    returned_at:  Rückerstattet
     last_seen_at: Zuletzt online
+    notes:        Notizen
 
   time:
     now:          jetzt
@@ -116,6 +121,7 @@ de-CH:
       unrecornised_postal_address: "Postadresse nicht erkannt"
       uncomplete_postal_address: "Postadresse unvollständig"
       unrecornised_and_replaced: "\"%{original}\" wurde mit \"%{corrected}\" ersetzt"
+      user_not_found: "Genossenschafter mit id '%{id}' nicht gefunden!"
 
   # Models
 
@@ -194,6 +200,9 @@ de-CH:
       show_postal_address_on_map: "Postadresse auf der Karte anzeigen"
       flash:
         user_not_found: "Genossenschafter mit id '%{id}' nicht gefunden!"
+      share_certificates_title: "Anteilscheine"
+      no_share_certificates: "Es gibt keine Anteilscheine für diesen Benutzerkonto registriert."
+      add_new_share_certificate_for_user: "Anteilschein registrieren"
     create:
       flash:
         user_successfully_created: "Genossenschafter '%{full_name}' (Id %{id}) angemeldet!"
@@ -355,3 +364,21 @@ de-CH:
     new_signup_notification:
       subject: "Neue Anmeldung: %{id}. %{full_name}"
       signup_from: "Anmeldung aus"
+
+  share_certificates:
+    index:
+      title: Anteilscheine
+      edit: Bearbeiten
+      destroy: Löschen
+    new:
+      title: Neuer Anteilschein
+    edit:
+      title: Anteilschein bearbeiten
+    share_certificate:
+      share_certificate_id: "Anteilschein Nr. %{id}"
+      sent_at: "Abgeschikt am %{date}."
+      sent_at_not_set: "Noch nicht abgeschikt."
+      payed_at: "Bezahlt am %{date}."
+      returned_at: "Rückerstattet am %{date}."
+      notes: "Notizen"
+      see_full_notes: "Ansehen"

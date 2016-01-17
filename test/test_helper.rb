@@ -77,6 +77,12 @@ class ActiveSupport::TestCase
     end
   end
 
+  def assert_admin_protected_get(path, options = {})
+      assert_protected options.merge(admin_protected: true) do
+        get path
+      end
+  end
+
   def assert_admin_protected(options = {})
       assert_protected options.merge(admin_protected: true) do
         yield
@@ -86,6 +92,8 @@ class ActiveSupport::TestCase
   # Checks a protected path before and after login.
   def assert_protected(options = {})
     user              = options[:login_as]
+    assert_not_nil user, ":login_as must be provided for 'assert_protected*'"
+
     unlogged_redirect = options[:unlogged_redirect]  || {}
     redirect_path     = unlogged_redirect[:path]     || login_path
     redirect_template = unlogged_redirect[:template] || 'sessions/new'

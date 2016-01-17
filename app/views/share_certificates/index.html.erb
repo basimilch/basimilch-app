@@ -1,0 +1,38 @@
+<% provide(:title, t('.title')) %>
+<div class="table-responsive">
+  <table class="table table-hover table-condensed">
+    <thead>
+      <tr>
+        <th><%= t 'table_headers.id' %></th>
+        <th><%= t 'table_headers.user' %></th>
+        <th><%= t 'table_headers.sent_at' %></th>
+        <th><%= t 'table_headers.payed_at' %></th>
+        <th><%= t 'table_headers.returned_at' %></th>
+        <th><%= t 'table_headers.notes' %></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @share_certificates.each do |share_certificate| %>
+        <tr>
+          <td><%= link_to share_certificate.id, share_certificate %></td>
+          <td><%= link_to share_certificate.user.full_name, share_certificate.user %></td>
+          <td><%= share_certificate.sent_at.try(:to_localized_s, :long) %></td>
+          <td><%= share_certificate.payed_at.try(:to_localized_s, :long) %></td>
+          <td><%= share_certificate.returned_at.try(:to_localized_s, :long) %></td>
+          <td><%= truncate share_certificate.notes %></td>
+          <td>
+            <%= link_to t('.edit'), edit_share_certificate_path(share_certificate) %>
+            <%# link_to t('.destroy'), share_certificate, method: :delete,
+                  data: { confirm: 'Are you sure?' } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<br>
+
+<%# link_to 'New Share certificate', new_share_certificate_path %>

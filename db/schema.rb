@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160111171915) do
+ActiveRecord::Schema.define(version: 20160116184247) do
+
+  create_table "share_certificates", force: :cascade do |t|
+    t.integer  "user_id"
+    t.date     "sent_at"
+    t.date     "payed_at"
+    t.date     "returned_at"
+    t.text     "notes"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "share_certificates", ["user_id"], name: "index_share_certificates_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email"

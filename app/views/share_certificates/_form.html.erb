@@ -1,0 +1,46 @@
+<%= form_for(@share_certificate) do |f| %>
+  <% if @share_certificate.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@share_certificate.errors.count, "error") %> prohibited this share_certificate from being saved:</h2>
+
+      <ul>
+      <% @share_certificate.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :user_id %><br>
+    <% if @share_certificate.user %>
+      <%= "#{@share_certificate.user_id}. #{@share_certificate.user.full_name}" %>
+      <%= f.hidden_field :user_id %>
+      <br>
+      <br>
+    <% else %>
+      <%= f.number_field :user_id %>
+    <% end %>
+  </div>
+  <div class="field">
+    <%= f.label :sent_at %><br>
+    <%= f.date_select :sent_at, include_blank: true, default: nil, start_year: 2015 %>
+  </div>
+  <div class="field">
+    <%= f.label :payed_at %><br>
+    <%= f.date_select :payed_at, include_blank: true, default: nil, start_year: 2015 %>
+  </div>
+  <div class="field">
+    <%= f.label :returned_at %><br>
+    <%= f.date_select :returned_at, include_blank: true, default: nil, start_year: 2015 %>
+  </div>
+  <div class="field">
+    <%= f.label :notes %><br>
+    <%= f.text_area :notes %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+
+  <%= f.cancel_button @share_certificate %>
+<% end %>

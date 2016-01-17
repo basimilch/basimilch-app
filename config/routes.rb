@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   # This maps HTTP verbs to controller actions automatically.
   # See 'master/README.md#implicit-routing' for more info on routing.
   resources :users
+  resources :share_certificates
 
   # You can have the root of your site routed with "root"
   root    'sessions#new'

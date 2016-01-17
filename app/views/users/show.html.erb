@@ -26,3 +26,20 @@
 </div>
 
 <%= render 'form', user: @user, view_mode: true %>
+
+<div class="user_share_certificates">
+  <div>
+    <strong><%= t ".share_certificates_title" %></strong>
+  </div>
+  <hr>
+  <%= render(@user.share_certificates) || t(".no_share_certificates") %>
+  <% if current_user_admin? %>
+    <div class="new_share_certificate_button">
+      <%= link_to t('.add_new_share_certificate_for_user'),
+                    { controller: :share_certificates,
+                      action:     :new,
+                      user_id:    @user.id},
+                    { class:      "btn btn-primary"} %>
+    </div>
+  <% end %>
+</div>

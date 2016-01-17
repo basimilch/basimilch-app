@@ -107,7 +107,7 @@ class ActiveSupport::Duration
   end
 end
 
-class  ActiveSupport::TimeWithZone
+module DateHelpers
 
   # SOURCE: http://stackoverflow.com/a/28667334
   # DOC: http://api.rubyonrails.org/classes/ActionView/Helpers/DateHelper.html
@@ -116,6 +116,18 @@ class  ActiveSupport::TimeWithZone
   def relative_in_words
     distance_of_time_in_words_to_now(self, include_seconds: true)
   end
+
+  def to_localized_s(format)
+    I18n.l self, format: format || :long
+  end
+end
+
+class  ActiveSupport::TimeWithZone
+  include DateHelpers
+end
+
+class  Date
+  include DateHelpers
 end
 
 class ActiveRecord::Base

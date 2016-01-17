@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= link_to @share_certificate.user.full_name, @share_certificate.user %>
+</p>
+
+<p>
+  <strong>Sent at:</strong>
+  <%= @share_certificate.sent_at %>
+</p>
+
+<p>
+  <strong>Payed at:</strong>
+  <%= @share_certificate.payed_at %>
+</p>
+
+<p>
+  <strong>Returned at:</strong>
+  <%= @share_certificate.returned_at %>
+</p>
+
+<p>
+  <strong>Notes:</strong>
+  <%= @share_certificate.notes %>
+</p>
+
+<%= link_to 'Edit', edit_share_certificate_path(@share_certificate) %> |
+<%= link_to 'See All', share_certificates_path %>
