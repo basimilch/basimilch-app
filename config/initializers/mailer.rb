@@ -46,7 +46,13 @@ class RecipientWhitelistInterceptor
   private
     def self.regex_for_whitelist(whitelist)
       email_addresses = whitelist.split(',').map do |address|
-        address.strip.gsub(/(\+.*:?)?@gmail.com/, "(\\\\+.*:?)?@gmail.com")
+        # Automatically accept the + for gmail addresses
+        # Accept all emails addresses of a domain, if only the domain is given
+        address
+          .strip
+          .downcase
+          .gsub(/([^+]+)(\+.*:?)?@gmail.com/,'\1(\\\\+.*:?)?@gmail.com')
+          .gsub(/^(@\S+\.[a-z]{2,})$/, '\\S+\1')
       end
       Regexp.new("^(#{email_addresses.join("|")}:?)$")
     end
