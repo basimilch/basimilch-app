@@ -20,16 +20,12 @@
     <%= f.text_area :description %>
   </div>
   <div class="field">
-    <%= f.label :date %><br>
-    <%= f.date_select :date %>
+    <%= f.label :start_at %><br>
+    <%= f.datetime_select :start_at %>
   </div>
   <div class="field">
-    <%= f.label :start_time %><br>
-    <%= f.time_select :start_time %>
-  </div>
-  <div class="field">
-    <%= f.label :end_time %><br>
-    <%= f.time_select :end_time %>
+    <%= f.label :end_at %><br>
+    <%= f.datetime_select :end_at %>
   </div>
   <div class="field">
     <%= f.label :place %><br>
@@ -40,8 +36,8 @@
     <%= f.text_field :address %>
   </div>
   <div class="field">
-    <%= f.label :size %><br>
-    <%= f.number_field :size %>
+    <%= f.label :slots %><br>
+    <%= f.number_field :slots %>
   </div>
   <div class="field">
     <%= f.label :user_id %><br>

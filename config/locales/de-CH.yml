@@ -93,7 +93,7 @@ de-CH:
     start_time:   Zeit
     place:        Ort
     address:      Adresse
-    size:         Teilnehmer-Anzahl
+    slots:        Teilnehmer-Anzahl
 
   time:
     now:          jetzt

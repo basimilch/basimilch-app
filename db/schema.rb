@@ -26,12 +26,11 @@ ActiveRecord::Schema.define(version: 20160117154735) do
   create_table "jobs", force: :cascade do |t|
     t.string   "title"
     t.text     "description"
-    t.date     "date"
-    t.time     "start_time"
-    t.time     "end_time"
+    t.datetime "start_at"
+    t.datetime "end_at"
     t.string   "place"
     t.string   "address"
-    t.integer  "size"
+    t.integer  "slots"
     t.integer  "user_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false

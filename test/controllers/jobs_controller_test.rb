@@ -18,7 +18,14 @@ class JobsControllerTest < ActionController::TestCase
 
   test "should create job" do
     assert_difference('Job.count') do
-      post :create, job: { address: @job.address, date: @job.date, description: @job.description, end_time: @job.end_time, place: @job.place, size: @job.size, start_time: @job.start_time, title: @job.title, user_id: @job.user_id }
+      post :create, job: { address: @job.address,
+                           description: @job.description,
+                           end_at: @job.end_at,
+                           place: @job.place,
+                           slots: @job.slots,
+                           start_at: @job.start_at,
+                           title: @job.title,
+                           user_id: @job.user_id }
     end
 
     assert_redirected_to job_path(assigns(:job))
@@ -35,7 +42,14 @@ class JobsControllerTest < ActionController::TestCase
   end
 
   test "should update job" do
-    patch :update, id: @job, job: { address: @job.address, date: @job.date, description: @job.description, end_time: @job.end_time, place: @job.place, size: @job.size, start_time: @job.start_time, title: @job.title, user_id: @job.user_id }
+    patch :update, id: @job, job: { address: @job.address,
+                                    description: @job.description,
+                                    end_at: @job.end_at,
+                                    place: @job.place,
+                                    slots: @job.slots,
+                                    start_at: @job.start_at,
+                                    title: @job.title,
+                                    user_id: @job.user_id }
     assert_redirected_to job_path(assigns(:job))
   end
 

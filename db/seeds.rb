@@ -77,23 +77,21 @@ locales     = ['de-CH', 'fr-CH', 'it-CH']
   puts user.inspect
 end
 
-start_end_times = [["08:00", "11:00"], ["12:00", "16:00"], ["16:00", "20:00"]]
-
 50.times do |n|
   Faker::Config.locale = locales.sample
-  start_time_string, end_time_string = start_end_times.sample
+
+  start_date = Faker::Time.forward(365, [:morning, :evening].sample)
 
   job = Job.new(
-    title:        Faker::Lorem.sentence,           # t.string
-    description:  Faker::Lorem.paragraph,          # t.text
-    date:         Faker::Date.forward(365),        # t.date
-    start_time:   Time.parse(start_time_string),   # t.time
-    end_time:     Time.parse(end_time_string),     # t.time
-    place:        Faker::Commerce.department,      # t.string
-    address:      "#{Faker::Address.street_address}," + # t.string
+    title:        Faker::Lorem.sentence,                  # t.string
+    description:  Faker::Lorem.paragraph,                 # t.text
+    start_at:     start_date,                             # t.datetime
+    end_at:       start_date + (1..4).to_a.sample.hours,  # t.datetime
+    place:        Faker::Commerce.department,             # t.string
+    address:      "#{Faker::Address.street_address}," +   # t.string
                   " #{Faker::Number.number(4)} #{Faker::Address.city}",
-    size:         Faker::Number.between(2, 15),    # t.integer
-    user_id:      Faker::Number.between(1, 5)      # t.integer
+    slots:        Faker::Number.between(2, 15),           # t.integer
+    user_id:      Faker::Number.between(1, 5)             # t.integer
   )
   job.save(validate: true)
   puts job.inspect

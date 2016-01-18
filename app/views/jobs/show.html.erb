@@ -7,12 +7,12 @@
 
 <p>
   <strong><%= t '.date' %>: </strong>
-  <%= @job.date.to_localized_s :long %>
+  <%= @job.start_at.to_date.to_localized_s :long %>
 </p>
 
 <p>
   <strong><%= t '.start_time' %>: </strong>
-  <%= "#{@job.start_time.to_s(:time)} - #{@job.end_time.to_s(:time)}" %>
+  <%= "#{@job.start_at.to_s(:time)} - #{@job.end_at.to_s(:time)}" %>
 </p>
 
 <p>
@@ -37,8 +37,8 @@
 </p>
 
 <p>
-  <strong><%= t '.size' %>: </strong>
-  <%= "#{@job.job_signups.count} von #{@job.size}" %>
+  <strong><%= t '.slots' %>: </strong>
+  <%= "#{@job.job_signups.count} von #{@job.slots}" %>
 </p>
 
 <ol>

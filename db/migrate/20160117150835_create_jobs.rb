@@ -3,12 +3,11 @@ class CreateJobs < ActiveRecord::Migration
     create_table :jobs do |t|
       t.string :title
       t.text :description
-      t.date :date
-      t.time :start_time
-      t.time :end_time
+      t.datetime :start_at
+      t.datetime :end_at
       t.string :place
       t.string :address
-      t.integer :size
+      t.integer :slots
       t.references :user, index: true, foreign_key: true
 
       t.timestamps null: false
