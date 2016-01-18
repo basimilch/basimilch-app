@@ -152,27 +152,35 @@ de-CH:
       user_menu:
         log_out:          "Ausloggen"
         profile:          "Profil"
-      users_menu:
-        users:            "Genossenschafter_innen"
-        users_all:        "Alle"
-        users_active:     "Aktiv"
-        users_pending_activation:  "Nie eingeloggt"
-        users_inactive:   "Inaktiv"
-        users_stale:      "Verschwunden"
-        share_certificates: "Anteilscheine"
-        new_user:         "Neue_r Genossenschafter_in"
-      subscriptions_menu:
-        subscriptions: "Abos"
-      depots_menu:
-        depots: "Depots"
-        show_all_depots: "Alle"
-        new_depot: "Neues Depots"
-      jobs_menu:
-        jobs: "Mitarbeit"
-        all_jobs: "Alle Einsätze"
-        show_open_jobs: "Offene Einsätze"
-        new_job: "Neuer Einsatz"
-        new_job_series: "Neue Einsätzereihe"
+      user:
+        jobs_menu:
+          jobs: "Mitarbeit"
+        subscription_menu:
+          subscription: "Abo"
+        depot_menu:
+          depot: "Depot"
+      admin:
+        users_menu:
+          users:            "Genossenschafter_innen"
+          users_all:        "Alle"
+          users_active:     "Aktiv"
+          users_pending_activation:  "Nie eingeloggt"
+          users_inactive:   "Inaktiv"
+          users_stale:      "Verschwunden"
+          share_certificates: "Anteilscheine"
+          new_user:         "Neue_r Genossenschafter_in"
+        subscriptions_menu:
+          subscriptions: "Abos"
+        depots_menu:
+          depots: "Depots"
+          show_all_depots: "Alle"
+          new_depot: "Neues Depots"
+        jobs_menu:
+          jobs: "Mitarbeit"
+          all_jobs: "Alle Einsätze"
+          show_open_jobs: "Offene Einsätze"
+          new_job: "Neuer Einsatz"
+          new_job_series: "Neue Einsätzereihe"
 
   forms:
     login:

@@ -15,14 +15,18 @@
       </div>
       <% if logged_in? %>
         <div class="collapse navbar-collapse" id="navigation-menu">
-          <% if current_user.admin? %>
-            <ul class="nav navbar-nav">
-              <%= render 'layouts/header/users_menu' %>
-              <%= render 'layouts/header/subscriptions_menu' %>
-              <%= render 'layouts/header/depots_menu' %>
-              <%= render 'layouts/header/jobs_menu' %>
-            </ul>
-          <% end %>
+          <ul class="nav navbar-nav">
+            <% if current_user.admin? %>
+              <%= render 'layouts/header/admin/users_menu' %>
+              <%= render 'layouts/header/admin/jobs_menu' %>
+              <%= render 'layouts/header/admin/subscriptions_menu' %>
+              <%= render 'layouts/header/admin/depots_menu' %>
+            <% else %>
+              <%= render 'layouts/header/user/jobs_menu' %>
+              <%= render 'layouts/header/user/subscription_menu' %>
+              <%= render 'layouts/header/user/depot_menu' %>
+            <% end %>
+          </ul>
           <ul class="nav navbar-nav navbar-right">
             <%= render 'layouts/header/user_menu' %>
           </ul>
