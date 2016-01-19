@@ -8,7 +8,7 @@ class JobsController < ApplicationController
   # GET /jobs
   # GET /jobs.json
   def index
-    @jobs = Job.all
+    @jobs = Job.future
   end
 
   # GET /jobs/1

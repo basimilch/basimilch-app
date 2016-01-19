@@ -4,15 +4,16 @@ class Job < ActiveRecord::Base
   has_many :job_signups
 
   default_scope -> { order(start_at: :asc) }
+  scope :future, -> { where("start_at > ?", Time.current) }
 
   # Returns the job that will happen next.
   def self.next
-    where("start_at > ?", Time.current).limit(1).first
+    future.first
   end
 
   # Returns the list of jobs that will happen next.
   def self.following(n = 5)
-    where("start_at > ?", Time.current).limit([n, 1].max)
+    future.limit([n, 1].max)
   end
 
   def to_s
