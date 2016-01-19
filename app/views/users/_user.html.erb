@@ -31,7 +31,7 @@
     <%= mail_to user.email %>
   </td>
   <td>
-    <%= user.job_signups.count %>
+    <%= user.job_signups.in_current_year.count %>
   </td>
   <td>
     <% if not user.allowed_to_login? %>

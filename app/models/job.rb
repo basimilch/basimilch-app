@@ -5,6 +5,8 @@ class Job < ActiveRecord::Base
 
   default_scope -> { order(start_at: :asc) }
   scope :future, -> { where("start_at > ?", Time.current) }
+  scope :in_current_year, -> { where("start_at > ?",
+                                     Time.current.beginning_of_year) }
 
   # Returns the job that will happen next.
   def self.next

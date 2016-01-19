@@ -260,9 +260,7 @@ class User < ActiveRecord::Base
   # a user has to do, with 'nil' for the missing required signups.
   def current_year_jobs
     min = JobSignup::MIN_NUMBER_PER_USER_PER_YEAR
-    signups = job_signups
-                .joins(:job)
-                .where("start_at > ?", Time.current.beginning_of_year)
+    signups = job_signups.in_current_year
     (signups.map(&:job).sort_by(&:start_at) + [nil] * min)
       .take([signups.count, min].max)
   end
