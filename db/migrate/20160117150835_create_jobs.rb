@@ -12,5 +12,6 @@ class CreateJobs < ActiveRecord::Migration
 
       t.timestamps null: false
     end
+    add_index :jobs, :start_at, unique: false
   end
 end

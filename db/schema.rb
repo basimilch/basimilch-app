@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20160117154735) do
     t.datetime "updated_at",  null: false
   end
 
+  add_index "jobs", ["start_at"], name: "index_jobs_on_start_at"
   add_index "jobs", ["user_id"], name: "index_jobs_on_user_id"
 
   create_table "share_certificates", force: :cascade do |t|
