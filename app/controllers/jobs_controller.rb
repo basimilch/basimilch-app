@@ -1,5 +1,9 @@
 class JobsController < ApplicationController
-  before_action :set_job, only: [:show, :edit, :update, :destroy]
+  before_action :set_job, only: [:show,
+                                 :edit,
+                                 :update,
+                                 :destroy,
+                                 :signup_current_user]
 
   # GET /jobs
   # GET /jobs.json
@@ -10,6 +14,12 @@ class JobsController < ApplicationController
   # GET /jobs/1
   # GET /jobs/1.json
   def show
+    if @job.past?
+      flash_now_t :warning, :job_is_in_the_past
+    elsif @job.user_signed_up? current_user
+      flash_now_t :info, @job.full? ? :current_user_signed_up_and_job_full :
+                                      :current_user_signed_up
+    end
   end
 
   # GET /jobs/new
@@ -59,6 +69,12 @@ class JobsController < ApplicationController
       format.html { redirect_to jobs_url, notice: 'Job was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def signup_current_user
+    logger.info "Signing up #{current_user} for #{@job}."
+    @job.job_signups.create(user_id: current_user.id)
+    redirect_to @job
   end
 
   private

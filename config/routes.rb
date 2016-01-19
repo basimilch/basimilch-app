@@ -28,6 +28,8 @@ Rails.application.routes.draw do
   post    'signup'        => 'signups#validation',        as: :signup_validation
   put     'signup'        => 'signups#create',            as: :signup_create
 
+  post    'jobs/:id/signup' => 'jobs#signup_current_user', as: :job_signup
+
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

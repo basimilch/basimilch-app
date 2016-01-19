@@ -11,7 +11,7 @@
 </p>
 
 <p>
-  <strong><%= t '.start_time' %>: </strong>
+  <strong><%= t '.time' %>: </strong>
   <%= "#{@job.start_at.to_s(:time)} - #{@job.end_at.to_s(:time)}" %>
 </p>
 
@@ -45,19 +45,26 @@
   <%= render @job.job_signups %>
 </ol>
 
+<% if @job.full? %>
+  <div class="alert alert-success" role="alert">
+    <%= t '.job_is_full' %>
+  </div>
+<% elsif @job.future? %>
+  <div class="row">
+    <div class="col-sm-4">
+      <%= button_to t('.signup_for_job'),
+                  job_signup_path,
+                  { class:  "btn btn-success",
+                    data: { confirm: t('.signup_confirmation_message') }} %>
+    </div> <!-- /col -->
+  </div> <!-- /row -->
+<% end %>
+
+
 <% if current_user_admin? %>
   <%= link_to 'Edit', edit_job_path(@job) %> |
   <%= link_to 'Destroy', @job, method: :delete, data: { confirm: 'Are you sure?' } %> |
   <%= link_to 'Back', jobs_path %>
-<% else %>
-  <%# button_to , job_signups_path(job_signup: {job_id: @job.id}) %>
-        <%# button_to t(@user.activation_sent_at ?
-                        '.send_activation_email_again' :
-                        '.send_activation_email'),
-                    { controller: :users,
-                      action:     :activate,
-                      id:         @user.id},
-                    { class:  "btn btn-success" } %>
-
 <% end %>
+
 

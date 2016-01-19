@@ -268,7 +268,7 @@ class User < ActiveRecord::Base
   end
 
   def to_s
-    "User #{id}: #{full_name} <#{email}> - #{full_postal_address}".truncate(100)
+    "User #{id}: #{full_name} <#{email}>"
   end
 
 

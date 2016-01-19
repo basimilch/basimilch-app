@@ -20,7 +20,7 @@ class Job < ActiveRecord::Base
      "#{start_at.to_s :time} - #{title}").truncate(100)
   end
 
-  def singup_status
+  def signup_status
     count = job_signups.count
     return :success if count >= slots
     return :danger  if count == 0
@@ -37,5 +37,17 @@ class Job < ActiveRecord::Base
 
   def future?
     start_at > Time.current
+  end
+
+  def full?
+    # TODO: Make a test to ensure that a job doesn't accept signups if it's full
+    signup_status == :success
+  end
+
+  def user_signed_up?(user)
+    job_signups.each do |job_signup|
+      return true if job_signup.user_id == user.id
+    end
+    return false
   end
 end

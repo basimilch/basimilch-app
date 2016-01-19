@@ -408,6 +408,18 @@ de-CH:
       <<: *table_headers
       title: Einsatz
       contact_user: Ansprechperson
+      signup_for_job: Anmelden
+      job_is_full: "Der Job ist ausgebucht, danke!"
+      signup_confirmation_message: >
+        Möchtest du dich verbindlich für diesen Einsatz eintragen?
+      current_user_signed_up_and_job_full: >
+        Du bist für diesen Einsatz angemeldet.
+      current_user_signed_up: >
+        Du bist bereits für diesen Einsatz angemeldet. Wenn du weitere
+        Personen eintragen möchstest, kannst du dich nochmals
+        anmelden.
+      job_is_in_the_past: Der Einsatz ist bereits vorbei.
+
     user_dashboard:
       title: Dein Mitarbeit-Konto
       open_slot: Noch offen
