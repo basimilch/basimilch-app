@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   has_paper_trail ignore: [:updated_at, :last_seen_at]
 
   has_many :share_certificates
+  has_many :job_signups
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   VALID_SWISS_POSTAL_CODE_REGEX = /\A\d{4}\z/ # The 'CH-' part is not expected.
@@ -252,6 +253,22 @@ class User < ActiveRecord::Base
     update_attributes(params_arg
                         .require(:user)
                         .permit(:password, :password_confirmation))
+  end
+
+  # Returns an array of jobs for which this user has signup this year.
+  # The array has a min length equal to the min number of jobs that
+  # a user has to do, with 'nil' for the missing required signups.
+  def current_year_jobs
+    min = JobSignup::MIN_NUMBER_PER_USER_PER_YEAR
+    signups = job_signups
+                .joins(:job)
+                .where("start_at > ?", Time.current.beginning_of_year)
+    (signups.map(&:job).sort_by(&:start_at) + [nil] * min)
+      .take([signups.count, min].max)
+  end
+
+  def to_s
+    "User #{id}: #{full_name} <#{email}> - #{full_postal_address}".truncate(100)
   end
 
 

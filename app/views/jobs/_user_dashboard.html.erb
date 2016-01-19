@@ -1,0 +1,48 @@
+<div class="user_job_dashboard">
+  <div class="title">
+    <%= t '.title' %>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-hover table-condensed">
+      <thead>
+        <tr>
+          <th></th>
+          <th><%= t 'table_headers.date' %></th>
+          <th><%= t 'table_headers.time' %></th>
+          <th><%= t 'table_headers.job_title' %></th>
+          <th><%= t 'table_headers.slots' %></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% current_user.current_year_jobs.each_with_index do |job, i| %>
+          <tr class="">
+            <td><%= i + 1 %>.</td>
+            <% if job %>
+              <td><%= job.start_at.to_date.to_localized_s :short %></td>
+              <td><%= "#{job.start_at.to_s(:time)} - #{job.end_at.to_s(:time)}" %></td>
+              <td><%= link_to job.title, job %></td>
+              <td><%= "#{job.job_signups.count}/#{job.slots}" %></td>
+              <td>
+                <% if job.past? %>
+                  Done
+                <% elsif job.ongoing? %>
+                  <%= t "time.now" %>
+                <% else %>
+                  <%= time_tag job.start_at do %>
+                    <%= t "time.x_time_from_now",
+                        duration: job.start_at.relative_in_words %>
+                  <% end %>
+
+                <% end %>
+              </td>
+            <% else %>
+              <td colspan="6"><i><%= t '.open_slot' %></i></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -82,15 +82,16 @@ de-CH:
     name:         Name
     user:         Genossenschafter
     email:        E-Mail-Adresse
-    sent_at:      Abgeschikt
+    sent_at:      Abgeschickt
     payed_at:     Bezahlt
     returned_at:  Rückerstattet
     last_seen_at: Zuletzt online
     notes:        Notizen
     job_title:    Einsatz
+    job_signups:  Einsätze
     description:  Beschreibung
     date:         Datum
-    start_time:   Zeit
+    time:         Zeit
     place:        Ort
     address:      Adresse
     slots:        Teilnehmer-Anzahl
@@ -98,6 +99,7 @@ de-CH:
   time:
     now:          jetzt
     x_time_ago:   vor %{duration}
+    x_time_from_now: in %{duration}
 
   # Misc
 
@@ -392,8 +394,8 @@ de-CH:
       title: Anteilschein bearbeiten
     share_certificate:
       share_certificate_id: "Anteilschein Nr. %{id}"
-      sent_at: "Abgeschikt am %{date}."
-      sent_at_not_set: "Noch nicht abgeschikt."
+      sent_at: "Abgeschickt am %{date}."
+      sent_at_not_set: "Noch nicht abgeschickt."
       payed_at: "Bezahlt am %{date}."
       returned_at: "Rückerstattet am %{date}."
       notes: "Notizen"
@@ -406,4 +408,7 @@ de-CH:
       <<: *table_headers
       title: Einsatz
       contact_user: Ansprechperson
+    user_dashboard:
+      title: Dein Mitarbeit-Konto
+      open_slot: Noch offen
 

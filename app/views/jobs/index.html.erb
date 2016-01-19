@@ -1,24 +1,27 @@
 <% provide(:title, t('.title')) %>
+
+<% unless current_user.admin? %>
+  <%= render 'user_dashboard' %>
+<% end %>
+
 <div class="table-responsive">
   <table class="table table-hover table-condensed">
     <thead>
       <tr>
-        <th><%= t 'table_headers.job_title' %></th>
         <th><%= t 'table_headers.date' %></th>
-        <th><%= t 'table_headers.start_time' %></th>
+        <th><%= t 'table_headers.time' %></th>
+        <th><%= t 'table_headers.job_title' %></th>
         <th><%= t 'table_headers.place' %></th>
-        <th><%= t 'table_headers.address' %></th>
         <th><%= t 'table_headers.slots' %></th>
       </tr>
     </thead>
     <tbody>
       <% @jobs.each do |job| %>
         <tr class="<%= job.singup_status %>">
-          <td><%= link_to job.title, job %></td>
           <td><%= job.start_at.to_date.to_localized_s :short %></td>
           <td><%= "#{job.start_at.to_s(:time)} - #{job.end_at.to_s(:time)}" %></td>
+          <td><%= link_to job.title, job %></td>
           <td><%= job.place %></td>
-          <td><%= job.address %></td>
           <td><%= "#{job.job_signups.count}/#{job.slots}" %></td>
           <td></td>
         </tr>

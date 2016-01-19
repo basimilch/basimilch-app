@@ -8,10 +8,10 @@ puts "******** Seeding Data Start ************"
 puts
 
 unless User.first
-  first_user = User.new(first_name:      "User",
+  first_user = User.new(first_name:      "Admin",
                         last_name:       "Example",
                         admin:           true,
-                        email:           "user@example.org",
+                        email:           "admin@example.org",
                         postal_address:  "Some Street 42",
                         postal_code:     "8953",
                         city:            "Dietikon",
@@ -39,7 +39,7 @@ end
 separators  = [".", "-", "_", ""]
 locales     = ['de-CH', 'fr-CH', 'it-CH']
 
-100.times do |n|
+200.times do |n|
   Faker::Config.locale = locales.sample
 
   first_name  = Faker::Name.first_name
@@ -74,16 +74,18 @@ locales     = ['de-CH', 'fr-CH', 'it-CH']
     )
   end
 
-  puts user.inspect
+  puts user
 end
 
-50.times do |n|
+100.times do |n|
   Faker::Config.locale = locales.sample
 
-  start_date = Faker::Time.forward(365, [:morning, :evening].sample)
+  start_date = Faker::Time.between(6.months.ago,
+                                   6.months.from_now,
+                                   [:morning, :afternoon].sample)
 
   job = Job.new(
-    title:        Faker::Lorem.sentence,                  # t.string
+    title:        Faker::Lorem.sentence(2, false, 2),     # t.string
     description:  Faker::Lorem.paragraph,                 # t.text
     start_at:     start_date,                             # t.datetime
     end_at:       start_date + (1..4).to_a.sample.hours,  # t.datetime
@@ -94,13 +96,13 @@ end
     user_id:      Faker::Number.between(1, 5)             # t.integer
   )
   job.save(validate: true)
-  puts job.inspect
+  puts job
 end
 
-50.times do |n|
+100.times do |n|
   JobSignup.create(
     user_id: Faker::Number.between(2, 100),
-    job_id:  Faker::Number.between(1, 50)
+    job_id:  Faker::Number.between(1, 100)
   )
 end
 

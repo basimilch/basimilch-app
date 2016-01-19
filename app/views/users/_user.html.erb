@@ -31,6 +31,9 @@
     <%= mail_to user.email %>
   </td>
   <td>
+    <%= user.job_signups.count %>
+  </td>
+  <td>
     <% if not user.allowed_to_login? %>
       <%= t ".inactive", class: "user-inactive-label" %>
     <% elsif user.recently_online? %>
