@@ -47,6 +47,10 @@ class Job < ActiveRecord::Base
     signup_status == :success
   end
 
+  def available?
+    (not full?) && future?
+  end
+
   def user_signed_up?(user)
     job_signups.each do |job_signup|
       return true if job_signup.user_id == user.id

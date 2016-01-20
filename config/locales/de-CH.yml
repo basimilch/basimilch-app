@@ -131,6 +131,7 @@ de-CH:
       uncomplete_postal_address: "Postadresse unvollständig"
       unrecornised_and_replaced: "\"%{original}\" wurde mit \"%{corrected}\" ersetzt"
       user_not_found: "Genossenschafter mit id '%{id}' nicht gefunden!"
+      job_does_not_accept_signups: "Es ist nicht mehr möglich, sich für diesen Einsatz anzumelden."
 
   # Models
 

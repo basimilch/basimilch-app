@@ -72,8 +72,13 @@ class JobsController < ApplicationController
   end
 
   def signup_current_user
-    logger.info "Signing up #{current_user} for #{@job}."
-    @job.job_signups.create(user_id: current_user.id)
+    signup = @job.job_signups.build(user_id: current_user.id)
+    if signup.save
+      logger.info "Successfully signed up #{current_user} for #{@job}."
+    else
+      logger.info "Not possible to sign up #{current_user} for #{@job}."
+      flash_t :danger, signup.errors[:base].join(" ")
+    end
     redirect_to @job
   end
 

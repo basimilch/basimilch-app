@@ -7,4 +7,14 @@ class JobSignup < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :job
+
+  validate :job_is_available
+
+  private
+
+    def job_is_available
+      unless job.available?
+        errors.add :base, I18n.t("errors.messages.job_does_not_accept_signups")
+      end
+    end
 end
