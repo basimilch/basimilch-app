@@ -113,7 +113,7 @@ number_of_jobs.times do |n|
     slots:        Faker::Number.between(2, 10),           # t.integer
     user_id:      Faker::Number.between(1, 5)             # t.integer
   )
-  job.save(validate: true)
+  job.save(validate: false)
   puts job if PRINT_SEEDING_PROGRESS
 end
 
@@ -137,7 +137,7 @@ puts "  #{Job.count} jobs"
 puts "  #{JobSignup.count} job_signups"
 puts
 puts "NB: Model validations were skipped for users, since the adresses are" +
-     " not valid."
+     " not valid, and for jobs, to allow past jobs to be added."
 puts
 puts "******** Seeding Data End ************"
 puts
