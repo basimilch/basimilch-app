@@ -8,7 +8,9 @@ class JobSignup < ActiveRecord::Base
   belongs_to :user
   belongs_to :job
 
-  validate :job_is_available
+  validates :user_id, presence: true, numericality: { greater_than: 0 }
+  validates :job_id,  presence: true, numericality: { greater_than: 0 }
+  validate  :job_is_available,  unless: Proc.new {|j| j.job_id.blank?}
 
   private
 
