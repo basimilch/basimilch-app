@@ -63,6 +63,13 @@ de-CH:
       login_code:             "Login Code"
       profile:                "Profil"
       secure_computer_acknowledged: Dies ist mein Computer
+      # start_at:               Begin
+      # end_at:                 Ende
+      # title:                  Titel
+      # description:            Beschreibung
+      # place:                  Ort
+      # address:                Adresse
+      # slots:                  Plätze
     placeholders: &placeholders
       first_name:             "Vorname"
       last_name:              "Nachname"
@@ -132,6 +139,8 @@ de-CH:
       unrecornised_and_replaced: "\"%{original}\" wurde mit \"%{corrected}\" ersetzt"
       user_not_found: "Genossenschafter mit id '%{id}' nicht gefunden!"
       job_does_not_accept_signups: "Es ist nicht mehr möglich, sich für diesen Einsatz anzumelden."
+      job_must_be_future: "muss in der Zukunft liegen"
+      job_end_must_be_after_start: "muss befor die Endzeit sein"
 
   # Models
 

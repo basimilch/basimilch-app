@@ -33,4 +33,11 @@ module ActionFilterHelper
       raise_404
     end
   end
+
+  def user_exists(id: nil)
+    unless User.find_by(id: id)
+      errors.add(:user_id, I18n.t("errors.messages.user_not_found",
+                                  id: id))
+    end
+  end
 end

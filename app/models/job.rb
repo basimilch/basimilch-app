@@ -8,6 +8,15 @@ class Job < ActiveRecord::Base
   scope :in_current_year, -> { where("start_at > ?",
                                      Time.current.beginning_of_year) }
 
+  validates :title,         presence: true
+  validates :description,   presence: true
+  validates :place,         presence: true
+  validates :address,       presence: true
+  validates :slots,         presence: true, numericality: { greater_than: 0 }
+  validates :user_id,       presence: true
+  validate  :user_exists,   unless: Proc.new {|j| j.user_id.blank?}
+  validate  :correct_future_dates
+
   # Returns the job that will happen next.
   def self.next
     future.first
@@ -57,4 +66,22 @@ class Job < ActiveRecord::Base
     end
     return false
   end
+
+  private
+
+    def user_exists
+      unless User.find_by(id: user_id)
+        errors.add :user_id, I18n.t("errors.messages.user_not_found",
+                                    id: user_id)
+      end
+    end
+
+    def correct_future_dates
+      if past?
+        errors.add :start_at, I18n.t("errors.messages.job_must_be_future")
+      elsif start_at >= end_at
+        errors.add :start_at,
+                   I18n.t("errors.messages.job_end_must_be_after_start")
+      end
+    end
 end

@@ -27,10 +27,10 @@ class JobsControllerTest < ActionController::TestCase
       assert_admin_protected login_as: @admin_user do
         post :create, job: { address: @job.address,
                              description: @job.description,
-                             end_at: @job.end_at,
                              place: @job.place,
                              slots: @job.slots,
-                             start_at: @job.start_at,
+                             start_at: 1.day.from_now,
+                             end_at: 1.day.from_now + 1.hour,
                              title: @job.title,
                              user_id: @job.user_id }
       end
@@ -43,15 +43,32 @@ class JobsControllerTest < ActionController::TestCase
       assert_admin_protected login_as: @user do
         post :create, job: { address: @job.address,
                              description: @job.description,
-                             end_at: @job.end_at,
                              place: @job.place,
                              slots: @job.slots,
-                             start_at: @job.start_at,
+                             start_at: 1.day.from_now,
+                             end_at: 1.day.from_now + 1.hour,
                              title: @job.title,
                              user_id: @job.user_id }
       end
     end
   end
+
+
+  test "admin should not create past job" do
+    assert_no_difference 'Job.count' do
+      assert_admin_protected login_as: @admin_user do
+        post :create, job: { address: @job.address,
+                             description: @job.description,
+                             place: @job.place,
+                             slots: @job.slots,
+                             start_at: 1.day.ago,
+                             end_at: 1.day.ago + 1.hour,
+                             title: @job.title,
+                             user_id: @job.user_id }
+      end
+    end
+  end
+
 
   test "user should show job" do
     assert_protected login_as: @user do
@@ -78,10 +95,10 @@ class JobsControllerTest < ActionController::TestCase
     assert_admin_protected login_as: @admin_user do
       patch :update, id: @job, job: { address: @job.address,
                                       description: @job.description,
-                                      end_at: @job.end_at,
                                       place: @job.place,
                                       slots: @job.slots,
-                                      start_at: @job.start_at,
+                                      start_at: 1.day.from_now,
+                                      end_at: 1.day.from_now + 1.hour,
                                       title: @job.title,
                                       user_id: @job.user_id }
     end
@@ -92,10 +109,10 @@ class JobsControllerTest < ActionController::TestCase
     assert_admin_protected login_as: @user do
       patch :update, id: @job, job: { address: @job.address,
                                       description: @job.description,
-                                      end_at: @job.end_at,
                                       place: @job.place,
                                       slots: @job.slots,
-                                      start_at: @job.start_at,
+                                      start_at: 1.day.from_now,
+                                      end_at: 1.day.from_now + 1.hour,
                                       title: @job.title,
                                       user_id: @job.user_id }
     end
