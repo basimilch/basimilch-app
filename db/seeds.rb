@@ -1,7 +1,21 @@
 # Inspired from: https://www.railstutorial.org/book/_single-page#code-db_seed
 # Apply with:
-#   bundle exec rake db:migrate:reset
-#   bundle exec rake db:seed
+#   bundle exec rake db:reset => applies the db schema and runs this seeds script
+#   bundle exec rake db:seed  => re-seeds the DB, i.e. add more items.
+
+# # Stress testing:
+#
+# NUMBER_OF_USERS = 2000
+# CREATE_JOBS_SINCE = 5.years.ago
+# CREATE_JOBS_UNTIL = 1.year.from_now
+# AVERAGE_NUMBER_OF_JOBS_PER_DAY = 3
+# PRINT_SEEDING_PROGRESS = false
+
+NUMBER_OF_USERS = 200
+CREATE_JOBS_SINCE = 6.months.ago
+CREATE_JOBS_UNTIL = 1.year.from_now
+AVERAGE_NUMBER_OF_JOBS_PER_DAY = 0.5
+PRINT_SEEDING_PROGRESS = true
 
 puts
 puts "******** Seeding Data Start ************"
@@ -24,7 +38,7 @@ unless User.first
                         activated: true,
                         activated_at: Time.current)
   first_user.save(validate: false)
-  puts first_user.inspect
+  puts first_user if PRINT_SEEDING_PROGRESS
 end
 
 def maybe(str)
@@ -39,7 +53,7 @@ end
 separators  = [".", "-", "_", ""]
 locales     = ['de-CH', 'fr-CH', 'it-CH']
 
-200.times do |n|
+NUMBER_OF_USERS.times do |n|
   Faker::Config.locale = locales.sample
 
   first_name  = Faker::Name.first_name
@@ -74,14 +88,18 @@ locales     = ['de-CH', 'fr-CH', 'it-CH']
     )
   end
 
-  puts user
+  puts user if PRINT_SEEDING_PROGRESS
 end
 
-100.times do |n|
+
+years = (CREATE_JOBS_UNTIL - CREATE_JOBS_SINCE) / 1.year.in_milliseconds * 1000
+number_of_jobs  = (365 * AVERAGE_NUMBER_OF_JOBS_PER_DAY * years).to_i
+
+number_of_jobs.times do |n|
   Faker::Config.locale = locales.sample
 
-  start_date = Faker::Time.between(6.months.ago,
-                                   6.months.from_now,
+  start_date = Faker::Time.between(CREATE_JOBS_SINCE,
+                                   CREATE_JOBS_UNTIL,
                                    [:morning, :afternoon].sample)
 
   job = Job.new(
@@ -92,17 +110,21 @@ end
     place:        Faker::Commerce.department,             # t.string
     address:      "#{Faker::Address.street_address}," +   # t.string
                   " #{Faker::Number.number(4)} #{Faker::Address.city}",
-    slots:        Faker::Number.between(2, 15),           # t.integer
+    slots:        Faker::Number.between(2, 10),           # t.integer
     user_id:      Faker::Number.between(1, 5)             # t.integer
   )
   job.save(validate: true)
-  puts job
+  puts job if PRINT_SEEDING_PROGRESS
 end
 
-100.times do |n|
+# Simulate that in average each user signs up the requested numbers of times
+signups_trials = NUMBER_OF_USERS * JobSignup::MIN_NUMBER_PER_USER_PER_YEAR
+# => "_trials" because signups might fail if the jobs is not available anymore.
+
+signups_trials.times do |n|
   JobSignup.create(
-    user_id: Faker::Number.between(2, 100),
-    job_id:  Faker::Number.between(1, 100)
+    user_id: Faker::Number.between(2, NUMBER_OF_USERS),
+    job_id:  Faker::Number.between(1, number_of_jobs)
   )
 end
 
@@ -114,7 +136,7 @@ puts "  #{ShareCertificate.count} share_certificates"
 puts "  #{Job.count} jobs"
 puts "  #{JobSignup.count} job_signups"
 puts
-puts "NB: Model validations were skipped for seeding, since the adresses are" +
+puts "NB: Model validations were skipped for users, since the adresses are" +
      " not valid."
 puts
 puts "******** Seeding Data End ************"
