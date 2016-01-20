@@ -15,7 +15,7 @@ class JobSignup < ActiveRecord::Base
   private
 
     def job_is_available
-      unless job.available?
+      unless job.try(:available?)
         errors.add :base, I18n.t("errors.messages.job_does_not_accept_signups")
       end
     end
