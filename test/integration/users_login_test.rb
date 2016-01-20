@@ -39,11 +39,14 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     get login_path
     # Post valid information to the sessions path.
     fixture_log_in(@user)
-    # Check the right redirect target.
-    assert_redirected_to profile_path
+    # Check that the user gets first redirected to root
+    assert_redirected_to root_path
+    follow_redirect!
+    # ...which redirects to jobs
+    assert_redirected_to jobs_path
     # Actually visit the target page.
     follow_redirect!
-    assert_template 'users/show'
+    assert_template 'jobs/index'
     # Verify that there is no login link.
     assert_select "a[href=?]", login_path, count: 0
     # Verify that a logout link appears
@@ -106,9 +109,11 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
       assert_nil @user.last_seen_at
       assert_nil @user.remembered_since
       fixture_log_in(@user, secure_computer_acknowledged: '1')
-      assert_redirected_to profile_path
+      assert_redirected_to root_path
       follow_redirect!
-      assert_template 'users/show'
+      assert_redirected_to jobs_path
+      follow_redirect!
+      assert_template 'jobs/index'
       assert_not_nil cookies['remember_token']
       @user.reload
       assert_equal Time.current, @user.last_seen_at

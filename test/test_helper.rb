@@ -111,7 +111,7 @@ class ActiveSupport::TestCase
     end
     fixture_log_in user
     if admin_protected && !user.admin?
-      assert_404_error do
+      assert_404_error "Non-admin #{user} should not have access" do
         yield
       end
     else
@@ -119,8 +119,8 @@ class ActiveSupport::TestCase
     end
   end
 
-  def assert_404_error
-    assert_raises ActionController::RoutingError do
+  def assert_404_error(msg = "no 404 was raised")
+    assert_raises ActionController::RoutingError, msg do
       yield
     end
   end

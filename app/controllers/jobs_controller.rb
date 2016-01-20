@@ -1,9 +1,9 @@
 class JobsController < ApplicationController
-  before_action :set_job, only: [:show,
-                                 :edit,
-                                 :update,
-                                 :destroy,
-                                 :signup_current_user]
+
+  before_action :require_logged_in_user
+  before_action :admin_user,  except: [:index, :show, :signup_current_user]
+  before_action :set_job,     only:   [:show, :edit, :update, :destroy,
+                                       :signup_current_user]
 
   # GET /jobs
   # GET /jobs.json

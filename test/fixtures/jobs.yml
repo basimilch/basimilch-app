@@ -19,3 +19,23 @@ two:
   address: MyString
   slots: 1
   user_id: 1
+
+past_job:
+  title: MyString
+  description: MyText
+  start_at: <%= 1.day.ago %>
+  end_at: <%= 1.day.ago + 2.hours %>
+  place: MyString
+  address: MyString
+  slots: 1
+  user_id: 1
+
+future_job:
+  title: MyString
+  description: MyText
+  start_at: <%= 1.day.from_now %>
+  end_at: <%= 1.day.from_now + 2.hours %>
+  place: MyString
+  address: MyString
+  slots: 1
+  user_id: 1
