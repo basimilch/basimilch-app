@@ -1,11 +1,11 @@
 <% provide(:title, t('.title')) %>
 
-<div class="current_user_job_dashboard">
+<div class="current_user_job_overview">
   <div class="title">
-    <strong><%= t ".job_dashboard_title" %></strong>
+    <strong><%= t ".job_overview_title" %></strong>
     <hr>
   </div>
-  <%= render 'user_dashboard', user: current_user %>
+  <%= render 'user_overview', user: current_user %>
 </div>
 
 <div class="table-responsive">

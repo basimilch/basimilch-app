@@ -221,7 +221,7 @@ de-CH:
       share_certificates_title: "Anteilscheine"
       no_share_certificates: "Es gibt keine Anteilscheine für diesen Benutzerkonto registriert."
       add_new_share_certificate_for_user: "Anteilschein registrieren"
-      job_dashboard_title: Mitarbeit-Konto
+      job_overview_title: Mitarbeit-Konto
     create:
       flash:
         user_successfully_created: "Genossenschafter '%{full_name}' (Id %{id}) angemeldet!"
@@ -405,7 +405,7 @@ de-CH:
   jobs:
     index:
       title: Einsätze
-      job_dashboard_title: Dein Mitarbeit-Konto
+      job_overview_title: Dein Mitarbeit-Konto
     show:
       <<: *table_headers
       title: Einsatz
@@ -422,6 +422,6 @@ de-CH:
         anmelden.
       job_is_in_the_past: Der Einsatz ist bereits vorbei.
 
-    user_dashboard:
+    user_overview:
       open_slot: Noch offen
 

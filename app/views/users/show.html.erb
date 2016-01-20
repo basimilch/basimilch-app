@@ -45,12 +45,12 @@
 </div>
 
 <% if current_user.admin? %>
-  <div id="job_dashboard" class="user_job_dashboard_for_admin">
+  <div id="job_overview" class="user_job_overview_for_admin">
     <div class="title">
-      <strong><%= t ".job_dashboard_title" %></strong>
+      <strong><%= t ".job_overview_title" %></strong>
     </div>
     <hr>
-    <%= render 'jobs/user_dashboard', user: @user %>
+    <%= render 'jobs/user_overview', user: @user %>
   </div>
 <% end %>
 
