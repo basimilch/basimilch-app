@@ -470,3 +470,14 @@ form {
       top: 50px;
     }
 }
+
+.jobs_table {
+  td.signup_count {
+    .progress {
+      margin: {
+        top: 3px;
+        bottom: 0;
+      }
+    }
+  }
+}

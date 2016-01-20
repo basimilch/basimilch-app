@@ -26,7 +26,7 @@ class Job < ActiveRecord::Base
   def signup_status
     count = job_signups.count
     return :success if count >= slots
-    return :danger  if count == 0
+    return :danger  if count < (0.4 * slots)
     :warning
   end
 

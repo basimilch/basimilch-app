@@ -8,7 +8,7 @@
   <%= render 'user_overview', user: current_user %>
 </div>
 
-<div class="table-responsive">
+<div class="table-responsive jobs_table">
   <table class="table table-hover table-condensed">
     <thead>
       <tr>
@@ -21,13 +21,23 @@
     </thead>
     <tbody>
       <% @jobs.each do |job| %>
-        <tr class="<%= job.signup_status %>">
+        <tr>
           <td><%= job.start_at.to_date.to_localized_s :short %></td>
           <td><%= "#{job.start_at.to_s(:time)} - #{job.end_at.to_s(:time)}" %></td>
           <td><%= link_to job.title, job %></td>
           <td><%= job.place %></td>
-          <td><%= "#{job.job_signups.count}/#{job.slots}" %></td>
-          <td></td>
+          <td class="signup_count">
+            <% status = job.signup_status %>
+            <% count = job.job_signups.count %>
+            <% pc = (count.to_f/job.slots * 100).to_i %>
+              <%= link_to job do %>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-<%= status %>" role="progressbar" aria-valuenow="<%= pc %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= pc %>%;min-width: 3em;">
+                    <%= "#{count} / #{job.slots}" %>
+                  </div>
+                </div>
+              <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>
