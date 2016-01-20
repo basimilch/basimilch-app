@@ -11,10 +11,10 @@ module ActionFilterHelper
     end
   end
 
-  # Requires that no user is logged in, and redirects to /profile if so.
+  # Requires that no user is logged in, and redirects to /jobs if so.
   def require_no_logged_in_user
     if logged_in?
-      redirect_to profile_path
+      redirect_to jobs_path
     end
   end
 

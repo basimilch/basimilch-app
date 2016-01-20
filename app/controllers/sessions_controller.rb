@@ -7,9 +7,6 @@ class SessionsController < ApplicationController
 
   def new
     forget_login_attempt
-    if logged_in?
-      redirect_to profile_path
-    end
     @email = params[:email]
   end
 
@@ -94,7 +91,7 @@ class SessionsController < ApplicationController
       session[:secure_computer_acknowledged] == '0' ? forget(current_user)
                                                     : remember(current_user)
       forget_login_attempt
-      redirect_back_or profile_path
+      redirect_back_or root_path
       return
     else
       # Wrong login code
