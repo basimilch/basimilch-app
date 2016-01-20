@@ -43,3 +43,14 @@
     </div>
   <% end %>
 </div>
+
+<% if current_user.admin? %>
+  <div id="job_dashboard" class="user_job_dashboard_for_admin">
+    <div class="title">
+      <strong><%= t ".job_dashboard_title" %></strong>
+    </div>
+    <hr>
+    <%= render 'jobs/user_dashboard', user: @user %>
+  </div>
+<% end %>
+

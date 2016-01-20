@@ -31,7 +31,8 @@
     <%= mail_to user.email %>
   </td>
   <td>
-    <%= user.job_signups.in_current_year.count %>
+    <%= link_to user.job_signups.in_current_year.count,
+                user_path(id: user.id, anchor: "job_dashboard") %>
   </td>
   <td>
     <% if not user.allowed_to_login? %>

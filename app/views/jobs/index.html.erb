@@ -1,8 +1,12 @@
 <% provide(:title, t('.title')) %>
 
-<% unless current_user.admin? %>
-  <%= render 'user_dashboard' %>
-<% end %>
+<div class="current_user_job_dashboard">
+  <div class="title">
+    <strong><%= t ".job_dashboard_title" %></strong>
+    <hr>
+  </div>
+  <%= render 'user_dashboard', user: current_user %>
+</div>
 
 <div class="table-responsive">
   <table class="table table-hover table-condensed">
