@@ -108,6 +108,56 @@ de-CH:
     x_time_ago:   vor %{duration}
     x_time_from_now: in %{duration}
 
+    x_seconds:
+      from_now:
+        one:    "in einer Sekunde"
+        other:  "in %{count} Sekunden"
+      ago:
+        one:    "vor einer Sekunde"
+        other:  "vor %{count} Sekunden"
+    x_minutes:
+      from_now:
+        one:    "in einer Minute"
+        other:  "in %{count} Minuten"
+      ago:
+        one:    "vor einer Minute"
+        other:  "vor %{count} Minuten"
+    x_hours:
+      from_now:
+        one:    "in einer Stunde"
+        other:  "in %{count} Stunden"
+      ago:
+        one:    "vor einer Stunde"
+        other:  "vor %{count} Stunden"
+    x_days:
+      from_now:
+        one:    "morgen"
+        other:  "in %{count} Tagen"
+      ago:
+        one:    "gestern"
+        other:  "vor %{count} Tagen"
+    x_weeks:
+      from_now:
+        one:    "nächste Woche"
+        other:  "in %{count} Wochen"
+      ago:
+        one:    "letzte Woche"
+        other:  "vor %{count} Wochen"
+    x_months:
+      from_now:
+        one:    "nächsten Monat"
+        other:  "in %{count} Monaten"
+      ago:
+        one:    "letzten Monat"
+        other:  "vor %{count} Monaten"
+    x_years:
+      from_now:
+        one:    "nächstes Jahr"
+        other:  "in %{count} Monaten"
+      ago:
+        one:    "letztes Jahr"
+        other:  "vor %{count} Monaten"
+
   # Default values defined by rails-i18n gem
   # SOURCE: https://github.com/svenfuchs/rails-i18n/blob/master/rails/locale/de-CH.yml
   date:

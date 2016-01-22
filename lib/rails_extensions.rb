@@ -114,7 +114,12 @@ module DateHelpers
   include ActionView::Helpers::DateHelper
 
   def relative_in_words
-    distance_of_time_in_words_to_now(self, include_seconds: true)
+    return I18n.t "time.now" if (Time.current - self).to_i == 0
+    # DOC: https://github.com/abhidsm/time_diff
+    relevant_unit, count = Time.diff(Time.current, self).find { |u, c| c > 0 }
+    I18n.t (self > Time.current ? "time.x_#{relevant_unit}s.from_now" :
+                                  "time.x_#{relevant_unit}s.ago"),
+           count: count
   end
 
   def to_localized_s(format = :long)

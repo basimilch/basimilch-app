@@ -8,6 +8,7 @@
 <p>
   <strong><%= t '.date' %>: </strong>
   <%= @job.start_at.to_date.to_localized_s :long_with_weekday %>
+  (<%= @job.start_at.relative_in_words %>)
 </p>
 
 <p>
