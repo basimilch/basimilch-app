@@ -117,8 +117,8 @@ module DateHelpers
     distance_of_time_in_words_to_now(self, include_seconds: true)
   end
 
-  def to_localized_s(format)
-    I18n.l self, format: format || :long
+  def to_localized_s(format = :long)
+    I18n.l self, format: format
   end
 end
 

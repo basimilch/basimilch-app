@@ -7,7 +7,7 @@
 
 <p>
   <strong><%= t '.date' %>: </strong>
-  <%= @job.start_at.to_date.to_localized_s :long %>
+  <%= @job.start_at.to_date.to_localized_s :long_with_weekday %>
 </p>
 
 <p>

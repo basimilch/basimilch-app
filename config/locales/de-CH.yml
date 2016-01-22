@@ -108,6 +108,12 @@ de-CH:
     x_time_ago:   vor %{duration}
     x_time_from_now: in %{duration}
 
+  # Default values defined by rails-i18n gem
+  # SOURCE: https://github.com/svenfuchs/rails-i18n/blob/master/rails/locale/de-CH.yml
+  date:
+    formats:
+      long_with_weekday: "%A, %-d. %B %Y"
+
   # Misc
 
   switzerland: "Schweiz"
