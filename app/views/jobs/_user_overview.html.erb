@@ -27,8 +27,7 @@
                   <%= t "time.now" %>
                 <% else %>
                   <%= time_tag job.start_at do %>
-                    <%= t "time.x_time_from_now",
-                        duration: job.start_at.relative_in_words %>
+                    <%= job.start_at.relative_in_words %>
                   <% end %>
 
                 <% end %>
