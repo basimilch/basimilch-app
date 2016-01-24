@@ -107,18 +107,52 @@ class ActiveSupport::Duration
   end
 end
 
+class Fixnum
+  def inc
+    self + 1
+  end
+  def dec
+    self - 1
+  end
+end
+
 module DateHelpers
 
   # SOURCE: http://stackoverflow.com/a/28667334
   # DOC: http://api.rubyonrails.org/classes/ActionView/Helpers/DateHelper.html
   include ActionView::Helpers::DateHelper
 
+  def now?
+    (Time.current - to_time).to_i == 0
+  end
+
+  def tomorrow?
+    to_date == Date.tomorrow
+  end
+
+  def yesterday?
+    to_date == Date.yesterday
+  end
+
+  def next_week?
+    to_datetime.cweek % 52 == DateTime.current.cweek.inc % 52
+  end
+
+  def last_week?
+    to_datetime.cweek.inc % 52 == DateTime.current.cweek % 52
+  end
+
   def relative_in_words
-    return I18n.t "time.now" if (Time.current - self).to_i == 0
+    # Handle specific cases
+    return I18n.t "time.now"        if now?
+    return I18n.t "time.tomorrow"   if tomorrow?
+    return I18n.t "time.yesterday"  if yesterday?
+    return I18n.t "time.next_week"  if next_week?
+    return I18n.t "time.last_week"  if last_week?
+
     # DOC: https://github.com/abhidsm/time_diff
-    relevant_unit, count = Time.diff(Time.current, self).find { |u, c| c > 0 }
-    I18n.t (self > Time.current ? "time.x_#{relevant_unit}s.from_now" :
-                                  "time.x_#{relevant_unit}s.ago"),
+    relevant_unit, count = Time.diff(Time.now, to_time).find { |u, c| c > 0 }
+    I18n.t "time.about_x_#{relevant_unit}s.#{past? ? "ago" : "from_now"}",
            count: count
   end
 
@@ -132,6 +166,14 @@ class  ActiveSupport::TimeWithZone
 end
 
 class  Date
+  include DateHelpers
+end
+
+class  DateTime
+  include DateHelpers
+end
+
+class  Time
   include DateHelpers
 end
 

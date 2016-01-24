@@ -17,4 +17,38 @@ class RailsExtentionsTest < ActionController::TestCase
     assert_equal 3,                       @some_hash.get(:inner_hash, :c)
     assert_equal nil,                     @some_hash.get(:inner_hash, :d)
   end
+
+  test "inc and dec should be available for Fixnum" do
+    assert_equal 1, 0.inc
+    assert_equal 1, 2.dec
+    assert_equal 1, 1.dec.inc
+  end
+
+  test "should get correct relative date in words" do
+    travel_to Time.new(2010, 12, 31, 14, 35, 45) do
+      assert_equal "vor etwa 2 Wochen",    Time.new(2010, 12, 14, 11,  0,  0).relative_in_words # Sunday
+      assert_equal "vor etwa einer Woche", Time.new(2010, 12, 18, 11,  0,  0).relative_in_words # Saturday
+      assert_equal "letzte Woche",         Time.new(2010, 12, 20, 11,  0,  0).relative_in_words # Monday
+      assert_equal "letzte Woche",         Time.new(2010, 12, 26, 11,  0,  0).relative_in_words # Sunday
+      assert_equal "vor etwa 2 Tagen",     Time.new(2010, 12, 29, 11,  0,  0).relative_in_words # Wednesday
+      assert_equal "vor etwa einem Tag",   Time.new(2010, 12, 29, 20,  0,  0).relative_in_words
+      assert_equal "gestern",              Time.new(2010, 12, 30,  6,  0,  0).relative_in_words # Thursday
+      assert_equal "gestern",              Time.new(2010, 12, 30, 23,  0,  0).relative_in_words
+      assert_equal "vor etwa 7 Stunden",   Time.new(2010, 12, 31,  7,  0,  0).relative_in_words # Friday
+      assert_equal "vor 11 Minuten",       Time.new(2010, 12, 31, 14, 24, 30).relative_in_words
+      assert_equal "vor 3 Sekunden",       Time.new(2010, 12, 31, 14, 35, 42).relative_in_words
+      assert_equal "jetzt",                Time.new(2010, 12, 31, 14, 35, 45).relative_in_words
+      assert_equal "in 4 Sekunden",        Time.new(2010, 12, 31, 14, 35, 49).relative_in_words
+      assert_equal "in 7 Minuten",         Time.new(2010, 12, 31, 14, 43,  5).relative_in_words
+      assert_equal "in etwa 9 Stunden",    Time.new(2010, 12, 31, 23, 45,  0).relative_in_words
+      assert_equal "morgen",               Time.new(2011,  1,  1,  9,  0,  0).relative_in_words # Saturday
+      assert_equal "morgen",               Time.new(2011,  1,  1, 18, 35, 45).relative_in_words
+      assert_equal "in etwa einem Tag",    Time.new(2011,  1,  2,  9, 35, 45).relative_in_words # Sunday
+      assert_equal "in etwa 2 Tagen",      Time.new(2011,  1,  2, 18, 35, 45).relative_in_words
+      assert_equal "nächste Woche",        Time.new(2011,  1,  3,  9,  0,  0).relative_in_words # Monday
+      assert_equal "nächste Woche",        Time.new(2011,  1,  9,  9,  0,  0).relative_in_words # Sunday
+      assert_equal "in etwa einer Woche",  Time.new(2011,  1, 10,  9,  0,  0).relative_in_words # Monday
+      assert_equal "in etwa 2 Wochen",     Time.new(2011,  1, 16,  9,  0,  0).relative_in_words # Sunday
+    end
+  end
 end
