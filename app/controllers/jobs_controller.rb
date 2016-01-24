@@ -24,7 +24,11 @@ class JobsController < ApplicationController
 
   # GET /jobs/new
   def new
-    @job = Job.new
+    if original_job = Job.find_by(id: params[:duplicate])
+      @job = original_job.dup
+    else
+      @job = Job.new
+    end
   end
 
   # GET /jobs/1/edit
