@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
                           length: { maximum: 255 },
                           format: { with: VALID_EMAIL_REGEX },
                           uniqueness: { case_sensitive: false }
-  before_save :downcase_email
+  before_validation :downcase_email
 
   before_validation :capitalize_first_name
   validates :first_name,  presence: true,
