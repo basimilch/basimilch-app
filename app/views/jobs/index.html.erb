@@ -30,10 +30,10 @@
     </thead>
     <tbody>
       <% @jobs.each do |job| %>
-        <tr>
+        <tr class="job_info" data-href="<%= job_path(job.id) %>"=>
           <td><%= job.start_at.to_date.to_localized_s :short_with_weekday %></td>
           <td><%= "#{job.start_at.to_s(:time)} - #{job.end_at.to_s(:time)}" %></td>
-          <td><%= link_to job.title, job %></td>
+          <td class="job_title"><%= job.title %></td>
           <td><%= job.place %></td>
           <td class="signup_count">
             <% status = job.signup_status %>

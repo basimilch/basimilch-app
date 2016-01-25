@@ -471,6 +471,10 @@ form {
     }
 }
 
+tr[data-href] {
+  cursor: pointer;
+}
+
 .jobs_table {
   td.signup_count {
     .progress {

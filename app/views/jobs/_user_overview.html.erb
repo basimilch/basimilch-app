@@ -12,12 +12,12 @@
       </thead>
       <tbody>
         <% user.current_year_jobs.each_with_index do |job, i| %>
-          <tr class="">
-            <td><%= i + 1 %>.</td>
             <% if job %>
+            <tr class="user_signup_job_info" data-href="<%= job_path(job.id)%>" >
+              <td><%= i + 1 %>.</td>
               <td><%= job.start_at.to_date.to_localized_s :short_with_weekday %></td>
               <td><%= "#{job.start_at.to_s(:time)} - #{job.end_at.to_s(:time)}" %></td>
-              <td><%= link_to job.title, job %></td>
+              <td><%= job.title %></td>
               <td>
                 <% if job.past? %>
                   Done
@@ -31,6 +31,8 @@
                 <% end %>
               </td>
             <% else %>
+            <tr class="user_signup_job_info" >
+              <td><%= i + 1 %>.</td>
               <td colspan="6"><i><%= t '.open_slot' %></i></td>
             <% end %>
           </tr>
