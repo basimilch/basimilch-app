@@ -6,6 +6,10 @@ class User < ActiveRecord::Base
   has_many :share_certificates
   has_many :job_signups
 
+  default_scope -> { order(id: :asc) }
+  scope :admins, -> { where(admin: true).order(:last_name) }
+
+
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   VALID_SWISS_POSTAL_CODE_REGEX = /\A\d{4}\z/ # The 'CH-' part is not expected.
   ONLY_SPACES       = /\A\s*\z/
