@@ -3,6 +3,8 @@ class Job < ActiveRecord::Base
   FREQUENCIES = [:just_once,
                  :repeat_weekly_4_times]
 
+  ALLOWED_NUMBER_OF_SLOTS = (1..5)
+
   belongs_to :user
   has_many :job_signups
 
