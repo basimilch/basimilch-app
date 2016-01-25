@@ -1,5 +1,8 @@
 class Job < ActiveRecord::Base
 
+  FREQUENCIES = [:just_once,
+                 :repeat_weekly_4_times]
+
   belongs_to :user
   has_many :job_signups
 
@@ -16,6 +19,24 @@ class Job < ActiveRecord::Base
   validates :user_id,       presence: true
   validate  :user_exists,   unless: Proc.new {|j| j.user_id.blank?}
   validate  :correct_future_dates
+
+  attr_accessor :creation_frequency
+
+
+  def save
+    # TODO: Improve the repeated creation of jobs.
+    successfully_saved = super
+    if successfully_saved && creation_frequency == "repeat_weekly_4_times"
+      3.times do |i|
+        job_copy = dup
+        job_copy.start_at           = start_at + i.inc.weeks
+        job_copy.end_at             = end_at   + i.inc.weeks
+        job_copy.creation_frequency = nil
+        job_copy.save
+      end
+    end
+    successfully_saved
+  end
 
   # Returns the job that will happen next.
   def self.next

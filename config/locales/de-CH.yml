@@ -513,6 +513,10 @@ de-CH:
         Personen eintragen möchstest, kannst du dich nochmals
         anmelden.
       job_is_in_the_past: Der Einsatz ist bereits vorbei.
+    form:
+      frequencies:
+        just_once: Nur einmal
+        repeat_weekly_4_times: Dieser Einsatz einmal wöchentlich für vier Wochen wiederholen
 
     user_overview:
       open_slot: Noch offen

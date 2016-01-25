@@ -42,8 +42,16 @@
   <div class="field">
     <%= f.label :user_id %><br>
     <%= f.text_field :user_id %>
+    <%# TODO: Add user (job coordinator) from dropdown %>
+    <%# f.collection_select :provider_id, Provider.order(:name),:id,:name, include_blank: true %>
+  </div>
+  <div class="field">
+    <%= f.label :creation_frequency %><br>
+    <%= f.select :creation_frequency, Job::FREQUENCIES.map { |s| [t(".frequencies.#{s}"), s] } %>
   </div>
   <div class="actions">
     <%= f.submit %>
   </div>
+
+
 <% end %>
