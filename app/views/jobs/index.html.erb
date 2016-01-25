@@ -8,6 +8,15 @@
   <%= render 'user_overview', user: current_user %>
 </div>
 
+<div class="text-center">
+  <%= t ".showing_jobs_html",
+      from: @jobs.first.start_at.relative_in_words,
+      to: @jobs.last.start_at.relative_in_words %>
+</div>
+<div class="text-center">
+  <%= will_paginate page_links: false %>
+</div>
+
 <div class="table-responsive jobs_table">
   <table class="table table-hover table-condensed">
     <thead>
@@ -43,3 +52,16 @@
     </tbody>
   </table>
 </div>
+
+<% if current_user_admin? %>
+  <div class="text-center">
+    <%= will_paginate %>
+  </div>
+  <div class="text-center">
+    <%= page_entries_info %>
+  </div>
+<% else %>
+  <div class="text-center">
+    <%= will_paginate page_links: false %>
+  </div>
+<% end %>

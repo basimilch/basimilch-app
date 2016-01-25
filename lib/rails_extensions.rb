@@ -17,7 +17,18 @@ class Hash
   end
 end
 
+module ToIntegerUtils
+  def to_i_min(min)
+    [min, to_i].max
+  end
+end
+
+class NilClass
+  include ToIntegerUtils
+end
+
 class String
+  include ToIntegerUtils
   def number
     scan(/\d/).join
   end

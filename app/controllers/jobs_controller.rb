@@ -1,5 +1,7 @@
 class JobsController < ApplicationController
 
+  JOBS_PER_PAGE = 50
+
   before_action :require_logged_in_user
   before_action :admin_user,  except: [:index, :show, :signup_current_user]
   before_action :set_job,     only:   [:show, :edit, :update, :destroy,
@@ -8,7 +10,13 @@ class JobsController < ApplicationController
   # GET /jobs
   # GET /jobs.json
   def index
-    @jobs = Job.future
+    # TODO: Using .to_a "preloads" the query. Investigate if it's a good practice.
+    # @jobs = Job.future.page(params[:page]).per_page(JOBS_PER_PAGE).to_a
+    @jobs = Job.future.page(page_query_param).per_page(JOBS_PER_PAGE)
+    if @jobs.empty?
+      # Probably requesting a page number too high.
+      redirect_to jobs_path(page: @jobs.total_pages)
+    end
   end
 
   # GET /jobs/1
@@ -96,5 +104,9 @@ class JobsController < ApplicationController
     def job_params
       params.require(:job).permit(:title, :description, :start_at, :end_at,
                                   :place, :address, :slots, :user_id)
+    end
+
+    def page_query_param
+      params[:page].to_i_min 1
     end
 end

@@ -18,6 +18,17 @@ class RailsExtentionsTest < ActionController::TestCase
     assert_equal nil,                     @some_hash.get(:inner_hash, :d)
   end
 
+  test "to_i_min should be available for String and Nil" do
+    assert_equal 0, nil.to_i
+    assert_equal 0, "".to_i
+    assert_equal 0, "0".to_i
+    assert_equal 1, "1".to_i
+    assert_equal 1, nil.to_i_min(1)
+    assert_equal 1, "".to_i_min(1)
+    assert_equal 1, "0".to_i_min(1)
+    assert_equal 1, "1".to_i_min(1)
+  end
+
   test "inc and dec should be available for Fixnum" do
     assert_equal 1, 0.inc
     assert_equal 1, 2.dec

@@ -205,8 +205,14 @@ de-CH:
   activerecord:
     models:
       user:
-        one:    "Genossenschafter"
-        other:  "Genossenschafter"
+        one:    "Genossenschafter_in"
+        other:  "Genossenschafter_innen"
+      job:
+        one:    "Einsatz"
+        other:  "Einsätze"
+      share_certificate:
+        one:    "Anteilschein"
+        other:  "Anteilscheine"
     attributes:
       user:
         <<: *attributes
@@ -216,6 +222,23 @@ de-CH:
         <<: *placeholders
 
   # Views
+
+  will_paginate:
+    previous_label: "früher"
+    next_label: "später"
+    page_entries_info:
+      single_page:
+        zero:  "Keine %{model} gefunden"
+        one:   "Ein %{model} angezeigt"
+        other: "Displaying all %{count} %{model}"
+        other: "Alle %{count} %{model} angezeigt"
+      single_page_html:
+        zero:  "Keine %{model} gefunden"
+        one:   "<b>Ein</b> %{model} angezeigt"
+        other: "<b>Alle&nbsp;%{count}</b> %{model} angezeigt"
+      multi_page: "%{model} %{from} bis %{to} von %{count} angezeigt"
+      multi_page_html: "%{model} <b>%{from}&nbsp;bis&nbsp;%{to}</b> von <b>%{count}</b> angezeigt"
+
 
   layouts:
     header:
@@ -474,6 +497,7 @@ de-CH:
     index:
       title: Einsätze
       job_overview_title: Dein Mitarbeit-Konto
+      showing_jobs_html: "Einsätze von <strong>%{from}</strong> bis <strong>%{to}</strong> angezeigt"
     show:
       <<: *table_headers
       title: Einsatz
