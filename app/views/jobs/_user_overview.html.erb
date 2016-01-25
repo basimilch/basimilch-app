@@ -7,7 +7,6 @@
           <th><%= t 'table_headers.date' %></th>
           <th><%= t 'table_headers.time' %></th>
           <th><%= t 'table_headers.job_title' %></th>
-          <th><%= t 'table_headers.slots' %></th>
           <th></th>
         </tr>
       </thead>
@@ -19,7 +18,6 @@
               <td><%= job.start_at.to_date.to_localized_s :short_with_weekday %></td>
               <td><%= "#{job.start_at.to_s(:time)} - #{job.end_at.to_s(:time)}" %></td>
               <td><%= link_to job.title, job %></td>
-              <td><%= "#{job.job_signups.count}/#{job.slots}" %></td>
               <td>
                 <% if job.past? %>
                   Done
