@@ -46,6 +46,11 @@ body {
   padding-top: 80px;
 }
 
+html.turbolinks-progress-bar::before {
+  background-color: white !important;
+  height: 4px !important;
+}
+
 // Misc
 
 // Inspired from:
