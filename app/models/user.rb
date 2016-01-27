@@ -5,10 +5,13 @@ class User < ActiveRecord::Base
 
   has_many :share_certificates
   has_many :job_signups
+  has_many :jobs, -> {distinct}, through: :job_signups
 
   default_scope -> { order(id: :asc) }
   scope :admins, -> { where(admin: true).order(:last_name) }
-
+  # DOC: http://www.informit.com/articles/article.aspx?p=2220311
+  scope :working_tomorrow, -> { joins(:jobs).merge(Job.tomorrow).distinct }
+  scope :emails, -> { pluck(:email) }
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   VALID_SWISS_POSTAL_CODE_REGEX = /\A\d{4}\z/ # The 'CH-' part is not expected.
@@ -231,6 +234,11 @@ class User < ActiveRecord::Base
     UserMailer.account_activation(self).deliver_now
   end
 
+  # Sends job reminder email.
+  def send_job_reminder(job)
+    UserMailer.job_reminder(self, job).deliver_now
+  end
+
   # Activates an account.
   def activate
     update_attributes!(activated:    true,
@@ -264,9 +272,8 @@ class User < ActiveRecord::Base
   # a user has to do, with 'nil' for the missing required signups.
   def current_year_jobs
     min = JobSignup::MIN_NUMBER_PER_USER_PER_YEAR
-    signups = job_signups.in_current_year
-    (signups.map(&:job).sort_by(&:start_at) + [nil] * min)
-      .take([signups.count, min].max)
+    jobs = job_signups.in_current_year.map(&:job)
+    (jobs + [nil] * min).take([jobs.count, min].max)
   end
 
   def to_s

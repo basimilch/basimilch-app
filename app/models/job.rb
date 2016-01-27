@@ -7,9 +7,14 @@ class Job < ActiveRecord::Base
 
   belongs_to :user
   has_many :job_signups
+  has_many :users, -> {distinct}, through: :job_signups
 
-  default_scope -> { order(start_at: :asc) }
-  scope :future, -> { where("start_at > ?", Time.current) }
+  default_scope   -> { order(start_at: :asc) }
+  scope :future,  -> { where("start_at > ?", Time.current) }
+  scope :at_day,  ->(d){  where("start_at > ?", d.to_date.at_beginning_of_day)
+                         .where("start_at < ?", d.to_date.at_end_of_day) }
+  scope :today,     -> { at_day(Date.today) }
+  scope :tomorrow,  -> { at_day(Date.tomorrow) }
   scope :in_current_year, -> { where("start_at > ?",
                                      Time.current.beginning_of_year) }
 
@@ -55,6 +60,15 @@ class Job < ActiveRecord::Base
      "#{start_at.to_s :time} - #{title}").truncate(100)
   end
 
+  def full_date
+    "#{start_at.to_date.to_localized_s :long_with_weekday}, " +
+    "#{start_at.to_s :time} - #{end_at.to_s :time}"
+  end
+
+  def full_address
+    "#{place} - #{address}"
+  end
+
   def signup_status
     count = job_signups.count
     return :success if count >= slots
@@ -88,6 +102,14 @@ class Job < ActiveRecord::Base
       return true if job_signup.user_id == user.id
     end
     return false
+  end
+
+  def send_reminders
+    logger.info "Sending reminders for #{self}"
+    users.each do |user|
+      logger.info " - to #{user}"
+      user.send_job_reminder self
+    end
   end
 
   private

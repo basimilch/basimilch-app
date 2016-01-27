@@ -1,0 +1,44 @@
+<p>
+  Hoi <%= @user.first_name %>
+</p>
+
+<p>
+  Dies ist eine Erinnerung, dass du morgen <%= @job.start_at.to_date.to_localized_s :short_with_weekday %> folgenden Einsatz bei basimil.ch hast:
+</p>
+
+<div>
+  <ul>
+    <li><strong>Was?</strong> <%= link_to @job.title, @job %></li>
+    <li><strong>Wann?</strong> <%= @job.full_date %></li>
+    <li><strong>Wo?</strong> <%= @job.full_address %></li>
+  </ul>
+</div>
+
+<p>
+  Falls ein Problem damit gibt, melde dich bitte umgehend beim Einsatzkoordinator
+  <%= @job.user.full_name %> (<%= mail_to @job.user.email, "anschreiben" %>).
+</p>
+
+<p>
+  Vielen Dank!
+</p>
+
+<p>
+  Milchgrüsse,
+</p>
+
+<p>
+  deine Betriebsgruppe von basimilch
+</p>
+
+<em>
+  NB: Diese E-Mail wurde automatisch generiert und wir lesen die Antworten darauf
+  leider nicht. <br>
+  Allerdings kannst du uns jederzeit unter
+  <a href="mailto:info@basimil.ch">info@basimil.ch</a>
+  erreichen und alle Informationen <br>
+  über die Genossenschaft auf
+  <a href="http://basimil.ch">basimil.ch</a>
+  finden.
+</em>
+

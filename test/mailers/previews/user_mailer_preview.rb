@@ -48,4 +48,10 @@ class UserMailerPreview < ActionMailer::Preview
     user = User.first
     UserMailer.new_signup_notification(user, "x.x.x.x (aprox y)")
   end
+
+  # Preview this email at
+  #   http://localhost:3000/rails/mailers/user_mailer/job_reminder
+  def job_reminder
+    UserMailer.job_reminder(User.first, Job.first)
+  end
 end

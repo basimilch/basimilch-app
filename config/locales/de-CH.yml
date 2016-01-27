@@ -474,6 +474,8 @@ de-CH:
     new_signup_notification:
       subject: "Neue Anmeldung: %{id}. %{full_name}"
       signup_from: "Anmeldung aus"
+    job_reminder:
+      subject: "Morgiger Einsatz: %{job_title}"
 
   share_certificates:
     index:

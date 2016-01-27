@@ -70,4 +70,16 @@ class UserMailer < ApplicationMailer
     mail to: email,
          subject: t(".subject", id: user.id, full_name: user.full_name)
   end
+
+  # Subject can be set in your I18n file at config/locales/en.yml
+  # with the following lookup:
+  #
+  #   de-CH.user_mailer.job_reminder.subject
+  #
+  def job_reminder(user, job)
+    @user = user
+    @job = job
+    mail to: "#{user.full_name} <#{user.email}>",
+         subject: t(".subject", job_title: job.title)
+  end
 end
