@@ -30,9 +30,9 @@ class Job < ActiveRecord::Base
   attr_accessor :creation_frequency
 
 
-  def save
+  def save_series
     # TODO: Improve the repeated creation of jobs.
-    successfully_saved = super
+    successfully_saved = save
     if successfully_saved && creation_frequency == "repeat_weekly_4_times"
       3.times do |i|
         job_copy = dup

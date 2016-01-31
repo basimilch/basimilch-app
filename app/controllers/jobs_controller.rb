@@ -49,7 +49,7 @@ class JobsController < ApplicationController
     @job = Job.new(job_params)
 
     respond_to do |format|
-      if @job.save
+      if @job.save_series
         format.html { redirect_to @job, notice: 'Job was successfully created.' }
         format.json { render :show, status: :created, location: @job }
       else
