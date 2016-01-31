@@ -489,3 +489,10 @@ To create a user with your email address, start a rails console on heroku (`hero
 ```
 User.new(first_name: "your_first_name", last_name: "your_last_name", email: "your_email@example.com", admin: true, activation_sent_at: Time.current).save(validate: false)
 ```
+
+## SSL Certificates
+
+We are using (Let's encrypt)[https://letsencrypt.org] to secure communications between
+the browser and Heroku. The exact instructions about creating and installing the certificate
+were followed from this
+(_Medium_ article)[https://sikac.hu/use-let-s-encrypt-tls-certificate-on-heroku-65f853870d90#.toyin35g1].
