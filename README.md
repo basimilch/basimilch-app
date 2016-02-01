@@ -492,7 +492,14 @@ User.new(first_name: "your_first_name", last_name: "your_last_name", email: "you
 
 ## SSL Certificates
 
-We are using (Let's encrypt)[https://letsencrypt.org] to secure communications between
-the browser and Heroku. The exact instructions about creating and installing the certificate
-were followed from this
-(_Medium_ article)[https://sikac.hu/use-let-s-encrypt-tls-certificate-on-heroku-65f853870d90#.toyin35g1].
+We are using an SSL certificate from [Let's encrypt] to secure
+communications between the browser and the application. The exact
+instructions about creating and installing the certificate were
+followed from this [_Medium_ article] and [Heroku's own documentation
+about SSL]. As explained in both articles, for that we had to add the
+non-free [Heroku SSL addon].
+
+[Let's encrypt]: https://letsencrypt.org
+[_Medium_ article]: https://sikac.hu/use-let-s-encrypt-tls-certificate-on-heroku-65f853870d90#.toyin35g1
+[Heroku's own documentation about SSL]: https://devcenter.heroku.com/articles/ssl-endpoint
+[Heroku SSL addon]: https://elements.heroku.com/addons/ssl
