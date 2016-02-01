@@ -72,7 +72,11 @@ Rails.application.configure do
   config.action_mailer.default charset: 'utf-8'
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
-  host = "#{ENV['HEROKU_APP_NAME']}.herokuapp.com"
+  if ENV['HEROKU_APP_NAME'] == "basimilch"
+    host = "meine.basimil.ch"
+  else
+    host = "#{ENV['HEROKU_APP_NAME']}.herokuapp.com"
+  end
   config.action_mailer.default_url_options = { host: host }
   # DOC: http://api.rubyonrails.org/classes/ActionMailer/Base.html
   config.action_mailer.smtp_settings = {
