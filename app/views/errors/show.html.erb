@@ -1,0 +1,18 @@
+<div class="text-center">
+  <h1><%= t "errors.error_#{@status_code}.title" %></h1>
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <%= t "errors.error_#{@status_code}.message_html" %>
+    </div>
+  </div>
+  <div>
+    <%= image_tag "basimilch_error_#{@status_code}", class: "error_page_image" %>
+  </div>
+  <div>
+    <small>
+      <code>
+        <%= "Error #{@status_code}" %>
+      </code>
+    </small>
+  </div>
+</div>

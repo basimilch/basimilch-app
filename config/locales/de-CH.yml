@@ -190,6 +190,20 @@ de-CH:
   # Error messages
 
   errors:
+    error_404:
+      title: "Da gibt es nicht, was such suchst..."
+      message_html: >
+        Leider existiert diese seite nicht bei uns. Wenn das kommisch für
+        dich ist, melde es bitte uns auf
+        <code><a href="mailto:meine@basimil.ch">meine@basimil.ch</a></code>.
+        Ansonsten gehe <span onclick="javascript:history.back()">zurück</span>
+        oder zum <a href="/">Anfang</a>.
+    error_500:
+      title: Oooups!
+      message_html: >
+        Das war gar nicht vorgesehen... Gehe bitte <span onclick="javascript:history.back()">zurück</span>
+        und versuch es erneut. Wenn der Fehler mehrmals auftritt, melde es
+        bitte uns auf <code><a href="mailto:meine@basimil.ch">meine@basimil.ch</a></code>.
     messages:
       at_least_one_tel: "Mindestens eine Telefonnummer muss ausgefüllt werden"
       unrecornised_postal_address: "Postadresse nicht erkannt"

@@ -30,7 +30,11 @@ Rails.application.routes.draw do
 
   post    'jobs/:id/signup' => 'jobs#signup_current_user', as: :job_signup
 
-
+  # DOC: http://stackoverflow.com/a/26286472/5764181
+  # DOC: https://wearestac.com/blog/dynamic-error-pages-in-rails
+  ErrorsController::ERROR_CODES.each do |code|
+    get "/#{code}", to: 'errors#show', code: code
+  end
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
