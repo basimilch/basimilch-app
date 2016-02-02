@@ -6,7 +6,14 @@
     </div>
   </div>
   <div>
-    <%= image_tag "basimilch_error_#{@status_code}", class: "error_page_image" %>
+    <%#
+    FIXME: Why the normal image_tag does work locally but not on heroku?
+           image_tag "basimilch_error_#{@status_code}", class: "error_page_image"
+
+    DOC: https://devcenter.heroku.com/articles/rails-4-asset-pipeline#only-generate-digest-assets
+    DOC: http://stackoverflow.com/questions/18324063/rails-4-images-not-loading-on-heroku
+     %>
+    <img src="<%= asset_path "basimilch_error_#{@status_code}" %>" alt="<%= "basimilch_error_#{@status_code}" %>" class="error_page_image">
   </div>
   <div>
     <small>
