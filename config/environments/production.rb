@@ -21,9 +21,10 @@ Rails.application.configure do
   # NGINX, varnish or squid.
   # config.action_dispatch.rack_cache = true
 
-  # Disable serving static files from the `/public` folder by default since
-  # Apache or NGINX already handles this.
-  config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
+  # Enable serving static files from the `/public` folder since Apache or NGINX
+  # are not used in Heroku.
+  # DOC: https://devcenter.heroku.com/articles/rails-4-asset-pipeline#serve-assets
+  config.serve_static_files = true
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
