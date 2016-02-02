@@ -24,6 +24,8 @@ Rails.application.configure do
   # Enable serving static files from the `/public` folder since Apache or NGINX
   # are not used in Heroku.
   # DOC: https://devcenter.heroku.com/articles/rails-4-asset-pipeline#serve-assets
+  # NOTE: This setting is also done by the gem 'rails_12factor', but setting
+  #       this here again to avoid confusion.
   config.serve_static_files = true
 
   # Compress JavaScripts and CSS.
