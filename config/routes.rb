@@ -32,6 +32,7 @@ Rails.application.routes.draw do
 
   # DOC: http://stackoverflow.com/a/26286472/5764181
   # DOC: https://wearestac.com/blog/dynamic-error-pages-in-rails
+  # DOC: https://github.com/mirego/gaffe#rails-test-environment
   ErrorsController::ERROR_CODES.each do |code|
     get "/#{code}", to: 'errors#show', code: code
   end
