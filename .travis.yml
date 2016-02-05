@@ -3,12 +3,15 @@
 language: ruby
 rvm:
 - 2.2.1
+before_script:
+  # SOURCE: http://stackoverflow.com/a/12896545/5764181
+  - psql -c "CREATE USER basimilchdbuser;" -U postgres
 deploy:
-  # Source: http://docs.travis-ci.com/user/deployment/heroku/
+  # SOURCE: http://docs.travis-ci.com/user/deployment/heroku/
   provider: heroku
   api_key:
     secure: xaS4YniLEpDrvSRfy4v84Ezj7j2te38mGGIgkusTOxa8KhBahkQiaQQdq5aydbYk+e9vZm+nh7pGGM6k7U8wVx2OYrmWhrknPYsOvWatjzqPh9Ehpct0dIr2lka3W/RIcJVmmXVFKVi3E7fR4FwoaQIOJZFltrhtaxx9g4reCdQy4MYn5Piv5su5XVaLbaitsGr7954fu+/abkrJgcpztBUCox2vq376qnDbmfb7OUUqBVCtMOLVZpH/LV3cjKqPTY9H73dx3Z8lPburMuRKJiQeauaRoZcpAAptATkSNwChmUrpft9zTNRuN98gR2CZqjm3FUIvN57uWLAqaOxhuazIo7x8iA4jn/+gCKKVzmU46kuk0N2cDnwksjR0KdP3zZgRrCp16gg38syHnZVy2pNNprRIPR4tstrC5cFdzhnGs6k0azk0XwndS2kF20pQrJ9FrqQDSvq3RmF5iInL6LIoXVMDYTLWC2se1D9BZVmH/DBKMXjvNGUBx9sVGVbulcWujeUXJ+s4PGJ/BwJrgEdAPlcTUpfWycmDE89GVIDdotUQxte8xxRh+8gyRY/mt6upRN4BK62s55R6axwzOx/B5CcaYZRxBkopxL8K4qF5hUekwsbQDbpbfT6MH7RvrefOq3Kx/AOfq0vcfI3M5pEhCqKSeKEj4vJ6I4iPQU0=
-  # Source: http://docs.travis-ci.com/user/deployment/heroku/#Deploy-Strategy
+  # SOURCE: http://docs.travis-ci.com/user/deployment/heroku/#Deploy-Strategy
   strategy: git
   app:
     master: basimilch
