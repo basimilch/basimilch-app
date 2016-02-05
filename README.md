@@ -227,7 +227,8 @@ Rows:        1663/10000 (In compliance)
 
 Heroku provides [documentation to upgrade] you PostgreSql version.
 
-To use locally PostgreSql you might watch [episode #342] of
+To use locally PostgreSql you might follow [Heroku's own documentation
+for the local setup of PostgreSQL] or watch [episode #342] of
 Railcasts.com. In the case of MacOS X, the easiest way is to install
 it using [`homebrew`]. The main commands are:
 
@@ -264,6 +265,7 @@ bundle exec rake test
 [12factor apps]: http://12factor.net/dev-prod-parity
 [As of this writing]: https://devcenter.heroku.com/articles/heroku-postgresql#version-support-and-legacy-infrastructure
 [documentation to upgrade]: https://devcenter.heroku.com/articles/upgrading-heroku-postgres-databases
+[Heroku's own documentation for the local setup of PostgreSQL]: https://devcenter.heroku.com/articles/heroku-postgresql#local-setup
 [episode #342]: http://railscasts.com/episodes/342-migrating-to-postgresql?autoplay=true
 [`homebrew`]: https://github.com/Homebrew/homebrew
 [this Belyamani's article]: https://www.moncefbelyamani.com/how-to-install-postgresql-on-a-mac-with-homebrew-and-lunchy/
