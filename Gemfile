@@ -30,9 +30,9 @@ gem 'phony_rails',              '0.12.9'
 gem 'geocoder',                 '1.2.9'
 gem 'paper_trail',              '4.0.1' # Track changes to models' data.
 gem 'time_diff',                '0.3.0'
+gem 'pg',                       '0.18.4'
 
 group :development, :test do
-  gem 'sqlite3',                '1.3.9'
   gem 'byebug',                 '3.4.0'
   gem 'web-console',            '2.0.0.beta3'
   gem 'spring',                 '1.1.3'
@@ -46,7 +46,6 @@ group :test do
 end
 
 group :production do
-  gem 'pg',                     '0.17.1'
   gem 'rails_12factor',         '0.0.3'
   gem 'puma',                   '2.11.1'
 end

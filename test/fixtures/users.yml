@@ -53,4 +53,4 @@ three:
   status: 1
   notes: some other notes
   activated: false
-  activated_at: nil
+  activated_at: null

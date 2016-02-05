@@ -194,6 +194,85 @@ project.
 [null migration]: http://homeonrails.com/2012/11/null-migration-or-what-to-do-when-there-are-too-many-migrations/
 [`squasher`]: https://github.com/jalkoby/squasher
 
+### PostgreSql
+
+By default Rails applications use an [SQLite] database, which has the
+advantage of being self-contained in a single file and thus being
+extremely easy to use and install (basically you don't have to do
+anything to have it working). However Heroku runs Rails apps with a
+[PostgreSql] database.
+
+Although you can use [SQLite] in your local environment while letting
+Heroku runs your app with [PostgreSql], it's generally highly
+recommended to use the same database (even the same version) in
+development as in production. This is also a good practice for
+[twelve-factor apps].
+
+As of this writing, Heroku uses version 9.4.x of PostgreSql. You can
+check which version is currently used for you app with `heroku
+pg:info`:
+
+```
+$ heroku pg:info
+=== DATABASE_URL
+Plan:        Hobby-dev
+Status:      Available
+Connections: 0/20
+PG Version:  9.4.3
+Created:     2015-08-04 15:30 UTC
+Data Size:   8.0 MB
+Tables:      6
+Rows:        1663/10000 (In compliance)
+```
+
+Heroku provides [documentation to upgrade] you PostgreSql version.
+
+To use locally PostgreSql you might watch [episode #342] of
+Railcasts.com. In the case of MacOS X, the easiest way is to install
+it using [`homebrew`]. The main commands are:
+
+``` bash
+brew search postgresql # To look for the version you need to install
+brew install homebrew/versions/postgresql94 # Since we need version 9.4.x in out case
+psql --version # Validate the installation and version
+initdb /usr/local/var/postgres -E utf8    # create a database
+```
+
+As suggested by [this Belyamani's article], to start the PostgreSql
+database you can install the [`lunchy gem`] as a helper:
+
+``` bash
+gem install lunchy
+cp /usr/local/Cellar/postgresql94/9.4.5/homebrew.mxcl.postgresql94.plist ~/Library/LaunchAgents/
+lunchy start postgres
+```
+
+As mentioned in this [SO answer], please note that `lunchy` it will
+not work inside of a [`tmux`] session.
+
+As a final step, [create a new PostgreSql user] `basimilchdbuser`,
+setup the database and run the tests:
+
+``` bash
+createuser --superuser basimilchdbuser
+bundle exec rake db:setup
+bundle exec rake test
+```
+
+[SQLite]: https://www.sqlite.org
+[PostgreSql]: http://www.postgresql.org
+[12factor apps]: http://12factor.net/dev-prod-parity
+[As of this writing]: https://devcenter.heroku.com/articles/heroku-postgresql#version-support-and-legacy-infrastructure
+[documentation to upgrade]: https://devcenter.heroku.com/articles/upgrading-heroku-postgres-databases
+[episode #342]: http://railscasts.com/episodes/342-migrating-to-postgresql?autoplay=true
+[`homebrew`]: https://github.com/Homebrew/homebrew
+[this Belyamani's article]: https://www.moncefbelyamani.com/how-to-install-postgresql-on-a-mac-with-homebrew-and-lunchy/
+[`lunchy gem`]: https://github.com/eddiezane/lunchy
+[So answer]: http://superuser.com/a/898585
+[`tmux`]: https://tmux.github.io
+[create a new PostgreSql user]: http://www.postgresql.org/docs/9.4/static/app-createuser.html
+
+
 ## Localization
 
 All displayed strings are entered in the localization file
