@@ -13,6 +13,18 @@ class User < ActiveRecord::Base
   scope :working_tomorrow, -> { joins(:jobs).merge(Job.tomorrow).distinct }
   scope :emails, -> { pluck(:email) }
 
+  scope :inactive, -> { where(activated: [nil, false], activation_sent_at: nil)}
+  scope :pending_activation, -> { where(activated: [nil, false])
+                      .where(User.arel_table[:activation_sent_at].not_eq(nil)) }
+  scope :active, -> { where(activated: true) }
+  scope :stale, -> { where(User.arel_table[:last_seen_at].lt(STALE_THRESHOLD)) }
+
+  # Identify users with missing info:
+  scope :without_tel, -> { where(User.arel_table[:tel_mobile]
+                              .matches("%0000000")) }
+  scope :without_email, -> { where(User.arel_table[:email]
+                              .matches("%@example.org")) }
+
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   VALID_SWISS_POSTAL_CODE_REGEX = /\A\d{4}\z/ # The 'CH-' part is not expected.
   ONLY_SPACES       = /\A\s*\z/
@@ -288,23 +300,6 @@ class User < ActiveRecord::Base
   # Source: https://www.railstutorial.org/book/_single-page#code-token_method
   def self.new_token
     SecureRandom.urlsafe_base64
-  end
-
-  def self.view(view)
-    users_table = User.arel_table
-    case view.try(:to_sym)
-    when :inactive
-      User.where(activated: [nil, false], activation_sent_at: nil)
-    when :pending_activation
-      User.where(activated: [nil, false])
-          .where(users_table[:activation_sent_at].not_eq(nil))
-    when :active
-      User.where(activated: true)
-    when :stale
-      User.where(users_table[:last_seen_at].lt(STALE_THRESHOLD))
-    else
-      User.all
-    end
   end
 
   # Private methods

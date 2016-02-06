@@ -272,14 +272,16 @@ de-CH:
           depot: "Depot"
       admin:
         users_menu:
-          users:            "Genossenschafter_innen"
-          users_all:        "Alle"
-          users_active:     "Aktiv"
+          users:                "Genossenschafter_innen"
+          users_all:            "Alle"
+          users_active:         "Aktiv"
           users_pending_activation:  "Nie eingeloggt"
-          users_inactive:   "Inaktiv"
-          users_stale:      "Verschwunden"
-          share_certificates: "Anteilscheine"
-          new_user:         "Neue_r Genossenschafter_in"
+          users_inactive:       "Inaktiv"
+          users_stale:          "Verschwunden"
+          users_without_tel:    "Ohne Telefon"
+          users_without_email:  "Ohne E-Mail-Adresse"
+          share_certificates:   "Anteilscheine"
+          new_user:             "Neue_r Genossenschafter_in"
         subscriptions_menu:
           subscriptions: "Abos"
         depots_menu:
@@ -311,6 +313,8 @@ de-CH:
         pending_activation_users: "Neue Genossenschafter_innen"
         inactive_users: "Inaktive Genossenschafter_innen"
         stale_users: "Verschwundene Genossenschafter_innen"
+        without_tel_users: "Genossenschafter_innen ohne Telefonnummer"
+        without_email_users: "Genossenschafter_innen ohne E-Mail-Adresse"
       one_user_found:   "Ein_e Genossenschafter_in gefunden."
       x_users_found:    "%{user_count} Genossenschafter_innen gefunden."
       showing_all_x_users:   "Alle %{user_count} Genossenschafter_innen angezeigt"

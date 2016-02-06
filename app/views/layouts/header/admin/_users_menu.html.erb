@@ -26,6 +26,17 @@
       <% end %>
     </li>
     <li role="separator" class="divider"></li>
+    <li>
+      <%= link_to users_path(view: :without_tel), class: "users-view-menu" do %>
+      <span class='glyphicon glyphicon-warning-sign'></span> <%= t('.users_without_tel') %>
+      <% end %>
+    </li>
+    <li>
+      <%= link_to users_path(view: :without_email), class: "users-view-menu" do %>
+      <span class='glyphicon glyphicon-warning-sign'></span> <%= t('.users_without_email') %>
+      <% end %>
+    </li>
+    <li role="separator" class="divider"></li>
     <li><%= link_to t('.share_certificates'), share_certificates_path %></li>
     <li role="separator" class="divider"></li>
     <li><%= link_to t('.new_user'), new_user_path %></li>

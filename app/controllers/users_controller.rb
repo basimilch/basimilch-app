@@ -11,7 +11,9 @@ class UsersController < ApplicationController
       # Source: http://stackoverflow.com/a/22833860
       @users = User.where(filter.permit(PERMITTED_ATTRIBUTES))
     elsif @view = params[:view]
-      @users = User.view(@view)
+      unless @users = User.try(@view)
+        raise_404
+      end
     else
       @users = User.all
     end
