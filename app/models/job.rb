@@ -5,6 +5,9 @@ class Job < ActiveRecord::Base
 
   ALLOWED_NUMBER_OF_SLOTS = (1..5)
 
+  # DOC: https://github.com/airblade/paper_trail/tree/v4.0.1#basic-usage
+  has_paper_trail ignore: [:updated_at]
+
   belongs_to :user
   has_many :job_signups
   has_many :users, -> {distinct}, through: :job_signups
