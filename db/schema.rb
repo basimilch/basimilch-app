@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20160117154735) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "job_signups", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "job_id"
@@ -20,8 +23,8 @@ ActiveRecord::Schema.define(version: 20160117154735) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "job_signups", ["job_id"], name: "index_job_signups_on_job_id"
-  add_index "job_signups", ["user_id"], name: "index_job_signups_on_user_id"
+  add_index "job_signups", ["job_id"], name: "index_job_signups_on_job_id", using: :btree
+  add_index "job_signups", ["user_id"], name: "index_job_signups_on_user_id", using: :btree
 
   create_table "jobs", force: :cascade do |t|
     t.string   "title"
@@ -36,8 +39,8 @@ ActiveRecord::Schema.define(version: 20160117154735) do
     t.datetime "updated_at",  null: false
   end
 
-  add_index "jobs", ["start_at"], name: "index_jobs_on_start_at"
-  add_index "jobs", ["user_id"], name: "index_jobs_on_user_id"
+  add_index "jobs", ["start_at"], name: "index_jobs_on_start_at", using: :btree
+  add_index "jobs", ["user_id"], name: "index_jobs_on_user_id", using: :btree
 
   create_table "share_certificates", force: :cascade do |t|
     t.integer  "user_id"
@@ -49,7 +52,7 @@ ActiveRecord::Schema.define(version: 20160117154735) do
     t.datetime "updated_at",  null: false
   end
 
-  add_index "share_certificates", ["user_id"], name: "index_share_certificates_on_user_id"
+  add_index "share_certificates", ["user_id"], name: "index_share_certificates_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email"
@@ -79,20 +82,24 @@ ActiveRecord::Schema.define(version: 20160117154735) do
     t.string   "last_login_from"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 
   create_table "versions", force: :cascade do |t|
-    t.string   "item_type",                             null: false
-    t.integer  "item_id",                               null: false
-    t.string   "event",                                 null: false
+    t.string   "item_type",          null: false
+    t.integer  "item_id",            null: false
+    t.string   "event",              null: false
     t.string   "whodunnit"
-    t.text     "object",             limit: 1073741823
+    t.text     "object"
     t.datetime "created_at"
-    t.text     "object_changes",     limit: 1073741823
+    t.text     "object_changes"
     t.string   "request_remote_ip"
     t.string   "request_user_agent"
   end
 
-  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
+  add_foreign_key "job_signups", "jobs"
+  add_foreign_key "job_signups", "users"
+  add_foreign_key "jobs", "users"
+  add_foreign_key "share_certificates", "users"
 end
