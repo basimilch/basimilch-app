@@ -4,14 +4,15 @@ class SignupTest < ActionDispatch::IntegrationTest
 
   def setup
     @valid_user_info_1 = {
-      first_name:     "User",
-      last_name:      "Example",
-      postal_address: "Alte Kindhauserstrasse 3",
-      postal_code:    "8953",
-      city:           "Dietikon",
-      tel_mobile:     "076 111 11 11",
-      email:          "user@example.com",
-      notes:          "some_notes"
+      first_name:                 "User",
+      last_name:                  "Example",
+      postal_address:             "Alte Kindhauserstrasse 3",
+      postal_address_supplement:  "Hof Im Basi",
+      postal_code:                "8953",
+      city:                       "Dietikon",
+      tel_mobile:                 "076 111 11 11",
+      email:                      "user@example.com",
+      notes:                      "some_notes"
     }
   end
 
@@ -52,6 +53,10 @@ class SignupTest < ActionDispatch::IntegrationTest
       assert_select '[id=user_first_name][value=User]'
       assert_select '[id=user_last_name][value="Von Example"]'
       assert_select '[id=user_postal_address][value="Alte Kindhauserstrasse 3"]'
+      assert_select '[id=user_postal_address_supplement][value="Hof Im Basi"]'
+      assert_select '[id=user_postal_code][value="8953"]'
+      assert_select '[id=user_city][value="Dietikon"]'
+      assert_select '[id=user_tel_mobile][value="076 111 11 11"]'
       assert_select '[id=user_notes]', text: "some_notes"
       # ...and the corresponding error messages to explain what happened
       assert_select 'div#error_explanation li',   count: 1

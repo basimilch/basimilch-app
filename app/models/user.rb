@@ -45,6 +45,7 @@ class User < ActiveRecord::Base
                           length: { maximum: 40 }
 
   validates :postal_address,  presence: true
+  validates :postal_address_supplement, length: { maximum: 50 }
   validates :postal_code,     presence: true,
                               format: { with: VALID_SWISS_POSTAL_CODE_REGEX }
   validates :city,            presence: true

@@ -52,6 +52,7 @@ namespace :import_csv do
         u.admin           = false
         u.email           = sanitized_email row
         u.postal_address  = "#{sanitize_string row['Strasse']} #{sanitize_string row['Haus-Nr.']}"
+        u.postal_address_supplement = sanitize_string row['Verein/Firma']
         u.postal_code     = sanitize_string row['PLZ']
         u.city            = sanitize_string row['Ort']
         u.tel_mobile      = sanitize_string row['Tel (Handy)']

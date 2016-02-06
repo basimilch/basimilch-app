@@ -152,6 +152,20 @@ class UserTest < ActiveSupport::TestCase
     assert_equal city,            @user.city
   end
 
+  test "adding a postal address supplement should be valid" do
+    @user.postal_address_supplement = "c/o Somebody"
+    assert @user.valid?, "User with postal address suppl. should be valid: " +
+                         @user.errors.full_messages.join(", ")
+  end
+
+  test "postal address supplement should be max 50 chars long" do
+    @user.postal_address_supplement = "a" * 50
+    assert @user.valid?
+    @user.postal_address_supplement = "a" * 51
+    assert_not @user.valid?, "Postal address suppl. should be max 50 char: " +
+                         @user.errors.full_messages.join(", ")
+  end
+
   test "valid phone numbers should be stored normalized" do
     valid_tels = {"+41761111111"       => ["+41761111111", "+41 76 111 11 11"],
                   "+41 76 111 11 11"   => ["+41761111111", "+41 76 111 11 11"],

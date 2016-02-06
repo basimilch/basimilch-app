@@ -4,6 +4,7 @@ module UsersHelper
                           :last_name,
                           :email,
                           :postal_address,
+                          :postal_address_supplement,
                           :postal_code,
                           :city,
                           # :country,
