@@ -447,6 +447,12 @@ form {
   color: $brand-danger;
 }
 
+.user_table_initial_letter {
+  background-color: $basiblau;
+  text-align: center;
+  color: white;
+}
+
 .user-never-logged-in-yet-label,
 .user-inactive-label {
   font-style: italic;

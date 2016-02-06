@@ -3,6 +3,15 @@
 <% else %>
   <tr class="user-index-row">
 <% end %>
+  <% unless @view == "by_id" %>
+    <% current_initial = user.last_name.initial %>
+    <% if @last_initial == current_initial %>
+      <td></td>
+    <% else %>
+      <td class="user_table_initial_letter"><%= current_initial %></td>
+      <% @last_initial = current_initial %>
+    <% end %>
+  <% end %>
   <td>
     <% if user.admin? %>
       <span class="glyphicon glyphicon-star user-badge-admin" aria-hidden="true" title="Admin"></span>

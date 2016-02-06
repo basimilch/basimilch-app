@@ -33,6 +33,12 @@ class String
     scan(/\d/).join
   end
 
+  # Returns the first letter of a string.
+  # NOTE: The meaning of the original method chr is not very clear.
+  def initial
+    chr
+  end
+
   # DOC: http://www.rubydoc.info/stdlib/erb/ERB%2FUtil.url_encode
   include ERB::Util
   def url_encoded(only_spaces: false)

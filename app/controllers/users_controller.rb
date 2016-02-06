@@ -15,7 +15,7 @@ class UsersController < ApplicationController
         raise_404
       end
     else
-      @users = User.all
+      @users = User.by_name
     end
     respond_to do |format|
       format.html

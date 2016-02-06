@@ -1,4 +1,4 @@
-<% if !@view || @view == "all" %>
+<% if !@view %>
   <% provide(:title, t('.title.all_users')) %>
 <% else %>
   <% provide(:title, t('.title.' + @view + '_users')) %>
@@ -17,6 +17,9 @@
     <table class="table table-hover table-condensed">
       <thead>
         <tr>
+          <% unless @view == "by_id" %>
+            <th></th>
+          <% end %>
           <th></th>
           <th></th>
           <th><%= t('table_headers.id') %></th>

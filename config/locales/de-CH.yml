@@ -239,6 +239,7 @@ de-CH:
     placeholders:
       user:
         <<: *placeholders
+        id: "Automatisch"
 
   # Views
 
@@ -275,6 +276,7 @@ de-CH:
         users_menu:
           users:                "Genossenschafter_innen"
           users_all:            "Alle"
+          users_by_id:          "Alle (nach Nr. sortiert)"
           users_active:         "Aktiv"
           users_pending_activation:  "Nie eingeloggt"
           users_inactive:       "Inaktiv"
@@ -310,6 +312,7 @@ de-CH:
     index:
       title:
         all_users: "Alle Genossenschafter_innen"
+        by_id_users: "Alle Genossenschafter_innen (nach Nr. sortiert)"
         active_users: "Aktive Genossenschafter_innen"
         pending_activation_users: "Neue Genossenschafter_innen"
         inactive_users: "Inaktive Genossenschafter_innen"

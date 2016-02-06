@@ -7,22 +7,23 @@ class User < ActiveRecord::Base
   has_many :job_signups
   has_many :jobs, -> {distinct}, through: :job_signups
 
-  default_scope -> { order(id: :asc) }
-  scope :admins, -> { where(admin: true).order(:last_name) }
+  scope :by_name, -> { order(last_name: :asc).order(id: :asc) }
+  scope :by_id, -> { order(id: :asc) }
+  scope :admins, -> { by_name.where(admin: true).order(:last_name) }
   # DOC: http://www.informit.com/articles/article.aspx?p=2220311
-  scope :working_tomorrow, -> { joins(:jobs).merge(Job.tomorrow).distinct }
+  scope :working_tomorrow, -> { by_name.joins(:jobs).merge(Job.tomorrow).distinct }
   scope :emails, -> { pluck(:email) }
 
-  scope :inactive, -> { where(activated: [nil, false], activation_sent_at: nil)}
-  scope :pending_activation, -> { where(activated: [nil, false])
-                      .where(User.arel_table[:activation_sent_at].not_eq(nil)) }
-  scope :active, -> { where(activated: true) }
-  scope :stale, -> { where(User.arel_table[:last_seen_at].lt(STALE_THRESHOLD)) }
+  scope :inactive, -> { by_name.where(activated: [nil, false], activation_sent_at: nil)}
+  scope :pending_activation, -> { by_name.where(activated: [nil, false])
+                      .by_name.where(User.arel_table[:activation_sent_at].not_eq(nil)) }
+  scope :active, -> { by_name.where(activated: true) }
+  scope :stale, -> { by_name.where(User.arel_table[:last_seen_at].lt(STALE_THRESHOLD)) }
 
   # Identify users with missing info:
-  scope :without_tel, -> { where(User.arel_table[:tel_mobile]
+  scope :without_tel, -> { by_name.where(User.arel_table[:tel_mobile]
                               .matches("%0000000")) }
-  scope :without_email, -> { where(User.arel_table[:email]
+  scope :without_email, -> { by_name.where(User.arel_table[:email]
                               .matches("%@example.org")) }
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
