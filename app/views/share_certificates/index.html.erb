@@ -18,10 +18,10 @@
         <tr>
           <td><%= link_to share_certificate.id, share_certificate %></td>
           <td><%= link_to share_certificate.user.full_name, share_certificate.user %></td>
-          <td><%= share_certificate.sent_at.try(:to_localized_s, :long) %></td>
-          <td><%= share_certificate.payed_at.try(:to_localized_s, :long) %></td>
-          <td><%= share_certificate.returned_at.try(:to_localized_s, :long) %></td>
-          <td><%= truncate share_certificate.notes %></td>
+          <td><%= share_certificate.sent_at.try(:to_localized_s, :short_with_year) %></td>
+          <td><%= share_certificate.payed_at.try(:to_localized_s, :short_with_year) %></td>
+          <td><%= share_certificate.returned_at.try(:to_localized_s, :short_with_year) %></td>
+          <td><%= truncate share_certificate.notes, length: 20 %></td>
           <td>
             <%= link_to t('.edit'), edit_share_certificate_path(share_certificate) %>
             <%# link_to t('.destroy'), share_certificate, method: :delete,

@@ -166,6 +166,7 @@ de-CH:
   date:
     formats:
       short_with_weekday: "%a, %e. %b"
+      short_with_year:    "%e. %b %Y"
       long_with_weekday:  "%A, %-d. %B %Y"
 
   # Misc
