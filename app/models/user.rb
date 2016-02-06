@@ -343,10 +343,10 @@ class User < ActiveRecord::Base
     end
 
     def capitalize_first_name
-      self.first_name = first_name.try(:capitalize)
+      self.first_name = first_name.try(:titlecase)
     end
 
     def capitalize_last_name
-      self.last_name = last_name.try(:capitalize)
+      self.last_name = last_name.try(:titlecase)
     end
 end

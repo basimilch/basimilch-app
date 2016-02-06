@@ -87,10 +87,10 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
 
-  test "first name should be capitalized on validation" do
-    @user.first_name = "aaaa"
+  test "each word in first name should be capitalized on validation" do
+    @user.first_name = "aaaa bbb"
     assert @user.valid?
-    assert_equal "Aaaa", @user.first_name
+    assert_equal "Aaaa Bbb", @user.first_name
   end
 
   test "last name should be present" do
@@ -104,10 +104,10 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
 
-  test "last name should be capitalized on validation" do
-    @user.last_name = "bbbbb"
+  test "each word in last name should be capitalized on validation" do
+    @user.last_name = "bbbbb ccc"
     assert @user.valid?
-    assert_equal "Bbbbb", @user.last_name
+    assert_equal "Bbbbb Ccc", @user.last_name
   end
 
   test "postal code validation should reject invalid swiss codes" do

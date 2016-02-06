@@ -37,7 +37,7 @@ class SignupTest < ActionDispatch::IntegrationTest
 
       incomplete_user_info = valid_user_info.merge({
                       first_name:     "user",
-                      last_name:      "example",
+                      last_name:      "von example",
                       postal_address: "Alte Kindhauserstr 3"
                     })
       assert_no_difference 'ActionMailer::Base.deliveries.size' do
@@ -50,7 +50,7 @@ class SignupTest < ActionDispatch::IntegrationTest
       assert_template 'signups/new'
       # ...and/or fixed
       assert_select '[id=user_first_name][value=User]'
-      assert_select '[id=user_last_name][value="Example"]'
+      assert_select '[id=user_last_name][value="Von Example"]'
       assert_select '[id=user_postal_address][value="Alte Kindhauserstrasse 3"]'
       assert_select '[id=user_notes]', text: "some_notes"
       # ...and the corresponding error messages to explain what happened
