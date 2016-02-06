@@ -58,9 +58,18 @@
   <%= form_buttons %>
 
   <div class="row">
-    <div class="col-sm-3 col-xs-6">
-      <%= f.field_for :first_name %>
-    </div>
+    <% if controller_name == "signups" %>
+      <div class="col-sm-3 col-xs-6">
+        <%= f.field_for :first_name %>
+      </div>
+    <% else %>
+      <div class="col-sm-1 col-xs-2">
+        <%= f.field_for :id, readonly: true %>
+      </div>
+      <div class="col-sm-2 col-xs-4">
+        <%= f.field_for :first_name %>
+      </div>
+    <% end %>
     <div class="col-sm-3 col-xs-6">
       <%= f.field_for :last_name %>
     </div>
