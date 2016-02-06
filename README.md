@@ -170,6 +170,12 @@ $ bundle exec rake db:reset
 This will automatically delete the previous local DB and proceed with
 a `db:setup`.
 
+To start over with a clean local dev DB without seeding it execute following command, as inspired from [this SO answer]:
+
+``` bash
+$ bundle exec rake db:drop db:create db:schema:load
+```
+
 To learn how to perform DB operations on heroku see [Heroku > DB]
 below.
 
@@ -178,6 +184,7 @@ below.
 [Faker]: https://github.com/stympy/faker
 [`db/seeds.rb`]: db/seeds.rb
 [`db/schema.rb`]: db/schema.rb
+[this SO answer]: http://stackoverflow.com/a/4116124
 [Heroku > DB]: #db
 
 ### Squashing migrations
