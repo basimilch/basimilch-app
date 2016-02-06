@@ -67,7 +67,7 @@ class UsersEditTest < ActionDispatch::IntegrationTest
   test "non admins should not see profile notes" do
     assert_equal true,  @user.admin?
     assert_equal false, @other_user.admin?
-    assert_protected_get edit_user_path(@other_user), login_as: @other_user
+    assert_protected_get profile_edit_path(@other_user), login_as: @other_user
     assert_template 'users/edit'
     assert_select "#user_notes", count: 0
   end

@@ -1,6 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  id: 10
   user_id: 1
   sent_at: 2016-01-16
   payed_at: 2016-01-16
@@ -8,8 +9,9 @@ one:
   notes: MyText
 
 two:
+  id: 20
   user_id: 2
   sent_at: 2016-01-16
   payed_at: 2016-01-16
   returned_at: 2016-01-16
-  notes: MyText
+  notes: A veeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeery long text

@@ -13,7 +13,7 @@
     <% end %>
   <% end %>
 
-  <% unless share_certificate.notes.blank? %>
+  <% if current_user_admin? && !share_certificate.notes.blank? %>
     <strong><%= t ".notes" %>: </strong>
     <%= truncate share_certificate.notes, length: 50 do %>
       <%= link_to t(".see_full_notes"), share_certificate %>
