@@ -274,6 +274,13 @@ bundle exec rake test
 [`tmux`]: https://tmux.github.io
 [create a new PostgreSql user]: http://www.postgresql.org/docs/9.4/static/app-createuser.html
 
+The [`.travis.yml`] file should also [be updated] in order to let
+Travis-CI properly perform the tests as explained in the [Travis
+documentation].
+
+[`.travis.yml`]: .travis.yml
+[be updated]: https://github.com/basimilch/basimilch-app/compare/f7312c45ae9e3bdec66cd8f22a449e078d6817a7...8019bb1fcb8dce7b1f10023f8140cb06cac808be
+[Travis documentation]: https://docs.travis-ci.com/user/database-setup/#PostgreSQL
 
 ## Localization
 
