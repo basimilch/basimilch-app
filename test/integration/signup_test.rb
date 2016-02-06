@@ -10,7 +10,8 @@ class SignupTest < ActionDispatch::IntegrationTest
       postal_code:    "8953",
       city:           "Dietikon",
       tel_mobile:     "076 111 11 11",
-      email:          "user@example.com"
+      email:          "user@example.com",
+      notes:          "some_notes"
     }
   end
 
@@ -49,8 +50,9 @@ class SignupTest < ActionDispatch::IntegrationTest
       assert_template 'signups/new'
       # ...and/or fixed
       assert_select '[id=user_first_name][value=User]'
-      assert_select '[id=user_last_name][value=Example]'
+      assert_select '[id=user_last_name][value="Example"]'
       assert_select '[id=user_postal_address][value="Alte Kindhauserstrasse 3"]'
+      assert_select '[id=user_notes]', text: "some_notes"
       # ...and the corresponding error messages to explain what happened
       assert_select 'div#error_explanation li',   count: 1
 

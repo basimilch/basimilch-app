@@ -67,4 +67,20 @@ class UsersControllerTest < ActionController::TestCase
     patch :update, id: @other_user, user: { admin: true }
     assert_not @other_user.reload.admin?
   end
+
+  test "admin should be able to edit profile notes" do
+    fixture_log_in(@user)
+    assert @user.admin?
+    assert_not_equal "some notes", @other_user.reload.notes
+    patch :update, id: @other_user, user: { notes: "some notes" }
+    assert_equal "some notes", @other_user.reload.notes
+  end
+
+  test "non-admin should not be able to edit profile notes" do
+    fixture_log_in(@other_user)
+    assert_not @other_user.admin?
+    assert_not_equal "some notes", @other_user.reload.notes
+    patch :update, id: @other_user, user: { notes: "some notes" }
+    assert_not_equal "some notes", @other_user.reload.notes
+  end
 end

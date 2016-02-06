@@ -12,15 +12,15 @@ module UsersHelper
                           :tel_home,
                           :tel_home_formatted,
                           :tel_office,
-                          :tel_office_formatted,
-                          :notes]
+                          :tel_office_formatted]
 
   def user_params
     # Pattern 'strong parameters' to secure form input.
     # Source:
     #   https://www.railstutorial.org/book/_single-page#sec-strong_parameters
     params.require(:user).permit(PERMITTED_ATTRIBUTES +
-                                        (current_user_admin? ? [:admin] : []))
+                (current_user_admin?                        ? [:admin] : []) +
+                (current_user_admin? || current_user.blank? ? [:notes] : []))
   end
 
   def query_params

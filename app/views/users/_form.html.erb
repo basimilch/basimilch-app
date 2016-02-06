@@ -120,11 +120,13 @@
     </div>
   <% end %>
 
-  <div class="row">
-    <div class="col-xs-12">
-      <%= f.field_for :notes %>
+  <% if current_user_admin? || current_user.blank? %>
+    <div class="row">
+      <div class="col-xs-12">
+        <%= f.field_for :notes %>
+      </div>
     </div>
-  </div>
+  <% end %>
 
   <div class="row">
     <% if user.new_record? %>
