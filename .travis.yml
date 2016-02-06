@@ -10,7 +10,7 @@ before_script:
   # SOURCE: http://stackoverflow.com/a/12896545/5764181
   - psql -c 'create user basimilchdbuser;' -U postgres
   # SOURCE: https://docs.travis-ci.com/user/database-setup/#Using-PostgreSQL-in-your-Builds
-  - psql -c 'create database basimilchdb_test;' -U basimilchdbuser
+  - psql -c 'create database basimilchdb_test owner basimilchdbuser;' -U postgres
 deploy:
   # SOURCE: http://docs.travis-ci.com/user/deployment/heroku/
   provider: heroku
