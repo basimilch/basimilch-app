@@ -8,11 +8,13 @@
   <%= render 'user_overview', user: current_user %>
 </div>
 
-<div class="text-center">
-  <%= t ".showing_jobs_html",
-      from: @jobs.first.start_at.relative_in_words,
-      to: @jobs.last.start_at.relative_in_words %>
-</div>
+<% unless @jobs.empty? %>
+  <div class="text-center">
+    <%= t ".showing_jobs_html",
+        from: @jobs.first.start_at.relative_in_words,
+        to: @jobs.last.start_at.relative_in_words %>
+  </div>
+<% end %>
 <div class="text-center">
   <%= will_paginate page_links: false %>
 </div>

@@ -13,7 +13,7 @@ class JobsController < ApplicationController
     # TODO: Using .to_a "preloads" the query. Investigate if it's a good practice.
     # @jobs = Job.future.page(params[:page]).per_page(JOBS_PER_PAGE).to_a
     @jobs = Job.future.page(page_query_param).per_page(JOBS_PER_PAGE)
-    if @jobs.empty?
+    if @jobs.empty? && Job.count > 0
       # Probably requesting a page number too high.
       redirect_to jobs_path(page: @jobs.total_pages)
     end
