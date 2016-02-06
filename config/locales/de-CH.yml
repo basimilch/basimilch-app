@@ -87,7 +87,7 @@ de-CH:
       login_code:                 "xxx xxx"
 
   table_headers: &table_headers
-    id:           Id
+    id:           Nr.
     name:         Name
     user:         Genossenschafter
     email:        E-Mail-Adresse
