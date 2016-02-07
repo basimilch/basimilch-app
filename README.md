@@ -48,9 +48,13 @@ The corresponding [Rails Tutorial Book] can be read online for free.
 - [The API Documentation (v4.2.3)]
 - [Ruby on Rails Guides (v4.2.3)]
 
+Beyond these official guides, it can be useful to read [The Beginner's
+Guide to Rails Helpers].
+
 [Rails Code (v4.2.3)]: https://github.com/rails/rails/tree/v4.2.3
 [The API Documentation (v4.2.3)]: http://api.rubyonrails.org/v4.2.3/
 [Ruby on Rails Guides (v4.2.3)]: http://guides.rubyonrails.org/v4.2.3/
+[The Beginner's Guide to Rails Helpers]: http://mixandgo.com/blog/the-beginner-s-guide-to-rails-helpers
 
 ## Environment
 
