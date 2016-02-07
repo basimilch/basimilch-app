@@ -2,6 +2,7 @@
 # DOC: http://stackoverflow.com/a/12461394
 # DOC: http://stackoverflow.com/a/5393324
 # DOC: http://stackoverflow.com/a/825832
+# DOC: https://gist.github.com/arjunvenkat/1115bc41bf395a162084
 
 require 'csv'
 
