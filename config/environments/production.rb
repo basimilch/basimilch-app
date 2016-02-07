@@ -60,7 +60,9 @@ Rails.application.configure do
   config.log_level = :debug
 
   # Prepend all log lines with the following tags.
-  # config.log_tags = [ :subdomain, :uuid ]
+  # DOC: http://guides.rubyonrails.org/v4.2.3/configuring.html
+  # DOC: https://devcenter.heroku.com/articles/http-request-id
+  config.log_tags = [ :host, :subdomain, :remote_ip, :uuid ]
 
   # Use a different logger for distributed setups.
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
