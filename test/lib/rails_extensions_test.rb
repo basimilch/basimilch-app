@@ -18,6 +18,19 @@ class RailsExtentionsTest < ActionController::TestCase
     assert_equal nil,                     @some_hash.get(:inner_hash, :d)
   end
 
+  test "should pop hash value" do
+    h = @some_hash.dup
+    # NOTE: If the hash is the first value, the parenthesis are needed.
+    # SOURCE: http://stackoverflow.com/a/5657827
+    assert_equal({ 'b' => 2, c: 3 },                      h.pop(:inner_hash))
+    assert_equal({ a: 1 } ,                               h)
+    assert_equal({a: 1, inner_hash: { 'b' => 2, c: 3 } }, @some_hash)
+    assert_equal(nil,                                     h.pop(:inner_hash))
+    assert_equal({ a: 1 } ,                               h)
+    assert_equal(nil,                                     h.pop(nil))
+    assert_equal({ a: 1 } ,                               h)
+  end
+
   test "to_i_min should be available for String and Nil" do
     assert_equal 0, nil.to_i
     assert_equal 0, "".to_i

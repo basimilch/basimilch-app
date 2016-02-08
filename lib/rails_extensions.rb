@@ -1,5 +1,7 @@
 # # Inspired from: http://stackoverflow.com/a/677141
 
+# TODO: Refactor this file in several files.
+
 class Hash
 
   # Returns the value given a path of keys, without failing.
@@ -13,6 +15,14 @@ class Hash
         return nil
       end
     end
+    res
+  end
+
+  # Returns the value in the map for the given key and removes the key/values
+  # pair from the original map in place. Like :pop for arrays.
+  def pop(k)
+    res = self[k]
+    except! k
     res
   end
 end
