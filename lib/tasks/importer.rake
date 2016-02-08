@@ -92,5 +92,14 @@ namespace :import_csv do
     admin = User.find_by(email: ENV['EMAIL_DEFAULT_ADMIN'])
     admin.update_attribute(:admin, true)
     admin.update_attribute(:activation_sent_at, Time.current)
+
+    # NOTE: After the DB has been populated with imported data, the built-in
+    #       PostgreSQL sequence must be reset in order to allow further table
+    #       updates. Otherwise you might find 'PG::UniqueViolation' exceptions
+    #       when creating new users.
+    # SOURCE: http://stackoverflow.com/a/15108735
+    ActiveRecord::Base.connection.tables.each do |t|
+      ActiveRecord::Base.connection.reset_pk_sequence!(t)
+    end
   end
 end
