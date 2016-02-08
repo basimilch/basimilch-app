@@ -336,7 +336,7 @@ class User < ActiveRecord::Base
     # Before filters
 
     def downcase_email
-      self.email = email.downcase
+      self.email = email.try(:downcase)
     end
 
     def capitalize_first_name
