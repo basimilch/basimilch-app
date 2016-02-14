@@ -123,14 +123,13 @@ class ShareCertificatesControllerTest < ActionController::TestCase
     end
   end
 
-  # FIXME
-  # test "admin should be able to destroy share_certificate" do
-  #   assert_admin_protected login_as: @admin_user do
-  #     assert_difference 'ShareCertificate.count', -1 do
-  #       delete :destroy, id: @share_certificate.id
-  #     end
-  #   end
-  # end
+  test "admin should be able to destroy share_certificate" do
+    assert_difference 'ShareCertificate.count', -1 do
+      assert_admin_protected login_as: @admin_user do
+        delete :destroy, id: @share_certificate.id
+      end
+    end
+  end
 
   test "non admin should not be able to destroy share_certificate" do
     assert_admin_protected login_as: @user do

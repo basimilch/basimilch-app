@@ -1,5 +1,8 @@
 class User < ActiveRecord::Base
 
+  # DOC: https://github.com/chaps-io/public_activity/tree/v1.4.1
+  include PublicActivity::Common
+
   # DOC: https://github.com/airblade/paper_trail/tree/v4.0.1#basic-usage
   has_paper_trail ignore: [:updated_at, :last_seen_at]
 

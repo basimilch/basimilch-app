@@ -1,5 +1,7 @@
 class UserMailer < ApplicationMailer
 
+  include PublicActivityHelper
+
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
@@ -81,5 +83,6 @@ class UserMailer < ApplicationMailer
     @job = job
     mail to: "#{user.full_name} <#{user.email}>",
          subject: t(".subject", job_title: job.title)
+    record_activity :send_job_reminder, @user, data: {job: @job}
   end
 end

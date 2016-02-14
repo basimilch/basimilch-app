@@ -175,10 +175,20 @@ $ bundle exec rake db:reset
 This will automatically delete the previous local DB and proceed with
 a `db:setup`.
 
-To start over with a clean local dev DB without seeding it execute following command, as inspired from [this SO answer]:
+To start over with a clean local dev DB without seeding it execute
+following command, as inspired from [this SO answer]:
 
 ``` bash
 $ bundle exec rake db:drop db:create db:schema:load
+```
+
+If the [`db/schema.rb`] is not in sync anymore with your migrations,
+perform a migration after dropping and creating the database, instead
+of directly loading the schema, which recreates the [`db/schema.rb`]
+file:
+
+``` bash
+$ bundle exec rake db:drop db:create db:migrate
 ```
 
 To learn how to perform DB operations on heroku see [Heroku > DB]
@@ -404,10 +414,10 @@ depots and other entities.
 
 ### `paper_trail`
 
-We use the gem [`paper_trail` (v4.0.1)] to audit changes on models. This
-gem creates versions each time a model item changes by simply adding
-`has_paper_trail` to the model. It allows to inspect, compare or
-revert to how things looked at a given point in time.
+We use the gem [`paper_trail` (v4.0.1)] to audit changes on models.
+This gem creates versions each time a model item changes by simply
+adding `has_paper_trail` to the model. It allows to inspect, compare
+or revert to how things looked at a given point in time.
 
 While following the [installation] documentation, we added the option
 `--with-changes` as mentioned in the [diffing versions] section. The
@@ -447,6 +457,18 @@ The population of this metadata is implemented in the file
 [diffing versions]: https://github.com/airblade/paper_trail/tree/v4.0.1#diffing-versions
 [metadata from controllers]: https://github.com/airblade/paper_trail/tree/v4.0.1#metadata-from-controllers
 [`/app/controllers/application_controller.rb`]: /app/controllers/application_controller.rb
+
+### `public_activity`
+
+We use the gem [`public_activity`] [(v1.4.2)]<sup>[*](#public_activity_gem_version)</sup> to record activities in
+the application.
+
+[`public_activity`]: https://github.com/chaps-io/public_activity/tree/v1.4.1
+[(v1.4.2)]: https://rubygems.org/gems/public_activity/versions/1.4.2
+
+<a name="public_activity_gem_version">*</a>: Note that the `gem`
+version in Rubygems.org is `v1.4.2` but the tag in GitHub.com is
+`v1.4.1`.
 
 ## Notes on Rails
 
@@ -538,7 +560,13 @@ $ bundle exec rake db:migrate
 == 20160103160340 RemovePasswordRelatedColumnsFromUsers: migrated (0.2908s) ===
 ```
 
+It might be also interesting to read [this SO answer about creating
+simple vs compound indexed], as well as Heroku's own documentation
+about [Efficient Use of PostgreSQL Indexes].
+
 [RailsGuide about migrations]: http://guides.rubyonrails.org/v4.2.3/active_record_migrations.html#creating-a-migration
+[this SO answer about creating simple vs compound indexed]: http://stackoverflow.com/a/1049392
+[Efficient Use of PostgreSQL Indexes]: https://devcenter.heroku.com/articles/postgresql-indexes
 
 ## Heroku
 

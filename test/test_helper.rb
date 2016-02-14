@@ -49,24 +49,30 @@ class ActiveSupport::TestCase
     login_code = request_login_code(user,
                      secure_computer_acknowledged: secure_computer_acknowledged)
     # Try to login with a wrong login code 3 times
-    3.times do |i|
-      put login_path, login_code_form: {login_code: "wrong code"}
-      if i == 2
-        # Last try
-        follow_redirect!
-        assert_template 'sessions/new'
-        assert_equal nil, session[:login_code]
-      else
-        assert_template 'sessions/validation'
-        assert_not_equal nil, session[:login_code]
+    assert_difference 'PublicActivity::Activity.count', 3 do
+      # One activity for each failed attempt.
+      3.times do |i|
+        put login_path, login_code_form: {login_code: "wrong code"}
+        if i == 2
+          # Last try
+          follow_redirect!
+          assert_template 'sessions/new'
+          assert_equal nil, session[:login_code]
+        else
+          assert_template 'sessions/validation'
+          assert_not_equal nil, session[:login_code]
+        end
+        assert_select '.flash-messages .alert.alert-danger',   count: 1
       end
-      assert_select '.flash-messages .alert.alert-danger',   count: 1
     end
     # Request a new code
     login_code = request_login_code(user,
                      secure_computer_acknowledged: secure_computer_acknowledged)
     # and log in properly
-    put login_path, login_code_form: {login_code: login_code}
+    assert_difference 'PublicActivity::Activity.count', 1 do
+      # One activity should track the new login.
+      put login_path, login_code_form: {login_code: login_code}
+    end
     assert_equal true, fixture_logged_in?
   end
 
@@ -175,16 +181,19 @@ class ActiveSupport::TestCase
     end
 
     def request_login_code(user, secure_computer_acknowledged: '1')
-      assert_difference 'ActionMailer::Base.deliveries.size', 1 do
-        # When the user inputs her email and sends the form with the "request
-        # login code" button, one email is sent with the login code
-        post_via_redirect(
-          login_path,
-          session: {
-            email: user.email,
-            secure_computer_acknowledged: secure_computer_acknowledged
-          }
-        )
+      assert_no_difference 'PublicActivity::Activity.count' do
+        # No activity is registered with sending login code emails.
+        assert_difference 'ActionMailer::Base.deliveries.size', 1 do
+          # When the user inputs her email and sends the form with the "request
+          # login code" button, one email is sent with the login code
+          post_via_redirect(
+            login_path,
+            session: {
+              email: user.email,
+              secure_computer_acknowledged: secure_computer_acknowledged
+            }
+          )
+        end
       end
       # ...and the login-code screen appears
       assert_template 'sessions/validation'

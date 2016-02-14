@@ -5,7 +5,6 @@ module SessionsHelper
   # Logs in the given user.
   def log_in(user)
     session[:user_id] = user.id
-    user.record_last_login from: request.try(:remote_ip_and_address)
   end
 
   # Remembers a user in a persistent session.

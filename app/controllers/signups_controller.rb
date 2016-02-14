@@ -32,6 +32,7 @@ class SignupsController < ApplicationController
           logger.info "New successful signup for user id #{@user.id}" +
                       " (#{@user.email})"
           logger.debug "#{@user.inspect}"
+          record_activity :new_user_signup, @user
           send_signup_successful_email(@user)
           send_new_signup_notification(@user)
           forget_signup
@@ -83,11 +84,15 @@ class SignupsController < ApplicationController
 
     def send_signup_successful_email(user)
       UserMailer.signup_successful(user).deliver_now
+      record_activity :send_signup_successful_notification, user
     end
 
     def send_new_signup_notification(user)
       location_info = request.remote_ip_and_address
       UserMailer.new_signup_notification(user, location_info).deliver_now
+      record_activity :send_new_signup_notification, user, data: {
+        signup_remote_ip: location_info
+      }
     end
 
 end

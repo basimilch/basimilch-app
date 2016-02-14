@@ -22,6 +22,7 @@ class SessionsController < ApplicationController
       flash_now_t :danger, :user_not_found
       render 'new'
     elsif not @user.allowed_to_login?
+      record_activity :inactive_user_tries_to_login, @user
       logger.info "Login User inactive: #{@user.email} " +
                   "(from IP: request.remote_ip.inspect)"
       flash_now_t :danger, :user_inactive
@@ -66,7 +67,8 @@ class SessionsController < ApplicationController
       redirect_to login_path
       return
     elsif request.remote_ip.inspect != session[:login_ip]
-      logger.warn "Login attemps from unexpected IP " +
+      record_activity :login_attempt_from_unexpected_ip, @user
+      logger.warn "Login attempt from unexpected IP " +
                    "#{request.remote_ip.inspect}: #{result.inspect}"
       logger.warn "Expected IP was #{session[:login_ip]}"
       flash_t :danger, :not_the_expected_ip_address
@@ -74,6 +76,7 @@ class SessionsController < ApplicationController
       return
     end
     if login_code_expired?
+      record_activity :user_login_code_expired, @user
       flash_t :danger, t(".login_code_expired",
                          login_code_validity: LOGIN_CODE_VALIDITY.in_words)
       logger.warn "Login Code expired for user #{@user.email}" +
@@ -88,6 +91,7 @@ class SessionsController < ApplicationController
         current_user.activate
         flash_t :success, :first_login_successful_html
       end
+      record_activity :user_login, @user
       session[:secure_computer_acknowledged] == '0' ? forget(current_user)
                                                     : remember(current_user)
       forget_login_attempt
@@ -97,12 +101,15 @@ class SessionsController < ApplicationController
       # Wrong login code
       increase_login_attempts
       if remaining_login_attempts > 0
+        record_activity :user_login_attempt_fail, @user,
+                      data: {remaining_login_attempts: remaining_login_attempts}
         logger.warn "Failed logging attempt for user '#{@user.email}'. " +
                     "REMAINING ATTEMPS: #{remaining_login_attempts}"
         flash_now_t :danger, t(".wrong_login_code",
                                remaining_attempts: remaining_login_attempts)
         render 'validation'
       else
+        record_activity :user_login_all_attempts_fail, @user
         logger.warn "Max number of failed logging attempts " +
                     "(#{MAX_LOGIN_ATTEMPTS}) for user '#{@user.email}'" +
                     " reached from IP #{request.remote_ip.inspect}."

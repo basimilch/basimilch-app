@@ -60,7 +60,7 @@
   <div class="row">
     <% if controller_name == "signups" %>
       <div class="col-sm-3 col-xs-6">
-        <%= f.field_for :first_name %>
+        <%= f.field_for :first_name, autofocus: true %>
       </div>
     <% else %>
       <div class="col-sm-1 col-xs-2">

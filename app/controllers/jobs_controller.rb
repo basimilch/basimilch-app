@@ -47,9 +47,9 @@ class JobsController < ApplicationController
   # POST /jobs.json
   def create
     @job = Job.new(job_params)
-
     respond_to do |format|
       if @job.save_series
+        record_activity :create, @job
         format.html { redirect_to @job, notice: 'Job was successfully created.' }
         format.json { render :show, status: :created, location: @job }
       else
@@ -64,6 +64,7 @@ class JobsController < ApplicationController
   def update
     respond_to do |format|
       if @job.update(job_params)
+        record_activity :update, @job
         format.html { redirect_to @job, notice: 'Job was successfully updated.' }
         format.json { render :show, status: :ok, location: @job }
       else
@@ -76,6 +77,7 @@ class JobsController < ApplicationController
   # DELETE /jobs/1
   # DELETE /jobs/1.json
   def destroy
+    record_activity :destroy, @job # Must come before the destroy action.
     @job.destroy
     respond_to do |format|
       format.html { redirect_to jobs_url, notice: 'Job was successfully destroyed.' }
@@ -86,10 +88,14 @@ class JobsController < ApplicationController
   def signup_current_user
     signup = @job.job_signups.build(user_id: current_user.id)
     if signup.save
+      record_activity :current_user_sign_up_for_job, @job
       logger.info "Successfully signed up #{current_user} for #{@job}."
     else
+      errors = signup.errors[:base].join(" ")
+      record_activity :current_user_can_not_sign_up_for_job, @job,
+                      data: {errors: errors}
       logger.info "Not possible to sign up #{current_user} for #{@job}."
-      flash_t :danger, signup.errors[:base].join(" ")
+      flash_t :danger, errors
     end
     redirect_to @job
   end

@@ -28,12 +28,16 @@ class SignupsControllerTest < ActionController::TestCase
     validation_code = "123-123"
     session[:signup_info] = valid_user_info
     session[:signup_validation_code] = validation_code.number
-    assert_difference 'ActionMailer::Base.deliveries.size', 2 do
-      # A successful user sign up should send 2 emails: a confirmation to the
-      # user and a notification to the app owner.
-      post :create, signup: {
-        email_validation_code: validation_code
-      }
+    assert_difference 'PublicActivity::Activity.count', 3 do
+      # A successful user sign up should create 3 activities: one for each email
+      # sent and one with key :new_user_signup.
+      assert_difference 'ActionMailer::Base.deliveries.size', 2 do
+        # A successful user sign up should send 2 emails: a confirmation to the
+        # user and a notification to the app owner.
+        post :create, signup: {
+          email_validation_code: validation_code
+        }
+      end
     end
     assert_response :success
     assert User.find_by(email: valid_user_info[:email]), "User not created"

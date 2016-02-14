@@ -34,6 +34,7 @@ class ShareCertificatesController < ApplicationController
 
     respond_to do |format|
       if @share_certificate.save
+        record_activity :create, @share_certificate
         format.html { redirect_to @share_certificate, notice: 'Share certificate was successfully created.' }
         format.json { render :show, status: :created, location: @share_certificate }
       else
@@ -48,6 +49,7 @@ class ShareCertificatesController < ApplicationController
   def update
     respond_to do |format|
       if @share_certificate.update(share_certificate_params)
+        record_activity :update, @share_certificate
         format.html { redirect_to @share_certificate, notice: 'Share certificate was successfully updated.' }
         format.json { render :show, status: :ok, location: @share_certificate }
       else
@@ -60,6 +62,7 @@ class ShareCertificatesController < ApplicationController
   # DELETE /share_certificates/1
   # DELETE /share_certificates/1.json
   def destroy
+    record_activity :destroy, @share_certificate # Must come before the destroy action.
     @share_certificate.destroy
     respond_to do |format|
       format.html { redirect_to share_certificates_url, notice: 'Share certificate was successfully destroyed.' }

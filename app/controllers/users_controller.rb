@@ -67,6 +67,7 @@ class UsersController < ApplicationController
   def profile_update
     @user = User.find(current_user.id)
     if @user.update_attributes(user_params)
+      record_activity :update, @user
       flash_t :success, :update_ok
       redirect_to profile_path
     else
@@ -82,6 +83,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       @user.reload
+      record_activity :create, @user
       flash[:success] = t('.flash.user_successfully_created',
                         id: @user.id, full_name: @user.full_name)
       redirect_to @user
@@ -96,6 +98,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update_attributes(user_params)
+      record_activity :update, @user
       flash[:success] = t('.flash.user_updated')
       redirect_to @user
     else
@@ -106,6 +109,7 @@ class UsersController < ApplicationController
   def activate
     @user = User.find(params[:id])
     @user.send_activation_email
+    record_activity :send_account_activation, @user
     flash_t :success,
             t(".account_activated_and_email_successfully_sent",
               email: @user.email)
