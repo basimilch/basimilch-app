@@ -1,6 +1,6 @@
 class JobsController < ApplicationController
 
-  JOBS_PER_PAGE = 50
+  JOBS_PER_PAGE = 30
 
   before_action :require_logged_in_user
   before_action :admin_user,  except: [:index, :show, :signup_current_user]
@@ -12,10 +12,14 @@ class JobsController < ApplicationController
   def index
     # TODO: Using .to_a "preloads" the query. Investigate if it's a good practice.
     # @jobs = Job.future.page(params[:page]).per_page(JOBS_PER_PAGE).to_a
-    @jobs = Job.future.page(page_query_param).per_page(JOBS_PER_PAGE)
-    if @jobs.empty? && Job.count > 0
-      # Probably requesting a page number too high.
-      redirect_to jobs_path(page: @jobs.total_pages)
+    @job_type_id = job_type_param
+    @jobs = Job.future
+               .job_type(@job_type_id)
+               .page(page_query_param)
+               .per_page(JOBS_PER_PAGE)
+    if page_query_param > @jobs.total_pages
+      redirect_to jobs_path(page: @jobs.total_pages,
+                            job_type: params[:job_type])
     end
   end
 
@@ -33,7 +37,20 @@ class JobsController < ApplicationController
   # GET /jobs/new
   def new
     if original_job = Job.find_by(id: params[:duplicate])
+      @job_type = original_job.job_type
       @job = original_job.dup
+    elsif @job_type = JobType.find_by(id: params[:job_type])
+      @job = Job.new do |j|
+        j.job_type    = @job_type
+        j.title       = @job_type.title
+        j.description = @job_type.description
+        j.place       = @job_type.place
+        j.address     = @job_type.address
+        j.slots       = @job_type.slots
+        j.user        = @job_type.user
+        j.start_at    = Time.current + 1.hours
+        j.end_at      = Time.current + 3.hours
+      end
     else
       @job = Job.new
     end
@@ -53,6 +70,7 @@ class JobsController < ApplicationController
         format.html { redirect_to @job, notice: 'Job was successfully created.' }
         format.json { render :show, status: :created, location: @job }
       else
+        @job_type = JobType.find_by(id: @job.job_type_id)
         format.html { render :new }
         format.json { render json: @job.errors, status: :unprocessable_entity }
       end
@@ -110,7 +128,15 @@ class JobsController < ApplicationController
     def job_params
       params.require(:job).permit(:title, :description, :start_at, :end_at,
                                   :place, :address, :slots, :user_id,
-                                  :creation_frequency)
+                                  :creation_frequency, :job_type_id)
+    end
+
+    def job_type_param
+      job_type_id = params[:job_type]
+      return :all if !params.has_key?(:job_type) || job_type_id.blank?
+      return nil  if job_type_id == "nil"
+      return :all if job_type_id.to_i <= 0
+      return job_type_id.to_i_min 1
     end
 
     def page_query_param

@@ -7,33 +7,33 @@
     <li><%= link_to t('.users_by_id'), users_path(view: :by_id) %></li>
     <li role="separator" class="divider"></li>
     <li>
-      <%= link_to users_path(view: :active), class: "users-view-menu" do %>
+      <%= link_to users_path(view: :active) do %>
         <span class='glyphicon glyphicon-ok-circle'></span> <%= t('.users_active') %>
       <% end %>
     </li>
     <li>
-      <%= link_to users_path(view: :pending_activation), class: "users-view-menu" do %>
+      <%= link_to users_path(view: :pending_activation) do %>
       <span class='glyphicon glyphicon-time'></span> <%= t('.users_pending_activation') %>
       <% end %>
     </li>
     <li>
-      <%= link_to users_path(view: :inactive), class: "users-view-menu" do %>
+      <%= link_to users_path(view: :inactive) do %>
       <span class='glyphicon glyphicon-remove-circle'></span> <%= t('.users_inactive') %>
       <% end %>
     </li>
     <li>
-      <%= link_to users_path(view: :stale), class: "users-view-menu" do %>
+      <%= link_to users_path(view: :stale) do %>
       <span class='glyphicon glyphicon-record'></span> <%= t('.users_stale') %>
       <% end %>
     </li>
     <li role="separator" class="divider"></li>
     <li>
-      <%= link_to users_path(view: :without_tel), class: "users-view-menu" do %>
+      <%= link_to users_path(view: :without_tel) do %>
       <span class='glyphicon glyphicon-warning-sign'></span> <%= t('.users_without_tel') %>
       <% end %>
     </li>
     <li>
-      <%= link_to users_path(view: :without_email), class: "users-view-menu" do %>
+      <%= link_to users_path(view: :without_email) do %>
       <span class='glyphicon glyphicon-warning-sign'></span> <%= t('.users_without_email') %>
       <% end %>
     </li>

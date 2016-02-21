@@ -25,6 +25,15 @@ class Hash
     except! k
     res
   end
+
+  def +(other_hash)
+    other_hash ||= {}
+    unless other_hash.is_a? Hash
+      raise "cannot merge #{other_hash.inspect} (#{other_hash.class})" +
+            " into #{self} (Hash)"
+    end
+    self.merge(other_hash || {})
+  end
 end
 
 module ToIntegerUtils

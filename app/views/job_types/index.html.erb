@@ -1,0 +1,26 @@
+<% provide(:title, t('.title')) %>
+
+<div class="table-responsive job_types_table">
+  <table class="table table-hover table-condensed">
+    <thead>
+      <tr>
+        <th><%= t 'table_headers.job_title' %></th>
+        <th><%= t 'table_headers.place' %></th>
+        <th><%= t 'table_headers.coordinator' %></th>
+        <th><%= t 'table_headers.slots' %></th>
+        <th><%= t 'table_headers.jobs' %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @job_types.each do |job_type| %>
+        <tr class="job_info" data-href="<%= job_type_path(job_type.id) %>"=>
+          <td class="job_title"><%= job_type.title %></td>
+          <td><%= job_type.place %></td>
+          <td><%= link_to_if job_type.user, job_type.user, job_type.user %></td>
+          <td><%= job_type.slots %></td>
+          <td><%= link_to job_type.jobs.count, jobs_path(job_type:job_type.id) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

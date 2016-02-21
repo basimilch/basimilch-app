@@ -1,0 +1,19 @@
+# Place all the behaviors and hooks related to the matching controller here.
+# All this logic will automatically be available in application.js.
+# You can use CoffeeScript in this file: http://coffeescript.org/
+
+# SOURCE: http://stackoverflow.com/a/32358641
+<% self.class.include Rails.application.routes.url_helpers %>
+
+# $(document).on 'ready page:load', (($$, $)->
+# SOURCE: http://brandonhilkert.com/blog/organizing-javascript-in-rails-application-with-turbolinks/
+$(document).on 'page:change', ->
+  do ( $$ = window.Basimilch, $ = jQuery ) ->
+    $('#job_job_type_id').change ->
+      $('body').css 'cursor', 'wait'
+      location.href = "<%= new_job_path %>" + "?job_type=" + $(@).val()
+    $('#job_type_filter_selector').change ->
+      $('body').css 'cursor', 'wait'
+      job_type_id = $(@).val()
+      location.href = "<%= jobs_path %>" +
+        ( if job_type_id then "?job_type=" + job_type_id else "")

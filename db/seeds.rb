@@ -117,6 +117,25 @@ number_of_jobs.times do |n|
   puts job if PRINT_SEEDING_PROGRESS
 end
 
+number_of_jobs_types = 4
+
+number_of_jobs_types.times do |n|
+  Faker::Config.locale = locales.sample
+
+  job_type = JobType.new(
+    title:        Faker::Lorem.sentence(2, false, 2),     # t.string
+    description:  Faker::Lorem.paragraph,                 # t.text
+    place:        Faker::Commerce.department,             # t.string
+    address:      "#{Faker::Address.street_address}," +   # t.string
+                  " #{Faker::Number.number(4)} #{Faker::Address.city}",
+    slots:        Faker::Number.between(2, 10),           # t.integer
+    user_id:      Faker::Number.between(1, 5)             # t.integer
+  )
+  job_type.save(validate: false)
+  puts job_type if PRINT_SEEDING_PROGRESS
+end
+
+
 # Simulate that in average each user signs up the requested numbers of times
 signups_trials = NUMBER_OF_USERS * JobSignup::MIN_NUMBER_PER_USER_PER_YEAR
 # => "_trials" because signups might fail if the jobs is not available anymore.
@@ -134,6 +153,7 @@ puts "DB has now:"
 puts "  #{User.count} users"
 puts "  #{ShareCertificate.count} share_certificates"
 puts "  #{Job.count} jobs"
+puts "  #{JobType.count} job types"
 puts "  #{JobSignup.count} job_signups"
 puts
 puts "NB: Model validations were skipped for users, since the adresses are" +

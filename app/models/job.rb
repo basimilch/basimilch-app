@@ -6,17 +6,22 @@ class Job < ActiveRecord::Base
   FREQUENCIES = [:just_once,
                  :repeat_weekly_4_times]
 
-  ALLOWED_NUMBER_OF_SLOTS = (1..5)
+  ALLOWED_NUMBER_OF_SLOTS = (1..10)
+
+  MIN_JOB_DURATION = 30.minutes
+  MAX_JOB_DURATION = 8.hours
 
   # DOC: https://github.com/airblade/paper_trail/tree/v4.0.1#basic-usage
   has_paper_trail ignore: [:updated_at]
 
   belongs_to :user
+  belongs_to :job_type
   has_many :job_signups
   has_many :users, -> {distinct}, through: :job_signups
 
   default_scope   -> { order(start_at: :asc) }
   scope :future,  -> { where("start_at > ?", Time.current) }
+  scope :job_type, ->(id){ id == :all ? all : where(job_type_id: id) }
   scope :at_day,  ->(d){  where("start_at > ?", d.to_date.at_beginning_of_day)
                          .where("start_at < ?", d.to_date.at_end_of_day) }
   scope :today,     -> { at_day(Date.today) }
@@ -24,14 +29,20 @@ class Job < ActiveRecord::Base
   scope :in_current_year, -> { where("start_at > ?",
                                      Time.current.beginning_of_year) }
 
-  validates :title,         presence: true
-  validates :description,   presence: true
-  validates :place,         presence: true
-  validates :address,       presence: true
-  validates :slots,         presence: true, numericality: { greater_than: 0 }
-  validates :user_id,       presence: true
-  validate  :user_exists,   unless: Proc.new {|j| j.user_id.blank?}
-  validate  :correct_future_dates
+  validates :title,           presence: true, length: { maximum: 150 }
+  validates :description,     presence: true, length: { maximum: 500 }
+  validates :place,           presence: true, length: { maximum: 150 }
+  validates :address,         presence: true, length: { maximum: 150 }
+  validates :slots,           presence: true, numericality: {
+                  greater_than_or_equal_to: ALLOWED_NUMBER_OF_SLOTS.first,
+                  less_than_or_equal_to:    ALLOWED_NUMBER_OF_SLOTS.last
+                }
+  validates :user_id,         presence: true
+  validate  :user_exists,     unless: Proc.new {|j| j.user_id.blank?}
+  validate  :job_type_exists, unless: Proc.new {|j| j.job_type_id.blank?}
+  validates :start_at,        presence: true
+  validates :end_at,          presence: true
+  validate  :correct_start_and_end_dates
 
   attr_accessor :creation_frequency
 
@@ -127,12 +138,23 @@ class Job < ActiveRecord::Base
       end
     end
 
-    def correct_future_dates
-      if past?
-        errors.add :start_at, I18n.t("errors.messages.job_must_be_future")
-      elsif start_at >= end_at
-        errors.add :start_at,
+    def job_type_exists
+      unless JobType.find_by(id: job_type_id)
+        errors.add :job_type_id, I18n.t("errors.messages.job_type_not_found",
+                                    id: job_type_id)
+      end
+    end
+
+    def correct_start_and_end_dates
+      return unless start_at && end_at
+      if end_at <= start_at
+        errors.add :end_at,
                    I18n.t("errors.messages.job_end_must_be_after_start")
+      elsif end_at - start_at < MIN_JOB_DURATION ||
+            end_at - start_at > MAX_JOB_DURATION
+        errors.add :end_at,
+                   I18n.t("errors.messages.job_end_must_be_between" +
+                          "_30min_and__after_start")
       end
     end
 end

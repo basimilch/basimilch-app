@@ -463,10 +463,8 @@ form {
   padding-bottom: 25px;
 }
 
-.users-view-menu {
-  .glyphicon {
-    padding-right: 5px;
-  }
+#navigation-menu .dropdown > ul > li > a > span.glyphicon {
+  padding-right: 5px;
 }
 
 .user_share_certificates {
@@ -497,6 +495,25 @@ tr[data-href] {
         top: 3px;
         bottom: 0;
       }
+    }
+  }
+}
+
+.jobs_table_options {
+  padding: {
+    top: 25px;
+    bottom: 25px;
+  }
+  > :first-child {
+    padding: {
+      top: 12px;
+    }
+  }
+  .pagination {
+    margin: 0;
+    padding: {
+      top: 5px;
+      bottom: 5px;
     }
   }
 }

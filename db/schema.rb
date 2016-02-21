@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160207001543) do
+ActiveRecord::Schema.define(version: 20160215061209) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,19 @@ ActiveRecord::Schema.define(version: 20160207001543) do
   add_index "job_signups", ["job_id"], name: "index_job_signups_on_job_id", using: :btree
   add_index "job_signups", ["user_id"], name: "index_job_signups_on_user_id", using: :btree
 
+  create_table "job_types", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.string   "place"
+    t.string   "address"
+    t.integer  "slots"
+    t.integer  "user_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "job_types", ["user_id"], name: "index_job_types_on_user_id", using: :btree
+
   create_table "jobs", force: :cascade do |t|
     t.string   "title"
     t.text     "description"
@@ -58,8 +71,10 @@ ActiveRecord::Schema.define(version: 20160207001543) do
     t.integer  "user_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.integer  "job_type_id"
   end
 
+  add_index "jobs", ["job_type_id"], name: "index_jobs_on_job_type_id", using: :btree
   add_index "jobs", ["start_at"], name: "index_jobs_on_start_at", using: :btree
   add_index "jobs", ["user_id"], name: "index_jobs_on_user_id", using: :btree
 
@@ -122,6 +137,8 @@ ActiveRecord::Schema.define(version: 20160207001543) do
 
   add_foreign_key "job_signups", "jobs"
   add_foreign_key "job_signups", "users"
+  add_foreign_key "job_types", "users"
+  add_foreign_key "jobs", "job_types"
   add_foreign_key "jobs", "users"
   add_foreign_key "share_certificates", "users"
 end

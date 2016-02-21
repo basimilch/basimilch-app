@@ -54,8 +54,8 @@ class JobsControllerTest < ActionController::TestCase
   end
 
 
-  test "admin should not create past job" do
-    assert_no_difference 'Job.count' do
+  test "admin should be able to create past job" do
+    assert_difference 'Job.count', 1 do
       assert_admin_protected login_as: @admin_user do
         post :create, job: { address: @job.address,
                              description: @job.description,

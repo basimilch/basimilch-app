@@ -31,6 +31,19 @@ class RailsExtentionsTest < ActionController::TestCase
     assert_equal({ a: 1 } ,                               h)
   end
 
+  test "should be able to merge hashes with + operator" do
+    h = {a: 1, b: 2}
+    # NOTE: If the hash is the first value, the parenthesis are needed.
+    # SOURCE: http://stackoverflow.com/a/5657827
+    assert_equal({ a: 1, b: 2, c: 3 }, h + {c: 3})
+    assert_equal({ a: 1, b: 3 }, h + {b: 3})
+    assert_equal({ a: 1, b: 2 }, h + {})
+    assert_equal({ a: 1, b: 2 }, h + nil)
+    assert_raise do
+      h + 1
+    end
+  end
+
   test "to_i_min should be available for String and Nil" do
     assert_equal 0, nil.to_i
     assert_equal 0, "".to_i

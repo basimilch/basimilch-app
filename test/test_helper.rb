@@ -108,7 +108,8 @@ class ActiveSupport::TestCase
     admin_protected   = options.include?(:admin_protected) ?
                                           options[:admin_protected] : false
     yield
-    assert_redirected_to redirect_path
+    assert_redirected_to redirect_path,
+                                    "Resource is not protected by login action."
     # We display a message to ask the user to log in.
     assert_equal should_have_flash, !flash.empty?
     if integration_test?

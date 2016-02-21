@@ -35,35 +35,35 @@ de-CH:
 
   dictionary:
     attributes: &attributes
-      id:                         "Id"
+      activated_at:               "Aktiviert am"
+      admin:                      "Admin"
+      city:                       "Ort"
+      country:                    "Land"
+      created_at:                 "Erstellt am"
       email:                      "E-Mail-Adresse"
+      first_name:                 "Vorname"
+      full_name:                  "Name"
+      id:                         "Id"
+      last_login_at:              "Zuletzt eingelogt am"
+      last_name:                  "Nachname"
+      login_code:                 "Login Code"
+      map_url:                    "Karte"
+      notes:                      "Notizen"
       password:                   "Passwort"
       password_confirmation:      "Passwortwiederholung"
-      admin:                      "Admin"
-      first_name:                 "Vorname"
-      last_name:                  "Nachname"
-      full_name:                  "Name"
       postal_address:             "Adresse"
       postal_address_supplement:  "Adresszusatz"
       postal_code:                "PLZ"
-      city:                       "Ort"
-      country:                    "Land"
-      map_url:                    "Karte"
-      tel_mobile:                 "Handy"
-      tel_mobile_formatted:       "Handy"
-      tel_home:                   "Zuhause"
-      tel_home_formatted:         "Zuhause"
-      tel_office:                 "Büro"
-      tel_office_formatted:       "Büro"
-      status:                     "Status"
-      notes:                      "Notizen"
-      created_at:                 "Erstellt am"
-      updated_at:                 "Zuletzt aktualisiert am"
-      activated_at:               "Aktiviert am"
-      last_login_at:              "Zuletzt eingelogt am"
-      login_code:                 "Login Code"
       profile:                    "Profil"
       secure_computer_acknowledged: Dies ist mein Computer
+      status:                     "Status"
+      tel_home:                   "Zuhause"
+      tel_home_formatted:         "Zuhause"
+      tel_mobile:                 "Handy"
+      tel_mobile_formatted:       "Handy"
+      tel_office:                 "Büro"
+      tel_office_formatted:       "Büro"
+      updated_at:                 "Zuletzt aktualisiert am"
       # start_at:               Begin
       # end_at:                 Ende
       # title:                  Titel
@@ -87,23 +87,25 @@ de-CH:
       login_code:                 "xxx xxx"
 
   table_headers: &table_headers
-    id:           Nr.
-    name:         Name
-    user:         Genossenschafter
-    email:        E-Mail-Adresse
-    sent_at:      Abgeschickt
-    payed_at:     Bezahlt
-    returned_at:  Rückerstattet
-    last_seen_at: Zuletzt online
-    notes:        Notizen
-    job_title:    Einsatz
-    job_signups:  Einsätze
-    description:  Beschreibung
-    date:         Datum
-    time:         Zeit
-    place:        Ort
     address:      Adresse
+    coordinator:  Koordinator_in
+    date:         Datum
+    description:  Beschreibung
+    email:        E-Mail-Adresse
+    id:           Nr.
+    job_signups:  Einsätze
+    job_title:    Einsatz
+    jobs:         Einsätze
+    last_seen_at: Zuletzt online
+    name:         Name
+    notes:        Notizen
+    payed_at:     Bezahlt
+    place:        Ort
+    returned_at:  Rückerstattet
+    sent_at:      Abgeschickt
     slots:        Teilnehmer-Anzahl
+    time:         Zeit
+    user:         Genossenschafter_in
 
   time:
     now:          jetzt
@@ -214,9 +216,11 @@ de-CH:
       uncomplete_postal_address: "Postadresse unvollständig"
       unrecornised_and_replaced: "\"%{original}\" wurde mit \"%{corrected}\" ersetzt"
       user_not_found: "Genossenschafter mit id '%{id}' nicht gefunden!"
+      job_type_not_found: "Tätigkeit mit id '%{id}' nicht gefunden!"
       job_does_not_accept_signups: "Es ist nicht mehr möglich, sich für diesen Einsatz anzumelden."
-      job_must_be_future: "muss in der Zukunft liegen"
-      job_end_must_be_after_start: "muss befor die Endzeit sein"
+      job_end_must_be_after_start: "muss nach der Startzeit sein"
+      job_end_must_be_between_30min_and__after_start: >
+        "muss zwischen 30 Minuten und 8 Sunden nach der Startzeit sein"
 
   # Models
 
@@ -225,6 +229,9 @@ de-CH:
       user:
         one:    "Genossenschafter_in"
         other:  "Genossenschafter_innen"
+      job_type:
+        one:    "Tätigkeit"
+        other:  "Tätigkeiten"
       job:
         one:    "Einsatz"
         other:  "Einsätze"
@@ -293,10 +300,10 @@ de-CH:
           new_depot: "Neues Depots"
         jobs_menu:
           jobs: "Mitarbeit"
-          all_jobs: "Alle Einsätze"
-          show_open_jobs: "Offene Einsätze"
-          new_job: "Neuer Einsatz"
-          new_job_series: "Neue Einsätzereihe"
+          all_job_types: "Tätigkeiten"
+          new_job_type: "Neue Tätigkeit"
+          all_jobs: "Tätigkeitseinsätze"
+          new_job: "Neuer Tätigkeitseinsatz"
 
   forms:
     login:
@@ -521,14 +528,21 @@ de-CH:
       notes: "Notizen"
       see_full_notes: "Ansehen"
 
+  job_types:
+    index:
+      title: Tätigkeiten
+      free_type_jobs: Einsätze ohne Tätigkeit
+
   jobs:
     index:
       title: Einsätze
       job_overview_title: Dein Mitarbeit-Konto
       showing_jobs_html: "Einsätze von <strong>%{from}</strong> bis <strong>%{to}</strong> angezeigt"
+      free_type_jobs: Einsätze ohne Tätigkeit
     show:
       <<: *table_headers
       title: Einsatz
+      job_type: Tätigkeit
       contact_user: Ansprechperson
       signup_for_job: Anmelden
       job_is_full: "Der Job ist ausgebucht, danke!"
@@ -542,6 +556,9 @@ de-CH:
         anmelden.
       job_is_in_the_past: Der Einsatz ist bereits vorbei.
     form:
+      select_number_of_slots: "Einzahl Plätze auswählen"
+      select_job_coordinator: "Einsatzkoordinator_in auswählen"
+      no_job_type: "Freier Einsatz"
       frequencies:
         just_once: Nur einmal
         repeat_weekly_4_times: Dieser Einsatz einmal wöchentlich für vier Wochen wiederholen

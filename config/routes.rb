@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :users
   resources :share_certificates
   resources :jobs
+  resources :job_types
 
   # You can have the root of your site routed with "root"
   root    'sessions#new'

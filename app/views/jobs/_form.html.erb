@@ -12,12 +12,30 @@
   <% end %>
 
   <div class="field">
+    <%= f.label :job_type_id %><br>
+    <%= f.collection_select :job_type_id, JobType.all, :id, :to_s,
+        {
+          include_blank: t('.no_job_type'),
+          selected: @job.job_type_id || @job_type.try(:id)
+        } %>
+  </div>
+  <div class="field">
     <%= f.label :title %><br>
-    <%= f.text_field :title %>
+    <% if @job_type %>
+      <%= @job_type.title %>
+      <%= f.hidden_field :title, value: @job_type.title %>
+    <% else %>
+      <%= f.text_field :title %>
+    <% end %>
   </div>
   <div class="field">
     <%= f.label :description %><br>
-    <%= f.text_area :description %>
+    <% if @job_type %>
+      <%= @job_type.description %>
+      <%= f.hidden_field :description, value: @job_type.description %>
+    <% else %>
+      <%= f.text_area :description %>
+    <% end %>
   </div>
   <div class="field">
     <%= f.label :start_at %><br>
@@ -29,19 +47,46 @@
   </div>
   <div class="field">
     <%= f.label :place %><br>
-    <%= f.text_field :place %>
+    <% if @job_type %>
+      <%= @job_type.place %>
+      <%= f.hidden_field :place, value: @job_type.place %>
+    <% else %>
+      <%= f.text_field :place %>
+    <% end %>
   </div>
   <div class="field">
     <%= f.label :address %><br>
-    <%= f.text_field :address %>
+    <% if @job_type %>
+      <%= @job_type.address %>
+      <%= f.hidden_field :address, value: @job_type.address %>
+    <% else %>
+      <%= f.text_field :address %>
+    <% end %>
   </div>
   <div class="field">
     <%= f.label :slots %><br>
-    <%= f.select :slots, Job::ALLOWED_NUMBER_OF_SLOTS %>
+    <% if @job_type %>
+      <%= @job_type.slots %>
+      <%= f.hidden_field :slots, value: @job_type.slots %>
+    <% else %>
+      <%= f.select :slots,
+                   Job::ALLOWED_NUMBER_OF_SLOTS,
+                   prompt: t('.select_number_of_slots')
+                   %>
+    <% end %>
   </div>
   <div class="field">
     <%= f.label :user_id %><br>
-    <%= f.collection_select :user_id, User.admins,:id, :to_s, include_blank: false, prompt: true %>
+    <% if @job_type %>
+      <%= @job_type.user %>
+      <%= f.hidden_field :user_id, value: @job_type.user_id %>
+    <% else %>
+      <%= f.collection_select :user_id, User.admins, :id, :to_s,
+          {
+            include_blank: false,
+            prompt: t('.select_job_coordinator')
+          } %>
+    <% end %>
   </div>
   <div class="field">
     <%= f.label :creation_frequency %><br>
