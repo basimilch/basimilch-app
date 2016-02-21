@@ -18,6 +18,7 @@
 
 <div class="row jobs_table_options"> <!-- col-[size]-[x] where [x] adds to 12, and [size] is one of: xs, sm, 'md' or 'lg'-->
   <div class="col-sm-5">
+    <%# SOURCE: http://nixmash.com/ruby-on-rails/adding-custom-options-to-rails-select-controls/ %>
     <%= select_tag 'job_type_filter_selector',
         options_for_select(JobType.all.collect { |jt| [jt.title, jt.id] } +
           [[t('.free_type_jobs'), 'nil']], @job_type_id.inspect),
