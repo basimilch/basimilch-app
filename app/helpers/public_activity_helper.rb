@@ -1,14 +1,35 @@
+class PublicActivity::Activity
+
+  # We use '#{owner_type} #{owner_id}' instead of '#{owner}' (and so on)
+  # because '#{owner}' requires a call to the DB, and it makes sense
+  # that #to_s methods can return without relying on the DB.
+  def to_s
+    "Activity #{id}: '#{key}'" +
+    " owned by '#{owner_type} #{owner_id}'" +
+    " for model '#{trackable_type} #{trackable_id}'" +
+    " (scope: #{scope}, severity: #{severity}, visibility: #{visibility})"
+  end
+
+  # Like #to_s but using '#{owner}' (which requires a call to the DB to
+  # retrieve the full object) instead of only '#{owner_type} #{owner_id}'
+  # (and so on) to provide more details.
+  def to_s_detailed
+    "Activity #{id}: '#{key}' owned by '#{owner}' for model '#{trackable}'" +
+    " (scope: #{scope}, severity: #{severity}, visibility: #{visibility})"
+  end
+end
+
 module PublicActivityHelper
 
-  def record_activity(activity, model, data: {})
-    raise "Activity must be a symbol" unless activity.is_a? Symbol
+  def record_activity(activity_name, model, data: {})
+    raise "Activity name must be a symbol" unless activity_name.is_a? Symbol
     raise "Model cannot not be nil" unless model
     unless model.respond_to? :create_activity
       raise "Model of class '#{model.class}' must respond to" +
             " :create_activity. Please ensure it includes" +
             " the 'PublicActivity::Common' module."
     end
-    scope, visibility, severity = activity_flags activity
+    scope, visibility, severity = activity_flags activity_name
     trackable_model = model
     owner_model     = try(:current_user)
     recipient_model = nil
@@ -27,8 +48,8 @@ module PublicActivityHelper
     when :email
       parameters[:to] = trackable_model.try(:email)
     end
-    # Customize parameters and behavior depending on activity
-    case activity
+    # Customize parameters and behavior depending on activity_name
+    case activity_name
     when :send_job_reminder
       recipient_model = parameters[:recipient] = parameters.pop(:job)
       unless owner_model
@@ -50,16 +71,14 @@ module PublicActivityHelper
     # Make sure all parameter values are strings (not objects) since they are
     # not expected to be reified when reading the activity and would fail.
     parameters.each { |k, v| parameters[k] = v && v.to_s }
-    logger.info "Recording #{scope} activity #{activity}" +
-                " owned by #{owner_model.inspect}" +
-                " for model #{trackable_model}" +
-                " (severity: #{severity}, visibility: #{visibility})"
-    trackable_model.create_activity activity, owner: owner_model,
-                                              recipient: recipient_model,
-                                              scope: scope.to_s,
-                                              visibility: visibility.to_s,
-                                              severity: severity.to_s,
-                                              parameters: parameters
+    activity = trackable_model.create_activity activity_name,
+                                               owner: owner_model,
+                                               recipient: recipient_model,
+                                               scope: scope.to_s,
+                                               visibility: visibility.to_s,
+                                               severity: severity.to_s,
+                                               parameters: parameters
+    logger.info "Recorded #{activity}"
   end
 
   private
@@ -69,8 +88,8 @@ module PublicActivityHelper
     # :scope       => E.g.: :security, :email, :job, :user, ...
     # :visibility  => :admin, :activity_owner, :activity_users, :public
     # :severity    => :low, :medium, :high, :critical
-    def activity_flags(activity)
-      case activity
+    def activity_flags(activity_name)
+      case activity_name
       when :create
         [:model, :activity_users, :low]
       when :update
@@ -100,7 +119,7 @@ module PublicActivityHelper
       when :current_user_can_not_sign_up_for_job
         [:job, :admin, :medium]
       else
-        raise "Unknown activity: #{activity}"
+        raise "Unknown activity name: #{activity_name}"
       end
     end
 
