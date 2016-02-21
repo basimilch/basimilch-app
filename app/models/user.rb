@@ -17,6 +17,15 @@ class User < ActiveRecord::Base
   scope :working_tomorrow, -> { by_name.joins(:jobs).merge(Job.tomorrow).distinct }
   scope :emails, -> { pluck(:email) }
 
+  # DOC: http://guides.rubyonrails.org/active_record_querying.html#conditions
+  # DOC: http://www.postgresql.org/docs/current/static/functions-matching.html
+  scope :search, ->(s) { s.nil? ? all : where("first_name ILIKE :s OR" +
+                                              " last_name ILIKE :s OR" +
+                                              " email ILIKE :s OR" +
+                                              " id = :id",
+                                              s: "%#{s}%",
+                                              id: s.to_i) }
+
   scope :inactive, -> { by_name.where(activated: [nil, false], activation_sent_at: nil)}
   scope :pending_activation, -> { by_name.where(activated: [nil, false])
                       .by_name.where(User.arel_table[:activation_sent_at].not_eq(nil)) }

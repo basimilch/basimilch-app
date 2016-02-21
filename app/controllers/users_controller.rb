@@ -8,19 +8,19 @@ class UsersController < ApplicationController
   def index
     if filter = params[:filter]
       # NOTE: .find_by(...) is like .where(...).first
-      # Source: http://stackoverflow.com/a/22833860
+      # SOURCE: http://stackoverflow.com/a/22833860
       @users = User.where(filter.permit(PERMITTED_ATTRIBUTES))
     elsif @view = params[:view]
-      unless @users = User.try(@view)
+      unless @users = User.search(params[:q]).try(@view)
         raise_404
       end
     else
-      @users = User.by_name
+      @users = User.search(params[:q]).by_name
     end
     respond_to do |format|
       format.html
       format.json do
-        # Source: http://www.daveperrett.com/articles/2010/10/03/
+        # SOURCE: http://www.daveperrett.com/articles/2010/10/03/
         #                       excluding-fields-from-rails-json-and-xml-output/
         render json: @users, except: :password_digest
       end
