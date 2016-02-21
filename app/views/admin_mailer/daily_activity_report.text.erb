@@ -1,0 +1,13 @@
+AdminMailer#daily_activity_report
+
+<%= @yesterday_activities.count %> activities.
+
+<% if @yesterday_activities.each do |activity| %>
+- <%= activity.to_s_detailed %>
+
+<%# SOURCE: http://stackoverflow.com/a/2977478 %>
+<% end.empty? %>
+
+** There was no activity recorded yesterday (<%= Date.yesterday.to_s :long %>) **
+
+<% end %>

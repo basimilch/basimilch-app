@@ -73,12 +73,27 @@ $ rails server
 
 ### Environment variables
 
-You don't need to setup any required environment variables by hand on
-your local dev machine. Those values are automatically handled from
-the file [`.env`] file by the [dotenv] gem.
+The application expects a number of environment variables to configure
+parameters like e.g. email addresses. You don't need to setup any
+required environment variables by hand on your local dev machine.
+Those values are automatically handled from the file [`.env`] file by
+the [dotenv] gem.
 
 [dotenv]: https://github.com/bkeepers/dotenv
 [`.env`]: .env
+
+#### Setting up environment variables in Heroku
+
+You can set up environment variables in Heroku on the web interface
+(i.e. <https://dashboard.heroku.com/apps/basimilch-dev/settings>) or
+with the [heroku toolbelt]:
+
+``` bash
+$ heroku config:set RAILS_ENV=staging RACK_ENV=staging
+Setting config vars and restarting example... done
+RAILS_ENV: staging
+RACK_ENV:  staging
+```
 
 #### Optional ENV keys
 

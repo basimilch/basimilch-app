@@ -15,3 +15,9 @@ task :send_reminders_for_tomorrow_jobs => :environment do
   end
   puts "Jobs reminders successfully sent."
 end
+
+task :send_daily_activity_report_to_admin => :environment do
+  puts "Sending send daily activity report..."
+  AdminMailer.daily_activity_report.deliver_now
+  puts " => Daily activity report reminders successfully sent."
+end

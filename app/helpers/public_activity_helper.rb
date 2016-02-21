@@ -1,5 +1,18 @@
 class PublicActivity::Activity
 
+  scope :oldest_first,  -> { order(created_at: :asc) }
+  scope :newest_first,  -> { order(created_at: :desc) }
+  scope :between,       ->(s,e) { where("created_at >= ?", s)
+                                 .where("created_at < ?", e) }
+  scope :of_last_x_hours, ->(h){ between(Time.current - h.hours, Time.current) }
+  scope :of_last_24_hours, -> { of_last_x_hours(24) }
+  scope :of_yesterday,     -> { between( Date.yesterday.at_beginning_of_day,
+                                         Date.yesterday.at_end_of_day,) }
+
+  scope :of_visibility, ->(v) { where(visibility: v) }
+  scope :of_severity,   ->(v) { where(severity: v) }
+  scope :of_scope,      ->(v) { where(scope: v) }
+
   # We use '#{owner_type} #{owner_id}' instead of '#{owner}' (and so on)
   # because '#{owner}' requires a call to the DB, and it makes sense
   # that #to_s methods can return without relying on the DB.
