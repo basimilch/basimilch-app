@@ -1,6 +1,6 @@
 AdminMailer#daily_activity_report
 
-<%= @yesterday_activities.count %> activities.
+<%= @yesterday_activities.count %> activities recorded yesterday (<%= Date.yesterday.to_s :long %>) on <%= root_url %>
 
 <% if @yesterday_activities.each do |activity| %>
 - <%= activity.to_s_detailed %>
@@ -8,6 +8,6 @@ AdminMailer#daily_activity_report
 <%# SOURCE: http://stackoverflow.com/a/2977478 %>
 <% end.empty? %>
 
-** There was no activity recorded yesterday (<%= Date.yesterday.to_s :long %>) **
+** No activity recorded **
 
 <% end %>
