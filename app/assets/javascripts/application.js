@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+//= require bootstrap-tagsinput
 //= require turbolinks
 //= require init
 //= require_tree .
