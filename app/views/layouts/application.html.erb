@@ -13,7 +13,7 @@
     <%= csrf_meta_tags %>
     <%= render 'layouts/shim' %>
   </head>
-  <body class="<%= controller_name %> <%= action_name %>">
+  <body class="<%= controller_name %> <%= action_name %> <%= current_user_admin? ? "admin" : "non-admin" %> ">
     <%= render 'layouts/header' %>
     <div class="container">
       <%= render 'shared/flash_messages' %>

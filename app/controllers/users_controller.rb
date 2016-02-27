@@ -22,10 +22,10 @@ class UsersController < ApplicationController
       format.json do
         # SOURCE: http://www.daveperrett.com/articles/2010/10/03/
         #                       excluding-fields-from-rails-json-and-xml-output/
-        render json: @users, except: :password_digest
+        render json: @users, except: [:password_digest, :remember_digest]
       end
       format.xml do
-        render xml: @users, except: :password_digest
+        render xml: @users, except: [:password_digest, :remember_digest]
       end
       format.csv do
         headers['Content-Disposition'] = "attachment; filename=" +

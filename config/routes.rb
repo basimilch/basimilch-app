@@ -29,7 +29,8 @@ Rails.application.routes.draw do
   post    'signup'        => 'signups#validation',        as: :signup_validation
   put     'signup'        => 'signups#create',            as: :signup_create
 
-  post    'jobs/:id/signup' => 'jobs#signup_current_user', as: :job_signup
+  post  'jobs/:id/signup'       => 'jobs#signup_current_user', as: :job_signup
+  post  'jobs/:id/signup_users' => 'jobs#signup_users',    as: :job_signup_users
 
   # DOC: http://stackoverflow.com/a/26286472/5764181
   # DOC: https://wearestac.com/blog/dynamic-error-pages-in-rails

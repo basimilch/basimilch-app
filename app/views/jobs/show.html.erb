@@ -57,7 +57,7 @@
   </div>
 <% elsif @job.future? %>
   <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-4 self-signup-button">
       <%= button_to t('.signup_for_job'),
                   job_signup_path,
                   { class:  "btn btn-success",
@@ -66,12 +66,40 @@
   </div> <!-- /row -->
 <% end %>
 
+<% if current_user_admin? && !@job.full? %>
+  <div>
+    <%= form_tag job_signup_users_path, class: "signup-other-users" do %>
+      <div class="row">
+        <div class="col-sm-12 users-typeahead">
+          <%#
+            NOTE: The select element must not include the data-role="tagsinput"
+                  attribute if using it from the a jQuery.ready-like function.
+            SOURCE: http://stackoverflow.com/q/21460702
+          %>
+          <%= select_tag "users", nil, multiple: true,
+              placeholder: t('.signup_other_users_placeholder'),
+              data: {
+          available_slots: @job.slots - @job.job_signups.count,
+          typeahead_no_suggestions_msg: t(".no_typeahead_user_suggestions_found")
+              } %>
+        </div> <!-- /col -->
+      </div> <!-- /row -->
+      <div class="row">
+        <div class="col-sm-4">
+          <%= submit_tag t('.signup_other_users_for_job'),
+                         class:  "btn btn-success",
+                         disabled: true,
+                         data: { confirm: t('.signup_users_confirmation_message') }%>
+        </div> <!-- /col -->
+      </div> <!-- /row -->
+    <% end %>
+  </div>
+<% end %>
+
 
 <% if current_user_admin? %>
   <%= link_to 'Duplicate', new_job_path(duplicate: @job.id) %> |
   <%= link_to 'Edit', edit_job_path(@job) %> |
-  <%# link_to 'Destroy', @job, method: :delete, data: { confirm: 'Are you sure?' } %> |
+  <%# link_to 'Destroy', @job, method: :delete, data: { confirm: 'Are you sure?' } %>
   <%= link_to 'Back', jobs_path %>
 <% end %>
-
-

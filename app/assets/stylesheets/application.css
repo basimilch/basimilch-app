@@ -11,6 +11,7 @@
  * file per style scope.
  *
  *= require bootstrap-tagsinput
+ *= require typeahead
  *= require_tree .
  *= require_self
  */

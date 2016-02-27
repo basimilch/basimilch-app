@@ -19,12 +19,18 @@ class User < ActiveRecord::Base
 
   # DOC: http://guides.rubyonrails.org/active_record_querying.html#conditions
   # DOC: http://www.postgresql.org/docs/current/static/functions-matching.html
-  scope :search, ->(s) { s.nil? ? all : where("first_name ILIKE :s OR" +
-                                              " last_name ILIKE :s OR" +
-                                              " email ILIKE :s OR" +
-                                              " id = :id",
-                                              s: "%#{s}%",
-                                              id: s.to_i) }
+  # If the search string contains several words, the corresponding `where`
+  # clauses are ANDed.
+  scope :search, ->(s) do
+    return all if s.nil? || !s.is_a?(String)
+    s.split(/\W/).inject(all) { |query, word|
+      query.where("first_name ILIKE :contains_word OR" +
+                           " last_name ILIKE :contains_word OR" +
+                           " email ILIKE :contains_word OR" +
+                           " id = :id",
+                           contains_word: "%#{word}%",
+                           id: word.to_i) }
+    end
 
   scope :inactive, -> { by_name.where(activated: [nil, false], activation_sent_at: nil)}
   scope :pending_activation, -> { by_name.where(activated: [nil, false])

@@ -127,9 +127,11 @@ module PublicActivityHelper
         [:security, :admin, :critical]
       when :user_login
         [:security, :activity_owner, :medium]
-      when :current_user_sign_up_for_job
+      when :current_user_sign_up_for_job,
+           :admin_sign_up_user_for_job
         [:job, :public, :low]
-      when :current_user_can_not_sign_up_for_job
+      when :current_user_sign_up_for_job_failed,
+           :admin_sign_up_user_for_job_failed
         [:job, :admin, :medium]
       else
         raise "Unknown activity name: #{activity_name}"

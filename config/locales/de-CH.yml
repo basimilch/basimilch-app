@@ -544,10 +544,14 @@ de-CH:
       title: Einsatz
       job_type: Tätigkeit
       contact_user: Ansprechperson
-      signup_for_job: Anmelden
+      signup_for_job: Ich melde mich an
+      signup_other_users_for_job: Andere Benutzer Anmelden
+      signup_other_users_placeholder: Namen eingeben
       job_is_full: "Der Job ist ausgebucht, danke!"
       signup_confirmation_message: >
         Möchtest du dich verbindlich für diesen Einsatz eintragen?
+      signup_users_confirmation_message: >
+        Möchtest du diese Benutzer für diesen Einsatz eintragen?
       current_user_signed_up_and_job_full: >
         Du bist für diesen Einsatz angemeldet.
       current_user_signed_up: >
@@ -555,6 +559,7 @@ de-CH:
         Personen eintragen möchstest, kannst du dich nochmals
         anmelden.
       job_is_in_the_past: Der Einsatz ist bereits vorbei.
+      no_typeahead_user_suggestions_found: Keine Benutzer gefunden
     form:
       select_number_of_slots: "Einzahl Plätze auswählen"
       select_job_coordinator: "Einsatzkoordinator_in auswählen"
@@ -562,6 +567,8 @@ de-CH:
       frequencies:
         just_once: Nur einmal
         repeat_weekly_4_times: Dieser Einsatz einmal wöchentlich für vier Wochen wiederholen
+    signup_users:
+      user_not_found: "Genossenschafter mit id '%{id}' nicht gefunden!"
 
     user_overview:
       open_slot: Noch offen

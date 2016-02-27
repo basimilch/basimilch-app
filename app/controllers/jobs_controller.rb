@@ -5,7 +5,8 @@ class JobsController < ApplicationController
   before_action :require_logged_in_user
   before_action :admin_user,  except: [:index, :show, :signup_current_user]
   before_action :set_job,     only:   [:show, :edit, :update, :destroy,
-                                       :signup_current_user]
+                                       :signup_current_user,
+                                       :signup_users]
 
   # GET /jobs
   # GET /jobs.json
@@ -104,17 +105,23 @@ class JobsController < ApplicationController
   end
 
   def signup_current_user
-    signup = @job.job_signups.build(user_id: current_user.id)
-    if signup.save
-      record_activity :current_user_sign_up_for_job, @job
-      logger.info "Successfully signed up #{current_user} for #{@job}."
-    else
-      errors = signup.errors[:base].join(" ")
-      record_activity :current_user_can_not_sign_up_for_job, @job,
-                      data: {errors: errors}
-      logger.info "Not possible to sign up #{current_user} for #{@job}."
-      flash_t :danger, errors
+    signup_user current_user
+    redirect_to @job
+  end
+
+  def signup_users
+    user_ids_to_signup = params.require(:users)
+    users_to_signup = []
+    user_ids_to_signup.each do |user_id|
+      # Check that all user ids are valid
+      unless user = User.find_by(id: user_id)
+        flash_t :danger, t(".user_not_found", id:user_id)
+        redirect_to @job
+        return
+      end
+      users_to_signup << user
     end
+    users_to_signup.each { |user| break unless signup_user user }
     redirect_to @job
   end
 
@@ -141,5 +148,20 @@ class JobsController < ApplicationController
 
     def page_query_param
       params[:page].to_i_min 1
+    end
+
+    def signup_user(user)
+      activity_key = current_user?(user) ? :current_user_sign_up_for_job :
+                                           :admin_sign_up_user_for_job
+      signup = @job.job_signups.build(user_id: user.id)
+      if signup.save
+        record_activity activity_key, @job
+        return true
+      else
+        errors = signup.errors[:base].join(" ")
+        record_activity activity_key + :_failed, @job, data: {errors: errors}
+        flash_t :danger, errors
+        return false
+      end
     end
 end

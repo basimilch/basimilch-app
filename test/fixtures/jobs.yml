@@ -7,7 +7,7 @@ one:
   end_at: 2016-01-17 16:08:35
   place: MyString
   address: MyString
-  slots: 1
+  slots: 10
   user_id: 1
 
 two:
@@ -17,7 +17,7 @@ two:
   end_at: 2016-01-17 16:08:35
   place: MyString
   address: MyString
-  slots: 1
+  slots: 10
   user_id: 1
 
 past_job:
@@ -27,7 +27,7 @@ past_job:
   end_at: <%= 1.day.ago + 2.hours %>
   place: MyString
   address: MyString
-  slots: 1
+  slots: 10
   user_id: 1
 
 future_job:
@@ -37,5 +37,5 @@ future_job:
   end_at: <%= 1.day.from_now + 2.hours %>
   place: MyString
   address: MyString
-  slots: 1
+  slots: 10
   user_id: 1

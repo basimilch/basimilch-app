@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class JobsControllerTest < ActionController::TestCase
+
   setup do
     @admin_user = users(:one)
     @user = users(:two)
@@ -131,6 +132,42 @@ class JobsControllerTest < ActionController::TestCase
     assert_no_difference 'Job.count' do
       assert_admin_protected login_as: @user do
         delete :destroy, id: @job
+      end
+    end
+  end
+
+  test "non admin user should be able to self sign up for future job" do
+    assert_difference 'JobSignup.count', 1 do
+      assert_protected login_as: @user do
+        post :signup_current_user, id: jobs(:future_job).id
+      end
+    end
+  end
+
+  test "non admin user should not be able to self sign up for past job" do
+    assert_no_difference 'JobSignup.count' do
+      assert_protected login_as: @user do
+        post :signup_current_user, id: jobs(:past_job).id
+      end
+    end
+  end
+
+  test "admin user should be able to sign up other users for future job" do
+    assert_difference 'JobSignup.count', 2 do
+      assert_admin_protected login_as: @admin_user do
+        post :signup_users, id: jobs(:future_job).id,
+                            users: [ @user.id, @admin_user.id ]
+
+      end
+    end
+  end
+
+  test "non admin user should be able to sign up other users for future job" do
+    assert_no_difference 'JobSignup.count', 0 do
+      assert_admin_protected login_as: @user do
+        post :signup_users, id: jobs(:future_job).id,
+                            users: [ @user.id, @admin_user.id ]
+
       end
     end
   end

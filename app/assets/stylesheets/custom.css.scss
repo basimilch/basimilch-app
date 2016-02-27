@@ -75,6 +75,21 @@ a[href="#"]:not(.dropdown-toggle) {
   }
 }
 
+// Rotate refresh glyphicon
+// SOURCE: https://github.com/slipstream/SlipStreamUI/blob/703ef0efd2b1cba5b33f27efb25a43d8443a5a93/clj/resources/static_content/css/icons.css#L140-L151
+
+@-webkit-keyframes rotation { from { -webkit-transform: rotate(0deg); } to { -webkit-transform: rotate(359deg); } }
+   @-moz-keyframes rotation { from {    -mox-transform: rotate(0deg); } to {    -mox-transform: rotate(359deg); } }
+     @-o-keyframes rotation { from {      -o-transform: rotate(0deg); } to {      -o-transform: rotate(359deg); } }
+        @keyframes rotation { from {         transform: rotate(0deg); } to {         transform: rotate(359deg); } }
+
+.glyphicon-refresh {
+  -webkit-animation: rotation 2s infinite linear;
+     -moz-animation: rotation 2s infinite linear;
+       -o-animation: rotation 2s infinite linear;
+          animation: rotation 2s infinite linear;
+}
+
 // Fonts
 
 // Following fonts are added from the following import:;
@@ -515,5 +530,26 @@ tr[data-href] {
       top: 5px;
       bottom: 5px;
     }
+  }
+}
+
+.self-signup-button {
+  margin: {
+    top: 35px;
+  }
+}
+
+.signup-other-users {
+  margin: {
+    top: 35px;
+    bottom: 35px;
+  }
+  .users-typeahead {
+    margin: {
+      bottom: 15px;
+    }
+  }
+  .bootstrap-tagsinput {
+    width: 100%;
   }
 }

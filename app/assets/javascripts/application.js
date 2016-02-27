@@ -12,9 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require typeahead.jquery
+//= require bloodhound
 //= require bootstrap
 //= require bootstrap-tagsinput
-//= require bloodhound
 //= require turbolinks
 //= require init
 //= require_tree .

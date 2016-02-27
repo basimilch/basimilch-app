@@ -11,6 +11,8 @@ Basimilch.urlParam = (name) ->
     val:       -> return if results then results[1] else undefined
   }
 
+Basimilch.isAdminPage = -> $('body.admin').length == 1
+
 # DOC: https://github.com/rails/turbolinks#events
 # DOC: http://stackoverflow.com/a/19834224
 # $(document).on 'ready page:load', ->
