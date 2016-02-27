@@ -44,6 +44,22 @@ class RailsExtentionsTest < ActionController::TestCase
     end
   end
 
+  test "should be able to merge symbols with + operator" do
+    sym = :some_symbol
+    assert_equal :some_symbol, sym + nil
+    assert_equal :some_symbol_suffix, sym + :_suffix
+    assert_raise do
+      sym + "_suffix"
+    end
+    assert_equal :prefix_some_symbol, :prefix_ + sym
+    assert_raise do
+      "prefix_" + sym
+    end
+    assert_raise do
+      sym + 1
+    end
+  end
+
   test "to_i_min should be available for String and Nil" do
     assert_equal 0, nil.to_i
     assert_equal 0, "".to_i

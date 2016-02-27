@@ -36,6 +36,15 @@ class Hash
   end
 end
 
+class Symbol
+  def +(other_symbol)
+    unless other_symbol.nil? || other_symbol.is_a?(Symbol)
+      raise TypeError, "Cannot add #{other_symbol.class} to Symbol."
+    end
+    (to_s + other_symbol.to_s).to_sym
+  end
+end
+
 module ToIntegerUtils
   def to_i_min(min)
     [min, to_i].max
