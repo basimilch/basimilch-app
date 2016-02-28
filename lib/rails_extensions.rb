@@ -363,8 +363,12 @@ class ActionView::Helpers::FormBuilder
 
   # Returns HTML for a submit form button using Bootstrap classes.
   def submit_button(button_text = nil, options = {})
-    readonly      = options.include?(:readonly) ? options[:readonly] : false
+    readonly = options.include?(:readonly) ? options[:readonly] : false
+    confirm = options.include?(:confirm) ? options[:confirm] : nil
     submit button_text || I18n.t('form.submit'), class: "btn btn-primary",
-                                                 readonly: readonly
+                                                 readonly: readonly,
+                                                 data: {
+                                                  confirm: confirm
+                                                 }
   end
 end

@@ -385,6 +385,10 @@ de-CH:
         und dem
         <strong><a target="_blank" href="%{regulations_url}">Betriebsreglement</a></strong>
         einverstanden.
+      confirm_signup_msg: >
+        DIESE ANMELDUNG IST VERBINDLICH! Wir werden in den kommenden Tagen die
+        gewählte Anzahl an Anteilscheine erstellen und umgehend per Post an die
+        angegebene Adresse schicken.
 
   # Controllers
 

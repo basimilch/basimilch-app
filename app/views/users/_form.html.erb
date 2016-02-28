@@ -42,7 +42,7 @@
         </div>
         <div class="col-md-3 col-sm-4 col-xs-8">
           <% if ! logged_in? %>
-            <%= f.submit_button t('.signup') %>
+            <%= f.submit_button t('.signup'), confirm: t('.confirm_signup_msg') %>
           <% elsif user.new_record? %>
             <%= f.submit_button t('.create_new_user') %>
           <% else %>
