@@ -80,6 +80,8 @@ module PublicActivityHelper
       last_version = trackable_model.versions.last
       parameters[:previous_version_id] = last_version.try(:id)
       parameters[:changeset] = last_version.try(:changeset)
+    when :admin_sign_up_user_for_job, :admin_sign_up_user_for_job_failed
+      recipient_model = parameters[:recipient] = parameters.pop(:user)
     end
     # Make sure all parameter values are strings (not objects) since they are
     # not expected to be reified when reading the activity and would fail.
