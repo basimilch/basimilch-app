@@ -12,7 +12,9 @@ class SignupTest < ActionDispatch::IntegrationTest
       city:                       "Dietikon",
       tel_mobile:                 "076 111 11 11",
       email:                      "user@example.com",
-      notes:                      "some_notes"
+      notes:                      "some_notes",
+      terms_of_service:           "1"
+
     }
   end
 
@@ -36,15 +38,14 @@ class SignupTest < ActionDispatch::IntegrationTest
       assert_template 'signups/new'
       assert_equal nil, session[:already_successful_signup]
 
-      incomplete_user_info = valid_user_info.merge({
-                      first_name:     "user",
-                      last_name:      "von example",
-                      postal_address: "Alte Kindhauserstr 3"
-                    })
       assert_no_difference 'ActionMailer::Base.deliveries.size' do
         # User tries a first attemp with partially correct information
         # and no email is sent yet
-        post_via_redirect signup_validation_path, user: incomplete_user_info
+        post_via_redirect signup_validation_path, user: valid_user_info.merge({
+                                        first_name:       "user",
+                                        last_name:        "von example",
+                                        postal_address:   "Alte Kindhauserstr 3"
+                                      })
       end
 
       # The same form is rendered with the information highlighted
@@ -58,6 +59,28 @@ class SignupTest < ActionDispatch::IntegrationTest
       assert_select '[id=user_city][value="Dietikon"]'
       assert_select '[id=user_tel_mobile][value="076 111 11 11"]'
       assert_select '[id=user_notes]', text: "some_notes"
+      # ...and the corresponding error messages to explain what happened
+      assert_select 'div#error_explanation li',   count: 1
+
+      assert_no_difference 'ActionMailer::Base.deliveries.size' do
+        # User has to check the box about accepting the terms and conditions.
+        post_via_redirect signup_validation_path, user: valid_user_info.merge({
+                                                          terms_of_service: "0"
+                                                        })
+      end
+
+      # The same form is rendered with the information highlighted
+      assert_template 'signups/new'
+      # ...and/or fixed
+      assert_select '[id=user_first_name][value=User]'
+      assert_select '[id=user_last_name][value="Example"]'
+      assert_select '[id=user_postal_address][value="Alte Kindhauserstrasse 3"]'
+      assert_select '[id=user_postal_address_supplement][value="Hof Im Basi"]'
+      assert_select '[id=user_postal_code][value="8953"]'
+      assert_select '[id=user_city][value="Dietikon"]'
+      assert_select '[id=user_tel_mobile][value="076 111 11 11"]'
+      assert_select '[id=user_notes]', text: "some_notes"
+      assert_select '.checkbox > .field_with_errors',   count: 1
       # ...and the corresponding error messages to explain what happened
       assert_select 'div#error_explanation li',   count: 1
 
