@@ -54,7 +54,10 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     # Verify that a profile link appears.
     assert_select "a[href=?]", profile_path
     # Log out.
-    delete logout_path
+    assert_difference 'PublicActivity::Activity.count', 1 do
+      # The logout action is recorded.
+      delete logout_path
+    end
     assert_not fixture_logged_in?
     # Check the right redirect target.
     assert_redirected_to login_url

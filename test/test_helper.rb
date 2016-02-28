@@ -182,8 +182,8 @@ class ActiveSupport::TestCase
     end
 
     def request_login_code(user, secure_computer_acknowledged: '1')
-      assert_no_difference 'PublicActivity::Activity.count' do
-        # No activity is registered with sending login code emails.
+      assert_difference 'PublicActivity::Activity.count', 1 do
+        # The action of sending of the login code email is recorded.
         assert_difference 'ActionMailer::Base.deliveries.size', 1 do
           # When the user inputs her email and sends the form with the "request
           # login code" button, one email is sent with the login code

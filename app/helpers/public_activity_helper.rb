@@ -124,6 +124,8 @@ module PublicActivityHelper
            :send_new_signup_notification,
            :send_account_activation
         [:email, :admin, :low]
+      when :send_login_code_email
+        [:email, :activity_users, :medium]
       when :new_user_signup
         [:security, :admin, :low]
       when :inactive_user_tries_to_login,
@@ -134,7 +136,8 @@ module PublicActivityHelper
         [:security, :admin, :high]
       when :login_attempt_from_unexpected_ip
         [:security, :admin, :critical]
-      when :user_login
+      when :user_login,
+           :user_logout
         [:security, :activity_owner, :medium]
       when :current_user_sign_up_for_job,
            :admin_sign_up_user_for_job

@@ -129,7 +129,10 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    log_out if logged_in?
+    if logged_in?
+      record_activity :user_logout, current_user
+      log_out
+    end
     redirect_to login_url
   end
 
@@ -176,6 +179,7 @@ class SessionsController < ApplicationController
     def send_login_code_email(user, login_code)
       UserMailer.login_code(user, login_code, LOGIN_CODE_VALIDITY)
                 .deliver_now
+      record_activity :send_login_code_email, user
     end
 
     def entered_login_code
