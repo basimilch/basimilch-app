@@ -23,6 +23,32 @@ module ActionFilterHelper
     raise_404 unless current_user.admin?
   end
 
+  # To pass specific domains as arguments, do as follow:
+  #
+  # before_action -> { require_referer_domain "basimil.ch",
+  #                                           redirect_to_url: "/" },
+  #               only: [:new]
+  #
+  # SOURCE: http://stackoverflow.com/a/20561223
+  # SOURCE: http://stackoverflow.com/a/3104799
+  def require_referer_domain(domain = ENV["URL_DOMAIN_FOR_REFERER_FILTER"],
+                        redirect_to_url: ENV["REDIRECT_URL_FOR_REFERER_FILTER"])
+    return unless Rails.env.production?
+    raise ArgumentError, "domain must be provided" if domain.blank?
+    referer_url = request.env['HTTP_REFERER']
+    referer_regexp = Regexp.new("^https?://([^/]+\\.)?#{domain}(?:/.*)?")
+    if referer_url.blank? || referer_url.match(referer_regexp)
+      logger.warn "HTTP_REFERER '#{referer_url.inspect}' does not match" +
+                  " domain '#{domain}'" +
+                  " (Request from IP #{request.remote_ip.inspect}.)"
+      unless redirect_to_url.blank?
+        redirect_to redirect_to_url
+      else
+        raise_404
+      end
+    end
+  end
+
   def require_request_from_swiss_ip
     return unless Rails.env.production?
     result = Geocoder.search(request.remote_ip).first

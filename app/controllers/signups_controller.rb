@@ -3,6 +3,7 @@ class SignupsController < ApplicationController
   include SignupsHelper
 
   before_action :require_no_logged_in_user
+  before_action :require_referer_domain, only: [:new]
   before_action :require_request_from_swiss_ip, only: [:new]
 
   def new
