@@ -106,12 +106,11 @@ class Job < ActiveRecord::Base
   end
 
   def full?
-    # TODO: Make a test to ensure that a job doesn't accept signups if it's full
     signup_status == :success
   end
 
-  def available?
-    (not full?) && future?
+  def available?(allow_past: false)
+    (not full?) && (allow_past || future?)
   end
 
   def user_signed_up?(user)

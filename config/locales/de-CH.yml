@@ -217,7 +217,8 @@ de-CH:
       unrecornised_and_replaced: "\"%{original}\" wurde mit \"%{corrected}\" ersetzt"
       user_not_found: "Genossenschafter mit id '%{id}' nicht gefunden!"
       job_type_not_found: "Tätigkeit mit id '%{id}' nicht gefunden!"
-      job_does_not_accept_signups: "Es ist nicht mehr möglich, sich für diesen Einsatz anzumelden."
+      job_does_not_accept_signups: >
+        Es ist nicht mehr möglich, sich für diesen Einsatz anzumelden.
       job_end_must_be_after_start: "muss nach der Startzeit sein"
       job_end_must_be_between_30min_and__after_start: >
         "muss zwischen 30 Minuten und 8 Sunden nach der Startzeit sein"
@@ -547,7 +548,7 @@ de-CH:
       signup_for_job: Ich melde mich an
       signup_other_users_for_job: Andere Benutzer Anmelden
       signup_other_users_placeholder: Namen eingeben
-      job_is_full: "Der Job ist ausgebucht, danke!"
+      job_is_full: "Der Einsatz ist ausgebucht, danke!"
       signup_confirmation_message: >
         Möchtest du dich verbindlich für diesen Einsatz eintragen?
       signup_users_confirmation_message: >

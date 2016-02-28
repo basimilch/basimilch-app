@@ -10,12 +10,14 @@ class JobSignup < ActiveRecord::Base
 
   validates :user_id, presence: true, numericality: { greater_than: 0 }
   validates :job_id,  presence: true, numericality: { greater_than: 0 }
-  validate  :job_is_available,  unless: Proc.new {|j| j.job_id.blank?}
+  validate  :job_is_available,  unless: Proc.new {|j| j.job.nil?}
+
+  attr_accessor :allow_past
 
   private
 
     def job_is_available
-      unless job.try(:available?)
+      unless job.available? allow_past: allow_past
         errors.add :base, I18n.t("errors.messages.job_does_not_accept_signups")
       end
     end
