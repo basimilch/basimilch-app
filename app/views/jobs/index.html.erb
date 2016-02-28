@@ -9,11 +9,17 @@
 </div>
 
 <% unless @jobs.empty? %>
-  <div class="text-center">
-    <%= t ".showing_jobs_html",
-        from: @jobs.first.start_at.relative_in_words,
-        to: @jobs.last.start_at.relative_in_words %>
-  </div>
+  <% if month = params[:month] %>
+    <div class="text-center">
+      <%= t ".showing_jobs_for_month_html", month: t("date.month_names")[month.to_i] %>
+    </div>
+  <% else %>
+    <div class="text-center">
+      <%= t ".showing_jobs_html",
+          from: @jobs.first.start_at.relative_in_words,
+          to: @jobs.last.start_at.relative_in_words %>
+    </div>
+  <% end %>
 <% end %>
 
 <div class="row jobs_table_options"> <!-- col-[size]-[x] where [x] adds to 12, and [size] is one of: xs, sm, 'md' or 'lg'-->
@@ -23,14 +29,23 @@
         options_for_select(JobType.all.collect { |jt| [jt.title, jt.id] } +
           [[t('.free_type_jobs'), 'nil']], @job_type_id.inspect),
         class: "form-control",
-        include_blank: "Alle Tätigkeiten" %>
+        include_blank: t(".show_all_job_types") %>
   </div> <!-- /col -->
-  <div class="col-sm-3 col-sm-offset-4 text-center">
+  <div class="col-sm-3">
+    <%= select_tag 'job_month_filter_selector',
+        # SOURCE: http://stackoverflow.com/a/5567844
+        # SOURCE: https://www.ruby-forum.com/topic/652976
+        options_for_select((1..12).map {|m| [t("date.month_names")[m], m]},
+                          params[:month]),
+        class: "form-control",
+        include_blank: t(".show_jobs_from_now") %>
+  </div> <!-- /col -->
+  <div class="col-sm-3 col-sm-offset-1 text-center">
     <%= will_paginate page_links: false %>
   </div> <!-- /col -->
 </div> <!-- /row -->
 
-<div class="table-responsive jobs_table">
+<div class="table-responsive jobs-table">
   <table class="table table-hover table-condensed">
     <thead>
       <tr>
@@ -44,7 +59,7 @@
     </thead>
     <tbody>
       <% @jobs.each do |job| %>
-        <tr class="job_info" data-href="<%= job_path(job.id) %>"=>
+        <tr class="job-info <%= "job-past" if job.past? %>" data-href="<%= job_path(job.id) %>">
           <td><%= job.job_type_id.inspect %></td>
           <td><%= job.start_at.to_date.to_localized_s :short_with_weekday %></td>
           <td><%= "#{job.start_at.to_s(:time)} - #{job.end_at.to_s(:time)}" %></td>

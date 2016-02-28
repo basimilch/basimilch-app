@@ -28,6 +28,16 @@ class Job < ActiveRecord::Base
   scope :tomorrow,  -> { at_day(Date.tomorrow) }
   scope :in_current_year, -> { where("start_at > ?",
                                      Time.current.beginning_of_year) }
+  scope :in_this_years_month, ->(m) do
+    month = m.to_i
+    # SOURCE: http://stackoverflow.com/a/10001043
+    return none unless (1..12).include? month
+    # SOURCE: http://stackoverflow.com/a/15652429
+    month_date = DateTime.new(Time.current.year, month)
+    bom = month_date.beginning_of_month
+    eom = month_date.end_of_month
+    where("start_at >= ? and start_at <= ?", bom, eom)
+  end
 
   validates :title,           presence: true, length: { maximum: 150 }
   validates :description,     presence: true, length: { maximum: 500 }

@@ -503,7 +503,10 @@ tr[data-href] {
   cursor: pointer;
 }
 
-.jobs_table {
+.jobs-table {
+  .job-past {
+    opacity: 0.3;
+  }
   td.signup_count {
     .progress {
       margin: {
@@ -519,7 +522,8 @@ tr[data-href] {
     top: 25px;
     bottom: 25px;
   }
-  > :first-child {
+  > :first-child,
+  > :nth-child(2), {
     padding: {
       top: 12px;
     }

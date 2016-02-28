@@ -538,8 +538,13 @@ de-CH:
     index:
       title: Einsätze
       job_overview_title: Dein Mitarbeit-Konto
-      showing_jobs_html: "Einsätze von <strong>%{from}</strong> bis <strong>%{to}</strong> angezeigt"
+      showing_jobs_for_month_html: >
+        Einsätze für <strong>%{month}</strong> dieses Jahres angezeigt
+      showing_jobs_html: >
+        Einsätze von <strong>%{from}</strong> bis <strong>%{to}</strong> angezeigt
       free_type_jobs: Einsätze ohne Tätigkeit
+      show_all_job_types: Alle Tätigkeiten
+      show_jobs_from_now: Ab heute
     show:
       <<: *table_headers
       title: Einsatz

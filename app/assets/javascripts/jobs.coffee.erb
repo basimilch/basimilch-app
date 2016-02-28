@@ -12,14 +12,11 @@ $(document).on 'page:change', ->
     $('#job_job_type_id').change ->
       $('body').css 'cursor', 'wait'
       location.href = "<%= new_job_path %>" + "?job_type=" + $(@).val()
-    $('#job_type_filter_selector').change ->
-      $('body').css 'cursor', 'wait'
-      job_type_id = $(@).val()
-      location.href = "<%= jobs_path %>" +
-        ( if job_type_id then "?job_type=" + job_type_id else "")
-    # DOC: https://github.com/twitter/typeahead.js/tree/v0.11.1
-    # DOC: https://twitter.github.io/typeahead.js/examples/
+    $$.setupFilterAction 'job_type_filter_selector', "<%= jobs_path %>", "job_type"
+    $$.setupFilterAction 'job_month_filter_selector', "<%= jobs_path %>", "month"
     if $$.isAdminPage()
+      # DOC: https://github.com/twitter/typeahead.js/tree/v0.11.1
+      # DOC: https://twitter.github.io/typeahead.js/examples/
       users = new Bloodhound
         datumTokenizer: (user) ->
           firstNameTokens = Bloodhound.tokenizers.whitespace(user.first_name);

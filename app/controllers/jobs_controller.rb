@@ -13,14 +13,20 @@ class JobsController < ApplicationController
   def index
     # TODO: Using .to_a "preloads" the query. Investigate if it's a good practice.
     # @jobs = Job.future.page(params[:page]).per_page(JOBS_PER_PAGE).to_a
+    if month_filter = params[:month]
+      @jobs = Job.in_this_years_month(month_filter)
+    else
+      @jobs = Job.future
+    end
     @job_type_id = job_type_param
-    @jobs = Job.future
+    @jobs = @jobs
                .job_type(@job_type_id)
                .page(page_query_param)
                .per_page(JOBS_PER_PAGE)
     if page_query_param > @jobs.total_pages
       redirect_to jobs_path(page: @jobs.total_pages,
-                            job_type: params[:job_type])
+                            job_type: params[:job_type],
+                            month: params[:month])
     end
   end
 

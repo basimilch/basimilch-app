@@ -13,6 +13,18 @@ Basimilch.urlParam = (name) ->
 
 Basimilch.isAdminPage = -> $('body.admin').length == 1
 
+Basimilch.setupFilterAction = (elemId, targetURL, queryParamName) ->
+  $('#' + elemId).change ->
+    $('body').css 'cursor', 'wait'
+    val = $(@).val()
+    queryParamRegExp = new RegExp "[?&]" + queryParamName + "=[^&]*(?:&|$)"
+    queryString = location.search
+                          .replace(queryParamRegExp, "")
+                          .replace(/^([^?])/, "?$1") # Ensure it begins with '?'
+    appendChar = if queryString then "&" else "?"
+    location.href = targetURL + queryString +
+      ( if val then appendChar + queryParamName + "=" + val else "")
+
 # DOC: https://github.com/rails/turbolinks#events
 # DOC: http://stackoverflow.com/a/19834224
 # $(document).on 'ready page:load', ->
