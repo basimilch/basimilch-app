@@ -11,14 +11,23 @@ class SessionsController < ApplicationController
   end
 
   def validation
-    if params[:session][:email].blank?
+    email_param = params[:session][:email].downcase.squish
+    if email_param.blank?
       render 'new'
       return
     end
-    @user = User.find_by(email: params[:session][:email].downcase.squish)
+    if (default_domain = ENV["EMAIL_DEFAULT_LOGIN_DOMAIN"]) &&
+       email_param.match(/^\w+$/)
+      # NOTE: for the default login domain, the left part of the email
+      #       (i.e. without the '@example.org') is sufficient to login.
+      email = email_param + "@" + default_domain
+    else
+      email = email_param
+    end
+    @user = User.find_by(email: email)
     if not @user
-      logger.info "Login User not found: #{params[:session][:email]} " +
-                  "(from IP: request.remote_ip.inspect)"
+      logger.warn "Login User not found: #{email} " +
+                  "(from IP: #{request.remote_ip.inspect})"
       flash_now_t :danger, :user_not_found
       render 'new'
     elsif not @user.allowed_to_login?
