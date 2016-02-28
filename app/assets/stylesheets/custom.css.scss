@@ -287,14 +287,10 @@ footer {
 // Forms
 
 form {
-  .user-form {
-    padding-top: 25px;
-  }
   input,
   textarea,
   select,
   button,
-  a,
   .uneditable-input {
     border: 1px solid #bbb;
     width: 100%;
@@ -331,6 +327,18 @@ form {
   input {
     height: auto !important;
   }
+  .checkbox {
+    .field_with_errors {
+      label, a {
+        color: $state-danger-text;
+      }
+      label {
+        border: 1px solid $state-danger-text;
+        background-color: $state-danger-bg;
+        padding: 10px 35px;
+      }
+    }
+  }
   .field_with_errors {
     @extend .has-error;
     .form-control {
@@ -362,7 +370,6 @@ form {
       margin-top: 7px;
     }
   }
-
 }
 
 // NOTE: Do not group these rules. Instead, make a separate rule for

@@ -289,17 +289,17 @@ class ActionView::Helpers::FormBuilder
     input_class   << 'form-control' unless is_checkbox
     input_class   << ' view-mode'   if is_view_mode
     readonly      = options.include?(:readonly) ? options[:readonly] : false
-    label_text    = ""
+    label_text    = options.include?(:label) ? options[:label] : nil
     value         = options.include?(:value) ? options[:value]
                                              : object.try(attribute)
 
     if @object
-      label_text  = @object.class.human_attribute_name(attribute)
+      label_text  ||= @object.class.human_attribute_name(attribute)
       t_key_base_placeholder = "activerecord.placeholders.#{object.class.name.downcase}"
     else
       t_key_base  = "controllers.#{@template.controller_name}" +
                                        ".#{@template.action_name}"
-      label_text  = I18n.t("#{t_key_base}.attributes.#{attribute}")
+      label_text  ||= I18n.t("#{t_key_base}.attributes.#{attribute}")
       t_key_base_placeholder = "#{t_key_base}.placeholders"
     end
 

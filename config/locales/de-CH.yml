@@ -63,6 +63,7 @@ de-CH:
       tel_mobile_formatted:       "Handy"
       tel_office:                 "Büro"
       tel_office_formatted:       "Büro"
+      terms_of_service:           "Statuten und Betriebsreglement"
       updated_at:                 "Zuletzt aktualisiert am"
       # start_at:               Begin
       # end_at:                 Ende
@@ -223,6 +224,7 @@ de-CH:
       job_end_must_be_between_30min_and__after_start: >
         "muss zwischen 30 Minuten und 8 Sunden nach der Startzeit sein"
 
+
   # Models
 
   activerecord:
@@ -244,6 +246,13 @@ de-CH:
         <<: *attributes
         # attribute_name: "translation to override the one in *attributes"
         id: "Nr."
+    errors:
+      models:
+        user:
+          attributes:
+            terms_of_service:
+              # SOURCE: http://stackoverflow.com/a/2859275/5764181
+              accepted: "müssen akzeptiert werden"
     placeholders:
       user:
         <<: *placeholders
@@ -370,6 +379,12 @@ de-CH:
       create_new_user:       "Neuen Genossenschafter anmelden"
       update_user_profile:   "Genossenschafterprofil aktualisieren"
       required_field:        "Pflichtfeld"
+      terms_of_service_checkbox_label_html: >
+        Um Genosschenschafter_in zu werden, erkläre ich mich mit den
+        <strong><a target="_blank" href="%{articles_of_association_url}">Statuten</a></strong>
+        und dem
+        <strong><a target="_blank" href="%{regulations_url}">Betriebsreglement</a></strong>
+        einverstanden.
 
   # Controllers
 

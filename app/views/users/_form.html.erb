@@ -4,7 +4,7 @@
   NOTE: When constructing a form using form_for(user), Rails uses POST
         if @user.new_record? is true and PATCH if it is false.
 %>
-<%= form_for user, class: 'form-horizontal user-form',
+<%= form_for user, html: { class: 'user-form' },
              # url: current_user_admin? ? user : profile_update_path ,
              url: case
                     when controller_name == 'signups'
@@ -29,9 +29,7 @@
       <% else %>
         <div class="col-md-offset-7 col-sm-2 col-sm-offset-6 col-xs-4">
           <% if ! logged_in? %>
-            <%= f.cancel_button(
-            "http://basimil.ch/genossenschaft/#genosschenschafterin-werden"
-            ) %>
+            <%= f.cancel_button :back %>
           <% elsif current_user_admin? %>
             <% if user.new_record? %>
               <%= f.cancel_button users_path %>
@@ -163,6 +161,13 @@
       </div>
     <% end %>
   </div>
+
+  <% if user.new_record? %>
+    <%= f.field_for :terms_of_service, as_type: :boolean,
+                    label: t(".terms_of_service_checkbox_label_html",
+        articles_of_association_url: ENV['ARTICLES_OF_ASSOCIATION_URL'],
+        regulations_url: ENV['REGULATIONS_URL']) %>
+  <% end %>
 
   <%= form_buttons %>
 <% end %>
