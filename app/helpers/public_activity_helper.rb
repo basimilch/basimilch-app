@@ -27,8 +27,15 @@ class PublicActivity::Activity
   # retrieve the full object) instead of only '#{owner_type} #{owner_id}'
   # (and so on) to provide more details.
   def to_s_detailed
-    "Activity #{id}: '#{key}' owned by '#{owner}' for model '#{trackable}'" +
-    " (scope: #{scope}, severity: #{severity}, visibility: #{visibility})"
+    "Activity #{id}\n" +
+    "    Key:        '#{key}'\n" +
+    "    Date:       #{created_at}\n" +
+    "    Owner:      '#{owner}'\n" +
+    "    Model:      '#{trackable}'\n" +
+    "    Recipient:  '#{recipient}'\n" +
+    "    scope:      '#{scope}'\n" +
+    "    severity:   '#{severity}'\n" +
+    "    visibility: '#{visibility}'"
   end
 end
 
