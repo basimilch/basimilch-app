@@ -3,6 +3,8 @@ class ShareCertificate < ActiveRecord::Base
   # DOC: https://github.com/chaps-io/public_activity/tree/v1.4.1
   include PublicActivity::Common
 
+  UNIT_PRICE = ENV['SHARE_CERTIFICATE_UNIT_PRICE'].to_i
+
   # DOC: https://github.com/airblade/paper_trail/tree/v4.0.1#basic-usage
   has_paper_trail ignore: [:updated_at]
 

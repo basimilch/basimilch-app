@@ -224,8 +224,8 @@ end
 
 class ActiveRecord::Base
 
-  # Source: http://stackoverflow.com/a/7830624
-  # Source: http://www.keenertech.com/articles/2011/06/26/
+  # SOURCE: http://stackoverflow.com/a/7830624
+  # SOURCE: http://www.keenertech.com/articles/2011/06/26/
   #                                    recipe-detecting-required-fields-in-rails
   def required_attribute?(attribute)
     self.class.validators_on(attribute).map(&:class).include?(
@@ -244,8 +244,8 @@ end
 class ActionView::Helpers::FormBuilder
 
   # Full attribute type list.
-  # Source: http://stackoverflow.com/a/3260466
-  # Source: http://stackoverflow.com/a/15667038
+  # SOURCE: http://stackoverflow.com/a/3260466
+  # SOURCE: http://stackoverflow.com/a/15667038
   #
   # :binary
   # :boolean
@@ -265,7 +265,8 @@ class ActionView::Helpers::FormBuilder
     text:     :text_area,
     boolean:  :check_box,
     password: :password_field,
-    password_confirmation: :password_field
+    password_confirmation: :password_field,
+    select:   :select
   }
 
   REQUIRED_ATTRIBUTE_MARK = '*'
@@ -290,6 +291,8 @@ class ActionView::Helpers::FormBuilder
     input_class   << ' view-mode'   if is_view_mode
     readonly      = options.include?(:readonly) ? options[:readonly] : false
     label_text    = options.include?(:label) ? options[:label] : nil
+    include_blank = options.include?(:include_blank) ? options[:include_blank]
+                                                     : false
     value         = options.include?(:value) ? options[:value]
                                              : object.try(attribute)
 
@@ -329,7 +332,7 @@ class ActionView::Helpers::FormBuilder
       end
 
     else
-      # Source: https://robots.thoughtbot.com/nesting-content-tag-in-rails-3
+      # SOURCE: https://robots.thoughtbot.com/nesting-content-tag-in-rails-3
       @template.content_tag :div, class: 'form-group' do
         @template.concat( label(attribute, class: 'control-label') do
           @template.concat label_text
@@ -337,12 +340,23 @@ class ActionView::Helpers::FormBuilder
             @template.concat REQUIRED_ATTRIBUTE_MARK
           end
         end)
-        @template.concat send(input_type, attribute, class:       input_class,
-                                          placeholder: placeholder,
-                                          readonly:    readonly,
-                                          value:       value,
-                                          autofocus:   options[:autofocus],
-                                          disabled:    is_view_mode)
+        if input_type == :select
+          @template.concat select(attribute,
+                                  value,
+                                  class:          input_class,
+                                  readonly:       readonly,
+                                  include_blank:  include_blank,
+                                  autofocus:      options[:autofocus],
+                                  disabled:       is_view_mode)
+        else
+          @template.concat send(input_type, attribute,
+                                            class:       input_class,
+                                            placeholder: placeholder,
+                                            readonly:    readonly,
+                                            value:       value,
+                                            autofocus:   options[:autofocus],
+                                            disabled:    is_view_mode)
+        end
       end
     end
   end

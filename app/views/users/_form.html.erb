@@ -163,8 +163,22 @@
   </div>
 
   <% if user.new_record? %>
+
+    <div class="row">
+      <div class="col-sm-4">
+        <%= f.field_for :wanted_number_of_share_certificates,
+                        as_type: :select,
+                        value: options_for_wanted_share_certificates,
+                        include_blank: t(".wanted_number_of_share_certificates_msg") %>
+      </div>
+    </div>
+
+
     <%= f.field_for :terms_of_service, as_type: :boolean,
-                    label: t(".terms_of_service_checkbox_label_html",
+                    label: t(
+        current_user_admin? ?
+                      ".terms_of_service_for_other_user_checkbox_label_html"
+                      : ".terms_of_service_checkbox_label_html",
         articles_of_association_url: ENV['ARTICLES_OF_ASSOCIATION_URL'],
         regulations_url: ENV['REGULATIONS_URL']) %>
   <% end %>

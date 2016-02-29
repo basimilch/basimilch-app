@@ -9,7 +9,9 @@ class UserTest < ActiveSupport::TestCase
                      postal_code:    "8953",
                      city:           "Dietikon",
                      tel_mobile:     "076 111 11 11",
-                     email:          "user@example.com")
+                     email:          "user@example.com",
+                     wanted_number_of_share_certificates: 1,
+                     terms_of_service: "1")
   end
 
   test "fixture user should be valid" do
@@ -264,5 +266,21 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.authenticated?(:remember, '')
     assert_not @user.authenticated?(:remember, 'something')
     assert_not @user.authenticated?(:remember, nil)
+  end
+
+  test "wanted_number_of_share_certificates should be present and valid" do
+    assert @user.required_attribute?(:wanted_number_of_share_certificates)
+    @user.wanted_number_of_share_certificates = -1
+    assert_not @user.valid?
+    @user.wanted_number_of_share_certificates = 1
+    assert @user.valid?
+  end
+
+  test "terms_of_service should be present and accepted" do
+    assert @user.required_attribute?(:terms_of_service)
+    @user.terms_of_service = "0"
+    assert_not @user.valid?
+    @user.terms_of_service = "1"
+    assert @user.valid?
   end
 end

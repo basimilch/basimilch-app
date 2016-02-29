@@ -65,6 +65,7 @@ de-CH:
       tel_office_formatted:       "Büro"
       terms_of_service:           "Statuten und Betriebsreglement"
       updated_at:                 "Zuletzt aktualisiert am"
+      wanted_number_of_share_certificates: "Gewünschte Anzahl an Anteilscheine"
       # start_at:               Begin
       # end_at:                 Ende
       # title:                  Titel
@@ -385,10 +386,18 @@ de-CH:
         und dem
         <strong><a target="_blank" href="%{regulations_url}">Betriebsreglement</a></strong>
         einverstanden.
+      terms_of_service_for_other_user_checkbox_label_html: >
+        Um Genosschenschafter_in zu werden, wurde die Person über die
+        <strong><a target="_blank" href="%{articles_of_association_url}">Statuten</a></strong>
+        und den
+        <strong><a target="_blank" href="%{regulations_url}">Betriebsreglement</a></strong>
+        entsprechend informiert und erklärt sich damit einverstanden.
       confirm_signup_msg: >
         DIESE ANMELDUNG IST VERBINDLICH! Wir werden in den kommenden Tagen die
         gewählte Anzahl an Anteilscheine erstellen und umgehend per Post an die
         angegebene Adresse schicken.
+      total_price: "Gesamt: %{price} CHF"
+      wanted_number_of_share_certificates_msg: Anteilscheineanzahl auswählen
 
   # Controllers
 

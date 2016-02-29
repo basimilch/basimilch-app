@@ -10,7 +10,9 @@ class UsersCreationTest < ActionDispatch::IntegrationTest
                         postal_code:    "8953",
                         city:           "Dietikon",
                         tel_mobile:     "076 111 11 11",
-                        email:          "user@example.com"}
+                        email:          "user@example.com",
+                        wanted_number_of_share_certificates: 1,
+                        terms_of_service: "1"}
   end
 
   # Inspired from:
@@ -33,15 +35,17 @@ class UsersCreationTest < ActionDispatch::IntegrationTest
     assert_protected_get new_user_path, login_as: @user
     assert_template 'users/new'
     assert_no_difference 'User.count' do
-      @valid_user_info[:first_name] = ""
-      @valid_user_info[:email]      = ""
-      @valid_user_info[:tel_home]   = "124"
+      @valid_user_info[:first_name]       = ""
+      @valid_user_info[:email]            = ""
+      @valid_user_info[:tel_home]         = "124"
+      @valid_user_info[:terms_of_service] = "0"
+      @valid_user_info[:wanted_number_of_share_certificates] = nil
       post users_path, user: @valid_user_info
     end
     assert_template 'users/new'
     assert_select 'div#error_explanation',      count: 1
-    assert_select 'div#error_explanation li',   count: 4
-    assert_select 'form div.field_with_errors', count: 3 * 2
+    assert_select 'div#error_explanation li',   count: 7
+    assert_select 'form div.field_with_errors', count: 5 * 2
   end
 
   test "invalid postal address in user creation information" do

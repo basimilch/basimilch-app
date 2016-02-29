@@ -14,7 +14,8 @@ module UsersHelper
                           :tel_home_formatted,
                           :tel_office,
                           :tel_office_formatted,
-                          :terms_of_service]
+                          :terms_of_service,
+                          :wanted_number_of_share_certificates]
 
   def user_params
     # Pattern 'strong parameters' to secure form input.
@@ -27,5 +28,14 @@ module UsersHelper
 
   def query_params
     params.permit(PERMITTED_ATTRIBUTES)
+  end
+
+  def options_for_wanted_share_certificates
+    options_for_select(
+      User::ALLOWED_NUMBER_OF_WANTED_SHARE_CERTIFICATES.map do |n|
+        ["#{n} (#{t '.total_price', price: ShareCertificate::UNIT_PRICE * n}) ", n]
+      end,
+      @user.wanted_number_of_share_certificates
+      )
   end
 end

@@ -34,6 +34,7 @@ class SignupsController < ApplicationController
                       " (#{@user.email})"
           logger.debug "#{@user.inspect}"
           record_activity :new_user_signup, @user
+          create_wanted_share_certificates @user
           send_signup_successful_email(@user)
           send_new_signup_notification(@user)
           forget_signup
@@ -52,7 +53,7 @@ class SignupsController < ApplicationController
   private
 
     def remember_signup_for(user, validation_code)
-      session[:signup_info] = user
+      session[:signup_info] = user.try(:attributes, include_virtual: true)
       session[:signup_validation_code] = validation_code && validation_code.number
     end
 
@@ -96,4 +97,14 @@ class SignupsController < ApplicationController
       }
     end
 
+  def create_wanted_share_certificates(user)
+    user.wanted_number_of_share_certificates.to_i.times do
+      new_share_certificate = user.share_certificates.build
+      if new_share_certificate.save
+        record_activity :create, new_share_certificate
+      else
+        break
+      end
+    end
+  end
 end

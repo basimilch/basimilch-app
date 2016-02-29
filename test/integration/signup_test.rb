@@ -4,17 +4,17 @@ class SignupTest < ActionDispatch::IntegrationTest
 
   def setup
     @valid_user_info_1 = {
-      first_name:                 "User",
-      last_name:                  "Example",
-      postal_address:             "Alte Kindhauserstrasse 3",
-      postal_address_supplement:  "Hof Im Basi",
-      postal_code:                "8953",
-      city:                       "Dietikon",
-      tel_mobile:                 "076 111 11 11",
-      email:                      "user@example.com",
-      notes:                      "some_notes",
-      terms_of_service:           "1"
-
+      first_name:                           "User",
+      last_name:                            "Example",
+      postal_address:                       "Alte Kindhauserstrasse 3",
+      postal_address_supplement:            "Hof Im Basi",
+      postal_code:                          "8953",
+      city:                                 "Dietikon",
+      tel_mobile:                           "076 111 11 11",
+      email:                                "user@example.com",
+      notes:                                "some_notes",
+      wanted_number_of_share_certificates:  1,
+      terms_of_service:                     "1"
     }
   end
 
@@ -98,10 +98,12 @@ class SignupTest < ActionDispatch::IntegrationTest
       assert_no_difference 'ActionMailer::Base.deliveries.size' do
         # Entering a wrong validation code, renders the page again
         # and no welcome email is sent yet
-        put_via_redirect signup_create_path,
-                         signup: {
-                          email_validation_code: "a"
-                        }
+        assert_no_difference 'User.count' do
+          put_via_redirect signup_create_path,
+                           signup: {
+                            email_validation_code: "a"
+                          }
+        end
       end
       assert_template 'signups/validation'
 

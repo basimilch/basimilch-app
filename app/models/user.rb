@@ -100,7 +100,16 @@ class User < ActiveRecord::Base
   validate :at_least_one_tel
 
   # DOC: http://guides.rubyonrails.org/active_record_validations.html#acceptance
-  validates :terms_of_service, acceptance: true
+  # SOURCE: http://stackoverflow.com/a/10748001
+  validates :terms_of_service, acceptance: true, presence: true, on: :create
+
+  ALLOWED_NUMBER_OF_WANTED_SHARE_CERTIFICATES = (1..4)
+  attr_accessor :wanted_number_of_share_certificates
+  validates :wanted_number_of_share_certificates, presence: true, on: :create,
+            numericality: {
+    greater_than_or_equal_to: ALLOWED_NUMBER_OF_WANTED_SHARE_CERTIFICATES.first,
+    less_than_or_equal_to:    ALLOWED_NUMBER_OF_WANTED_SHARE_CERTIFICATES.last
+  }
 
   validate :correct_full_postal_address
 
@@ -313,6 +322,13 @@ class User < ActiveRecord::Base
 
   def to_s
     "User #{id}: #{full_name} <#{email}>"
+  end
+
+  def attributes(include_virtual: false)
+    super() + (include_virtual ? {
+          terms_of_service: terms_of_service,
+          wanted_number_of_share_certificates: wanted_number_of_share_certificates
+          } : {})
   end
 
 
