@@ -103,7 +103,7 @@ class SignupsController < ApplicationController
       if new_share_certificate.save
         record_activity :create, new_share_certificate
       else
-        break
+        raise "Not able to save: #{new_share_certificate.inspect}"
       end
     end
   end
