@@ -23,6 +23,16 @@ module ActionFilterHelper
     raise_404 unless current_user.admin?
   end
 
+
+
+  DEFAULT_URL_DOMAIN_FOR_REFERER_FILTER =
+    ENV["DEFAULT_URL_DOMAIN_FOR_REFERER_FILTER"]
+
+  DEFAULT_REDIRECT_URL_FOR_REFERER_FILTER =
+    ENV["DEFAULT_REDIRECT_URL_FOR_REFERER_FILTER"]
+
+  BYPASS_REFERER_FILTER =
+    ENV["BYPASS_REFERER_FILTER"].to_b
   # To pass specific domains as arguments, do as follow:
   #
   # before_action -> { require_referer_domain "basimil.ch",
@@ -31,9 +41,9 @@ module ActionFilterHelper
   #
   # SOURCE: http://stackoverflow.com/a/20561223
   # SOURCE: http://stackoverflow.com/a/3104799
-  def require_referer_domain(domain = ENV["URL_DOMAIN_FOR_REFERER_FILTER"],
-                        redirect_to_url: ENV["REDIRECT_URL_FOR_REFERER_FILTER"])
-    return unless Rails.env.production?
+  def require_referer_domain(domain = DEFAULT_URL_DOMAIN_FOR_REFERER_FILTER,
+                       redirect_to_url: DEFAULT_REDIRECT_URL_FOR_REFERER_FILTER)
+    return if BYPASS_REFERER_FILTER or not Rails.env.production?
     raise ArgumentError, "domain must be provided" if domain.blank?
     referer_url = request.env['HTTP_REFERER']
     referer_regexp = Regexp.new("^https?://([^/]+\\.)?#{domain}(?:/.*)?")
