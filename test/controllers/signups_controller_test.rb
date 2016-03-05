@@ -3,17 +3,7 @@ require 'test_helper'
 class SignupsControllerTest < ActionController::TestCase
 
   def setup
-    @valid_user_info = {
-      first_name:     "User",
-      last_name:      "Example",
-      postal_address: "Alte Kindhauserstrasse 3",
-      postal_code:    "8953",
-      city:           "Dietikon",
-      tel_mobile:     "076 111 11 11",
-      email:          "user@example.com",
-      wanted_number_of_share_certificates: 3,
-      terms_of_service: "1"
-    }
+    @valid_user_info = valid_user_info_for_tests
   end
 
   test "should get signup page when no logged in" do

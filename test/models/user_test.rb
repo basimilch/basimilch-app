@@ -3,15 +3,7 @@ require 'test_helper'
 class UserTest < ActiveSupport::TestCase
 
   def setup
-    @user = User.new(first_name:     "User",
-                     last_name:      "Example",
-                     postal_address: "Alte Kindhauserstrasse 3",
-                     postal_code:    "8953",
-                     city:           "Dietikon",
-                     tel_mobile:     "076 111 11 11",
-                     email:          "user@example.com",
-                     wanted_number_of_share_certificates: 1,
-                     terms_of_service: "1")
+    @user = User.new(valid_user_info_for_tests)
   end
 
   test "fixture user should be valid" do
@@ -276,11 +268,47 @@ class UserTest < ActiveSupport::TestCase
     assert @user.valid?
   end
 
+  test "wanted_subscription should be present and valid" do
+    assert @user.required_attribute?(:wanted_subscription)
+    @user.wanted_subscription = 'blahblah'
+    assert_not @user.valid?
+    @user.wanted_subscription = 'no_subscription'
+    assert @user.valid?
+  end
+
   test "terms_of_service should be present and accepted" do
     assert @user.required_attribute?(:terms_of_service)
     @user.terms_of_service = "0"
     assert_not @user.valid?
     @user.terms_of_service = "1"
     assert @user.valid?
+  end
+
+  test "sign-up specific fields are only required on signup" do
+    # NOTE: 'assign_attributes' does not update the DB,
+    #        but 'update_attributes' does.
+    @user.assign_attributes(
+        wanted_number_of_share_certificates: nil,
+        wanted_subscription: nil,
+        terms_of_service: nil
+      )
+    assert_not_valid @user
+    @user.assign_attributes(
+        wanted_number_of_share_certificates: 1,
+        wanted_subscription: 'no_subscription',
+        terms_of_service: '1'
+      )
+    assert_valid @user
+    assert_equal nil, @user.id
+    assert @user.save
+    assert @user.id.is_a? Integer
+    @user.reload
+    @user.assign_attributes(
+        wanted_number_of_share_certificates: nil,
+        wanted_subscription: nil,
+        terms_of_service: nil
+      )
+    assert_valid @user
+    assert @user.destroy
   end
 end

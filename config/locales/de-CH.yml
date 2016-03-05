@@ -66,6 +66,7 @@ de-CH:
       terms_of_service:           "Statuten und Betriebsreglement"
       updated_at:                 "Zuletzt aktualisiert am"
       wanted_number_of_share_certificates: "Gewünschte Anzahl an Anteilscheine"
+      wanted_subscription:        "Abo-Optionen"
       # start_at:               Begin
       # end_at:                 Ende
       # title:                  Titel
@@ -398,6 +399,20 @@ de-CH:
         angegebene Adresse schicken.
       total_price: "Gesamt: %{price} CHF"
       wanted_number_of_share_certificates_msg: Anteilscheineanzahl auswählen
+      wanted_subscription_msg: Abo-Option auswählen
+      wanted_subscription:
+        no_subscription: >
+          Ich möchte Genosschenschafter_in ohne Abo werden
+        waiting_list_for_subscription: >
+          Ich möchte mich in der Warteliste für ein Abo eintragen
+        share_with_user_in_waiting_list: >
+          Ich möchte ein Abo mit einer Person teilen, die bereits in der Warteliste
+          für ein Abo eingetragen ist
+        share_with_user_already_active: >
+          Ich möchte ein Abo mit einer Person teilen, die bereits ein Abo bekommt
+        hint: >
+          Trage bitte den Namen der Person, mit der du ein Abo teilen möchstest,
+          im oberen Notizfeld ein.
 
   # Controllers
 

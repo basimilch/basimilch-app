@@ -1,0 +1,16 @@
+# Place all the behaviors and hooks related to the matching controller here.
+# All this logic will automatically be available in application.js.
+# You can use CoffeeScript in this file: http://coffeescript.org/
+
+# SOURCE: http://stackoverflow.com/a/32358641
+<% self.class.include Rails.application.routes.url_helpers %>
+
+# SOURCE: http://brandonhilkert.com/blog/organizing-javascript-in-rails-application-with-turbolinks/
+$(document).on 'page:change', ->
+  do ( $$ = window.Basimilch, $ = jQuery ) ->
+    $('#user_wanted_subscription').change ->
+      hideHint = [
+          "share_with_user_in_waiting_list"
+          "share_with_user_already_active"
+        ].contains $(@).val()
+      $('#hint-for-wanted_subscription').toggleClass('hidden', hideHint)

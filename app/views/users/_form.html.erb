@@ -169,10 +169,19 @@
         <%= f.field_for :wanted_number_of_share_certificates,
                         as_type: :select,
                         value: options_for_wanted_share_certificates,
-                        include_blank: t(".wanted_number_of_share_certificates_msg") %>
+                        include_blank: t('.wanted_number_of_share_certificates_msg') %>
+      </div>
+      <div class="col-sm-8">
+        <%= f.field_for :wanted_subscription,
+                        as_type: :select,
+                        value: options_for_wanted_subscription,
+                        include_blank: t('.wanted_subscription_msg'),
+                        hint: {
+                          text: t('.wanted_subscription.hint'),
+                          hidden: true
+                        } %>
       </div>
     </div>
-
 
     <%= f.field_for :terms_of_service, as_type: :boolean,
                     label: t(

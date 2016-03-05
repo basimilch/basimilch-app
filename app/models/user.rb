@@ -111,6 +111,17 @@ class User < ActiveRecord::Base
     less_than_or_equal_to:    ALLOWED_NUMBER_OF_WANTED_SHARE_CERTIFICATES.last
   }
 
+  # DOC: http://ruby-doc.org/core-2.2.1/doc/syntax/literals_rdoc.html#label-Percent+Strings
+  ALLOWED_WANTED_SUBSCRIPTION_OPTIONS = %w(
+    no_subscription
+    waiting_list_for_subscription
+    share_with_user_in_waiting_list
+    share_with_user_already_active
+  )
+  attr_accessor :wanted_subscription
+  validates :wanted_subscription, presence: true, on: :create,
+            inclusion: { in: ALLOWED_WANTED_SUBSCRIPTION_OPTIONS }
+
   validate :correct_full_postal_address
 
   geocoded_by :full_postal_address
@@ -326,9 +337,10 @@ class User < ActiveRecord::Base
 
   def attributes(include_virtual: false)
     super() + (include_virtual ? {
-          terms_of_service: terms_of_service,
-          wanted_number_of_share_certificates: wanted_number_of_share_certificates
-          } : {})
+      terms_of_service: terms_of_service,
+      wanted_number_of_share_certificates: wanted_number_of_share_certificates,
+      wanted_subscription: wanted_subscription
+    } : {})
   end
 
 

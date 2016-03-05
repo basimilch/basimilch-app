@@ -4,15 +4,7 @@ class UsersCreationTest < ActionDispatch::IntegrationTest
 
   def setup
     @user = users(:one)
-    @valid_user_info = {first_name:     "User",
-                        last_name:      "Example",
-                        postal_address: "Alte Kindhauserstrasse 3",
-                        postal_code:    "8953",
-                        city:           "Dietikon",
-                        tel_mobile:     "076 111 11 11",
-                        email:          "user@example.com",
-                        wanted_number_of_share_certificates: 1,
-                        terms_of_service: "1"}
+    @valid_user_info = valid_user_info_for_tests
   end
 
   # Inspired from:

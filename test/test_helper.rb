@@ -20,6 +20,27 @@ class ActiveSupport::TestCase
   # order.
   fixtures :all
 
+  # NOTE: Not using a constant (e.g. VALID_USER_INFO) because one (i.e. me ;)
+  #       can easily forget to use '.dup' in the test (like e.g.
+  #       'user_info = VALID_USER_INFO.dup'), and the reference value could be
+  #       potentially modified by the tests.
+  def valid_user_info_for_tests
+    {
+      first_name:                           'User',
+      last_name:                            'Example',
+      postal_address:                       'Alte Kindhauserstrasse 3',
+      postal_address_supplement:            'Hof Im Basi',
+      postal_code:                          '8953',
+      city:                                 'Dietikon',
+      tel_mobile:                           '076 111 11 11',
+      email:                                'user@example.com',
+      notes:                                'some_notes',
+      wanted_number_of_share_certificates:  3,
+      wanted_subscription:                  'no_subscription',
+      terms_of_service:                     '1'
+    }
+  end
+
   # Returns true if a test user is logged in.
   #
   # NOTE: Because helper methods aren’t available in tests, we can’t use
@@ -74,6 +95,21 @@ class ActiveSupport::TestCase
       put login_path, login_code_form: {login_code: login_code}
     end
     assert_equal true, fixture_logged_in?
+  end
+
+  def assert_valid(model, additional_msg = nil, valid: true)
+    if valid
+      assert model.valid?, "Model '#{model}' should be valid. Errors:" +
+                           " #{model.errors.messages}" +
+                           (additional_msg ? "\n => #{additional_msg}" : "")
+    else
+      assert_not model.valid?, "Model '#{model}' should NOT be valid." +
+                               (additional_msg ? "\n => #{additional_msg}" : "")
+    end
+  end
+
+  def assert_not_valid(model, additional_msg = nil)
+    assert_valid model, additional_msg, valid: false
   end
 
   # Checks a protected get before and after login.
