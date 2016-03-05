@@ -14,6 +14,10 @@ class JobSignup < ActiveRecord::Base
 
   attr_accessor :allow_past
 
+  def to_s
+    "JobSignup #{id.inspect}: User #{user_id.inspect} for Job #{job_id.inspect}"
+  end
+
   private
 
     def job_is_available
