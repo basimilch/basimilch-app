@@ -83,8 +83,9 @@ class Job < ActiveRecord::Base
   end
 
   def to_s
-    ("Job #{id}: #{start_at.to_date.to_s :db}, #{start_at.to_s :time}-" +
-     "#{start_at.to_s :time} - #{title}").truncate(100)
+    ("Job #{id.inspect}: #{start_at.try(:to_date).try(:to_s, :db).inspect}," +
+     " #{start_at.try(:to_s, :time).inspect}-" +
+     "#{start_at.try(:to_s, :time).inspect} - #{title.inspect}").truncate(100)
   end
 
   def full_date
