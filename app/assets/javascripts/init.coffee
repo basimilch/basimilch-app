@@ -1,29 +1,35 @@
 # DOC: ORGANIZING JAVASCRIPT IN RAILS APPLICATION WITH TURBOLINKS
 #      http://brandonhilkert.com/blog/organizing-javascript-in-rails-application-with-turbolinks/
 
-window.Basimilch ||= {}
+do ( $$ = window.Basimilch ||= {}, $=jQuery ) ->
+  $.extend $$,
+    # SOURCE: http://www.sitepoint.com/url-parameters-jquery/
+    urlParam: (name) ->
+      results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href);
+      {
+        isPresent: -> return (results != undefined && results != null)
+        val:       -> return if results then results[1] else undefined
+      }
 
-# SOURCE: http://www.sitepoint.com/url-parameters-jquery/
-Basimilch.urlParam = (name) ->
-  results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href);
-  {
-    isPresent: -> return (results != undefined && results != null)
-    val:       -> return if results then results[1] else undefined
-  }
+    isAdminPage: -> $('body.admin').length == 1
 
-Basimilch.isAdminPage = -> $('body.admin').length == 1
+    setupFilterAction: (elemId, targetURL, queryParamName) ->
+      $('#' + elemId).change ->
+        $('body').css 'cursor', 'wait'
+        val = $(@).val()
+        queryParamRegExp = new RegExp "[?&]" + queryParamName + "=[^&]*(?:&|$)"
+        queryString = location.search
+                              .replace(queryParamRegExp, "")
+                              .replace(/^([^?])/, "?$1") # Ensure it begins with '?'
+        appendChar = if queryString then "&" else "?"
+        location.href = targetURL + queryString +
+          ( if val then appendChar + queryParamName + "=" + val else "")
 
-Basimilch.setupFilterAction = (elemId, targetURL, queryParamName) ->
-  $('#' + elemId).change ->
-    $('body').css 'cursor', 'wait'
-    val = $(@).val()
-    queryParamRegExp = new RegExp "[?&]" + queryParamName + "=[^&]*(?:&|$)"
-    queryString = location.search
-                          .replace(queryParamRegExp, "")
-                          .replace(/^([^?])/, "?$1") # Ensure it begins with '?'
-    appendChar = if queryString then "&" else "?"
-    location.href = targetURL + queryString +
-      ( if val then appendChar + queryParamName + "=" + val else "")
+  # Array prototype extensions
+  $.extend Array.prototype,
+    contains: (thing) -> ($.inArray(thing, @) == -1) ? false : true;
+
+
 
 # DOC: https://github.com/rails/turbolinks#events
 # DOC: http://stackoverflow.com/a/19834224
