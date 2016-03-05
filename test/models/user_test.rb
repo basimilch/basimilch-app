@@ -7,16 +7,15 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "fixture user should be valid" do
-    assert @user.valid?, "Initial fixture user should be valid: " +
-                         @user.errors.full_messages.join(", ")
+    assert_valid @user, "Initial fixture user should be valid."
   end
 
   test "email should be present" do
     assert @user.required_attribute?(:email)
     @user.email = nil
-    assert_not @user.valid?
+    assert_not_valid @user
     @user.email = "    "
-    assert_not @user.valid?
+    assert_not_valid @user
   end
 
   test "email should not be too long" do
@@ -24,7 +23,7 @@ class UserTest < ActiveSupport::TestCase
     # The length limit of the VARCHAR type (db representation of a String) is 255
     max_length = 255
     @user.email = "a" * (max_length - domain.length + 1) + domain
-    assert_not @user.valid?
+    assert_not_valid @user
   end
 
   test "email validation should accept valid addresses" do
@@ -36,7 +35,7 @@ class UserTest < ActiveSupport::TestCase
                          alice+bob@baz.ch]
     valid_addresses.each do |valid_address|
       @user.email = valid_address
-      assert @user.valid?, "#{valid_address.inspect} should be valid"
+      assert_valid @user, "#{valid_address.inspect} should be valid"
     end
   end
 
@@ -50,7 +49,7 @@ class UserTest < ActiveSupport::TestCase
                            foo@bar+baz.com]
     invalid_addresses.each do |invalid_address|
       @user.email = invalid_address
-      assert_not @user.valid?, "#{invalid_address.inspect} should be invalid"
+      assert_not_valid @user, "#{invalid_address.inspect} should be invalid"
     end
   end
 
@@ -58,7 +57,7 @@ class UserTest < ActiveSupport::TestCase
     duplicate_user = @user.dup
     duplicate_user.email = @user.email.upcase
     @user.save
-    assert_not duplicate_user.valid?
+    assert_not_valid duplicate_user
   end
 
   test "email should be saved as lower case" do
@@ -75,34 +74,34 @@ class UserTest < ActiveSupport::TestCase
   test "first name should be present" do
     assert @user.required_attribute?(:first_name)
     @user.first_name = "     "
-    assert_not @user.valid?
+    assert_not_valid @user
   end
 
   test "first name should not be too long" do
     @user.first_name = "a" * 41
-    assert_not @user.valid?
+    assert_not_valid @user
   end
 
   test "each word in first name should be capitalized on validation" do
     @user.first_name = "aaaa bbb"
-    assert @user.valid?
+    assert_valid @user
     assert_equal "Aaaa Bbb", @user.first_name
   end
 
   test "last name should be present" do
     assert @user.required_attribute?(:last_name)
     @user.last_name = "     "
-    assert_not @user.valid?
+    assert_not_valid @user
   end
 
   test "last name should not be too long" do
     @user.last_name = "a" * 41
-    assert_not @user.valid?
+    assert_not_valid @user
   end
 
   test "each word in last name should be capitalized on validation" do
     @user.last_name = "bbbbb ccc"
-    assert @user.valid?
+    assert_valid @user
     assert_equal "Bbbbb Ccc", @user.last_name
   end
 
@@ -110,17 +109,17 @@ class UserTest < ActiveSupport::TestCase
     invalid_codes = %w[0000 000 a004 99999 CH-1243 ch-1234 ch-1]
     invalid_codes.each do |invalid_code|
       @user.postal_code = invalid_code
-      assert_not @user.valid?, "#{invalid_code.inspect} should be invalid"
+      assert_not_valid @user, "#{invalid_code.inspect} should be invalid"
     end
   end
 
   test "postal adress, postal code, city and country should be present" do
-    assert      @user.required_attribute?(:postal_address)
-    assert      @user.required_attribute?(:postal_code)
-    assert      @user.required_attribute?(:city)
-    assert      @user.required_attribute?(:country)
+    assert @user.required_attribute?(:postal_address)
+    assert @user.required_attribute?(:postal_code)
+    assert @user.required_attribute?(:city)
+    assert @user.required_attribute?(:country)
     @user.postal_code = @user.city = @user.country = nil
-    assert_not @user.valid?
+    assert_not_valid @user
     assert_equal 5, @user.errors.count, @user.errors.full_messages.join(", ")
   end
 
@@ -150,16 +149,14 @@ class UserTest < ActiveSupport::TestCase
 
   test "adding a postal address supplement should be valid" do
     @user.postal_address_supplement = "c/o Somebody"
-    assert @user.valid?, "User with postal address suppl. should be valid: " +
-                         @user.errors.full_messages.join(", ")
+    assert_valid @user, "User with postal address suppl. should be valid."
   end
 
   test "postal address supplement should be max 50 chars long" do
     @user.postal_address_supplement = "a" * 50
-    assert @user.valid?
+    assert_valid @user
     @user.postal_address_supplement = "a" * 51
-    assert_not @user.valid?, "Postal address suppl. should be max 50 char: " +
-                         @user.errors.full_messages.join(", ")
+    assert_not_valid @user, "Postal address suppl. should be max 50 char long."
   end
 
   test "valid phone numbers should be stored normalized" do
@@ -178,12 +175,11 @@ class UserTest < ActiveSupport::TestCase
     valid_tels.each do |raw_tel, parsed_tels|
       normalized_tel  = parsed_tels.first
       formatted_tel   = parsed_tels.second
-      # Validate all three phone nombers
+      # Validate all three phone numbers
       @user.tel_mobile = raw_tel
       @user.tel_home   = raw_tel
       @user.tel_office = raw_tel
-      assert @user.valid?, "#{raw_tel.inspect} should be valid: " +
-                           "#{@user.errors.full_messages_for(:tel_mobile)}"
+      assert_valid @user, "#{raw_tel.inspect} should be valid."
       # Before saving the user to the DB, the tel is still the raw string
       assert_equal raw_tel, @user.tel_mobile
       assert @user.save
@@ -235,23 +231,22 @@ class UserTest < ActiveSupport::TestCase
                    ]
     invalid_tels.each do |invalid_tel|
       @user.tel_mobile = invalid_tel
-      assert_not @user.valid?, "#{invalid_tel.inspect} should be invalid: " +
-                           "#{@user.tel_mobile.inspect} => " +
-                           "#{@user.errors.full_messages_for(:tel_mobile)}"
+      assert_not_valid @user, "#{invalid_tel.inspect} should be invalid: " +
+                           "#{@user.tel_mobile.inspect}"
       assert_equal nil, @user.formatted_tel(:mobile)
     end
   end
 
   test "at least one phone number should be present" do
     @user.tel_mobile = nil
-    assert_not @user.valid?
+    assert_not_valid @user
     @user.tel_home = "044 111 11 11"
-    assert @user.valid?
+    assert_valid @user
     @user.tel_home = nil
     @user.tel_office = "044 222 22 22"
-    assert @user.valid?
+    assert_valid @user
     @user.tel_mobile = @user.tel_home = @user.tel_office = nil
-    assert_not @user.valid?
+    assert_not_valid @user
   end
 
   test "authenticated? should return false for a user with nil digest" do
@@ -263,25 +258,25 @@ class UserTest < ActiveSupport::TestCase
   test "wanted_number_of_share_certificates should be present and valid" do
     assert @user.required_attribute?(:wanted_number_of_share_certificates)
     @user.wanted_number_of_share_certificates = -1
-    assert_not @user.valid?
+    assert_not_valid @user
     @user.wanted_number_of_share_certificates = 1
-    assert @user.valid?
+    assert_valid @user
   end
 
   test "wanted_subscription should be present and valid" do
     assert @user.required_attribute?(:wanted_subscription)
     @user.wanted_subscription = 'blahblah'
-    assert_not @user.valid?
+    assert_not_valid @user
     @user.wanted_subscription = 'no_subscription'
-    assert @user.valid?
+    assert_valid @user
   end
 
   test "terms_of_service should be present and accepted" do
     assert @user.required_attribute?(:terms_of_service)
     @user.terms_of_service = "0"
-    assert_not @user.valid?
+    assert_not_valid @user
     @user.terms_of_service = "1"
-    assert @user.valid?
+    assert_valid @user
   end
 
   test "sign-up specific fields are only required on signup" do

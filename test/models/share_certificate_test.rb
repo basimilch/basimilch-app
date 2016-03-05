@@ -8,11 +8,11 @@ class ShareCertificateTest < ActiveSupport::TestCase
   end
 
   test "should be valid" do
-    assert @share_certificate.valid?
+    assert_valid @share_certificate
   end
 
   test "user id should be present" do
     @share_certificate.user_id = nil
-    assert_not @share_certificate.valid?
+    assert_not_valid @share_certificate
   end
 end
