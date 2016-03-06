@@ -13,4 +13,16 @@ class AdminMailer < ApplicationMailer
     logger.info "Sending daily_activity_report to '#{m.to}' with" +
                 " #{@yesterday_activities.count} activities."
   end
+
+  # Subject can be set in your I18n file at config/locales/en.yml
+  # with the following lookup:
+  #
+  #   en.admin_mailer.activity_warning_notification.subject
+  #
+  def activity_warning_notification(activity)
+    @activity = activity
+    m = mail to: ENV['EMAIL_DAILY_ACTIVITY_REPORT_ADDRESS']
+    logger.info "Sending activity_warning_notification to '#{m.to}'" +
+                " for #{activity}."
+  end
 end

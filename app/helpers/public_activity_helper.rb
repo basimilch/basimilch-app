@@ -101,6 +101,10 @@ module PublicActivityHelper
                                                severity: severity.to_s,
                                                parameters: parameters
     logger.info "Recorded #{activity}"
+
+    if Rails.env.production? && [:high, :critical].include?(severity)
+      AdminMailer.activity_warning_notification(activity).deliver_later
+    end
   end
 
   private
