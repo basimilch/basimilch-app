@@ -139,6 +139,31 @@ class String
   def is_secure_temp_digest_for?(string)
     volatile_decrypt.is_digest_for? string
   end
+
+  # DOC: http://stackoverflow.com/a/4471202
+  alias_method :original_percent_operator, :"%"
+
+  # Allow an ActiveRecord as input for String#% formating to behave like a hash:
+  #   "User %{id}: %{first_name} %{last_name} <%{email}>" % @user
+  #   # => "User 1: John Example <john@example.org>"
+  # Note that with this modification the behavior of
+  #   "Hello %s" % @user
+  # is not equivalent to
+  #   "Hello #{@user.to_s}"
+  # as it would normally, but to
+  #   "Hello #{@user.attributes.symbolize_keys}"
+  # leading to the whole attributes hash being printed in the '%s' placeholder.
+  # To achieve the original behavior you must explicitly convert it to a String:
+  #   "Hello %s" % @user.to_s
+  # DOC: http://ruby-doc.org/core-2.2.1/String.html#method-i-25
+  # DOC: http://ruby-doc.org/core-2.2.1/Kernel.html#method-i-sprintf
+  def %(model)
+    if model.is_a? ActiveRecord::Base
+      original_percent_operator model.attributes.symbolize_keys
+    else
+      original_percent_operator model
+    end
+  end
 end
 
 class ActiveSupport::Duration

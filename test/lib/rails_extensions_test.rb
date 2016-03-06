@@ -60,6 +60,20 @@ class RailsExtentionsTest < ActionController::TestCase
     end
   end
 
+  test "ActiveRecord as input for String formating should behave like a hash" do
+    u = users(:one)
+    assert_equal "Hello User Example! Your email is one@example.com",
+                 "Hello %{first_name} %{last_name}! Your email is %{email}" % u
+    # With '%s' you must explicitly convert it to a String:
+    assert_equal "User 1: User Example <one@example.com>",
+                 "%s" % u.to_s
+    # The standard behavior of String#% should not be broken:
+    # DOC: http://ruby-doc.org/core-2.2.1/String.html#method-i-25
+    assert_equal "foo = bar",       "foo = %{foo}" % { :foo => 'bar' }
+    assert_equal "00123",           "%05d" % 123
+    assert_equal "ID   : 0000007b", "%-5s: %08x" % [ "ID", 123 ]
+  end
+
   test "to_i_min should be available for String and Nil" do
     assert_equal 0, nil.to_i
     assert_equal 0, "".to_i
