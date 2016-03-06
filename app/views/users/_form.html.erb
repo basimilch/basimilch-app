@@ -78,7 +78,8 @@
     </div>
     <div class="col-lg-5 col-sm-4 col-xs-10">
       <%= f.field_for :email,
-      readonly: !['new', 'create', 'validation'].include?(action_name) %>
+          input_type: :email,
+          readonly: !['new', 'create', 'validation'].include?(action_name) %>
     </div>
   </div>
 

@@ -296,7 +296,7 @@ class ActionView::Helpers::FormBuilder
 
   REQUIRED_ATTRIBUTE_MARK = '*'
 
-  def input_type_for(attribute)
+  def input_tag_for(attribute)
     INPUT_FIELD_TYPES[attribute] ||
       INPUT_FIELD_TYPES[object.column_for_attribute(attribute).type] ||
       :text_field
@@ -307,10 +307,10 @@ class ActionView::Helpers::FormBuilder
   # Consider: https://github.com/bootstrap-ruby/rails-bootstrap-forms ;)
   def field_for(attribute, options = {})
     is_view_mode  = self.options[:view_mode] == true
-    input_type    = input_type_for(options[:as_type] ||
-                                   options[:real_attribute] ||
-                                   attribute)
-    is_checkbox   = input_type == :check_box
+    input_tag     = input_tag_for(options[:as_type] ||
+                                  options[:real_attribute] ||
+                                  attribute)
+    is_checkbox   = input_tag == :check_box
     input_class   = ''
     input_class   << 'form-control' unless is_checkbox
     input_class   << ' view-mode'   if is_view_mode
@@ -366,7 +366,7 @@ class ActionView::Helpers::FormBuilder
             @template.concat REQUIRED_ATTRIBUTE_MARK
           end
         end)
-        if input_type == :select
+        if input_tag == :select
           @template.concat select(attribute,
                                   value,
                                   class:          input_class,
@@ -375,11 +375,12 @@ class ActionView::Helpers::FormBuilder
                                   autofocus:      options[:autofocus],
                                   disabled:       is_view_mode)
         else
-          @template.concat send(input_type, attribute,
+          @template.concat send(input_tag, attribute,
                                             class:       input_class,
                                             placeholder: placeholder,
                                             readonly:    readonly,
                                             value:       value,
+                                            type:        options[:input_type],
                                             autofocus:   options[:autofocus],
                                             disabled:    is_view_mode)
         end
