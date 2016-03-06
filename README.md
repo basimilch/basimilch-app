@@ -149,6 +149,63 @@ be send emails to. See the file [`config/initializers/mailer.rb`].
 Note that those environment variables might have different values for
 staging and production servers.
 
+### Debugging
+
+In the [`Gemfile`] here are two 'gem's that are very useful for
+debugging the local application during development: [`byebug`] and
+[`web-console`].
+
+[`Gemfile`]: Gemfile
+
+#### [`byebug`]
+
+Dropping a `byebug` call anywhere in your code, will stop the programm
+and show a debug prompt in the process or terminal where the `rails
+server` command is running. And in case you wonder why `debugger`
+seems to do the same thing, it is indeed because [`debugger` is an
+alias for `byebug`].
+
+[`byebug`]: https://github.com/deivid-rodriguez/byebug
+[`debugger` is an alias for `byebug`]: https://github.com/deivid-rodriguez/byebug/blob/bb98cd60cfeceee8ce626a222346ef432e7d2a0e/lib/byebug/attacher.rb#L33
+
+
+#### [`web-console`]
+
+Dropping a `console` call in a controller or view, you get a ruby
+console in the browser, as explained in the [Usage Section of the
+`web-console`] documentation:
+
+> The web console allows you to create an interactive Ruby session in
+> your browser. Those sessions are launched automatically in case on
+> an error, but they can also be launched manually in any page.  For
+> example, calling `console` in a view will display a console in the
+> current page in the context of the view binding.
+>
+> ```html
+> <% console %>
+> ```
+>
+> Calling `console` in a controller will result in a console in the
+> context of the controller action:
+>
+> ```ruby
+> class PostsController < ApplicationController
+>   def new
+>     console
+>     @post = Post.new
+>   end
+> end
+> ```
+
+For a good introduction about how to use the `web-console`, you might
+want to have a look at the ~5min video about [how to use Web Console
+in Rails 4.2].
+
+[`web-console`]: https://github.com/rails/web-console
+[Usage Section of the `web-console`]: https://github.com/rails/web-console#usage
+[How to use Web Console in Rails 4.2]: https://www.youtube.com/watch?v=qK4-sQ9ssSo
+
+
 ## Testing
 
 We use the testing setup suggested in the [Advanced testing setup]

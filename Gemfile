@@ -38,10 +38,12 @@ gem 'time_diff',                '0.3.0'
 gem 'pg',                       '0.18.4'
 
 group :development do
+  # Dropping a `console` call in a controller or view, you get a ruby console in the browser.
   gem 'web-console',            '3.1.1' # https://github.com/rails/web-console/releases
 end
 
 group :development, :test do
+  # Dropping a `byebug` (or `debugger`) call anywhere in your code, you get a debug prompt.
   gem 'byebug',                 '8.2.2' # https://github.com/deivid-rodriguez/byebug/releases
   gem 'spring',                 '1.6.4' # https://github.com/rails/spring/blob/master/CHANGELOG.md
   gem 'dotenv-rails',           '2.1.0' # https://github.com/bkeepers/dotenv/releases

@@ -65,3 +65,7 @@ bower.json
 #
 # SOURCE: https://github.com/bkeepers/dotenv#multiple-rails-environments
 .env.*
+
+# Ignore Byebug command history file.
+# https://github.com/deivid-rodriguez/byebug
+.byebug_history
