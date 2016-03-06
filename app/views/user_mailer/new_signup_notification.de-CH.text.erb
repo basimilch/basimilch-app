@@ -25,7 +25,7 @@ Büro:     %{tel_office}
 
 Möchte #{sh_count} #{ShareCertificate.model_name.human count: sh_count}: #{@user.share_certificates.pluck(:id).join ", "}
 
-Abo-Option: '#{t('users.form.wanted_subscription')[@user.wanted_subscription.try(:to_sym)]}'
+Abo-Option: '#{t('users.form.wanted_subscription')[@user.wanted_subscription.try(:to_sym)].try :strip}'
 
 *** Notizen:
 %{notes}
