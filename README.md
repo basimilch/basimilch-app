@@ -59,12 +59,44 @@ Guide to Rails Helpers].
 [Ruby on Rails Guides (v4.2.5.2)]: http://guides.rubyonrails.org/v4.2.5.2/
 [The Beginner's Guide to Rails Helpers]: http://mixandgo.com/blog/the-beginner-s-guide-to-rails-helpers
 
-## Environment
+## Setup `dev` environment
 
-- Ruby version 2.2.4 (installed with `rvm install 2.2.4`)
-- Rails version 4.2.5.2 (installed with `gem install rails -v 4.2.5.2`)
+- [Install `rvm`]
+
+```bash
+curl -sSL https://get.rvm.io | bash -s stable
+```
+
+- [Install `ruby` version 2.2.4]
+
+```bash
+rvm install 2.2.4
+```
+
+- [Install `bundle`]
+
+```bash
+gem install bundler
+```
+
+- Go to the app directory and install the `gem`s defined in the
+[`Gemfile.lock`] with `bundle`:
+
+```bash
+bundle install
+```
+
+- `rails` version 4.2.5.2 gets installed by the previous action. If
+you want to start a new project at this point you should manually
+install `rails` instead: `gem install rails -v 4.2.5.2`)
+
 - [heroku] is used for the production server. To deploy, install the
 [heroku toolbelt].
+
+[Install `rvm`]: https://rvm.io/rvm/install
+[Install `ruby` version 2.2.4]: https://rvm.io/rubies/installing
+[Install `bundle`]: https://rvm.io/integration/bundler
+[`Gemfile.lock`]: Gemfile.lock
 
 ## Local server
 
