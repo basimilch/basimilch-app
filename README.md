@@ -510,14 +510,14 @@ The population of this metadata is implemented in the file
 
 ### `public_activity`
 
-We use the gem [`public_activity`] [(v1.4.2)]<sup>[*](#public_activity_gem_version)</sup> to record activities in
+We use the gem [`public_activity`] [(v1.4.3)]<sup>[*](#public_activity_gem_version)</sup> to record activities in
 the application.
 
 [`public_activity`]: https://github.com/chaps-io/public_activity/tree/v1.4.1
-[(v1.4.2)]: https://rubygems.org/gems/public_activity/versions/1.4.2
+[(v1.4.3)]: https://rubygems.org/gems/public_activity/versions/1.4.3
 
 <a name="public_activity_gem_version">*</a>: Note that the `gem`
-version in Rubygems.org is `v1.4.2` but the tag in GitHub.com is
+version in Rubygems.org is `v1.4.3` but the tag in GitHub.com is
 `v1.4.1`.
 
 ## Notes on Rails
