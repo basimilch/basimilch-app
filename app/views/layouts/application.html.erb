@@ -14,6 +14,13 @@
     <%= render 'layouts/shim' %>
   </head>
   <body class="<%= controller_name %> <%= action_name %> <%= current_user_admin? ? "admin" : "non-admin" %> ">
+    <%# SOURCE: https://github.com/slipstream/SlipStreamUI/blob/fdcf44aa/clj/src/slipstream/ui/views/html/base.html#L64-L70 %>
+    <div id="loading-screen" class="hidden">
+      <div class="backdrop"></div>
+      <div class="loading-screen-content">
+        <span class="glyphicon glyphicon-refresh"></span>
+      </div>
+    </div>
     <%= render 'layouts/header' %>
     <div class="container">
       <%= render 'shared/flash_messages' %>

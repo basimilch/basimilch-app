@@ -25,6 +25,15 @@ do ( $$ = window.Basimilch ||= {}, $=jQuery ) ->
         location.href = targetURL + queryString +
           ( if val then appendChar + queryParamName + "=" + val else "")
 
+    # SOURCE: https://github.com/slipstream/SlipStreamUI/blob/fdcf44aa/clj/resources/static_content/js/request.js#L70-L88
+    loadingScreen:
+      start: ->
+        $('#loading-screen').removeClass 'hidden'
+        $('#loading-screen .backdrop').stop().animate {opacity: 0.25}, 400
+      stop: ->
+        $('#loading-screen:not(.hidden) .backdrop').stop().animate {opacity: 0}, 200, 'swing', ->
+            $('#loading-screen').addClass('hidden')
+
   # Array prototype extensions
   $.extend Array.prototype,
     contains: (thing) -> ($.inArray(thing, @) == -1) ? false : true;

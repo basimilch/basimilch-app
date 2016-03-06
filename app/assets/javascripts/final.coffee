@@ -6,3 +6,4 @@ $(document).on 'page:change', ->
       # Disable submit button on submit to prevent multiple form submissions.
       $(@).find('[type=submit]')
         .attr('disabled', true)
+      $$.loadingScreen.start()
