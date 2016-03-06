@@ -111,7 +111,7 @@ class User < ActiveRecord::Base
     less_than_or_equal_to:    ALLOWED_NUMBER_OF_WANTED_SHARE_CERTIFICATES.last
   }
 
-  # DOC: http://ruby-doc.org/core-2.2.1/doc/syntax/literals_rdoc.html#label-Percent+Strings
+  # DOC: http://ruby-doc.org/core-2.2.4/doc/syntax/literals_rdoc.html#label-Percent+Strings
   ALLOWED_WANTED_SUBSCRIPTION_OPTIONS = %w(
     no_subscription
     waiting_list_for_subscription

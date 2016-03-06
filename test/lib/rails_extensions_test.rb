@@ -68,7 +68,7 @@ class RailsExtentionsTest < ActionController::TestCase
     assert_equal "User 1: User Example <one@example.com>",
                  "%s" % u.to_s
     # The standard behavior of String#% should not be broken:
-    # DOC: http://ruby-doc.org/core-2.2.1/String.html#method-i-25
+    # DOC: http://ruby-doc.org/core-2.2.4/String.html#method-i-25
     assert_equal "foo = bar",       "foo = %{foo}" % { :foo => 'bar' }
     assert_equal "00123",           "%05d" % 123
     assert_equal "ID   : 0000007b", "%-5s: %08x" % [ "ID", 123 ]

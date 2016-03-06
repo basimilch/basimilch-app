@@ -155,8 +155,8 @@ class String
   # leading to the whole attributes hash being printed in the '%s' placeholder.
   # To achieve the original behavior you must explicitly convert it to a String:
   #   "Hello %s" % @user.to_s
-  # DOC: http://ruby-doc.org/core-2.2.1/String.html#method-i-25
-  # DOC: http://ruby-doc.org/core-2.2.1/Kernel.html#method-i-sprintf
+  # DOC: http://ruby-doc.org/core-2.2.4/String.html#method-i-25
+  # DOC: http://ruby-doc.org/core-2.2.4/Kernel.html#method-i-sprintf
   def %(model)
     if model.is_a? ActiveRecord::Base
       original_percent_operator model.attributes.symbolize_keys

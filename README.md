@@ -32,19 +32,21 @@ The corresponding [Rails Tutorial Book] can be read online for free.
 
 ### Ruby
 
-- [Ruby Code (v2.2.1)]
-- [Ruby 2.2.1 Standard Library Documentation]
+- [Ruby Code (v2.2.4)] _([`ruby` releases])_
+- [Ruby 2.2.4 Standard Library Documentation]
 - [Ruby Style Guide]
-- [`rvm`] as the Ruby Version Manager
+- [`rvm`] as the Ruby Version Manager _([`rvm` releases])_
 
-[Ruby Code (v2.2.1)]: https://github.com/ruby/ruby/tree/v2_2_1
-[Ruby 2.2.1 Standard Library Documentation]: http://ruby-doc.org/stdlib-2.2.1/
+[Ruby Code (v2.2.4)]: https://github.com/ruby/ruby/tree/v2_2_4
+[`ruby` releases]: https://github.com/ruby/ruby/releases
+[Ruby 2.2.4 Standard Library Documentation]: http://ruby-doc.org/stdlib-2.2.4/
 [Ruby Style Guide]: https://github.com/bbatsov/ruby-style-guide
 [`rvm`]: https://rvm.io
+[`rvm` releases]: https://github.com/rvm/rvm/releases
 
 ### Rails
 
-- [Rails Code (v4.2.5.2)]
+- [Rails Code (v4.2.5.2)] _([`rails` releases])_
 - [The API Documentation (v4.2.5.2)]
 - [Ruby on Rails Guides (v4.2.5.2)]
 
@@ -52,13 +54,14 @@ Beyond these official guides, it can be useful to read [The Beginner's
 Guide to Rails Helpers].
 
 [Rails Code (v4.2.5.2)]: https://github.com/rails/rails/tree/v4.2.5.2
+[`rails` releases]: https://github.com/rails/rails/releases
 [The API Documentation (v4.2.5.2)]: http://api.rubyonrails.org/v4.2.5.2/
 [Ruby on Rails Guides (v4.2.5.2)]: http://guides.rubyonrails.org/v4.2.5.2/
 [The Beginner's Guide to Rails Helpers]: http://mixandgo.com/blog/the-beginner-s-guide-to-rails-helpers
 
 ## Environment
 
-- Ruby version 2.2.1 (installed with `rvm install 2.2.1`)
+- Ruby version 2.2.4 (installed with `rvm install 2.2.4`)
 - Rails version 4.2.5.2 (installed with `gem install rails -v 4.2.5.2`)
 - [heroku] is used for the production server. To deploy, install the
 [heroku toolbelt].

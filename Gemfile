@@ -5,7 +5,7 @@
 
 source 'https://rubygems.org'
 
-ruby '2.2.1'
+ruby '2.2.4'
 
 # DOC: http://guides.rubyonrails.org/v4.2.5.2/upgrading_ruby_on_rails.html
 gem 'rails', '4.2.5.2'
