@@ -1,25 +1,40 @@
-<%= t('dictionary.attributes.id') %>: <%= @user.id %>
-<%= t('dictionary.attributes.profile') %>: <%= user_url @user %>
+<%#
+  #{@user.x} is ruby's normal interpolation
+  %{x} is is substituted by the value of @user.x
+  DOC: lib/rails_extensions.rb#%
+  DOC: http://ruby-doc.org/core-2.2.1/doc/syntax/literals_rdoc.html#label-Here+Documents
+  DOC: https://www.ruby-forum.com/topic/200140
+%>
+<% sh_count = @user.wanted_number_of_share_certificates || 0 %>
+<%= <<-HEREDOC % @user
+Id:       %{id}
+Profil:   #{user_url @user}
 
-<%= t('dictionary.attributes.first_name') %>: <%= @user.first_name %>
-<%= t('dictionary.attributes.last_name') %>: <%= @user.last_name %>
+Vorname:  %{first_name}
+Nachname: %{last_name}
 
-<%= t('dictionary.attributes.email') %>: <%= @user.email %>
+E-Mail:   %{email}
+          (Bitte manuell auf Mailchimp hinzufügen)
 
-<%= t('dictionary.attributes.postal_address') %>: <%= @user.postal_address %>
-<%= t('dictionary.attributes.city') %>: <%= @user.city %>
-<%= t('dictionary.attributes.postal_code') %>: <%= @user.postal_code %>
-<%= t('dictionary.attributes.country') %>: <%= @user.country %>
+Adresse:  %{postal_address}, %{postal_code} %{city}
+          (#{@user.postal_address_map_url or "Karte-URL nicht verfügbar"})
 
-<%= t('dictionary.attributes.map_url') %>: <%= @user.postal_address_map_url %>
+Handy:    %{tel_mobile}
+Zuhause:  %{tel_home}
+Büro:     %{tel_office}
 
-<%= t('dictionary.attributes.tel_mobile') %>: <%= @user.tel_mobile %>
-<%= t('dictionary.attributes.tel_home') %>: <%= @user.tel_home %>
-<%= t('dictionary.attributes.tel_office') %>: <%= @user.tel_office %>
+Möchte #{sh_count} #{ShareCertificate.model_name.human count: sh_count}: #{@user.share_certificates.pluck(:id).join ", "}
 
-<%= t('dictionary.attributes.notes') %>: <%= @user.notes %>
+Abo-Option: '#{t('users.form.wanted_subscription')[@user.wanted_subscription.try(:to_sym)]}'
 
-<%= t('dictionary.attributes.created_at') %>: <%= @user.created_at %>
+*** Notizen:
+%{notes}
+***
 
-<%= t('dictionary.attributes.admin') %>: <%= @user.admin %>
-<%= t('.signup_from') %>: <%= @location_info %>
+Admin: %{admin} (nur zur Sicherheitskontrolle: muss immer 'false' sein)
+
+Erstellt am:   %{created_at}
+Anmeldung aus: #{@location_info}
+
+HEREDOC
+%>
