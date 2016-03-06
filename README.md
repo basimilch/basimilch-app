@@ -23,7 +23,7 @@ development you might want to look at the _excellent_ [Rails Tutorial]
 by [Michael Hartl] including more than 15 hours of screencast lessons.
 The corresponding [Rails Tutorial Book] can be read online for free.
 
-[Getting Started with Rails]: http://guides.rubyonrails.org/v4.2.3/getting_started.html
+[Getting Started with Rails]: http://guides.rubyonrails.org/v4.2.5.2/getting_started.html
 [Rails Tutorial]: https://www.railstutorial.org/
 [Michael Hartl]: http://www.michaelhartl.com
 [Rails Tutorial Book]: https://www.railstutorial.org/book/_single-page
@@ -44,22 +44,22 @@ The corresponding [Rails Tutorial Book] can be read online for free.
 
 ### Rails
 
-- [Rails Code (v4.2.3)]
-- [The API Documentation (v4.2.3)]
-- [Ruby on Rails Guides (v4.2.3)]
+- [Rails Code (v4.2.5.2)]
+- [The API Documentation (v4.2.5.2)]
+- [Ruby on Rails Guides (v4.2.5.2)]
 
 Beyond these official guides, it can be useful to read [The Beginner's
 Guide to Rails Helpers].
 
-[Rails Code (v4.2.3)]: https://github.com/rails/rails/tree/v4.2.3
-[The API Documentation (v4.2.3)]: http://api.rubyonrails.org/v4.2.3/
-[Ruby on Rails Guides (v4.2.3)]: http://guides.rubyonrails.org/v4.2.3/
+[Rails Code (v4.2.5.2)]: https://github.com/rails/rails/tree/v4.2.5.2
+[The API Documentation (v4.2.5.2)]: http://api.rubyonrails.org/v4.2.5.2/
+[Ruby on Rails Guides (v4.2.5.2)]: http://guides.rubyonrails.org/v4.2.5.2/
 [The Beginner's Guide to Rails Helpers]: http://mixandgo.com/blog/the-beginner-s-guide-to-rails-helpers
 
 ## Environment
 
 - Ruby version 2.2.1 (installed with `rvm install 2.2.1`)
-- Rails version 4.2.3 (installed with `gem install rails -v 4.2.3`)
+- Rails version 4.2.5.2 (installed with `gem install rails -v 4.2.5.2`)
 - [heroku] is used for the production server. To deploy, install the
 [heroku toolbelt].
 
@@ -530,7 +530,7 @@ entire cookie, including name, value, expiry date, etc.
 [Decoding Rails Session Cookies]: http://www.andylindeman.com/decoding-rails-session-cookies/
 [Session storage and security in Rails]: http://dev.housetrip.com/2014/01/14/session-store-and-security/
 [this gist]: https://gist.github.com/profh/e36e5dd0bec124fef04c
-[Ruby on Rails Security Guide]: http://guides.rubyonrails.org/v4.2.3/security.html
+[Ruby on Rails Security Guide]: http://guides.rubyonrails.org/v4.2.5.2/security.html
 [4K of data]: http://stackoverflow.com/questions/640938/what-is-the-maximum-size-of-a-web-browsers-cookies-key
 
 ### Reminder about migrations
@@ -579,7 +579,7 @@ It might be also interesting to read [this SO answer about creating
 simple vs compound indexed], as well as Heroku's own documentation
 about [Efficient Use of PostgreSQL Indexes].
 
-[RailsGuide about migrations]: http://guides.rubyonrails.org/v4.2.3/active_record_migrations.html#creating-a-migration
+[RailsGuide about migrations]: http://guides.rubyonrails.org/v4.2.5.2/active_record_migrations.html#creating-a-migration
 [this SO answer about creating simple vs compound indexed]: http://stackoverflow.com/a/1049392
 [Efficient Use of PostgreSQL Indexes]: https://devcenter.heroku.com/articles/postgresql-indexes
 
