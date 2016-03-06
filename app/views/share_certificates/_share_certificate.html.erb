@@ -5,9 +5,9 @@
   <% else %>
     <strong><%= t(".share_certificate_id", id: share_certificate.id) %>: </strong>
   <% end %>
-  <% [:sent_at, :payed_at, :returned_at].each do |date_name| %>
+  <% [:created_at, :sent_at, :payed_at, :returned_at].each do |date_name| %>
     <% if date = share_certificate.try(date_name) %>
-      <%= t ".#{date_name}", date: date.to_localized_s(:long) %>
+      <%= t ".#{date_name}", date: date.to_date.to_localized_s(:long) %>
     <% elsif date_name == :sent_at %>
       <%= t ".#{date_name}_not_set" %>
     <% end %>

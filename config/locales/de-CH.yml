@@ -92,6 +92,7 @@ de-CH:
   table_headers: &table_headers
     address:      Adresse
     coordinator:  Koordinator_in
+    created_at:   Erstellt
     date:         Datum
     description:  Beschreibung
     email:        E-Mail-Adresse
@@ -565,6 +566,7 @@ de-CH:
       title: Anteilschein bearbeiten
     share_certificate:
       share_certificate_id: "Anteilschein Nr. %{id}"
+      created_at: "Erstellt am %{date}."
       sent_at: "Abgeschickt am %{date}."
       sent_at_not_set: "Noch nicht abgeschickt."
       payed_at: "Bezahlt am %{date}."

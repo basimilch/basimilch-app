@@ -5,6 +5,7 @@
       <tr>
         <th><%= t 'table_headers.id' %></th>
         <th><%= t 'table_headers.user' %></th>
+        <th><%= t 'table_headers.created_at' %></th>
         <th><%= t 'table_headers.sent_at' %></th>
         <th><%= t 'table_headers.payed_at' %></th>
         <th><%= t 'table_headers.returned_at' %></th>
@@ -18,6 +19,7 @@
         <tr>
           <td><%= link_to share_certificate.id, share_certificate %></td>
           <td><%= link_to share_certificate.user.full_name, share_certificate.user %></td>
+          <td><%= share_certificate.created_at.to_date.try(:to_localized_s, :short_with_year) %></td>
           <td><%= share_certificate.sent_at.try(:to_localized_s, :short_with_year) %></td>
           <td><%= share_certificate.payed_at.try(:to_localized_s, :short_with_year) %></td>
           <td><%= share_certificate.returned_at.try(:to_localized_s, :short_with_year) %></td>
