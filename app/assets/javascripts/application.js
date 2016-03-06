@@ -17,5 +17,17 @@
 //= require bootstrap
 //= require bootstrap-tagsinput
 //= require turbolinks
+//
+// Explicitely require files instead of 'require_tree .' to ensure loading order:
+//
 //= require init
-//= require_tree .
+//
+//= require errors
+//= require job_types
+//= require jobs
+//= require sessions
+//= require share_certificates
+//= require signups
+//= require users
+//
+//= require final
