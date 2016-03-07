@@ -159,14 +159,20 @@ debugging the local application during development: [`byebug`] and
 
 #### [`byebug`]
 
-Dropping a `byebug` call anywhere in your code, will stop the programm
+Dropping a `byebug` call anywhere in your code, will stop the program
 and show a debug prompt in the process or terminal where the `rails
 server` command is running. And in case you wonder why `debugger`
 seems to do the same thing, it is indeed because [`debugger` is an
 alias for `byebug`].
 
+In order to prevent forgetting the breakpoint in production we have
+modified the helper `byebug` (see `Kernel` module in
+[`rails_extensions.rb`]) so that it will raise an error in the tests
+to help finding the call before pushing to production.
+
 [`byebug`]: https://github.com/deivid-rodriguez/byebug
 [`debugger` is an alias for `byebug`]: https://github.com/deivid-rodriguez/byebug/blob/bb98cd60cfeceee8ce626a222346ef432e7d2a0e/lib/byebug/attacher.rb#L33
+[`rails_extensions.rb`]: lib/rails_extensions.rb
 
 
 #### [`web-console`]
@@ -196,6 +202,13 @@ console in the browser, as explained in the [Usage Section of the
 >   end
 > end
 > ```
+
+In order to prevent forgetting the console in production (and to type
+less) ;) we have provided the helper `ApplicationHelper#c`, i.e. you
+simply need to drop a `c` in your code (e.g. in a controller) to see
+a `ruby` console in the corresponding view. Using
+`ApplicationHelper#c` will raise an error in the tests to help finding
+the call before pushing to production.
 
 For a good introduction about how to use the `web-console`, you might
 want to have a look at the ~5min video about [how to use Web Console

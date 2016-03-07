@@ -451,3 +451,20 @@ class ActionView::Helpers::FormBuilder
                                                  }
   end
 end
+
+# Modify 'byebug' breakpoint helper to prevent forgetting it in production and
+# and to stop on breakpoints in tests.
+# SOURCE: https://github.com/deivid-rodriguez/byebug/blob/3ac521e2/lib/byebug/attacher.rb#L28-L34
+# DOC: http://ruby-doc.org/core-2.2.0/Binding.html#method-i-receiver
+# DOC: http://ruby-doc.org/core-2.1.1/Kernel.html#method-i-caller
+# TODO: Consider creating a PR to contribute this option to byebug.
+module Kernel
+  def byebug
+    msg = "Debugger used in #{caller[0]} by #{binding.receiver}".red
+    raise msg if Rails.env.test?
+    logger.warn msg
+    Byebug.attach if Rails.env.development?
+  end
+
+  alias debugger byebug
+end

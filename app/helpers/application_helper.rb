@@ -25,6 +25,16 @@ module ApplicationHelper
     commit_msgs_html += "</div>"
   end
 
+  # Helper to prevent forgetting the console in production and to type less. ;)
+  # DOC: http://ruby-doc.org/core-2.2.0/Binding.html#method-i-receiver
+  # DOC: http://ruby-doc.org/core-2.1.1/Kernel.html#method-i-caller
+  def c
+    msg = "Console used in #{caller[0]} by #{binding.receiver}".red
+    raise msg if Rails.env.test?
+    logger.warn msg
+    console if Rails.env.development?
+  end
+
   # Source: http://stackoverflow.com/a/4983354
   def raise_404
     raise ActionController::RoutingError.new('Not Found')
