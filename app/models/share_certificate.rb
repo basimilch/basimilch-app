@@ -13,7 +13,7 @@ class ShareCertificate < ActiveRecord::Base
   validate   :user_exists
 
   def to_s
-    "ShareCertificate #{id}: for user #{user_id}"
+    "ShareCertificate #{id.inspect}: for user #{user_id.inspect}"
   end
 
   private

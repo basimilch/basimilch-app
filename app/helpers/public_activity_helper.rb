@@ -17,10 +17,11 @@ class PublicActivity::Activity
   # because '#{owner}' requires a call to the DB, and it makes sense
   # that #to_s methods can return without relying on the DB.
   def to_s
-    "Activity #{id}: '#{key}'" +
-    " owned by '#{owner_type} #{owner_id}'" +
-    " for model '#{trackable_type} #{trackable_id}'" +
-    " (scope: #{scope}, severity: #{severity}, visibility: #{visibility})"
+    "Activity #{id.inspect}: #{key.inspect}" +
+    " owned by #{owner_type.inspect}:#{owner_id.inspect}" +
+    " for model #{trackable_type.inspect}:#{trackable_id.inspect}" +
+    " (scope: #{scope.inspect}, severity: #{severity.inspect}," +
+    " visibility: #{visibility.inspect})"
   end
 
   # Like #to_s but using '#{owner}' (which requires a call to the DB to

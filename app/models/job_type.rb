@@ -16,7 +16,8 @@ class JobType < ActiveRecord::Base
 
 
   def to_s
-    ("Job Type #{id}: #{title} - #{description}").truncate(100)
+    ("Job Type #{id.inspect}: #{title.inspect} -" +
+      " #{description.inspect}").truncate(100)
   end
 
   private

@@ -332,7 +332,7 @@ class User < ActiveRecord::Base
   end
 
   def to_s
-    "User #{id}: #{full_name} <#{email}>"
+    "User #{id.inspect}: #{full_name.inspect} <#{email}>"
   end
 
   def attributes(include_virtual: false)
