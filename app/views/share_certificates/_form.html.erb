@@ -23,6 +23,12 @@
     <% end %>
   </div>
 
+  <div class="field">
+    <%= f.label :value_in_chf %><br>
+    <%= "#{@share_certificate.value_in_chf} CHF" %>
+    <%= f.hidden_field :value_in_chf %>
+  </div>
+
   <% [:created_at, :sent_at, :payed_at, :returned_at].each do |date_name| %>
     <%= date_field f, date_name %>
   <% end %>

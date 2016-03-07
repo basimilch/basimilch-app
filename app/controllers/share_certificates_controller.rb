@@ -78,6 +78,11 @@ class ShareCertificatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def share_certificate_params
-      params.require(:share_certificate).permit(:user_id, :sent_at, :payed_at, :returned_at, :notes)
+      params.require(:share_certificate).permit(:user_id,
+                                                :sent_at,
+                                                :payed_at,
+                                                :returned_at,
+                                                :value_in_chf,
+                                                :notes)
     end
 end

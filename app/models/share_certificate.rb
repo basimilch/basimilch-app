@@ -8,15 +8,29 @@ class ShareCertificate < ActiveRecord::Base
   # DOC: https://github.com/airblade/paper_trail/tree/v4.0.1#basic-usage
   has_paper_trail ignore: [:updated_at]
 
+  # NOTE: :after_initialize is triggered after each instantiation of the model,
+  #       i.e. with a :new or with a :find call. To ensure that this only
+  #       happens for new models, we add the condition 'if: :new_record?'
+  # SOURCE: http://stackoverflow.com/a/33034815
+  # DOC: http://api.rubyonrails.org/v4.2.5.2/classes/ActiveRecord/Callbacks.html
+  after_initialize :init_value, if: :new_record?
+
   belongs_to :user
   validates  :user_id, presence: true
   validate   :user_exists
+  validates  :value_in_chf, presence: true, numericality: {
+    equal_to: UNIT_PRICE
+  }
 
   def to_s
     "ShareCertificate #{id.inspect}: for user #{user_id.inspect}"
   end
 
   private
+
+    def init_value
+      self.value_in_chf ||= UNIT_PRICE
+    end
 
     def user_exists
       unless User.find_by(id: user_id)
