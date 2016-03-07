@@ -55,7 +55,37 @@ class NilClass
   include ToIntegerUtils
 end
 
+# SOURCE: http://stackoverflow.com/a/11482430
+# NOTE: If more colorization features are needed, consider adding the gem
+#       https://github.com/fazibear/colorize
+module Colorize
+  def colorize(color_code)
+    "\e[#{color_code}m#{self}\e[0m"
+  end
+
+  def red
+    colorize(31)
+  end
+
+  def green
+    colorize(32)
+  end
+
+  def yellow
+    colorize(33)
+  end
+
+  def blue
+    colorize(34)
+  end
+
+  def pink
+    colorize(35)
+  end
+end
+
 class String
+  include Colorize
   include ToIntegerUtils
   def number
     scan(/\d/).join
