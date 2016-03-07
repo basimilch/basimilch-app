@@ -49,7 +49,6 @@
   <table class="table table-hover table-condensed">
     <thead>
       <tr>
-        <th></th>
         <th><%= t 'table_headers.date' %></th>
         <th><%= t 'table_headers.time' %></th>
         <th><%= t 'table_headers.job_title' %></th>
@@ -60,7 +59,6 @@
     <tbody>
       <% @jobs.each do |job| %>
         <tr class="job-info <%= "job-past" if job.past? %>" data-href="<%= job_path(job.id) %>">
-          <td><%= job.job_type_id.inspect %></td>
           <td><%= job.start_at.to_date.to_localized_s :short_with_weekday %></td>
           <td><%= "#{job.start_at.to_s(:time)} - #{job.end_at.to_s(:time)}" %></td>
           <td class="job_title"><%= job.title %></td>
