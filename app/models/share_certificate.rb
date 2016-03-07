@@ -8,6 +8,8 @@ class ShareCertificate < ActiveRecord::Base
   # DOC: https://github.com/airblade/paper_trail/tree/v4.0.1#basic-usage
   has_paper_trail ignore: [:updated_at]
 
+  default_scope -> { order(id: :asc) }
+
   # NOTE: :after_initialize is triggered after each instantiation of the model,
   #       i.e. with a :new or with a :find call. To ensure that this only
   #       happens for new models, we add the condition 'if: :new_record?'
