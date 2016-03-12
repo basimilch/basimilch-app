@@ -108,9 +108,10 @@ echo "Using $(git --version)"
 if [ "${TRAVIS_BRANCH}" == "dev" ]; then
   git config --global user.email "builds@travis-ci.org"
   git config --global user.name "Travis CI"
+  git fetch --tags
   # export GIT_TAG=build-$TRAVIS_BRANCH-$(date -u "+%Y-%m-%d")-$TRAVIS_BUILD_NUMBER
   export GIT_TAG="build-${TRAVIS_BUILD_NUMBER}"
-  export GIT_TAG_MESSAGE="TravisCI build ${TRAVIS_BUILD_NUMBER} on branch '${TRAVIS_BRANCH}', from version: $(git describe --match 'v*')"
+  export GIT_TAG_MESSAGE="TravisCI build ${TRAVIS_BUILD_NUMBER} on branch '${TRAVIS_BRANCH}', from version: $(git describe --always --match 'v*')"
 
   # TODO: Consider using this mechanism to later retrieve the version from the app.
   # echo -n $GIT_TAG > public/version
