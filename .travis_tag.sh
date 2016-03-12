@@ -120,6 +120,6 @@ if [ "${TRAVIS_BRANCH}" == "dev" ]; then
   git tag ${GIT_TAG} -a -m "${GIT_TAG_MESSAGE}"
 
   # SOURCE: http://stackoverflow.com/a/13051597
-  # git push --quiet https://${GITHUBKEY}@github.com/basimilch/basimilch-app ${GIT_TAG} > /dev/null 2>&1
-  git push --quiet ${GIT_TAG} > /dev/null 2>&1
+  git push --quiet https://${GITHUB_TOKEN}@github.com/basimilch/basimilch-app ${GIT_TAG} > /dev/null 2>&1
+  # git push --quiet ${GIT_TAG} > /dev/null 2>&1
 fi
