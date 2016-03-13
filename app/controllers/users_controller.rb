@@ -130,8 +130,13 @@ class UsersController < ApplicationController
 
     def record_update_activities(user)
       record_activity :update, user
-      return unless user.admin_changed?
-      if admin?
+      record_admin_change user
+    end
+
+    def record_admin_change(user)
+      # SOURCE: http://stackoverflow.com/a/11082345
+      return unless user.previous_changes[:admin]
+      if user.admin?
         record_activity :user_promoted_from_normal_user_to_admin, user
       else
         record_activity :user_demoted_from_admin_to_normal_user, user
