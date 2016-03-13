@@ -122,8 +122,9 @@ if [ "${TRAVIS_BRANCH}" == "dev" ]; then
   git config --global user.email "builds@travis-ci.org"
   git config --global user.name "Travis CI"
 
-  echo "Pulling tags from GitHub."
-  git pull --tags
+  echo "Unshallow repo and fetch tags from GitHub."
+  # DOC: https://git-scm.com/docs/git-fetch/1.8.5.3
+  git fetch --unshallow --tags
 
   echo "Visible tags:"
   git log --pretty=tformat:"%h %ad %d" --date=relative --simplify-by-decoration
