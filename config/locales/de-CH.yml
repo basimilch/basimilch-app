@@ -577,6 +577,7 @@ de-CH:
       <<: *table_headers
       title: Einsatz
       job_type: Tätigkeit
+      no_job_type: "Freier Einsatz"
       contact_user: Ansprechperson
       signup_for_job: Ich melde mich an
       signup_other_users_for_job: Andere Benutzer anmelden

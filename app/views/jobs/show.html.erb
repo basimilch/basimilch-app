@@ -2,7 +2,13 @@
 
 <p>
   <strong><%= t '.job_type' %>: </strong>
-  <%= @job.job_type %>
+  <% if !@job.job_type %>
+    <%= t('.no_job_type')  %>
+  <% elsif current_user_admin? %>
+    <%= link_to @job.job_type.title, @job.job_type %>
+  <% else %>
+    <%= @job.job_type.title  %>
+  <% end %>
 </p>
 
 <p>
