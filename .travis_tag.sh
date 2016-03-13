@@ -125,6 +125,14 @@ if [ "${TRAVIS_BRANCH}" == "dev" ]; then
   echo "Fetching tags from GitHub."
   git fetch --tags
 
+  echo "Visible tags:"
+  git log --pretty=tformat:"%h %ad %d" --date=relative --simplify-by-decoration
+
+  echo "$ git describe --always --match 'v*'"
+  git describe --always --match 'v*'
+  echo "$ git describe --always"
+  git describe --always
+
   export GIT_TAG="build-${TRAVIS_BUILD_NUMBER}"
   export GIT_TAG_MESSAGE="TravisCI build ${TRAVIS_BUILD_NUMBER} on branch '${TRAVIS_BRANCH}', from version: $(git describe --always --match 'v*')"
 
