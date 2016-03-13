@@ -3,6 +3,9 @@ class JobType < ActiveRecord::Base
   belongs_to :user
   has_many :jobs
 
+  # DOC: https://github.com/airblade/paper_trail/tree/v4.0.1#basic-usage
+  has_paper_trail ignore: [:updated_at]
+
   validates :title,         presence: true, length: { maximum: 150 }
   validates :description,   presence: true, length: { maximum: 500 }
   validates :place,         presence: true, length: { maximum: 150 }
