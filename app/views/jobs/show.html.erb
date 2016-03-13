@@ -102,10 +102,26 @@
   </div>
 <% end %>
 
+<% if current_user_admin? %>
+  <%= form_for(@job) do |f| %>
+    <div class="row">
+      <div class="col-sm-12">
+        <%= f.field_for :notes %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3">
+        <%= f.submit_button t('.save_notes') %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
 
 <% if current_user_admin? %>
-  <%= link_to 'Duplicate', new_job_path(duplicate: @job.id) %> |
-  <%= link_to 'Edit', edit_job_path(@job) %> |
-  <%# link_to 'Destroy', @job, method: :delete, data: { confirm: 'Are you sure?' } %>
-  <%= link_to 'Back', jobs_path %>
+  <div class="job_show_bottom_actions">
+    <%= link_to 'Duplicate', new_job_path(duplicate: @job.id) %> |
+    <%= link_to 'Edit', edit_job_path(@job) %> |
+    <%# link_to 'Destroy', @job, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <%= link_to 'Back', jobs_path %>
+  </div>
 <% end %>

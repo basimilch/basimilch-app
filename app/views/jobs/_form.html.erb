@@ -92,6 +92,12 @@
     <%= f.label :creation_frequency %><br>
     <%= f.select :creation_frequency, Job::FREQUENCIES.map { |s| [t(".frequencies.#{s}"), s] } %>
   </div>
+
+  <div class="field">
+    <%= f.label :notes %><br>
+    <%= f.text_area :notes %>
+  </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>

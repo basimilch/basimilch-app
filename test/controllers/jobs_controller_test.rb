@@ -103,8 +103,10 @@ class JobsControllerTest < ActionController::TestCase
                                       start_at: 1.day.from_now,
                                       end_at: 1.day.from_now + 1.hour,
                                       title: @job.title,
-                                      user_id: @job.user_id }
+                                      user_id: @job.user_id,
+                                      notes: "udpated notes" }
     end
+    assert_equal "udpated notes", @job.reload.notes
     assert_redirected_to job_path(assigns(:job))
   end
 

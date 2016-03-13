@@ -260,6 +260,8 @@ de-CH:
       user:
         <<: *placeholders
         id: "Automatisch"
+      job:
+        <<: *placeholders
 
   # Views
 
@@ -583,6 +585,7 @@ de-CH:
       signup_other_users_for_job: Andere Benutzer anmelden
       signup_other_users_placeholder: Namen eingeben
       job_is_full: "Der Einsatz ist ausgebucht, danke!"
+      save_notes: "Notizen speichern"
       signup_confirmation_message: >
         Möchtest du dich verbindlich für diesen Einsatz eintragen?
       signup_users_confirmation_message: >

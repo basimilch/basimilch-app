@@ -141,7 +141,7 @@ class JobsController < ApplicationController
     def job_params
       params.require(:job).permit(:title, :description, :start_at, :end_at,
                                   :place, :address, :slots, :user_id,
-                                  :creation_frequency, :job_type_id)
+                                  :creation_frequency, :job_type_id, :notes)
     end
 
     def job_type_param
