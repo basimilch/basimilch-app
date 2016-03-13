@@ -122,8 +122,8 @@ if [ "${TRAVIS_BRANCH}" == "dev" ]; then
   git config --global user.email "builds@travis-ci.org"
   git config --global user.name "Travis CI"
 
-  echo "Fetching tags from GitHub."
-  git fetch --tags
+  echo "Pulling tags from GitHub."
+  git pull --tags
 
   echo "Visible tags:"
   git log --pretty=tformat:"%h %ad %d" --date=relative --simplify-by-decoration
@@ -132,6 +132,8 @@ if [ "${TRAVIS_BRANCH}" == "dev" ]; then
   git describe --always --match 'v*'
   echo "$ git describe --always"
   git describe --always
+  echo "$ git describe # Expected to fail if no tags are pulled, and the build should break."
+  git describe
 
   export GIT_TAG="build-${TRAVIS_BUILD_NUMBER}"
   export GIT_TAG_MESSAGE="TravisCI build ${TRAVIS_BUILD_NUMBER} on branch '${TRAVIS_BRANCH}', from version: $(git describe --always --match 'v*')"
