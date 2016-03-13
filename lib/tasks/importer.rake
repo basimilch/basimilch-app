@@ -49,6 +49,7 @@ namespace :import_csv do
       # Wait a bit to prevent reaching quota limit from Google Geocoding API
       sleep 0.5
       user = User.new do |u|
+        u.imported        = true
         u.id              = row['Mitglieder-Nr.'].to_i
         u.first_name      = sanitize_string row['Vorname']
         u.last_name       = sanitize_string row['Name']

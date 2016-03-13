@@ -99,9 +99,13 @@ class User < ActiveRecord::Base
 
   validate :at_least_one_tel
 
+  # NOTE: Used by rake task 'import_csv:users' to bypass the signup extra fields.
+  attr_accessor :imported
+
   # DOC: http://guides.rubyonrails.org/active_record_validations.html#acceptance
   # SOURCE: http://stackoverflow.com/a/10748001
-  validates :terms_of_service, acceptance: true, presence: true, on: :create
+  validates :terms_of_service, acceptance: true, presence: true, on: :create,
+            unless: :imported
 
   ALLOWED_NUMBER_OF_WANTED_SHARE_CERTIFICATES = (1..4)
   attr_accessor :wanted_number_of_share_certificates
@@ -109,7 +113,8 @@ class User < ActiveRecord::Base
             numericality: {
     greater_than_or_equal_to: ALLOWED_NUMBER_OF_WANTED_SHARE_CERTIFICATES.first,
     less_than_or_equal_to:    ALLOWED_NUMBER_OF_WANTED_SHARE_CERTIFICATES.last
-  }
+  },
+            unless: :imported
 
   # DOC: http://ruby-doc.org/core-2.2.4/doc/syntax/literals_rdoc.html#label-Percent+Strings
   ALLOWED_WANTED_SUBSCRIPTION_OPTIONS = %w(
@@ -120,7 +125,8 @@ class User < ActiveRecord::Base
   )
   attr_accessor :wanted_subscription
   validates :wanted_subscription, presence: true, on: :create,
-            inclusion: { in: ALLOWED_WANTED_SUBSCRIPTION_OPTIONS }
+            inclusion: { in: ALLOWED_WANTED_SUBSCRIPTION_OPTIONS },
+            unless: :imported
 
   validate :correct_full_postal_address
 
