@@ -3,7 +3,7 @@
 </p>
 
 <p>
-  Dies ist eine Erinnerung, dass du morgen <%= @job.start_at.to_date.to_localized_s :short_with_weekday %> folgenden Einsatz bei basimil.ch hast:
+  Dies ist eine Erinnerung, dass du <strong>morgen <%= @job.start_at.to_date.to_localized_s :short_with_weekday %></strong> folgenden Einsatz bei basimil.ch hast:
 </p>
 
 <div>
@@ -14,9 +14,18 @@
   </ul>
 </div>
 
+<div>
+  <ul>
+    <li><strong>Einsatzbescreibung:</strong> <%= @job.description %></li>
+  </ul>
+</div>
+
 <p>
-  Falls ein Problem damit gibt, melde dich bitte umgehend beim Einsatzkoordinator
-  <%= @job.user.full_name %> (<%= mail_to @job.user.email, "anschreiben" %>).
+  Falls du verhindert bist, organisiere bitte umgehend einen Ersatz für dich.
+</p>
+<p>
+  Falls du noch Fragen hast, melde dich bitte bei der Ansprechperson:
+  <%= @job.user.full_name %> (<%= mail_to @job.user.email %>).
 </p>
 
 <p>
@@ -24,11 +33,7 @@
 </p>
 
 <p>
-  Milchgrüsse,
-</p>
-
-<p>
-  deine Betriebsgruppe von basimilch
+  --
 </p>
 
 <em>
