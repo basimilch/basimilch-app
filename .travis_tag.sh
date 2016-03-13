@@ -153,17 +153,16 @@ if [ "${TRAVIS_BRANCH}" == "dev" ]; then
   export GIT_DESC_BUILD="$(git describe --always --match ${LAST_BUILD_TAG})"
 
   export GIT_TAG="${LAST_VERSION_TAG}-build_${TRAVIS_BUILD_NUMBER}"
-  export GIT_TAG_MESSAGE="TravisCI build ${TRAVIS_BUILD_NUMBER} on branch '${TRAVIS_BRANCH}'.
+  export GIT_TAG_MESSAGE="TravisCI build ${TRAVIS_BUILD_NUMBER}
+
+Built on travis-ci.org from '${TRAVIS_BRANCH}' branch.
 https://travis-ci.org/basimilch/basimilch-app/builds/${TRAVIS_BUILD_ID}
 
 Describe from last tagged build: ${GIT_DESC_BUILD}
-Diff from last tagged build ${LAST_BUILD_TAG}:
-https://github.com/basimilch/basimilch-app/compare/${LAST_BUILD_TAG}...${GIT_TAG}
+Diff from last tagged build: https://github.com/basimilch/basimilch-app/compare/${LAST_BUILD_TAG}...${GIT_TAG}
 
 Describe from last version: ${GIT_DESC_VERSION}.
-Diff from last version ${LAST_VERSION_TAG}:
-https://github.com/basimilch/basimilch-app/compare/${GIT_DESC_VERSION}...${GIT_TAG}"
-
+Diff from last version: https://github.com/basimilch/basimilch-app/compare/${LAST_VERSION_TAG}...${GIT_TAG}"
 
   # TODO: Consider using this mechanism to later retrieve the version from the app.
   # echo -n $GIT_TAG > public/version
