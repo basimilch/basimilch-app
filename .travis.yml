@@ -6,12 +6,13 @@ rvm:
 services:
   # SOURCE: https://docs.travis-ci.com/user/database-setup/#PostgreSQL
   - postgresql
+# DOC: https://docs.travis-ci.com/user/customizing-the-build/#The-Build-Lifecycle
 before_script:
   # SOURCE: http://stackoverflow.com/a/12896545/5764181
   - psql -c 'CREATE USER basimilchdbuser SUPERUSER;' -U postgres
   # SOURCE: https://docs.travis-ci.com/user/database-setup/#Using-PostgreSQL-in-your-Builds
   - psql -c 'CREATE DATABASE basimilchdb_test OWNER basimilchdbuser;' -U postgres
-after_deploy:
+after_success:
   - ./.travis_tag.sh
 # SOURCE: https://github.com/travis-ci/travis-ci/issues/1476#issuecomment-55614399
 # DOC: https://docs.travis-ci.com/user/customizing-the-build/#Whitelisting-or-blacklisting-branches

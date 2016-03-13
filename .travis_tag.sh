@@ -1,13 +1,23 @@
 #!/bin/bash
 
-# Alternative shebang line: /usr/bin/env sh
-# DOC: https://docs.travis-ci.com/user/customizing-the-build/
+# Immediately exit script on first error
+set -e -o pipefail
 
-set -ev
-
-# Alternative set line:
-# Fail fast and fail hard.
-# set -eox pipefail
+# Explanation
+#
+# If a command fails, set -e will make the whole script exit, instead of
+# just resuming on the next line. If you have commands that can fail
+# without it being an issue, you can append || true or || : to suppress
+# this behavior — for example set -e followed by false || : will not
+# cause your script to terminate.
+#
+# set -o pipefail causes a pipeline (for example, curl -s
+# http://sipb.mit.edu/ | grep foo) to produce a failure return code if
+# any command errors. Normally, pipelines only return a failure if the
+# last command errors. In combination with set -e, this will make your
+# script exit if any command in a pipeline errors.
+#
+# SOURCE: https://sipb.mit.edu/doc/safe-shell/
 
 # - Customizing the Build - Travis CI
 #   DOC: https://docs.travis-ci.com/user/customizing-the-build/
@@ -106,10 +116,15 @@ echo "Using $(git --version)"
 # TODO: Testing with 'dev' branch. Once the tagging works, it should only be done on 'master'.
 # if [ "${TRAVIS_BRANCH}" == "master" ]; then
 if [ "${TRAVIS_BRANCH}" == "dev" ]; then
+
+  echo "Preparing to create a build tag on branch '${TRAVIS_BRANCH}'."
+  echo "Setting TravisCI name and email in git config."
   git config --global user.email "builds@travis-ci.org"
   git config --global user.name "Travis CI"
+
+  echo "Fetching tags from GitHub."
   git fetch --tags
-  # export GIT_TAG=build-$TRAVIS_BRANCH-$(date -u "+%Y-%m-%d")-$TRAVIS_BUILD_NUMBER
+
   export GIT_TAG="build-${TRAVIS_BUILD_NUMBER}"
   export GIT_TAG_MESSAGE="TravisCI build ${TRAVIS_BUILD_NUMBER} on branch '${TRAVIS_BRANCH}', from version: $(git describe --always --match 'v*')"
 
@@ -117,9 +132,12 @@ if [ "${TRAVIS_BRANCH}" == "dev" ]; then
   # echo -n $GIT_TAG > public/version
   # git commit -m "Set build VERSION number" public/version
 
-  git tag ${GIT_TAG} -a -m "${GIT_TAG_MESSAGE}"
+  echo "Creating annotated tag '${GIT_TAG}'"
+  echo "  with message: ${GIT_TAG_MESSAGE}"
+  git tag "${GIT_TAG}" -a -m "${GIT_TAG_MESSAGE}"
 
   # SOURCE: http://stackoverflow.com/a/13051597
+  git tag "Pushing tag '${GIT_TAG}' to GitHub."
   git push --quiet https://${GITHUB_TOKEN}@github.com/basimilch/basimilch-app ${GIT_TAG} > /dev/null 2>&1
   # git push --quiet ${GIT_TAG} > /dev/null 2>&1
 fi
