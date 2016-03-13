@@ -113,9 +113,7 @@ echo "TRAVIS_TAG = ${TRAVIS_TAG}"
 
 echo "Using $(git --version)"
 
-# TODO: Testing with 'dev' branch. Once the tagging works, it should only be done on 'master'.
-# if [ "${TRAVIS_BRANCH}" == "master" ]; then
-if [ "${TRAVIS_BRANCH}" == "dev" ]; then
+if [ "${TRAVIS_BRANCH}" == "master" ]; then
 
   echo "Preparing to create a build tag on branch '${TRAVIS_BRANCH}'."
   echo "Setting TravisCI name and email in git config."
