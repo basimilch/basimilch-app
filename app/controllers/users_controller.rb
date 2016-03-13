@@ -84,6 +84,7 @@ class UsersController < ApplicationController
     if @user.save
       @user.reload
       record_activity :create, @user
+      record_activity :new_admin_user_created, @user if @user.admin?
       flash[:success] = t('.flash.user_successfully_created',
                         id: @user.id, full_name: @user.full_name)
       redirect_to @user

@@ -139,7 +139,8 @@ module PublicActivityHelper
         [:security, :admin, :medium]
       when :user_login_all_attempts_fail
         [:security, :admin, :high]
-      when :user_promoted_from_normal_user_to_admin,
+      when :new_admin_user_created,
+           :user_promoted_from_normal_user_to_admin,
            :user_demoted_from_admin_to_normal_user
         [:security, :admin, :high]
       when :login_attempt_from_unexpected_ip
