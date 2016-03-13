@@ -12,8 +12,14 @@ before_script:
   - psql -c 'CREATE USER basimilchdbuser SUPERUSER;' -U postgres
   # SOURCE: https://docs.travis-ci.com/user/database-setup/#Using-PostgreSQL-in-your-Builds
   - psql -c 'CREATE DATABASE basimilchdb_test OWNER basimilchdbuser;' -U postgres
-after_success:
-  - ./.travis_tag.sh
+# The 'after_success', 'after_failure', 'after_script' and subsequent stages do
+# not affect the the build result.
+# DOC: https://docs.travis-ci.com/user/customizing-the-build/#Breaking-the-Build
+# To create a tag only if the build succeeded but fail the build if the tagging
+# does not work, we have to specify the 'script' step with '&&' as follows.
+# DOC: https://docs.travis-ci.com/user/customizing-the-build/#Customizing-the-Build-Step
+script:
+  - bundle exec rake && ./.travis_tag.sh
 # SOURCE: https://github.com/travis-ci/travis-ci/issues/1476#issuecomment-55614399
 # DOC: https://docs.travis-ci.com/user/customizing-the-build/#Whitelisting-or-blacklisting-branches
 branches:
