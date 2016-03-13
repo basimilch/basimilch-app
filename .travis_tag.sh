@@ -153,15 +153,17 @@ if [ "${TRAVIS_BRANCH}" == "dev" ]; then
   export GIT_DESC_BUILD="$(git describe --always --match ${LAST_BUILD_TAG})"
 
   export GIT_TAG="${LAST_VERSION_TAG}-build_${TRAVIS_BUILD_NUMBER}"
-  export GIT_TAG_MESSAGE="TravisCI build ${TRAVIS_BUILD_NUMBER} on branch '${TRAVIS_BRANCH}'. Describe from last version: ${GIT_DESC_VERSION}. Describe from last build: ${GIT_DESC_BUILD}"
+  export GIT_TAG_MESSAGE="TravisCI build ${TRAVIS_BUILD_NUMBER} on branch '${TRAVIS_BRANCH}'.
+Describe from last version: ${GIT_DESC_VERSION}.
+Describe from last build:   ${GIT_DESC_BUILD}"
 
   # TODO: Consider using this mechanism to later retrieve the version from the app.
   # echo -n $GIT_TAG > public/version
   # git commit -m "Set build VERSION number" public/version
 
   echo
-  echo "Creating annotated tag '${GIT_TAG}'"
-  echo "  with message: ${GIT_TAG_MESSAGE}"
+  echo "Creating annotated tag '${GIT_TAG}' with message:"
+  echo "${GIT_TAG_MESSAGE}"
   git tag "${GIT_TAG}" -a -m "${GIT_TAG_MESSAGE}"
   echo
 
