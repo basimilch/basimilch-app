@@ -78,9 +78,10 @@ namespace :import_csv do
 
       row['Anz. Anteilsch.'].to_i.times do |i|
         share_certificate = user.share_certificates.build do |sc|
-          sc.id       = row[%w{Anteilschein-Nr  ASN2  ASN3  ASN4  ASN5}[i]].to_i
-          sc.sent_at  = row['Wann?'] || Date.new(2015, 8, 14)
-          sc.notes    = "Importiert aus GoogleDocs am #{Time.current.to_localized_s}"
+          sc.created_at = row['Wann?'] || Date.new(2015, 8, 14)
+          sc.id         = row[%w{Anteilschein-Nr  ASN2  ASN3  ASN4  ASN5}[i]].to_i
+          sc.sent_at    = row['Wann?'] || Date.new(2015, 8, 14)
+          sc.notes      = "Importiert aus GoogleDocs am #{Time.current.to_localized_s}"
         end
         puts "           Importing: share certificate:  #{share_certificate.inspect}"
         share_certificate.save!
