@@ -73,7 +73,7 @@
     </div>
     <div class="col-lg-1 col-xs-2">
       <% if current_user_admin? %>
-        <%= f.field_for :admin %>
+        <%= f.field_for :admin, readonly: current_user?(user) %>
       <% end %>
     </div>
     <div class="col-lg-5 col-sm-4 col-xs-10">

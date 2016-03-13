@@ -379,10 +379,10 @@ class ActionView::Helpers::FormBuilder
 
       @template.content_tag :div, class: 'checkbox' do
         @template.concat( label(attribute, disabled: is_view_mode) do
-          @template.concat check_box(attribute, class:    input_class,
-                                                readonly: readonly,
-                                                disabled: is_view_mode,
-                                                checked:  value)
+          @template.concat check_box(attribute,
+                                     class:    input_class,
+                                     disabled: is_view_mode || readonly,
+                                     checked:  value)
           @template.concat label_text
         end)
       end
