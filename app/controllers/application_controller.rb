@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   include SessionsHelper
   include UsersHelper
 
-  # DOC: https://github.com/airblade/paper_trail/tree/v4.0.1#metadata-from-controllers
+  # DOC: https://github.com/airblade/paper_trail/tree/v4.1.0#metadata-from-controllers
   def info_for_paper_trail
     { request_remote_ip:  request.remote_ip,
       request_user_agent: request.user_agent }

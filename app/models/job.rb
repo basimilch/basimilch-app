@@ -11,7 +11,7 @@ class Job < ActiveRecord::Base
   MIN_JOB_DURATION = 30.minutes
   MAX_JOB_DURATION = 8.hours
 
-  # DOC: https://github.com/airblade/paper_trail/tree/v4.0.1#basic-usage
+  # DOC: https://github.com/airblade/paper_trail/tree/v4.1.0#basic-usage
   has_paper_trail ignore: [:updated_at]
 
   belongs_to :user
