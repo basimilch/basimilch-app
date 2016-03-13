@@ -44,7 +44,7 @@ de-CH:
       first_name:                 "Vorname"
       full_name:                  "Name"
       id:                         "Id"
-      last_login_at:              "Zuletzt eingelogt am"
+      last_login_at:              "Zuletzt eingeloggt am"
       last_name:                  "Nachname"
       login_code:                 "Login Code"
       map_url:                    "Karte"
@@ -162,10 +162,10 @@ de-CH:
     about_x_years:
       from_now:
         one:    "in einem Jahr"
-        other:  "in %{count} Monaten"
+        other:  "in %{count} Jahren"
       ago:
         one:    "vor einem Jahr"
-        other:  "vor %{count} Monaten"
+        other:  "vor %{count} Jahren"
 
   # Default values defined by rails-i18n gem
   # SOURCE: https://github.com/svenfuchs/rails-i18n/blob/master/rails/locale/de-CH.yml
@@ -202,8 +202,8 @@ de-CH:
     error_404:
       title: "Hier gibt's nichts"
       message_html: >
-        Leider existiert diese Seite nicht bei uns. Wenn das seltsam für
-        dich ist, melde es uns bitte auf
+        Leider existiert diese Seite nicht bei uns. Sollte es sich um einen
+        Fehler unsererseits handeln, melde es uns bitte auf
         <code><a href="mailto:meine@basimil.ch">meine@basimil.ch</a></code>.
         Ansonsten gehe <span onclick="javascript:history.back()">zurück</span>
         oder zum <a href="/">Anfang</a>.
@@ -212,20 +212,20 @@ de-CH:
       message_html: >
         Das war gar nicht vorgesehen... Ein Fehler ist aufgetreten. Gehe bitte
         <span onclick="javascript:history.back()">zurück</span>
-        und versuch es erneut. Wenn der Fehler mehrmals auftritt, melde es uns
+        und versuche es erneut. Wenn der Fehler mehrmals auftritt, melde es uns
         bitte auf <code><a href="mailto:meine@basimil.ch">meine@basimil.ch</a></code>.
     messages:
       at_least_one_tel: "Mindestens eine Telefonnummer muss ausgefüllt werden"
       unrecornised_postal_address: "Postadresse nicht erkannt"
       uncomplete_postal_address: "Postadresse unvollständig"
       unrecornised_and_replaced: "\"%{original}\" wurde mit \"%{corrected}\" ersetzt"
-      user_not_found: "Genossenschafter mit id '%{id}' nicht gefunden!"
+      user_not_found: "Genossenschafter_in mit id '%{id}' nicht gefunden!"
       job_type_not_found: "Tätigkeit mit id '%{id}' nicht gefunden!"
       job_does_not_accept_signups: >
         Es ist nicht mehr möglich, sich für diesen Einsatz anzumelden.
       job_end_must_be_after_start: "muss nach der Startzeit sein"
       job_end_must_be_between_30min_and__after_start: >
-        "muss zwischen 30 Minuten und 8 Sunden nach der Startzeit sein"
+        "muss zwischen 30 Minuten und 8 Stunden nach der Startzeit sein"
 
 
   # Models
@@ -270,7 +270,6 @@ de-CH:
       single_page:
         zero:  "Keine %{model} gefunden"
         one:   "Ein %{model} angezeigt"
-        other: "Displaying all %{count} %{model}"
         other: "Alle %{count} %{model} angezeigt"
       single_page_html:
         zero:  "Keine %{model} gefunden"
@@ -301,7 +300,7 @@ de-CH:
           users_pending_activation:  "Nie eingeloggt"
           users_inactive:       "Inaktiv"
           users_stale:          "Verschwunden"
-          users_without_tel:    "Ohne Telefon"
+          users_without_tel:    "Ohne Telefonnr."
           users_without_email:  "Ohne E-Mail-Adresse"
           share_certificates:   "Anteilscheine"
           new_user:             "Neue_r Genossenschafter_in"
@@ -310,7 +309,7 @@ de-CH:
         depots_menu:
           depots: "Depots"
           show_all_depots: "Alle"
-          new_depot: "Neues Depots"
+          new_depot: "Neues Depot"
         jobs_menu:
           jobs: "Mitarbeit"
           all_job_types: "Tätigkeiten"
@@ -321,7 +320,6 @@ de-CH:
   forms:
     login:
       request_login_code: Login-Code anfordern
-      # remember_me_on_this_computer: "Angemeldet bleiben"
     login_code:
       login: "Einloggen"
 
@@ -348,15 +346,15 @@ de-CH:
       no_users_found: "Keine Genossenschafter_innen gefunden."
     show:
       title: "Dein Profil"
-      send_activation_email: "Aktivierungsmail schicken"
-      send_activation_email_again: "Aktivierungsmail nochmals schicken"
+      send_activation_email: "Aktivierungsmail senden"
+      send_activation_email_again: "Aktivierungsmail nochmals senden"
       activation_already_sent_at: "Aktivierungsmail bereits am %{sent_at} gesendet."
       activation_not_yet_sent: "Dieser Genossenschafter ist noch nicht aktiv."
       show_postal_address_on_map: "Postadresse auf der Karte anzeigen"
       flash:
         user_not_found: "Genossenschafter mit id '%{id}' nicht gefunden!"
       share_certificates_title: "Anteilscheine"
-      no_share_certificates: "Es gibt keine Anteilscheine für diesen Benutzerkonto registriert."
+      no_share_certificates: "Es gibt keine Anteilscheine für diese_n Genossenschafter_in."
       add_new_share_certificate_for_user: "Anteilschein registrieren"
       job_overview_title: Mitarbeit-Konto
     create:
@@ -375,11 +373,11 @@ de-CH:
       update_ok: "Dein Profil wurde aktualisiert."
     activate:
       account_activated_and_email_successfully_sent: >
-        Das Benutzerkonto wurde aktiviert und eine Benachrichtigung wurde an
-        <code>%{email}</code> gerade geschickt.
+        Das Benutzerkonto wurde aktiviert und eine Benachrichtigung wurde gerade an
+        <code>%{email}</code> geschickt.
     form:
       signup:                "Anmelden"
-      create_new_user:       "Neuen Genossenschafter anmelden"
+      create_new_user:       "Neue_n Genossenschafter_in anmelden"
       update_user_profile:   "Genossenschafterprofil aktualisieren"
       required_field:        "Pflichtfeld"
       terms_of_service_checkbox_label_html: >
@@ -391,9 +389,9 @@ de-CH:
       terms_of_service_for_other_user_checkbox_label_html: >
         Um Genosschenschafter_in zu werden, wurde die Person über die
         <strong><a target="_blank" href="%{articles_of_association_url}">Statuten</a></strong>
-        und den
+        und das
         <strong><a target="_blank" href="%{regulations_url}">Betriebsreglement</a></strong>
-        entsprechend informiert und erklärt sich damit einverstanden.
+        entsprechend informiert und die Person erklärt sich damit einverstanden.
       confirm_signup_msg: >
         DIESE ANMELDUNG IST VERBINDLICH! Wir werden in den kommenden Tagen die
         gewählte Anzahl an Anteilscheine erstellen und umgehend per Post an die
@@ -449,67 +447,53 @@ de-CH:
       create:
         <<: *signups_dictionary
 
-  password_resets:
-    new:
-      title: "Passwort zurücksetzen"
-      submit: "Absenden"
-    create:
-      email_sent_with_password_reset_instructions: "Schaue in deinem Posteingang nach, um dein Passwort zurückzusetzen."
-      email_address_not_found: "Diese E-Mail-Adresse wurde nicht gefunden."
-    edit:
-      title: "Passwort zurücksetzen"
-      valid_password_reset_link: "Der Link ist gültig."
-      update_password: "Passwort aktualisieren"
-    update:
-      password_has_been_reset: "Passwort aktualisiert."
-
   sessions:
     validation:
       title: "Einloggen"
       login_code_email_sent_html: >
-        Ein Login-Code wurde gerade auf deine E-Mail-Adresse
+        Ein Login-Code wurde gerade an deine E-Mail-Adresse
         <code>%{email}</code> geschickt.
       first_login_attempt_html: >
         <strong>Willkommen!</strong> Eine gute Nachricht: für unsere (und
-        jetzt auch deine) online Platform musst du keine Benutzernamen oder
-        Passwörter dir merken. Wenn du dich einloggen möchtest, schicken wir
-        dir einen einmaligen Login-Code auf deine E-Mail-Adresse
-        <code>%{email}</code>. Wenn das dein Computer ist, brauchst du dich
-        nicht auszuloggen, so dass du das nächste mal direkt reinkommst.
+        jetzt auch deine) online Platform musst du dir weder Benutzername noch
+        Passwort merken. Wenn du dich einloggen möchtest, schicken wir
+        dir einen einmaligen Login-Code an deine E-Mail-Adresse
+        <code>%{email}</code>. <strong>Wenn das dein Computer ist, brauchst du dich
+        nicht auszuloggen, so dass du das nächste Mal direkt reinkommst.</strong>
       user_not_found: >
-        Dieser E-Mail-Adresse ist uns unbekannt. Wenn das kein Sinn für dich
-        macht, schreib bitte uns auf
+        Diese E-Mail-Adresse ist uns unbekannt. Wenn es sich um einen Fehler
+        unsererseits handelt, schreibe uns bitte auf
         <code><a href="mailto:meine@basimil.ch">meine@basimil.ch</a></code>.
       user_inactive: >
-        Der Benutzer mit dieser E-Mail-Adresse ist zwar angemeldet, aber noch
-        nicht aktiviert. Wenn das kein Sinn für dich macht, schreib bitte uns
-        auf <code><a href="mailto:meine@basimil.ch">meine@basimil.ch</a></code>.
+        Der Benutzer mit dieser E-Mail-Adresse ist zwar angemeldet, aber noch nicht
+        aktiviert. Wenn es sich um einen Fehler unsererseits handelt, schreibe uns bitte auf
+        <code><a href="mailto:meine@basimil.ch">meine@basimil.ch</a></code>.
     create: &sessions_create
       first_login_successful_html: >
         <strong>Willkommen!</strong> Du hast dich richtig eingeloggt. Das ist
-        dein Benutzerprofil. Wenn du mal fragen zur Plaform hast, schreib
-        bitte uns auf
+        dein Benutzerprofil. Wenn du Fragen zur Plaform hast, schreibe
+        uns bitte auf
         <code><a href="mailto:meine@basimil.ch">meine@basimil.ch</a></code>.
       not_the_expected_ip_address: >
-        Oups, die IP-Adresse stimmt nicht überein, mit der, die ich mir gemerkt
-        hatte. Versuch es bitte noch Mal. Wenn das sich wiederholt, schreib
-        bitte uns auf <code><a href="mailto:meine@basimil.ch">meine@basimil.ch</a></code>.
+        Oups, deine IP-Adresse hat sich mittlerweile geändert, was unerwartet ist.
+        Versuch es bitte nochmals. Wenn das Problem wieder auftritt, schreibe
+        uns bitte auf <code><a href="mailto:meine@basimil.ch">meine@basimil.ch</a></code>.
       login_code_expired: >
         Der Login-Code ist abgelaufen. Login-Codes sind nur
         %{login_code_validity} gültig.
       wrong_login_code: >
-        Der Login-Code ist nicht richtig. Du kannst noch
-        %{remaining_attempts} Mal versuchen.
+        Der Login-Code ist nicht richtig. Du hast noch
+        %{remaining_attempts} Versuche.
       wrong_login_code_no_more_attempts: >
-        Der Login-Code ist nicht richtig. Gib bitte deine E-Mail erneut ein, um
+        Der Login-Code ist nicht richtig. Gib bitte deine E-Mail-Adresse erneut ein, um
         einen neuen Code anzufordern.
       email_not_found_in_session: >
-        Dieser Login-Code ist nicht gültig auf diesem Browser. Du kannst nur
-        einloggen im gleichem Browser, aus dem du den Code angefordert hast.
+        Dieser Login-Code ist nicht gültig auf diesem Browser. Du kannst dich nur
+        auf dem gleichen Browser einloggen, von dem du den Code angefordert hast.
       weird_login_problem: >
-        Oups. Es gibt ein Problem und du könntest nicht eingeloggt werden.
-        Starte dieses (oder ein anderes) Browser erneut und versuch es bitte
-        noch Mal. Wenn das sich wiederholt, schreib bitte uns auf
+        Oups. Es ist ein Problem aufgetreten und dein Login hat nicht funktioniert.
+        Starte diesen (oder einen anderen) Browser erneut und versuche es bitte
+        nochmals. Wenn das Problem wieder auftritt, schreibe uns bitte auf
         <code><a href="mailto:meine@basimil.ch">meine@basimil.ch</a></code>.
     create_from_url: *sessions_create
 
@@ -519,26 +503,25 @@ de-CH:
     validation:
       title: "Validierung der E-Mail-Adresse"
       description_html: >
-        Wir haben dir einen Validierungscode auf deine E-Mail-Adresse
-        <code>%{email}</code>
-        gerade geschickt.
+        Wir haben dir gerade einen Validierungscode an deine E-Mail-Adresse
+        <code>%{email}</code> geschickt.
     create:
       title: "Anmeldung erfolgreich"
       description_html: >
-          Vielen Dank für dein Interesse an unsere (hoffentlich bald
-          auch deine) Genossenschaft! Deine Anmeldung haben wir
-          richtig empfangen und wir haben dir eine Bestätigungsemail
-          geschickt. Bald wirdst du von uns hören! Wenn die Anmeldung
-          abgeschlossen wird und die Anteilscheine bezahlt sind, wirst
-          du Zugang auf diese Plattform bekommen, um deine Daten und
-          dein Abo zu verwalten, und um ab 2016 auch dich für
-          Milarbeitjobs anzumelden. Du kannst uns jederzeit unter
+          Vielen Dank für dein Interesse an unserer (hoffentlich bald
+          auch deiner) Genossenschaft! Wir haben deine Anmeldung
+          erhalten und dir eine Bestätigungsemail geschickt. <strong>Bald
+          wirst du die Anteilscheine per Post erhalten! Die Anmeldung
+          wird mit der Bezahlung der Anteilscheine abgeschlossen.</strong> Dann
+          wird dein Zugang für diese Plattform freigeschaltet, wo du
+          deine Daten und dein Abo verwalten und dich für Einsätze
+          anmelden kannst. Du kannst uns jederzeit unter
           <a href="mailto:info@basimil.ch">info@basimil.ch</a> erreichen
           und alle Informationen über die Genossenschaft auf
           <a href="http://basimil.ch">basimil.ch</a> finden.
       wrong_email_validation_code: "Der Code ist nicht gültig."
       unable_to_create_user: >
-        Ein Fehler ist aufgetretten! Versuch dich nochmal erneut anzumelden.
+        Ein Fehler ist aufgetreten! Versuche dich erneut anzumelden.
 
   user_mailer:
     account_activation:
@@ -596,7 +579,7 @@ de-CH:
       job_type: Tätigkeit
       contact_user: Ansprechperson
       signup_for_job: Ich melde mich an
-      signup_other_users_for_job: Andere Benutzer Anmelden
+      signup_other_users_for_job: Andere Benutzer anmelden
       signup_other_users_placeholder: Namen eingeben
       job_is_full: "Der Einsatz ist ausgebucht, danke!"
       signup_confirmation_message: >
@@ -607,12 +590,12 @@ de-CH:
         Du bist für diesen Einsatz angemeldet.
       current_user_signed_up: >
         Du bist bereits für diesen Einsatz angemeldet. Wenn du weitere
-        Personen eintragen möchstest, kannst du dich nochmals
+        Personen unter deinem Namen eintragen möchstest, kannst du dich nochmals
         anmelden.
       job_is_in_the_past: Der Einsatz ist bereits vorbei.
       no_typeahead_user_suggestions_found: Keine Benutzer gefunden
     form:
-      select_number_of_slots: "Einzahl Plätze auswählen"
+      select_number_of_slots: "Anzahl Plätze auswählen"
       select_job_coordinator: "Einsatzkoordinator_in auswählen"
       no_job_type: "Freier Einsatz"
       frequencies:
