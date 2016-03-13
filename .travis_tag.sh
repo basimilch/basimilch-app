@@ -152,7 +152,9 @@ if [ "${TRAVIS_BRANCH}" == "master" ]; then
   export GIT_DESC_VERSION="$(git describe --always --match ${LAST_VERSION_TAG})"
   export GIT_DESC_BUILD="$(git describe --always --match ${LAST_BUILD_TAG})"
 
-  export GIT_TAG="${LAST_VERSION_TAG}-build_${TRAVIS_BUILD_NUMBER}"
+  export TRAVIS_BUILD_NUMBER_PADDED="$(printf '%04d' ${TRAVIS_BUILD_NUMBER})"
+
+  export GIT_TAG="${LAST_VERSION_TAG}-build_${TRAVIS_BUILD_NUMBER_PADDED}"
   export GIT_TAG_MESSAGE="TravisCI build ${TRAVIS_BUILD_NUMBER}
 
 Built on travis-ci.org from '${TRAVIS_BRANCH}' branch.
