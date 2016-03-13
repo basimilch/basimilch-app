@@ -128,27 +128,45 @@ if [ "${TRAVIS_BRANCH}" == "dev" ]; then
 
   echo "Visible tags:"
   git log --pretty=tformat:"%h %ad %d" --date=relative --simplify-by-decoration
+  echo
 
-  echo "$ git describe --always --match 'v*'"
-  git describe --always --match 'v*'
+  echo "$ git tag"
+  git tag
+  echo
+
+  LAST_VERSION_TAG="$(git tag | grep 'v' | grep -v 'build' | sort | tail -1)"
+  echo "LAST_VERSION_TAG = ${LAST_VERSION_TAG}"
+
+  LAST_BUILD_TAG="$(git tag | grep 'build' | sort | tail -1)"
+  echo "LAST_BUILD_TAG = ${LAST_BUILD_TAG}"
+
+  echo "$ git describe --always --match ${LAST_VERSION_TAG}"
+  git describe --always --match ${LAST_VERSION_TAG}
+  echo "$ git describe --always --match ${LAST_BUILD_TAG}"
+  git describe --always --match ${LAST_BUILD_TAG}
   echo "$ git describe --always"
   git describe --always
-  echo "$ git describe # Expected to fail if no tags are pulled, and the build should break."
+  echo "$ git describe # Expected to fail if no tags are pulled, breaking the build."
   git describe
 
-  export GIT_TAG="build-${TRAVIS_BUILD_NUMBER}"
-  export GIT_TAG_MESSAGE="TravisCI build ${TRAVIS_BUILD_NUMBER} on branch '${TRAVIS_BRANCH}', from version: $(git describe --always --match 'v*')"
+  export GIT_DESC_VERSION="$(git describe --always --match ${LAST_VERSION_TAG})"
+  export GIT_DESC_BUILD="$(git describe --always --match ${LAST_BUILD_TAG})"
+
+  export GIT_TAG="${LAST_VERSION_TAG}-build_${TRAVIS_BUILD_NUMBER}"
+  export GIT_TAG_MESSAGE="TravisCI build ${TRAVIS_BUILD_NUMBER} on branch '${TRAVIS_BRANCH}'. Describe from last version: ${GIT_DESC_VERSION}. Describe from last build: ${GIT_DESC_BUILD}"
 
   # TODO: Consider using this mechanism to later retrieve the version from the app.
   # echo -n $GIT_TAG > public/version
   # git commit -m "Set build VERSION number" public/version
 
+  echo
   echo "Creating annotated tag '${GIT_TAG}'"
   echo "  with message: ${GIT_TAG_MESSAGE}"
   git tag "${GIT_TAG}" -a -m "${GIT_TAG_MESSAGE}"
+  echo
 
   # SOURCE: http://stackoverflow.com/a/13051597
   echo "Pushing tag '${GIT_TAG}' to GitHub."
   git push --quiet https://${GITHUB_TOKEN}@github.com/basimilch/basimilch-app ${GIT_TAG} > /dev/null 2>&1
-  # git push --quiet ${GIT_TAG} > /dev/null 2>&1
+  echo
 fi
