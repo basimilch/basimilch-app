@@ -67,7 +67,7 @@ class UsersController < ApplicationController
   def profile_update
     @user = User.find(current_user.id)
     if @user.update_attributes(user_params)
-      record_activity :update, @user
+      record_update_activities @user
       flash_t :success, :update_ok
       redirect_to profile_path
     else
@@ -98,7 +98,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update_attributes(user_params)
-      record_activity :update, @user
+      record_update_activities @user
       flash[:success] = t('.flash.user_updated')
       redirect_to @user
     else
@@ -125,5 +125,15 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
       # TODO: Consider returning a 403 or 404 instead of redirecting to root.
       redirect_to(root_url) unless (current_user?(@user) || current_user.admin?)
+    end
+
+    def record_update_activities(user)
+      record_activity :update, user
+      return unless user.admin_changed?
+      if admin?
+        record_activity :user_promoted_from_normal_user_to_admin, user
+      else
+        record_activity :user_demoted_from_admin_to_normal_user, user
+      end
     end
 end
