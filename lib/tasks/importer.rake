@@ -46,6 +46,8 @@ namespace :import_csv do
       if args.begin_from_id
         next if row['Mitglieder-Nr.'].to_i < args.begin_from_id.to_i
       end
+      # Wait a bit to prevent reaching quota limit from Google Geocoding API
+      sleep 0.5
       user = User.new do |u|
         u.id              = row['Mitglieder-Nr.'].to_i
         u.first_name      = sanitize_string row['Vorname']
