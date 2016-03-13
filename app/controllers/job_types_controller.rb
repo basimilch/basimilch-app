@@ -1,7 +1,7 @@
 class JobTypesController < ApplicationController
 
   before_action :require_logged_in_user
-  before_action :admin_user,  except: [:index, :show]
+  before_action :admin_user
   before_action :set_job_type, only: [:show, :edit, :update, :destroy]
 
   # GET /job_types

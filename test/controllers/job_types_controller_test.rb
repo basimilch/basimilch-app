@@ -7,8 +7,13 @@ class JobTypesControllerTest < ActionController::TestCase
     @job_type = job_types(:one)
   end
 
-  test "should get index" do
-    assert_protected_get :index, login_as: @user
+  test "admin should get index" do
+    assert_admin_protected_get :index, login_as: @admin_user
+    assert_response :success
+  end
+
+  test "non admin should not get index" do
+    assert_admin_protected_get :index, login_as: @user
     assert_response :success
   end
 
@@ -49,8 +54,15 @@ class JobTypesControllerTest < ActionController::TestCase
     end
   end
 
-  test "user should show job_type" do
-    assert_protected login_as: @user do
+  test "admin should show job_type" do
+    assert_admin_protected login_as: @admin_user do
+      get :show, id: @job_type
+    end
+    assert_response :success
+  end
+
+  test "non admin should not show job_type" do
+    assert_admin_protected login_as: @user do
       get :show, id: @job_type
     end
     assert_response :success
