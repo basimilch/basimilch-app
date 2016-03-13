@@ -133,9 +133,11 @@ if [ "${TRAVIS_BRANCH}" == "master" ]; then
   echo
 
   LAST_VERSION_TAG="$(git tag | grep 'v' | grep -v 'build' | sort | tail -1)"
+  LAST_VERSION_TAG="${LAST_VERSION_TAG:-$(git rev-list HEAD | tail -1 | head -c7)}"
   echo "LAST_VERSION_TAG = ${LAST_VERSION_TAG}"
 
   LAST_BUILD_TAG="$(git tag | grep 'build' | sort | tail -1)"
+  LAST_BUILD_TAG="${LAST_BUILD_TAG:-${LAST_VERSION_TAG}}"
   echo "LAST_BUILD_TAG = ${LAST_BUILD_TAG}"
 
   echo "$ git describe --always --match ${LAST_VERSION_TAG}"
