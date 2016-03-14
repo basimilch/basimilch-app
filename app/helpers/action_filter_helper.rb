@@ -47,7 +47,7 @@ module ActionFilterHelper
     raise ArgumentError, "domain must be provided" if domain.blank?
     referer_url = request.env['HTTP_REFERER']
     referer_regexp = Regexp.new("^https?://([^/]+\\.)?#{domain}(?:/.*)?")
-    if referer_url.blank? || referer_url.match(referer_regexp)
+    if referer_url.blank? || !referer_url.match(referer_regexp)
       logger.warn "HTTP_REFERER '#{referer_url.inspect}' does not match" +
                   " domain '#{domain}'" +
                   " (Request from IP #{request.remote_ip.inspect}.)"
