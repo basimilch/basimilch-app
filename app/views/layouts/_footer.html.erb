@@ -1,18 +1,20 @@
 <footer class="footer">
-  <small>
-    Done after learning with the awesome
-    <%= link_to "Ruby on Rails Tutorial",
-                'http://www.railstutorial.org/',
-                target: '_blank'%>
-    by
-    <%= link_to "Michael Hartl",
-                'http://www.michaelhartl.com/',
-                target: '_blank'%>
-    :)
-    <span class="ip_address_footnote">
-      You are connecting form <%= request.remote_ip.inspect %>
-    </span>
-  </small>
+  <% if Rails.env.development? %>
+    <small>
+      Done after learning with the awesome
+      <%= link_to "Ruby on Rails Tutorial",
+                  'http://www.railstutorial.org/',
+                  target: '_blank'%>
+      by
+      <%= link_to "Michael Hartl",
+                  'http://www.michaelhartl.com/',
+                  target: '_blank'%>
+      :)
+      <span class="ip_address_footnote">
+        You are connecting from <%= request.remote_ip.inspect %>
+      </span>
+    </small>
+  <% end %>
   <nav>
     <ul>
       <li>
