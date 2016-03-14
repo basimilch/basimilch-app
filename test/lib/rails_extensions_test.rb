@@ -4,12 +4,14 @@ require 'test_helper'
 class RailsExtentionsTest < ActionController::TestCase
 
   def setup
-    @some_hash = {a: 1, inner_hash: { 'b' => 2, c: 3 } }
+    @some_hash = {a: 1, some_str: "a string", inner_hash: { 'b' => 2, c: 3 } }
   end
 
   test "should get index" do
     assert_equal nil,                     {}.get(:a)
     assert_equal nil,                     @some_hash.get(:a, :b)
+    assert_equal "a string",              @some_hash.get(:some_str)
+    assert_equal nil,                     @some_hash.get(:some_str, :not_found)
     assert_equal nil,                     @some_hash.get(:a, :b, :c)
     assert_equal 1,                       @some_hash.get(:a)
     assert_equal @some_hash[:inner_hash], @some_hash.get(:inner_hash)
@@ -23,12 +25,13 @@ class RailsExtentionsTest < ActionController::TestCase
     # NOTE: If the hash is the first value, the parenthesis are needed.
     # SOURCE: http://stackoverflow.com/a/5657827
     assert_equal({ 'b' => 2, c: 3 },                      h.pop(:inner_hash))
-    assert_equal({ a: 1 } ,                               h)
-    assert_equal({a: 1, inner_hash: { 'b' => 2, c: 3 } }, @some_hash)
+    assert_equal({ a: 1, some_str: "a string" } ,         h)
+    assert_equal({a: 1, some_str: "a string", inner_hash: { 'b' => 2, c: 3 } },
+                                                          @some_hash)
     assert_equal(nil,                                     h.pop(:inner_hash))
-    assert_equal({ a: 1 } ,                               h)
+    assert_equal({ a: 1, some_str: "a string" } ,         h)
     assert_equal(nil,                                     h.pop(nil))
-    assert_equal({ a: 1 } ,                               h)
+    assert_equal({ a: 1, some_str: "a string" } ,         h)
   end
 
   test "should be able to merge hashes with + operator" do

@@ -6,10 +6,12 @@ class Hash
 
   # Returns the value given a path of keys, without failing.
   # Inspired from: http://stackoverflow.com/a/10131410
+  # NOTE: In ruby v2.3 there is the equivalent method Hash#dig (we use v2.2.4)
+  # DOC: http://ruby-doc.org/core-2.3.0_preview1/Hash.html#method-i-dig
   def get(*args)
     res = self
     args.each do |k|
-      if res.try('include?',k)
+      if res.is_a?(Hash) && res.include?(k)
         res = res[k]
       else
         return nil
