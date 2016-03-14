@@ -352,7 +352,8 @@ class ActionView::Helpers::FormBuilder
                                                      : false
     value         = options.include?(:value) ? options[:value]
                                              : object.try(attribute)
-    hint          = options[:hint]
+    hint_text     = options.get(:hint, :text) || options[:hint]
+    hint_hidden   = options.get(:hint, :hidden).to_b
 
     if @object
       label_text  ||= @object.class.human_attribute_name(attribute)
@@ -416,12 +417,12 @@ class ActionView::Helpers::FormBuilder
                                             autofocus:   options[:autofocus],
                                             disabled:    is_view_mode)
         end
-        unless hint.blank?
+        unless hint_text.blank?
           classes = 'help-block'
-          classes << ' hidden' if hint[:hidden].to_b
+          classes << ' hidden' if hint_hidden
           @template.concat(@template.content_tag(:span, class: classes,
             id: "hint-for-#{attribute.to_s}") do
-            hint[:text]
+            hint_text
           end)
         end
       end

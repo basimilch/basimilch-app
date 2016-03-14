@@ -106,7 +106,7 @@
   <%= form_for(@job) do |f| %>
     <div class="row">
       <div class="col-sm-12">
-        <%= f.field_for :notes %>
+        <%= f.field_for :notes, hint: t('.notes_hint') %>
       </div>
     </div>
     <div class="row">
