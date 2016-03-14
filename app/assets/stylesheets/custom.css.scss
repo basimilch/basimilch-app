@@ -370,6 +370,12 @@ form {
       margin-top: 7px;
     }
   }
+  .form-group {
+    .help-block {
+      font-style: italic;
+      font-size: .9em;
+    }
+  }
 }
 
 // NOTE: Do not group these rules. Instead, make a separate rule for
