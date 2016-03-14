@@ -464,7 +464,7 @@ module Kernel
   def byebug
     msg = "Debugger used in #{caller[0]} by #{binding.receiver}".red
     raise msg if Rails.env.test?
-    logger.warn msg
+    logger.warn msg if defined? logger
     Byebug.attach if Rails.env.development?
   end
 
