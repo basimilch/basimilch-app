@@ -13,6 +13,8 @@ Geocoder.configure(
   # Terms of Service: http://code.google.com/apis/maps/terms.html#section_10_12
   lookup:     :google,     # Geocoder's default
 
+  google: { api_key: ENV['GOOGLE_MAPS_GEOCODING_API_KEY'] },
+
   # IP address geocoding service:
 
   # DOC: https://github.com/fiorix/freegeoip/blob/master/README.md
