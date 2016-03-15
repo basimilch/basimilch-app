@@ -14,9 +14,13 @@
   <% end %>
   <td>
     <% if user.admin? %>
-      <span class="glyphicon glyphicon-star user-badge-admin" aria-hidden="true" title="Admin"></span>
+      <%= link_to users_path(view: :admins) do %>
+        <span class="glyphicon glyphicon-star user-badge-admin" aria-hidden="true" title="Admin"></span>
+      <% end %>
     <% elsif user.with_intern_email? %>
-      <span class="glyphicon glyphicon-star-empty user-badge-with-internal-email" aria-hidden="true" title="With intern email"></span>
+      <%= link_to users_path(view: :with_intern_email) do %>
+        <span class="glyphicon glyphicon-star-empty user-badge-with-internal-email" aria-hidden="true" title="With intern email"></span>
+      <% end %>
     <% end %>
   </td>
   <td>
