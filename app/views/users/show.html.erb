@@ -3,27 +3,29 @@
 <% else %>
   <% provide(:title, "#{@user.full_name}") %>
 <% end %>
-<div class="row">
-  <div class="col-md-3 col-md-offset-6 col-sm-8">
-    <% if @user.geocoded? %>
-      <%= link_to t('.show_postal_address_on_map'),
-                  @user.postal_address_map_url,
-                  target: '_blank',
-                  class: 'btn btn-link' %>
-    <% end %>
+<% if current_user.admin? %>
+  <div class="row">
+    <div class="col-md-3 col-md-offset-6 col-sm-8">
+      <% if @user.geocoded? %>
+        <%= link_to t('.show_postal_address_on_map'),
+                    @user.postal_address_map_url,
+                    target: '_blank',
+                    class: 'btn btn-link' %>
+      <% end %>
+    </div>
+    <div class="col-md-3 col-sm-4">
+      <% if !@user.activated? %>
+        <%= button_to t(@user.activation_sent_at ?
+                          '.send_activation_email_again' :
+                          '.send_activation_email'),
+                      { controller: :users,
+                        action:     :activate,
+                        id:         @user.id},
+                      { class:  "btn btn-success" } %>
+      <% end %>
+    </div>
   </div>
-  <div class="col-md-3 col-sm-4">
-    <% if !@user.activated? %>
-      <%= button_to t(@user.activation_sent_at ?
-                        '.send_activation_email_again' :
-                        '.send_activation_email'),
-                    { controller: :users,
-                      action:     :activate,
-                      id:         @user.id},
-                    { class:  "btn btn-success" } %>
-    <% end %>
-  </div>
-</div>
+<% end %>
 
 <%= render 'form', user: @user, view_mode: true %>
 
