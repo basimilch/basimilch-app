@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
   # DOC: https://github.com/chaps-io/public_activity/tree/v1.4.1
   include PublicActivity::Common
 
+  INTERN_EMAIL_DOMAIN = '@basimil.ch'
+
   # DOC: https://github.com/airblade/paper_trail/tree/v4.1.0#basic-usage
   has_paper_trail ignore: [:updated_at, :last_seen_at]
 
@@ -12,7 +14,9 @@ class User < ActiveRecord::Base
 
   scope :by_name, -> { order(last_name: :asc).order(id: :asc) }
   scope :by_id, -> { order(id: :asc) }
-  scope :admins, -> { by_name.where(admin: true).order(:last_name) }
+  scope :admins, -> { by_name.where(admin: true) }
+  scope :with_intern_email, -> { by_name.where('email ILIKE ?',
+                                               '%' + INTERN_EMAIL_DOMAIN) }
   # DOC: http://www.informit.com/articles/article.aspx?p=2220311
   scope :working_tomorrow, -> { by_name.joins(:jobs).merge(Job.tomorrow).distinct }
   scope :emails, -> { pluck(:email) }
