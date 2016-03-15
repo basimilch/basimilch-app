@@ -1,5 +1,11 @@
 # Source: http://drawingablank.me/blog/ruby-boolean-typecasting.html
 
+class Object
+  def to_b
+    true
+  end
+end
+
 class String
   def to_b
     return true if self == true ||
@@ -20,15 +26,25 @@ class Fixnum
 end
 
 class TrueClass
-  def to_i; 1; end
-  def to_b; self; end
+  def to_i
+    1
+  end
+  def to_b
+    self
+  end
 end
 
 class FalseClass
-  def to_i; 0; end
-  def to_b; self; end
+  def to_i
+    0
+  end
+  def to_b
+    self
+  end
 end
 
 class NilClass
-  def to_b; false; end
+  def to_b
+    false
+  end
 end
