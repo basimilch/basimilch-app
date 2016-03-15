@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   include PublicActivity::Common
 
   INTERN_EMAIL_DOMAIN = '@basimil.ch'
+  INTERN_EMAIL_DOMAIN_REGEXP = Regexp.new("^.*#{INTERN_EMAIL_DOMAIN}$")
 
   # DOC: https://github.com/airblade/paper_trail/tree/v4.1.0#basic-usage
   has_paper_trail ignore: [:updated_at, :last_seen_at]
@@ -324,6 +325,10 @@ class User < ActiveRecord::Base
 
   def stale?
     last_seen_at && last_seen_at < STALE_THRESHOLD
+  end
+
+  def with_intern_email?
+    email.match(INTERN_EMAIL_DOMAIN_REGEXP).to_b
   end
 
   def set_password(params_arg)
