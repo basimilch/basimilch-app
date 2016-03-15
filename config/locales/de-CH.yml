@@ -614,5 +614,6 @@ de-CH:
       user_not_found: "Genossenschafter mit id '%{id}' nicht gefunden!"
 
     user_overview:
+      done: Erledigt
       open_slot: Noch offen
 

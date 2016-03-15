@@ -108,4 +108,15 @@ module ApplicationHelper
       v
     end
   end
+
+  def icon(icon_name, label = nil)
+    content_tag :span, class: "icon-container" do
+      concat(content_tag :span, nil, {
+          class: "glyphicon glyphicon-#{icon_name.to_s.dasherize}",
+          "aria-hidden" => true
+        })
+      concat(label.to_s) if label
+      yield if block_given?
+    end
+  end
 end
