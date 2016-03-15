@@ -108,40 +108,46 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
   test "login audit dates" do
     first_point_in_time = Time.new(2010, 12, 31, 14, 35, 45)
     travel_to first_point_in_time do
-      get login_path
-      assert_nil @user.last_seen_at
-      assert_nil @user.remembered_since
-      fixture_log_in(@user, secure_computer_acknowledged: '1')
-      assert_redirected_to root_path
-      follow_redirect!
-      assert_redirected_to jobs_path
-      follow_redirect!
-      assert_template 'jobs/index'
-      assert_not_nil cookies['remember_token']
-      @user.reload
-      assert_equal Time.current, @user.last_seen_at
-      assert_equal Time.current, @user.remembered_since
+      assert_difference '@user.seen_count', 3 do
+        get login_path
+        assert_nil @user.last_seen_at
+        assert_nil @user.remembered_since
+        fixture_log_in(@user, secure_computer_acknowledged: '1')
+        assert_redirected_to root_path
+        follow_redirect!
+        assert_redirected_to jobs_path
+        follow_redirect!
+        assert_template 'jobs/index'
+        assert_not_nil cookies['remember_token']
+        @user.reload
+        assert_equal Time.current, @user.last_seen_at
+        assert_equal Time.current, @user.remembered_since
+      end
     end
     second_point_in_time = first_point_in_time + 10.minutes
     travel_to second_point_in_time do
-      @user.reload
-      assert_equal first_point_in_time, @user.last_seen_at
-      assert_equal first_point_in_time, @user.remembered_since
-      get root_path
-      @user.reload
-      assert_equal Time.current, @user.last_seen_at
-      assert_equal first_point_in_time, @user.remembered_since
-      assert_not_nil cookies['remember_token']
+      assert_difference '@user.seen_count', 1 do
+        @user.reload
+        assert_equal first_point_in_time, @user.last_seen_at
+        assert_equal first_point_in_time, @user.remembered_since
+        get root_path
+        @user.reload
+        assert_equal Time.current, @user.last_seen_at
+        assert_equal first_point_in_time, @user.remembered_since
+        assert_not_nil cookies['remember_token']
+      end
     end
     third_point_in_time = second_point_in_time + 5.minutes
     travel_to third_point_in_time do
-      @user.reload
-      assert_equal second_point_in_time, @user.last_seen_at
-      assert_equal first_point_in_time, @user.remembered_since
-      delete logout_path
-      @user.reload
-      assert_equal Time.current, @user.last_seen_at
-      assert_nil @user.remembered_since
+      assert_difference '@user.seen_count', 1 do
+        @user.reload
+        assert_equal second_point_in_time, @user.last_seen_at
+        assert_equal first_point_in_time, @user.remembered_since
+        delete logout_path
+        @user.reload
+        assert_equal Time.current, @user.last_seen_at
+        assert_nil @user.remembered_since
+      end
     end
   end
 end

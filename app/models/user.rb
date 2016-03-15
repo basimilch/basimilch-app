@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   INTERN_EMAIL_DOMAIN_REGEXP = Regexp.new("^.*#{INTERN_EMAIL_DOMAIN}$")
 
   # DOC: https://github.com/airblade/paper_trail/tree/v4.1.0#basic-usage
-  has_paper_trail ignore: [:updated_at, :last_seen_at]
+  has_paper_trail ignore: [:updated_at, :last_seen_at, :seen_count]
 
   has_many :share_certificates
   has_many :job_signups
@@ -262,7 +262,9 @@ class User < ActiveRecord::Base
 
   # Updates the last_seen_at date with the current one.
   def seen
-    update_attribute(:last_seen_at, Time.current)
+    assign_attributes(last_seen_at: Time.current)
+    increment(:seen_count)
+    save(validate: false)
   end
 
   # Remembers a user in the database for use in persistent sessions.
