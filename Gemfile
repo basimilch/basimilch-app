@@ -17,7 +17,7 @@ gem 'mini_magick',              '4.4.0' # https://github.com/minimagick/minimagi
 gem 'fog',                      '1.37.0' # https://github.com/fog/fog/releases
 gem 'will_paginate',            '3.1.0' # https://github.com/mislav/will_paginate/releases
 gem 'bootstrap-will_paginate',  '0.0.10'
-gem 'bootstrap-sass',           '3.3.6'
+gem 'bootstrap-sass',           '3.3.6' # https://github.com/twbs/bootstrap-sass/releases
 gem 'sass-rails',               '5.0.4' # https://github.com/rails/sass-rails/releases
 gem 'uglifier',                 '2.7.2' # https://github.com/lautis/uglifier/releases
 gem 'coffee-rails',             '4.1.1' # https://github.com/rails/coffee-rails/releases

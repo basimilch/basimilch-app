@@ -109,6 +109,7 @@ module ApplicationHelper
     end
   end
 
+  # DOC: https://bootstrapdocs.com/v3.3.6/docs/components/#glyphicons
   def icon(icon_name, label = nil)
     content_tag :span, class: "icon-container" do
       concat(content_tag :span, nil, {
