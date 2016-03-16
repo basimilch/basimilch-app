@@ -25,6 +25,20 @@ class UsersEditTest < ActionDispatch::IntegrationTest
     original_first_name = @user.first_name
     patch user_path(@user), user: { email:      email,
                                     last_name:  last_name }
+    # Check that the PublicActivity was properly recorded, including the changes.
+    activity = PublicActivity::Activity.last
+    assert_equal 'user.update', activity.key
+    assert_equal [:trackable,
+                  :owner,
+                  :recipient,
+                  :previous_version_id,
+                  :changeset].to_set,
+                 activity.parameters.keys.to_set
+    # NOTE: The changeset is stored serialized as a string, and is intended for
+    #       reference only. Although we could try to deserialize it, it's safer
+    #       to get it from the PaperTrail::Version itself as shown here:
+    version = PaperTrail::Version.find activity.parameters[:previous_version_id]
+    assert_equal ["last_name", "email"].to_set, version.changeset.keys.to_set
     # We want a confirmation message.
     assert_not flash.empty?
     assert_redirected_to @users

@@ -79,12 +79,12 @@ module PublicActivityHelper
       end
     when :user_login
       trackable_model.record_last_login from: parameters[:remote_ip]
-    when :created
+    when :create
       case trackable_model
       when ShareCertificate
         recipient_model = parameters[:recipient] = trackable_model.user
       end
-    when :updated, :destroy
+    when :update, :destroy
       last_version = trackable_model.versions.last
       parameters[:previous_version_id] = last_version.try(:id)
       parameters[:changeset] = last_version.try(:changeset)

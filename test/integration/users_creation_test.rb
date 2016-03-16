@@ -16,6 +16,13 @@ class UsersCreationTest < ActionDispatch::IntegrationTest
     assert_difference 'User.count', 1 do
       post_via_redirect users_path, user: @valid_user_info
     end
+    # Check that the PublicActivity was properly recorded.
+    activity = PublicActivity::Activity.last
+    assert_equal 'user.create', activity.key
+    assert_equal [:trackable,
+                  :owner,
+                  :recipient].to_set,
+                 activity.parameters.keys.to_set
     assert_template 'users/show'
     assert_not flash.empty?
   end
