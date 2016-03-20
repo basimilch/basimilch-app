@@ -223,6 +223,8 @@ de-CH:
       job_type_not_found: "Tätigkeit mit id '%{id}' nicht gefunden!"
       job_does_not_accept_signups: >
         Es ist nicht mehr möglich, sich für diesen Einsatz anzumelden.
+      job_signup_author_not_entitled: >
+        Nur Admins dürfen andere Benutzern für Einsätze anmelden.
       job_end_must_be_after_start: "muss nach der Startzeit sein"
       job_end_must_be_between_30min_and__after_start: >
         "muss zwischen 30 Minuten und 8 Stunden nach der Startzeit sein"

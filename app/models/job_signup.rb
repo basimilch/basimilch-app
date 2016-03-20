@@ -8,14 +8,31 @@ class JobSignup < ActiveRecord::Base
   belongs_to :user
   belongs_to :job
 
+  # If the class name of the reference cannot be inferred from the relation name
+  # the class name must be specified.
+  # SOURCE: http://stackoverflow.com/a/29577869
+  # DOC: http://api.rubyonrails.org/v4.2.5.2/classes/ActiveRecord/Associations
+  #                                       /ClassMethods.html#method-i-belongs_to
+  belongs_to :author, class_name: "User"
+
   validates :user_id, presence: true, numericality: { greater_than: 0 }
   validates :job_id,  presence: true, numericality: { greater_than: 0 }
   validate  :job_is_available,  unless: Proc.new {|j| j.job.nil?}
+  validates :author_id, presence: true, numericality: { greater_than: 0 }
+  validate  :author_is_entitled, unless: Proc.new {|j| j.author.nil?}
 
   attr_accessor :allow_past
 
   def to_s
-    "JobSignup #{id.inspect}: User #{user_id.inspect} for Job #{job_id.inspect}"
+    "JobSignup #{id.inspect}: User #{user_id.inspect} " +
+      "for Job #{job_id.inspect} " +
+      ( self_signup? ? "(self signup)" : "(author: #{author_id.inspect})")
+  end
+
+  # Returns true if the user self signed up for the job, and false if another
+  # user (an admin) did it on their behalf.
+  def self_signup?
+    user_id == author_id
   end
 
   private
@@ -23,6 +40,14 @@ class JobSignup < ActiveRecord::Base
     def job_is_available
       unless job.available? allow_past: allow_past
         errors.add :base, I18n.t("errors.messages.job_does_not_accept_signups")
+      end
+    end
+
+    def author_is_entitled
+      unless author_id == user_id || author.admin?
+        errors.add :base, I18n.t(
+          "errors.messages.job_signup_author_not_entitled"
+          )
       end
     end
 end

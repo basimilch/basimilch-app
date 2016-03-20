@@ -2,6 +2,14 @@ require 'test_helper'
 
 class JobSignupTest < ActiveSupport::TestCase
 
+  def setup
+    @admin_user = users(:one)
+    @other_user = users(:two)
+
+    assert_equal true,  @admin_user.admin?
+    assert_equal false, @other_user.admin?
+  end
+
   test "should not be possible to create a signup without user_id" do
     job_signup = jobs(:future_job).job_signups.build
     assert_not_valid job_signup
@@ -17,13 +25,32 @@ class JobSignupTest < ActiveSupport::TestCase
     assert_not_valid job_signup
   end
 
-  test "should be possible to signup for an available job" do
-    job_signup = jobs(:future_job).job_signups.build(user_id: users(:one).id)
+  test "should not be possible to signup for an available job without author" do
+    job_signup = jobs(:future_job).job_signups.build(user: @other_user)
+    assert_not_valid job_signup
+  end
+
+  test "should be possible to auto-signup for an available job" do
+    job_signup = jobs(:future_job).job_signups.build(user:   @other_user,
+                                                     author: @other_user)
     assert_valid job_signup
   end
 
+  test "admin should be able to signup other user for an available job" do
+    job_signup = jobs(:future_job).job_signups.build(user:   @other_user,
+                                                     author: @admin_user)
+    assert_valid job_signup
+  end
+
+  test "non-admin should not be able to signup other user for an available job" do
+    job_signup = jobs(:future_job).job_signups.build(user:   @admin_user,
+                                                     author: @other_user)
+    assert_not_valid job_signup
+  end
+
   test "should not be possible to signup for an unavailable job" do
-    job_signup = jobs(:past_job).job_signups.build(user_id: users(:one).id)
+    job_signup = jobs(:past_job).job_signups.build(user:   @other_user,
+                                                   author: @other_user)
     assert_not_valid job_signup
   end
 end

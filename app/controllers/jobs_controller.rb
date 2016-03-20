@@ -160,7 +160,8 @@ class JobsController < ApplicationController
       activity_key = current_user?(user) ? :current_user_sign_up_for_job :
                                            :admin_sign_up_user_for_job
       activity_data = current_user?(user) ? {} : {user: user}
-      signup = @job.job_signups.build(user_id: user.id,
+      signup = @job.job_signups.build(user: user,
+                                      author: current_user,
                                       allow_past: current_user_admin?)
       if signup.save
         record_activity activity_key, @job, data: activity_data

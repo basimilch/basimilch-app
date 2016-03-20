@@ -7,7 +7,8 @@ class JobsControllerTest < ActionController::TestCase
     @user       = users(:two)
     @job        = jobs(:one)
     @full_job   = jobs(:full_job)
-    @full_job.job_signups.create(user_id: @user.id)
+    @full_job.job_signups.create(user: @user, author: @admin_user)
+    assert_equal true, @full_job.full?
   end
 
   test "user should get index" do
