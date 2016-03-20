@@ -1,3 +1,9 @@
 // Place all the styles related to the jobs controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.job-unregister-button {
+  opacity: .2;
+}
+.job-unregister-button:hover {
+  opacity: inherit;
+}

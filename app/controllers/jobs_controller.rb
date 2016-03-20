@@ -6,7 +6,7 @@ class JobsController < ApplicationController
   before_action :admin_user,  except: [:index, :show, :signup_current_user]
   before_action :set_job,     only:   [:show, :edit, :update, :destroy,
                                        :signup_current_user,
-                                       :signup_users]
+                                       :signup_users, :unregister_user]
 
   # GET /jobs
   # GET /jobs.json
@@ -128,6 +128,30 @@ class JobsController < ApplicationController
       users_to_signup << user
     end
     users_to_signup.each { |user| break unless signup_user user }
+    redirect_to @job
+  end
+
+  def unregister_user
+    if user = User.find_by(id: params[:user_id])
+      if signup = JobSignup.where(user_id: user.id, job_id: @job.id).first
+        signup.destroy
+        record_activity :admin_unregister_user_from_job, @job, data: {
+          user: user,
+          destroyed_job_signup: signup
+        }
+        flash_t :success, t(".user_unregistered_from_this_job",
+                            user_html: user.to_html)
+      else
+        record_activity :admin_unregister_user_from_job_failed, @job, data: {
+          user: user
+        }
+        flash_t :danger, t(".user_not_signed_up_for_this_job",
+                           user_html: user.to_html,
+                           job_id:  @job.id)
+      end
+    else
+      flash_t :danger, t(".user_not_found", id: user_id)
+    end
     redirect_to @job
   end
 

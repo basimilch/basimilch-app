@@ -352,6 +352,10 @@ class User < ActiveRecord::Base
     "User #{id.inspect}: #{full_name.inspect} <#{email}>"
   end
 
+  def to_html
+    "#{full_name} (<a href='mailto:#{email}'><code>#{email}</code></a>)"
+  end
+
   def attributes(include_virtual: false)
     super() + (include_virtual ? {
       terms_of_service: terms_of_service,

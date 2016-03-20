@@ -88,7 +88,10 @@ module PublicActivityHelper
       last_version = trackable_model.versions.last
       parameters[:previous_version_id] = last_version.try(:id)
       parameters[:changeset] = last_version.try(:changeset)
-    when :admin_sign_up_user_for_job, :admin_sign_up_user_for_job_failed
+    when :admin_sign_up_user_for_job,
+         :admin_sign_up_user_for_job_failed,
+         :admin_unregister_user_from_job,
+         :admin_unregister_user_from_job_failed
       recipient_model = parameters[:recipient] = parameters.pop(:user)
     end
 
@@ -178,8 +181,11 @@ module PublicActivityHelper
       when :current_user_sign_up_for_job,
            :admin_sign_up_user_for_job
         [:job, :public, :low]
+      when :admin_unregister_user_from_job
+        [:job, :activity_users, :medium]
       when :current_user_sign_up_for_job_failed,
-           :admin_sign_up_user_for_job_failed
+           :admin_sign_up_user_for_job_failed,
+           :admin_unregister_user_from_job_failed
         [:job, :admin, :medium]
       else
         raise "Unknown activity name: #{activity_name}"

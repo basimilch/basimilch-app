@@ -2,6 +2,12 @@
   <% if current_user_admin? %>
     <%= link_to job_signup.user.full_name, job_signup.user %>
     - <code><%= mail_to job_signup.user.email %></code>
+    <%= link_to t('.unregister'),
+            job_unregister_user_path(user_id: job_signup.user_id),
+            { class:  "btn btn-xs btn-danger job-unregister-button",
+              method: :post,
+              data: { confirm: t('.unregister_confirmation_message') }} %>
+
   <% else %>
     <%= job_signup.user.full_name %>
   <% end %>

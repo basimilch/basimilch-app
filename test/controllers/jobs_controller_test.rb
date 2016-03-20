@@ -8,7 +8,12 @@ class JobsControllerTest < ActionController::TestCase
     @job        = jobs(:one)
     @full_job   = jobs(:full_job)
     @full_job.job_signups.create(user: @user, author: @admin_user)
+
+    assert_equal true,  @admin_user.admin?
+    assert_equal false, @user.admin?
     assert_equal true, @full_job.full?
+    assert_equal @admin_user, @full_job.job_signups.first.author
+    assert_equal false, @full_job.job_signups.first.self_signup?
   end
 
   test "user should get index" do
@@ -178,7 +183,7 @@ class JobsControllerTest < ActionController::TestCase
   end
 
   test "non admin user should not be able to sign up others for future job" do
-    assert_no_difference 'JobSignup.count', 0 do
+    assert_no_difference 'JobSignup.count' do
       assert_admin_protected login_as: @user do
         post :signup_users, id: jobs(:future_job).id,
                             users: [ @user.id, @admin_user.id ]
@@ -189,7 +194,7 @@ class JobsControllerTest < ActionController::TestCase
 
   test "admin user should not be able to self sign up for full job" do
     assert_equal true, @full_job.full?
-    assert_no_difference 'JobSignup.count', 0 do
+    assert_no_difference 'JobSignup.count' do
       assert_protected login_as: @admin_user do
         post :signup_current_user, id: @full_job.id
       end
@@ -198,7 +203,7 @@ class JobsControllerTest < ActionController::TestCase
 
   test "non admin user should not be able to self sign up for full job" do
     assert_equal true, @full_job.full?
-    assert_no_difference 'JobSignup.count', 0 do
+    assert_no_difference 'JobSignup.count' do
       assert_protected login_as: @user do
         post :signup_current_user, id: @full_job.id
       end
@@ -207,7 +212,7 @@ class JobsControllerTest < ActionController::TestCase
 
   test "admin user should not be able to sign up others for full job" do
     assert_equal true, @full_job.full?
-    assert_no_difference 'JobSignup.count', 0 do
+    assert_no_difference 'JobSignup.count' do
       assert_admin_protected login_as: @admin_user do
         post :signup_users, id: @full_job.id,
                             users: [ @user.id, @admin_user.id ]
@@ -217,10 +222,28 @@ class JobsControllerTest < ActionController::TestCase
 
   test "non admin user should not be able to sign up others for full job" do
     assert_equal true, @full_job.full?
-    assert_no_difference 'JobSignup.count', 0 do
+    assert_no_difference 'JobSignup.count' do
       assert_admin_protected login_as: @user do
         post :signup_users, id: @full_job.id,
                             users: [ @user.id, @admin_user.id ]
+      end
+    end
+  end
+
+  test "admin user should be able to unregister a user form a job" do
+    assert_equal @user, @full_job.users.first
+    assert_difference 'JobSignup.count', -1 do
+      assert_admin_protected login_as: @admin_user do
+        post :unregister_user, id: @full_job.id, user_id: @user.id
+      end
+    end
+  end
+
+  test "non-admin user should not be able to unregister a user form a job" do
+    assert_equal @user, @full_job.users.first
+    assert_no_difference 'JobSignup.count' do
+      assert_admin_protected login_as: @user do
+        post :unregister_user, id: @full_job.id, user_id: @user.id
       end
     end
   end
