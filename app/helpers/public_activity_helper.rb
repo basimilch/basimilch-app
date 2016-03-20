@@ -55,8 +55,8 @@ module PublicActivityHelper
     owner_model     = try(:current_user)
     recipient_model = nil
     parameters      = data.merge({
-        # Keep a denormalized serialized trace of the relations of this activity
-        # for the case those are deleted later.
+        # Keep a denormalized string trace of the relations of this activity for
+        # the case those are deleted later.
         trackable:  trackable_model,
         owner:      owner_model,
         recipient:  recipient_model
@@ -74,8 +74,8 @@ module PublicActivityHelper
     when :send_job_reminder
       recipient_model = parameters[:recipient] = parameters.pop(:job)
       unless owner_model
-        parameters[:owner] = :rake_task
-        parameters[:rake_task] = :send_reminders_for_tomorrow_jobs
+        parameters[:owner] = "rake_task"
+        parameters[:rake_task] = "send_reminders_for_tomorrow_jobs"
       end
     when :user_login
       trackable_model.record_last_login from: parameters[:remote_ip]
@@ -91,9 +91,36 @@ module PublicActivityHelper
     when :admin_sign_up_user_for_job, :admin_sign_up_user_for_job_failed
       recipient_model = parameters[:recipient] = parameters.pop(:user)
     end
+
+    # NOTE: Playing with PublicActivity::Activity API, we've learned two things:
+    #
+    #   - If a parameter value in the 'parameters' hash is a symbol,
+    #     PublicActivity will call it on the 'owner' object when creating the
+    #     activity, e.g.: parameters[:the_email] = :email becomes
+    #     parameters[:the_email] = owner.email when the activity is created. If
+    #     the owner object does not respond to the symbol, an exception will be
+    #     thrown upon activity recording.
+    #
+    #   - In order to let ruby deserialize a nested object when loading an
+    #     active record from the DB, the corresponding (compatible) class MUST
+    #     be loaded in order for the object to be deserialized. Otherwize an
+    #     Exception is raised. (Still to check: what happens if the class has
+    #     changed since the object was serialized?)
+    #
+    # Therefore, to prevent such complications, we don't store real
+    # objects in the parameters, which would be automatically serialized
+    # as yaml by rails and deserialized (aka reified) automatically upon
+    # ActiveRecord load from the DB. We only store the result of calling
+    # :to_s as quick human reference when reading the activity back from
+    # the DB. A possible enhancement would be to serialize only ruby
+    # native types (hash, set, array, symbol and so on), so that they can
+    # be read upon Activity load but then, it would be difficult to ensure
+    # that no other object is nested inside.
+
     # Make sure all parameter values are strings (not objects) since they are
     # not expected to be reified when reading the activity and would fail.
     parameters.each { |k, v| parameters[k] = v && v.to_s }
+
     activity = trackable_model.create_activity activity_name,
                                                owner: owner_model,
                                                recipient: recipient_model,
