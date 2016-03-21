@@ -424,6 +424,43 @@ documentation].
 [be updated]: https://github.com/basimilch/basimilch-app/compare/f7312c45ae9e3bdec66cd8f22a449e078d6817a7...8019bb1fcb8dce7b1f10023f8140cb06cac808be
 [Travis documentation]: https://docs.travis-ci.com/user/database-setup/#PostgreSQL
 
+## Release
+
+The CI workflow is managed by [`travis-ci.org`]. The file
+[`.travis.yml`] configures and orchestrates the behavior explained
+below.
+
+### Development - `dev` branch
+
+Each push to the `dev` branch triggers a build on [`travis-ci.org`]
+which will execute the tests. If the test suite passes, Travis-CI will
+deploy the new code to the test app on Heroku, automatically applying
+any DB migrations if necessary (with `rake db:migrate`).
+
+> **Note:** To prevent a commit to trigger a build, [add `[ci skip]`]
+to the commit message.
+
+### Production - `master` branch
+
+A similar thing occurs when pushing to the `master` branch: if all
+tests pass, the new code will be deployed to production. As an
+additional step **before deploying** in this case, the production app
+**will be automatically set to maintenance mode** and **a backup of
+the DB will be captured**. After the deployment and eventual DB
+migrations are successful, the app is automatically set back out of
+maintenance mode.
+
+> **Note:** The setup for this automation is (as of March 2016) not
+straightforward to setup for Travis-CI. For future reference, I've
+created a [_gist_](https://gist.github.com/rbf/370c5fd3bf1a78d7db2f)
+with the steps I ended up doing to automatically set the Heroku app in
+maintenance mode and capturing a DB backup.
+
+[`travis-ci.org`]: https://travis-ci.org/basimilch/basimilch-app
+[add `[ci skip]`]: https://docs.travis-ci.com/user/customizing-the-build/#Skipping-a-build
+
+
+
 ## Localization
 
 All displayed strings are entered in the localization file
@@ -524,11 +561,40 @@ computer and browser** where it has been requested.
 ## Geolocalization
 
 To validate the user postal addresses on singup we use the
-geolocalization library [Geocoder v1.3.1]. This library will allow us
+geolocalization library [Geocoder `v1.3.1`]<span>[*](#geocoder_gem_version)</span> . This library will allow us
 also operations related to geographical relations between users,
 depots and other entities.
 
-[Geocoder v1.3.1]: https://github.com/alexreisner/geocoder/tree/v1.3.1
+[Geocoder `v1.3.1`]: https://rubygems.org/gems/geocoder/versions/1.3.1
+
+<i><a name="geocoder_gem_version">*</a> Note that the `gem`
+version in Rubygems.org is `v1.3.1` but the last tag in GitHub.com is
+[`v1.3.0`](https://github.com/alexreisner/geocoder/tree/v1.3.0).</i>
+
+### Google Geocode API and Usage Limits
+
+We have configured the Geocoder `gem` to use the [Google Geocode API]
+with the [`:google`] symbol. The official [Usage Limits] of the
+[Google Geocode API] allow up to 2,500 free requests per day (and 10
+requests per second). However, after releasing the app to Heroku, we
+realized that the geolocation API was returning a `quota exceeded`
+error even if we were far below the theoretical limits. As mentioned
+in [several](http://stackoverflow.com/a/6782602)
+[places](http://blog.pardner.com/2013/12/avoid-rate-limit-errors-when-geocoding-in-a-heroku-app/), this seems related to the fact that
+Google counts the usage against the requesting IP address. Thus in
+PaaS environments like Heroku, public IPs used to perform such API
+requests are frequently shared, leaving individual apps out of quota
+quickly. One way to workaround this limitation is to use a service
+like [QuotaGuard]. However, this service is too expensive for our
+needs. Luckily, the [Google Geocode API] allows you to [get an API
+key] for it (credit card needed), which allows to count the quota
+against the key instead of the IP address.
+
+[Google Geocode API]: https://developers.google.com/maps/documentation/geocoding/intro
+[`:google`]: https://github.com/alexreisner/geocoder/tree/v1.3.0#google-google
+[Usage Limits]: https://developers.google.com/maps/documentation/geocoding/usage-limits
+[QuotaGuard]: https://elements.heroku.com/addons/quotaguard
+[get an API key]: https://developers.google.com/maps/documentation/geocoding/get-api-key
 
 ## Model auditing and versioning
 
@@ -580,15 +646,15 @@ The population of this metadata is implemented in the file
 
 ### `public_activity`
 
-We use the gem [`public_activity`] [(v1.4.3)]<sup>[*](#public_activity_gem_version)</sup> to record activities in
+We use the gem [`public_activity`] [(v1.4.3)]<span>[*](#public_activity_gem_version)</span> to record activities in
 the application.
 
 [`public_activity`]: https://github.com/chaps-io/public_activity/tree/v1.4.1
 [(v1.4.3)]: https://rubygems.org/gems/public_activity/versions/1.4.3
 
-<a name="public_activity_gem_version">*</a>: Note that the `gem`
+<i><a name="public_activity_gem_version">*</a> Note that the `gem`
 version in Rubygems.org is `v1.4.3` but the tag in GitHub.com is
-`v1.4.1`.
+`v1.4.1`.</i>
 
 ## Notes on Rails
 
@@ -688,6 +754,13 @@ about [Efficient Use of PostgreSQL Indexes].
 [this SO answer about creating simple vs compound indexed]: http://stackoverflow.com/a/1049392
 [Efficient Use of PostgreSQL Indexes]: https://devcenter.heroku.com/articles/postgresql-indexes
 
+### Active Record `scopes`
+
+For a gut introduction to Active Record `scopes` you might want to
+read the article [Advanced Active Record in Rails 4 | 9.1 Scopes].
+
+[Advanced Active Record in Rails 4 | 9.1 Scopes]: http://www.informit.com/articles/article.aspx?p=2220311
+
 ## Heroku
 
 ### Timeout awaiting process: `heroku run` error
@@ -724,7 +797,9 @@ But not all command can be executed in a background way: e.g.
 
 ### DB
 
-To start with a fresh **dev** db on heroku do following commands:
+#### Fresh **dev** DB
+
+To start with a fresh **dev** DB on heroku do following commands:
 
 ```
 heroku pg:reset --app basimilch-dev DATABASE
@@ -737,6 +812,33 @@ To create a user with your email address, start a rails console on heroku (`hero
 ```
 User.new(first_name: "your_first_name", last_name: "your_last_name", email: "your_email@example.com", admin: true, activation_sent_at: Time.current).save(validate: false)
 ```
+
+#### Push and pull DB
+
+Please refer to the Heroku documentation about [`pg:push` and
+`pg:pull`] to learn about how to get a copy of the DB from `dev` or
+`prod` to your local machine (or the other way around):
+
+> `pg:pull` can be used to pull remote data from a Heroku Postgres
+`database to a database on your local machine. The command looks
+`like this:
+>
+> ```bash
+> $ heroku pg:pull HEROKU_POSTGRESQL_MAGENTA mylocaldb --app sushi
+> ```
+
+> Like pull but in reverse, `pg:push` will push data from a local
+database into a remote Heroku Postgres database. The command looks
+like this:
+>
+> ```bash
+> $ heroku pg:push mylocaldb HEROKU_POSTGRESQL_MAGENTA --app sushi
+> ```
+
+For reference, the first `prod` DB was imported locally from the
+previously used spreadsheet and `pg:push`ed into production.
+
+[`pg:push` and `pg:pull`]: https://devcenter.heroku.com/articles/heroku-postgresql#pg-push-and-pg-pull
 
 ## SSL Certificates
 
