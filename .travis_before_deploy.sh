@@ -7,11 +7,9 @@ set -e -o pipefail
 
 # SOURCE: http://xseignard.github.io/2013/02/18/continuous-deployement-with-github-travis-and-heroku-for-node.js/
 
-# TODO: if [ "${TRAVIS_BRANCH}" == "master" ]; then
-if [ "${TRAVIS_BRANCH}" == "dev" ]; then
+if [ "${TRAVIS_BRANCH}" == "master" ]; then
 
-  # TODO: TARGET_APP_NAME="basimilch"
-  TARGET_APP_NAME="basimilch-dev"
+  TARGET_APP_NAME="basimilch"
 
   echo "Setting up '~/.ssh/config' to work with heroku."
   cat >> ~/.ssh/config <<EOF
@@ -27,7 +25,7 @@ machine api.heroku.com
   login ${HEROKU_API_LOGIN}
   password ${HEROKU_API_KEY}
 EOF
-chmod 600 ~/.netrc
+  chmod 600 ~/.netrc
 
   echo "Installing heroku toolbelt"
   wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
