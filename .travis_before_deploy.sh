@@ -21,11 +21,15 @@ Host heroku.com
    UserKnownHostsFile=/dev/null
 EOF
 
+  # DOC: https://devcenter.heroku.com/articles/authentication#usage-examples
+  cat >> ~/.netrc <<EOF
+machine api.heroku.com
+  login ${HEROKU_API_LOGIN}
+  password ${HEROKU_API_KEY}
+EOF
+
   echo "Installing heroku toolbelt"
   wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
-
-  echo "Configuring heroku toolbelt using HEROKU_API_KEY environment variable"
-  yes | heroku keys:add
 
   echo "Setting maintenance mode 'on' on heroku's app"
   heroku maintenance:on --app TARGET_APP_NAME
