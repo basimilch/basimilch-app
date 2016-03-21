@@ -437,8 +437,8 @@ which will execute the tests. If the test suite passes, Travis-CI will
 deploy the new code to the test app on Heroku, automatically applying
 any DB migrations if necessary (with `rake db:migrate`).
 
-> **Note:** To prevent a commit to trigger a build, [add `[ci skip]`]
-to the commit message.
+> **Note:** To prevent a commit to trigger a build, add `[ci skip]`
+to the commit message as mentioned in the [Travis-CI documentation].
 
 ### Production - `master` branch
 
@@ -457,7 +457,7 @@ with the steps I ended up doing to automatically set the Heroku app in
 maintenance mode and capturing a DB backup.
 
 [`travis-ci.org`]: https://travis-ci.org/basimilch/basimilch-app
-[add `[ci skip]`]: https://docs.travis-ci.com/user/customizing-the-build/#Skipping-a-build
+[Travis-CI documentation]: https://docs.travis-ci.com/user/customizing-the-build/#Skipping-a-build
 
 
 
@@ -820,16 +820,16 @@ Please refer to the Heroku documentation about [`pg:push` and
 `prod` to your local machine (or the other way around):
 
 > `pg:pull` can be used to pull remote data from a Heroku Postgres
-`database to a database on your local machine. The command looks
-`like this:
+> database to a database on your local machine. The command looks
+> like this:
 >
 > ```bash
 > $ heroku pg:pull HEROKU_POSTGRESQL_MAGENTA mylocaldb --app sushi
 > ```
 
 > Like pull but in reverse, `pg:push` will push data from a local
-database into a remote Heroku Postgres database. The command looks
-like this:
+> database into a remote Heroku Postgres database. The command looks
+> like this:
 >
 > ```bash
 > $ heroku pg:push mylocaldb HEROKU_POSTGRESQL_MAGENTA --app sushi
