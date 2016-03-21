@@ -11,9 +11,6 @@ if [ "${TRAVIS_BRANCH}" == "dev" ]; then
   # TODO: TARGET_APP_NAME="basimilch"
   TARGET_APP_NAME="basimilch-dev"
 
-  echo "Waiting 30 secs for testing the maintenance mode"
-  sleep 30
-
   echo "Setting maintenance mode 'on' on heroku's app"
   heroku maintenance:off --app "${TARGET_APP_NAME}"
 

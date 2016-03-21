@@ -21,13 +21,10 @@ before_script:
 script:
   - bundle exec rake && ./.travis_tag.sh
 sudo: required
-before_install:
+before_deploy:
   - ./.travis_before_deploy.sh
+after_deploy:
   - ./.travis_after_deploy.sh
-# before_deploy:
-#   - ./.travis_before_deploy.sh
-# after_deploy:
-#   - ./.travis_after_deploy.sh
 # SOURCE: https://github.com/travis-ci/travis-ci/issues/1476#issuecomment-55614399
 # DOC: https://docs.travis-ci.com/user/customizing-the-build/#Whitelisting-or-blacklisting-branches
 branches:

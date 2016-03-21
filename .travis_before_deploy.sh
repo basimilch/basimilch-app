@@ -35,6 +35,6 @@ EOF
   heroku maintenance:on --app "${TARGET_APP_NAME}"
 
   echo "Caturing DB backup from heroku's app"
-  # DOC: -e, --expire  # if no slots are available, destroy the oldest manual backup to make room
-  heroku pgbackups:capture --expire --app "${TARGET_APP_NAME}"
+  # DOC: https://devcenter.heroku.com/articles/heroku-postgres-backups#creating-a-backup
+  heroku pg:backups capture --app "${TARGET_APP_NAME}"
 fi
