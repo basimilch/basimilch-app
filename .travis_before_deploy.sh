@@ -27,6 +27,7 @@ machine api.heroku.com
   login ${HEROKU_API_LOGIN}
   password ${HEROKU_API_KEY}
 EOF
+chmod 600 ~/.netrc
 
   echo "Installing heroku toolbelt"
   wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
