@@ -32,9 +32,9 @@ EOF
   wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
 
   echo "Setting maintenance mode 'on' on heroku's app"
-  heroku maintenance:on --app TARGET_APP_NAME
+  heroku maintenance:on --app "${TARGET_APP_NAME}"
 
   echo "Caturing DB backup from heroku's app"
   # DOC: -e, --expire  # if no slots are available, destroy the oldest manual backup to make room
-  heroku pgbackups:capture --expire --app TARGET_APP_NAME
+  heroku pgbackups:capture --expire --app "${TARGET_APP_NAME}"
 fi

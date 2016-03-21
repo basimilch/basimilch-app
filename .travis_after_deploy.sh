@@ -15,7 +15,7 @@ if [ "${TRAVIS_BRANCH}" == "dev" ]; then
   sleep 30
 
   echo "Setting maintenance mode 'on' on heroku's app"
-  heroku maintenance:off --app TARGET_APP_NAME
+  heroku maintenance:off --app "${TARGET_APP_NAME}"
 
   echo "Application ready again."
 fi
