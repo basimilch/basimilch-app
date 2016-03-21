@@ -27,7 +27,18 @@ class UsersEditTest < ActionDispatch::IntegrationTest
                                     last_name:  last_name }
     # Check that the PublicActivity was properly recorded, including the changes.
     activity = PublicActivity::Activity.last
-    assert_equal 'user.update', activity.key
+    assert_equal 'user.update',     activity.key
+    assert_equal "model",           activity.scope
+    assert_equal "activity_users",  activity.visibility
+    assert_equal "low",             activity.severity
+    # NOTE: The activity scope, visibility and severity can also be checked
+    #       against the enums in PublicActivityHelper subclasses, e.g.:
+    assert_equal PublicActivityHelper::Scope::MODEL,
+                  activity.scope
+    assert_equal PublicActivityHelper::Visibility::ACTIVITY_USERS,
+                  activity.visibility
+    assert_equal PublicActivityHelper::Severity::LOW,
+                  activity.severity
     assert_equal [:trackable,
                   :owner,
                   :recipient,

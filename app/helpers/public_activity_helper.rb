@@ -42,6 +42,27 @@ end
 
 module PublicActivityHelper
 
+  class Scope < Enum
+    enum :EMAIL
+    enum :JOB
+    enum :MODEL
+    enum :SECURITY
+  end
+
+  class Visibility < Enum
+    enum :PUBLIC
+    enum :ACTIVITY_USERS
+    enum :ACTIVITY_OWNER
+    enum :ADMIN
+  end
+
+  class Severity < Enum
+    enum :LOW
+    enum :MEDIUM
+    enum :HIGH
+    enum :CRITICAL
+  end
+
   def record_activity(activity_name, model, data: {})
     raise "Activity name must be a symbol" unless activity_name.is_a? Symbol
     raise "Model cannot not be nil" unless model
@@ -50,7 +71,12 @@ module PublicActivityHelper
             " :create_activity. Please ensure it includes" +
             " the 'PublicActivity::Common' module."
     end
-    scope, visibility, severity = activity_flags activity_name
+    flags = activity_flags activity_name
+    unless flags.map(&:class) == [Scope, Visibility, Severity]
+      raise "Unexpected flags for activity: #{flags.inspect} of classes " +
+            "#{flags.map(&:class)}"
+    end
+    scope, visibility, severity = flags
     trackable_model = model
     owner_model     = try(:current_user)
     recipient_model = nil
@@ -63,10 +89,10 @@ module PublicActivityHelper
       })
     # Customize parameters depending on scope
     case scope
-    when :security
+    when Scope::SECURITY
       parameters[:request_remote_ip] = request.remote_ip_and_address
       parameters[:request_user_agent] = request.user_agent
-    when :email
+    when Scope::EMAIL
       parameters[:to] = trackable_model.try(:email)
     end
     # Customize parameters and behavior depending on activity_name
@@ -133,7 +159,8 @@ module PublicActivityHelper
                                                parameters: parameters
     logger.info "Recorded #{activity}"
 
-    if Rails.env.production? && [:high, :critical].include?(severity)
+    if Rails.env.production? &&
+       [Severity::HIGH, Severity::CRITICAL].include?(severity)
       AdminMailer.activity_warning_notification(activity).deliver_later
     end
   end
@@ -142,51 +169,51 @@ module PublicActivityHelper
 
     # Returns a vector of the three activity identifiers:
     # [:scope, :visibility, :severity]
-    # :scope       => E.g.: :security, :email, :job, :user, ...
-    # :visibility  => :admin, :activity_owner, :activity_users, :public
-    # :severity    => :low, :medium, :high, :critical
+    # :scope       => E.g.: security, email, job, user, ...
+    # :visibility  => admin, activity owner, activity users, public
+    # :severity    => low, medium, high, critical
     def activity_flags(activity_name)
       case activity_name
       when :create
-        [:model, :activity_users, :low]
+        [Scope::MODEL, Visibility::ACTIVITY_USERS, Severity::LOW]
       when :update
-        [:model, :activity_users, :low]
+        [Scope::MODEL, Visibility::ACTIVITY_USERS, Severity::LOW]
       when :destroy
-        [:model, :activity_users, :medium]
+        [Scope::MODEL, Visibility::ACTIVITY_USERS, Severity::MEDIUM]
       when :send_job_reminder
-        [:email, :activity_users, :low]
+        [Scope::EMAIL, Visibility::ACTIVITY_USERS, Severity::LOW]
       when :send_signup_successful_notification,
            :send_new_signup_notification,
            :send_account_activation
-        [:email, :admin, :low]
+        [Scope::EMAIL, Visibility::ADMIN, Severity::LOW]
       when :send_login_code_email
-        [:email, :activity_users, :medium]
+        [Scope::EMAIL, Visibility::ACTIVITY_USERS, Severity::MEDIUM]
       when :new_user_signup
-        [:security, :admin, :low]
+        [Scope::SECURITY, Visibility::ADMIN, Severity::LOW]
       when :inactive_user_tries_to_login,
            :user_login_attempt_fail,
            :user_login_code_expired
-        [:security, :admin, :medium]
+        [Scope::SECURITY, Visibility::ADMIN, Severity::MEDIUM]
       when :user_login_all_attempts_fail
-        [:security, :admin, :high]
+        [Scope::SECURITY, Visibility::ADMIN, Severity::HIGH]
       when :new_admin_user_created,
            :user_promoted_from_normal_user_to_admin,
            :user_demoted_from_admin_to_normal_user
-        [:security, :admin, :high]
+        [Scope::SECURITY, Visibility::ADMIN, Severity::HIGH]
       when :login_attempt_from_unexpected_ip
-        [:security, :admin, :critical]
+        [Scope::SECURITY, Visibility::ADMIN, Severity::CRITICAL]
       when :user_login,
            :user_logout
-        [:security, :activity_owner, :medium]
+        [Scope::SECURITY, Visibility::ACTIVITY_OWNER, Severity::MEDIUM]
       when :current_user_sign_up_for_job,
            :admin_sign_up_user_for_job
-        [:job, :public, :low]
+        [Scope::JOB, Visibility::PUBLIC, Severity::LOW]
       when :admin_unregister_user_from_job
-        [:job, :activity_users, :medium]
+        [Scope::JOB, Visibility::ACTIVITY_USERS, Severity::MEDIUM]
       when :current_user_sign_up_for_job_failed,
            :admin_sign_up_user_for_job_failed,
            :admin_unregister_user_from_job_failed
-        [:job, :admin, :medium]
+        [Scope::JOB, Visibility::ADMIN, Severity::MEDIUM]
       else
         raise "Unknown activity name: #{activity_name}"
       end
