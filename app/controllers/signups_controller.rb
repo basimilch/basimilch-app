@@ -29,6 +29,11 @@ class SignupsController < ApplicationController
     @user = User.new(session[:signup_info])
     unless already_successful_signup
       if entered_validation_code == session[:signup_validation_code]
+        if %w(waiting_list_for_subscription
+              share_with_user_in_waiting_list)
+            .include?(@user.wanted_subscription)
+          @user.status = User::Status::WAITING_LIST
+        end
         if @user.save
           logger.info "New successful signup for user id #{@user.id}" +
                       " (#{@user.email})"

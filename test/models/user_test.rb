@@ -10,6 +10,16 @@ class UserTest < ActiveSupport::TestCase
     assert_valid @user, "Initial fixture user should be valid."
   end
 
+  test "status should be valid if present" do
+    assert_not @user.required_attribute?(:status)
+    @user.status = nil
+    assert_valid @user
+    @user.status = User::Status::WAITING_LIST
+    assert_valid @user
+    @user.status = "some thing else"
+    assert_not_valid @user
+  end
+
   test "email should be present" do
     assert @user.required_attribute?(:email)
     @user.email = nil

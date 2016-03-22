@@ -14,7 +14,7 @@ one:
   tel_mobile: +41 76 123 45 67
   tel_home: +41 44 123 45 67
   tel_office: +41 44 123 45 67
-  status: 1
+  status: null
   notes: some notes
   activated: true
   activated_at: <%= Time.current %>
@@ -32,7 +32,7 @@ two:
   tel_mobile: +41 76 111 11 11
   tel_home: +41 44 111 11 11
   tel_office: +41 44 111 11 11
-  status: 1
+  status: null
   notes: some other notes
   activated: true
   activated_at: <%= Time.current %>
@@ -50,7 +50,7 @@ three:
   tel_mobile: +41 76 333 33 33
   tel_home: +41 44 333 33 33
   tel_office: +41 44 333 33 33
-  status: 1
+  status: null
   notes: some other notes
   activated: false
   activated_at: null

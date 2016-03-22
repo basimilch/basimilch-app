@@ -15,6 +15,20 @@ class SignupTest < ActionDispatch::IntegrationTest
                 email: "user2@example.com"
               })
     signup_workflow_for_user valid_user_info_2
+    assert_equal nil, User.find_by(email: "user2@example.com").status
+
+    # Check that if the user wants a subscription, the status is set to
+    # "waiting_list".
+    valid_user_info_3 = @valid_user_info_1.merge({
+                email: "user3@example.com",
+                wanted_subscription: "waiting_list_for_subscription"
+              })
+    signup_workflow_for_user valid_user_info_3
+    user3 = User.find_by(email: "user3@example.com")
+    assert_equal "waiting_list",              user3.status
+    assert_equal User::Status::WAITING_LIST,  user3.status
+    # ...and the status is stored as a string (not as an Enum object).
+    assert_equal String, user3.status.class
 
     signup_with_existent_email_should_fail
   end

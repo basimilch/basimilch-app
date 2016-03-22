@@ -55,6 +55,10 @@ class User < ActiveRecord::Base
 
   STALE_THRESHOLD = 4.months.ago
 
+  class Status < Enum
+    enum :WAITING_LIST
+  end
+
   attr_accessor :remember_token
 
   # NOTE: A word of caution: 'after_initialize' means after the Ruby
@@ -62,6 +66,8 @@ class User < ActiveRecord::Base
   # database and used to create a new model object in memory Source:
   # http://stackoverflow.com/a/4576026
   after_initialize :default_values
+
+  validates :status, inclusion: { in: Status.all }, allow_nil: true
 
   # Inspired from
   #   https://www.railstutorial.org/book/_single-page#sec-format_validation
