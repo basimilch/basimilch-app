@@ -1,7 +1,7 @@
 require 'test_helper'
 
 # Should not be an Action Controller test, but a Unit Test instead.
-class RailsExtentionsTest < ActionController::TestCase
+class BooleanTypecastingTest < ActionController::TestCase
 
   test "should correctly cast to false boolean" do
     [false, nil, "", "0", "false", "f", "no", "n", "0", 0 ].each do |x|
