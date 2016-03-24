@@ -16,7 +16,8 @@ class Job < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :job_type
-  has_many :job_signups
+  # DOC: http://guides.rubyonrails.org/v4.2.5.2/association_basics.html#dependent
+  has_many :job_signups, dependent: :destroy
   has_many :users, -> {distinct}, through: :job_signups
 
   default_scope   -> { order(start_at: :asc) }
