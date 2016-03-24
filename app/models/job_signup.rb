@@ -2,6 +2,8 @@ class JobSignup < ActiveRecord::Base
 
   MIN_NUMBER_PER_USER_PER_YEAR = 4
 
+  after_destroy :notify_about_destroy
+
   # DOC: http://www.informit.com/articles/article.aspx?p=2220311
   scope :in_current_year, -> { joins(:job).merge(Job.in_current_year) }
 
@@ -49,5 +51,10 @@ class JobSignup < ActiveRecord::Base
           "errors.messages.job_signup_author_not_entitled"
           )
       end
+    end
+
+    def notify_about_destroy
+      # TODO: Send email notification to concerned users.
+      logger.warn "#{self} was destroyed."
     end
 end
