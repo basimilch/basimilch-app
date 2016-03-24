@@ -46,8 +46,8 @@ module UsersHelper
   # new user wants during self-signup. Used in the user/_form partial.
   def options_for_wanted_subscription
     options_for_select(
-      User::ALLOWED_WANTED_SUBSCRIPTION_OPTIONS.map do |status|
-        [t(".wanted_subscription.#{status}"), status]
+      User::WantedSubscriptionOptions.map do |option|
+        [t(".wanted_subscription.#{option}"), option.to_s]
       end,
       @user.wanted_subscription
       )

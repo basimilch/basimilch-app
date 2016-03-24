@@ -29,8 +29,8 @@ class SignupsController < ApplicationController
     @user = User.new(session[:signup_info])
     unless already_successful_signup
       if entered_validation_code == session[:signup_validation_code]
-        if %w(waiting_list_for_subscription
-              share_with_user_in_waiting_list)
+        if [User::WantedSubscriptionOptions::WAITING_LIST_FOR_SUBSCRIPTION,
+            User::WantedSubscriptionOptions::SHARE_WITH_USER_IN_WAITING_LIST]
             .include?(@user.wanted_subscription)
           @user.status = User::Status::WAITING_LIST
         end

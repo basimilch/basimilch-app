@@ -127,16 +127,15 @@ class User < ActiveRecord::Base
   },
             unless: :imported
 
-  # DOC: http://ruby-doc.org/core-2.2.4/doc/syntax/literals_rdoc.html#label-Percent+Strings
-  ALLOWED_WANTED_SUBSCRIPTION_OPTIONS = %w(
-    no_subscription
-    waiting_list_for_subscription
-    share_with_user_in_waiting_list
-    share_with_user_already_active
-  )
+  class WantedSubscriptionOptions < Enum
+    enum :NO_SUBSCRIPTION
+    enum :WAITING_LIST_FOR_SUBSCRIPTION
+    enum :SHARE_WITH_USER_IN_WAITING_LIST
+    enum :SHARE_WITH_USER_ALREADY_ACTIVE
+  end
   attr_accessor :wanted_subscription
   validates :wanted_subscription, presence: true, on: :create,
-            inclusion: { in: ALLOWED_WANTED_SUBSCRIPTION_OPTIONS },
+            inclusion: { in: WantedSubscriptionOptions.all },
             unless: :imported
 
   validate :correct_full_postal_address
