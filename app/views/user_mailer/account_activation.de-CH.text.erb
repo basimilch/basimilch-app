@@ -1,9 +1,11 @@
-Hoi <%= @user.first_name %>,
+Hoi <%= @user.first_name %>
 
-Willkommen zu meine.basimil.ch!
+Willkommen auf der basimilch-Plattform!
 
-Dein Konto wurde gerade aktiviert. Klicke auf den folgenden Link, um einzuloggen:
+Dein Konto wurde gerade aktiviert. Um dich einzuloggen, brauchst du nur Zugang zu dieser E-Mail-Adresse.
 
-<%= login_url(email: @user.email) %>
+Diese Plattform ist immer noch im Aufbau. Zurzeit kannst du dich für Einsätze anmelden und deine persönlichen Daten prüfen bzw. ändern. Bald wirst du auch dein Abo und Depot verwalten können. Wenn du Fragen oder Verbesserungsvorschläge zur Plattform hast, nehmen wir sie sehr gerne unter meine@basimil.ch entgegen.
+
+Klicke hier, um dich einzuloggen: <%= login_url(email: @user.email) %>
 
 <%= render "shared/mailer_footer" %>

@@ -1,13 +1,23 @@
-<p>Hoi <%= @user.first_name %>,</p>
+<p>Hoi <%= @user.first_name %></p>
 
 <p>
-  Willkommen zu meine.basimil.ch!
+  Willkommen auf der basimilch-Plattform!
 </p>
 
 <p>
-  Dein Konto wurde gerade aktiviert. Klicke auf den folgenden Link, um einzuloggen:
+  Dein Konto wurde gerade aktiviert.
+  Um dich einzuloggen, brauchst du nur Zugang zu dieser E-Mail-Adresse.
 </p>
 
-<%= link_to "Einloggen", login_url(email: @user.email) %>
+<p>
+  Diese Plattform ist immer noch <strong>im Aufbau</strong>. Zurzeit
+  kannst du dich für <strong>Einsätze anmelden</strong> und deine
+  persönlichen Daten prüfen bzw. ändern. Bald wirst du auch dein Abo und
+  Depot verwalten können. Wenn du <strong>Fragen oder
+  Verbesserungsvorschläge</strong> zur Plattform hast, nehmen wir sie
+  sehr gerne unter <a href="mailto:meine@basimil.ch">meine@basimil.ch</a> entgegen.
+</p>
+
+<%= link_to "Klicke hier, um dich auf #{root_url} einzuloggen.", login_url(email: @user.email) %>
 
 <%= render "shared/mailer_footer" %>
