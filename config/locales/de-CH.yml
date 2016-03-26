@@ -107,7 +107,7 @@ de-CH:
     place:        Ort
     returned_at:  Rückerstattet
     sent_at:      Abgeschickt
-    slots:        Teilnehmer-Anzahl
+    slots:        Anzahl Teilnehmende
     time:         Zeit
     user:         Genossenschafter_in
 
@@ -469,7 +469,7 @@ de-CH:
         <code>%{email}</code> geschickt.
       first_login_attempt_html: >
         <strong>Willkommen!</strong> Eine gute Nachricht: für unsere (und
-        jetzt auch deine) online Platform musst du dir weder Benutzername noch
+        jetzt auch deine) online Plattform musst du dir weder Benutzername noch
         Passwort merken. Wenn du dich einloggen möchtest, schicken wir
         dir einen einmaligen Login-Code an deine E-Mail-Adresse
         <code>%{email}</code>. <strong>Wenn das dein Computer ist, brauchst du dich
@@ -484,9 +484,8 @@ de-CH:
         <code><a href="mailto:meine@basimil.ch">meine@basimil.ch</a></code>.
     create: &sessions_create
       first_login_successful_html: >
-        <strong>Willkommen!</strong> Du hast dich richtig eingeloggt. Das ist
-        dein Benutzerprofil. Wenn du Fragen zur Plaform hast, schreibe
-        uns bitte auf
+        <strong>Willkommen!</strong> Du hast dich richtig eingeloggt. Wenn du
+        Fragen zur Plattform hast, schreibe uns bitte auf
         <code><a href="mailto:meine@basimil.ch">meine@basimil.ch</a></code>.
       not_the_expected_ip_address: >
         Oups, deine IP-Adresse hat sich mittlerweile geändert, was unerwartet ist.
