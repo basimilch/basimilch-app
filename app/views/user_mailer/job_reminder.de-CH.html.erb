@@ -3,7 +3,7 @@
 </p>
 
 <p>
-  Dies ist eine Erinnerung, dass du <strong>morgen <%= @job.start_at.to_date.to_localized_s :short_with_weekday %></strong> folgenden Einsatz bei basimil.ch hast:
+  Dies ist eine Erinnerung, dass du <strong>morgen <%= @job.start_at.to_date.to_localized_s :long_with_weekday %></strong> folgenden Einsatz bei basimil.ch hast:
 </p>
 
 <div>
@@ -16,7 +16,7 @@
 
 <div>
   <ul>
-    <li><strong>Einsatzbescreibung:</strong> <%= @job.description %></li>
+    <li><strong>Einsatzbeschreibung:</strong> <%= @job.description %></li>
   </ul>
 </div>
 
