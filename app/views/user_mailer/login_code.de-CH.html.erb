@@ -9,6 +9,8 @@
   </code>
 </h1>
 
-<p><i>
-  NB: Dieser Code ist nur <%= @login_code_validity.in_words %> gültig und kann nur im Computer benutzt werden, wo dieser angefordert wurde.
-</i></p>
+<p>
+  Dieser Code ist nur <%= @login_code_validity.in_words %> gültig und kann nur im Computer benutzt werden, wo dieser angefordert wurde.
+</p>
+
+<%= render "shared/mailer_footer_unrequested_email" %>

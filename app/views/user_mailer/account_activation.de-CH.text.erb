@@ -6,5 +6,4 @@ Dein Konto wurde gerade aktiviert. Klicke auf den folgenden Link, um einzuloggen
 
 <%= login_url(email: @user.email) %>
 
-Herzliche Grüsse,
-deine basimilch Betriebsgruppe
+<%= render "shared/mailer_footer" %>

@@ -10,9 +10,4 @@
 
 <%= link_to "Einloggen", login_url(email: @user.email) %>
 
-<p>
-  Herzliche Grüsse,
-</p>
-<p>
-  deine basimilch Betriebsgruppe
-</p>
+<%= render "shared/mailer_footer" %>
