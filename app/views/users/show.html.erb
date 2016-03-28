@@ -21,7 +21,8 @@
                       { controller: :users,
                         action:     :activate,
                         id:         @user.id},
-                      { class:  "btn btn-success" } %>
+                      { class:      "btn btn-success",
+                        disabled:   @user.with_placeholder_email? } %>
       <% end %>
     </div>
   </div>

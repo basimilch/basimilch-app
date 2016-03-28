@@ -308,6 +308,15 @@ class User < ActiveRecord::Base
     UserMailer.account_activation(self).deliver_now
   end
 
+  # Helper method to check if a user still has a placeholder email address.
+  # This should only be the case for users manually imported in the initial
+  # launch since new users cannot sign up without a valid email address.
+  # However, admins can still create users without a valid email address.
+  # Check the corresponding scope :without_email.
+  def with_placeholder_email?
+    email.match(/.*@example.org$/).to_b
+  end
+
   # Sends job reminder email.
   def send_job_reminder(job)
     UserMailer.job_reminder(self, job).deliver_now
