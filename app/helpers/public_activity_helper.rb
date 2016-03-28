@@ -180,7 +180,8 @@ module PublicActivityHelper
         [Scope::MODEL, Visibility::ACTIVITY_USERS, Severity::LOW]
       when :destroy
         [Scope::MODEL, Visibility::ACTIVITY_USERS, Severity::MEDIUM]
-      when :send_job_reminder
+      when :send_job_reminder,
+           :send_job_cancelled_notification
         [Scope::EMAIL, Visibility::ACTIVITY_USERS, Severity::LOW]
       when :send_signup_successful_notification,
            :send_new_signup_notification,

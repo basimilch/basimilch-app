@@ -163,6 +163,9 @@ class ActiveSupport::TestCase
   end
 
   def assert_404_error(msg = "no 404 was raised")
+    if integration_test?
+      raise  "`#{__callee__}' does not work within integration tests"
+    end
     assert_raises ActionController::RoutingError, msg do
       yield
     end

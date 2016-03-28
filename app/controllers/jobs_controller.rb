@@ -103,6 +103,9 @@ class JobsController < ApplicationController
   # DELETE /jobs/1.json
   def destroy
     record_activity :destroy, @job # Must come before the destroy action.
+    @job.job_signups.each do |job_signup|
+      UserMailer.job_cancelled_notification(job_signup.user, @job).deliver_later
+    end
     @job.destroy
     respond_to do |format|
       format.html { redirect_to jobs_url, notice: 'Job was successfully destroyed.' }

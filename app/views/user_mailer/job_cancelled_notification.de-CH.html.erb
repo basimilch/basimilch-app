@@ -1,0 +1,20 @@
+<p>
+  Hoi <%= @user.first_name %>
+</p>
+
+<p>
+  <strong>
+    Der Einsatz "<%= @job.title %>" am <%= @job.full_date %> wurde abgesagt!
+  </strong>
+</p>
+
+<p>
+  Du kannst dich für andere Einsätze <%= link_to "anmelden", jobs_url %>.
+</p>
+
+<p>
+  Falls du Fragen hast, melde dich bitte bei der Ansprechperson:
+  <%= @job.user.full_name %> (<%= mail_to @job.user.email %>).
+</p>
+
+<%= render "shared/mailer_footer" %>

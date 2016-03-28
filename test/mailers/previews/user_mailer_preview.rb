@@ -54,4 +54,10 @@ class UserMailerPreview < ActionMailer::Preview
   def job_reminder
     UserMailer.job_reminder(User.first, Job.first)
   end
+
+  # Preview this email at
+  #   http://localhost:3000/rails/mailers/user_mailer/job_cancelled_notification
+  def job_cancelled_notification
+    UserMailer.job_cancelled_notification(User.first, Job.first)
+  end
 end

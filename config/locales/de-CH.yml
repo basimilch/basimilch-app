@@ -550,6 +550,8 @@ de-CH:
       signup_from: "Anmeldung aus"
     job_reminder:
       subject: "Morgiger Einsatz: %{job_title}"
+    job_cancelled_notification:
+      subject: "Einsatz ABGESAGT: %{job_title} am %{job_date}"
 
   share_certificates:
     index:
