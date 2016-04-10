@@ -4,7 +4,7 @@ Geocoder.configure(
   #                                      #geocoding-service-lookup-configuration
 
   # Geocoding service timeout (secs)
-  timeout:    2,
+  timeout:    15,
 
   # Geocoding service:
   # SOURCE: https://github.com/alexreisner/geocoder/tree/v1.2.9
