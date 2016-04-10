@@ -1,13 +1,13 @@
 Geocoder.configure(
 
-  # SOURCE: https://github.com/alexreisner/geocoder/tree/v1.2.9
+  # SOURCE: https://github.com/alexreisner/geocoder/tree/v1.3.3
   #                                      #geocoding-service-lookup-configuration
 
   # Geocoding service timeout (secs)
   timeout:    15,
 
   # Geocoding service:
-  # SOURCE: https://github.com/alexreisner/geocoder/tree/v1.2.9
+  # SOURCE: https://github.com/alexreisner/geocoder/tree/v1.3.3
   #                                                #google-google-google_premier
   # DOC: http://code.google.com/apis/maps/documentation/geocoding/#JSON
   # Terms of Service: http://code.google.com/apis/maps/terms.html#section_10_12

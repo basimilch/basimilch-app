@@ -560,16 +560,12 @@ computer and browser** where it has been requested.
 
 ## Geolocalization
 
-To validate the user postal addresses on singup we use the
-geolocalization library [Geocoder `v1.3.1`]<span>[*](#geocoder_gem_version)</span> . This library will allow us
-also operations related to geographical relations between users,
-depots and other entities.
+To validate the user postal addresses and IP addresses on singup we
+use the geolocalization library [Geocoder `v1.3.3`]. This library will
+allow us also operations related to geographical relations between
+users, depots and other entities.
 
-[Geocoder `v1.3.1`]: https://rubygems.org/gems/geocoder/versions/1.3.1
-
-<i><a name="geocoder_gem_version">*</a> Note that the `gem`
-version in Rubygems.org is `v1.3.1` but the last tag in GitHub.com is
-[`v1.3.0`](https://github.com/alexreisner/geocoder/tree/v1.3.0).</i>
+[Geocoder `v1.3.3`]: https://github.com/alexreisner/geocoder/tree/v1.3.3
 
 ### Google Geocode API and Usage Limits
 

@@ -29,7 +29,7 @@ gem 'sdoc',                     '0.4.1', group: :doc # https://github.com/voloko
 gem 'platform-api',             '0.5.0' # https://github.com/heroku/platform-api/releases
 gem 'rails-i18n',               '4.0.8' # https://github.com/svenfuchs/rails-i18n/blob/master/CHANGELOG.md
 gem 'phony_rails',              '0.12.13' # https://github.com/joost/phony_rails/releases
-gem 'geocoder',                 '1.3.1' # https://github.com/alexreisner/geocoder/releases
+gem 'geocoder',                 '1.3.3' # https://github.com/alexreisner/geocoder/releases
 # Track changes to models => allows undo
 gem 'paper_trail',              '4.1.0' # https://github.com/airblade/paper_trail/releases
 # Track activity => allows timeline
