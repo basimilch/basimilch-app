@@ -43,7 +43,7 @@ module ActionFilterHelper
   # SOURCE: http://stackoverflow.com/a/3104799
   def require_referer_domain(domain = DEFAULT_URL_DOMAIN_FOR_REFERER_FILTER,
                        redirect_to_url: DEFAULT_REDIRECT_URL_FOR_REFERER_FILTER)
-    return if BYPASS_REFERER_FILTER or not Rails.env.production?
+    return if BYPASS_REFERER_FILTER or !Rails.env.production?
     raise ArgumentError, "domain must be provided" if domain.blank?
     referer_url = request.env['HTTP_REFERER']
     referer_regexp = Regexp.new("^https?://([^/]+\\.)?#{domain}(?:/.*)?")
@@ -59,8 +59,10 @@ module ActionFilterHelper
     end
   end
 
+  BYPASS_SWISS_IP_FILTER = ENV["BYPASS_SWISS_IP_FILTER"].to_b
+
   def require_request_from_swiss_ip
-    return unless Rails.env.production?
+    return if BYPASS_SWISS_IP_FILTER or !Rails.env.production?
     result = Geocoder.search(request.remote_ip).first
     unless result && result.country_code == "CH"
       logger.warn "Unauthorised signup request from IP " +
