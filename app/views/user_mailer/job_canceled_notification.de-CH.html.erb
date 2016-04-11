@@ -4,7 +4,7 @@
 
 <p>
   <strong>
-    Der Einsatz "<%= link_to @job.title,  @job %>" am <%= @job.full_date %>, wofür du angemeldest warst, wurde abgesagt!
+    Der Einsatz <%= link_to "#{@job.title} am #{@job.full_date}", @job %>, wofür du angemeldest warst, wurde abgesagt!
   </strong>
 </p>
 

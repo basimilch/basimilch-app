@@ -4,7 +4,7 @@
 
 <p>
   <strong>
-    Du wurdest vom Einsatz "<%= link_to @job.title, @job %>" am <%= @job.full_date %> abgemeldet.
+    Du wurdest vom Einsatz <%= link_to "#{@job.title} am #{@job.full_date}", @job %> abgemeldet.
   </strong>
 </p>
 

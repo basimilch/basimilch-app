@@ -562,6 +562,10 @@ de-CH:
       subject: "Einsatz ABGESAGT: %{job_title} am %{job_date}"
     job_signup_canceled_notification:
       subject: "Deine Anmeldung für %{job_title} am %{job_date} wurde abgesagt"
+    new_self_job_signup_confirmation:
+      subject: "Anmeldebestätigung: %{job_title} am %{job_date}"
+    new_job_signup_by_admin_confirmation:
+      subject: "Anmeldebestätigung: %{job_title} am %{job_date}"
 
   share_certificates:
     index:
@@ -615,7 +619,8 @@ de-CH:
       signup_confirmation_message: >
         Möchtest du dich verbindlich für diesen Einsatz eintragen?
       signup_users_confirmation_message: >
-        Möchtest du diese Benutzer für diesen Einsatz eintragen?
+        Möchtest du diese Benutzer wirklich für diesen Einsatz eintragen? Sie
+        werden eine Anmeldebestätigung per E-Mail (mit dir im CC) bekommen.
       current_user_signed_up_and_job_full: >
         Du bist für diesen Einsatz angemeldet.
       current_user_signed_up: >

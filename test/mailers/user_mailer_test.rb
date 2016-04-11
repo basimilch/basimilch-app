@@ -66,4 +66,28 @@ class UserMailerTest < ActionMailer::TestCase
     assert_equal [users(:one).email],      mail.cc
     assert_equal ["noreply@example.org"],  mail.from
   end
+
+  test "new_self_job_signup_confirmation" do
+    user = users(:three)
+    job  = jobs(:one)
+    mail = UserMailer.new_self_job_signup_confirmation(user, job)
+    assert_equal "Anmeldebestätigung: MyString am So, 17. Jan",
+                                           mail.subject
+    assert_equal [user.email],             mail.to
+    assert_equal ["noreply@example.org"],  mail.from
+  end
+
+  test "new_job_signup_by_admin_confirmation" do
+    user          = users(:three)
+    job           = jobs(:one)
+    current_user  = users(:two)
+    mail = UserMailer.new_job_signup_by_admin_confirmation(user,
+                                                           job,
+                                                           current_user)
+    assert_equal "Anmeldebestätigung: MyString am So, 17. Jan",
+                                           mail.subject
+    assert_equal [user.email],             mail.to
+    assert_equal [users(:two).email],      mail.cc
+    assert_equal ["noreply@example.org"],  mail.from
+  end
 end

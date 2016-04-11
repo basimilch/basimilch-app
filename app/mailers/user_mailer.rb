@@ -98,8 +98,11 @@ class UserMailer < ApplicationMailer
     @job_coordinator = job.user
     mail to: "#{user.full_name} <#{user.email}>",
          cc: "#{@job_coordinator.full_name} <#{@job_coordinator.email}>",
-         subject: t(".subject", job_title: job.title,
-                                job_date: @job.start_at.to_date.to_localized_s(:short_with_weekday))
+         subject: t(
+            ".subject",
+            job_title: job.title,
+            job_date: @job.start_at.to_date.to_localized_s(:short_with_weekday)
+          )
     record_activity :send_job_canceled_notification, @user, data: {job: @job}
   end
 
@@ -115,8 +118,55 @@ class UserMailer < ApplicationMailer
     @job_coordinator = job.user
     mail to: "#{user.full_name} <#{user.email}>",
          cc: "#{@job_coordinator.full_name} <#{@job_coordinator.email}>",
-         subject: t(".subject", job_title: job.title,
-                                job_date: @job.start_at.to_date.to_localized_s(:short_with_weekday))
-    record_activity :send_job_signup_canceled_notification, @user, data: {job: @job}
+         subject: t(
+            ".subject",
+            job_title: job.title,
+            job_date: @job.start_at.to_date.to_localized_s(:short_with_weekday)
+          )
+    record_activity :send_job_signup_canceled_notification, @user, data: {
+      job: @job
+    }
+  end
+
+  # Subject can be set in your I18n file at config/locales/en.yml
+  # with the following lookup:
+  #
+  #   de-CH.user_mailer.new_self_job_signup_confirmation.subject
+  #
+  def new_self_job_signup_confirmation(user, job)
+    @user             = user
+    @job              = job
+    @job_coordinator  = job.user
+    mail to: "#{user.full_name} <#{user.email}>",
+         subject: t(
+            ".subject",
+            job_title: job.title,
+            job_date: @job.start_at.to_date.to_localized_s(:short_with_weekday)
+          )
+    record_activity :send_new_self_job_signup_confirmation, @user, data: {
+      job: @job
+    }
+  end
+
+  # Subject can be set in your I18n file at config/locales/en.yml
+  # with the following lookup:
+  #
+  #   de-CH.user_mailer.new_job_signup_by_admin_confirmation.subject
+  #
+  def new_job_signup_by_admin_confirmation(user, job, current_user)
+    @user             = user
+    @job              = job
+    @job_coordinator  = job.user
+    @current_user     = current_user
+    mail to: "#{user.full_name} <#{user.email}>",
+         cc: "#{current_user.full_name} <#{current_user.email}>",
+         subject: t(
+            ".subject",
+            job_title: job.title,
+            job_date: @job.start_at.to_date.to_localized_s(:short_with_weekday)
+          )
+    record_activity :send_new_job_signup_by_admin_confirmation, @user, data: {
+      job: @job
+    }
   end
 end

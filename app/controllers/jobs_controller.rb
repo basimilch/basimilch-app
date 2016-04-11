@@ -230,14 +230,29 @@ class JobsController < ApplicationController
         flash_t :danger, :canceled_job_cannot_accept_signups
         return false
       end
-      activity_key = current_user?(user) ? :current_user_sign_up_for_job :
-                                           :admin_sign_up_user_for_job
-      activity_data = current_user?(user) ? {} : {user: user}
-      signup = @job.job_signups.build(user: user,
-                                      author: current_user,
+
+      if current_user?(user)
+        activity_key        = :current_user_sign_up_for_job
+        activity_data       = {}
+        confirmation_email  = UserMailer.new_self_job_signup_confirmation(
+                                            user,
+                                            @job
+                                          )
+      else
+        activity_key        = :admin_sign_up_user_for_job
+        activity_data       = {user: user}
+        confirmation_email  = UserMailer.new_job_signup_by_admin_confirmation(
+                                            user,
+                                            @job,
+                                            current_user
+                                          )
+      end
+      signup = @job.job_signups.build(user:       user,
+                                      author:     current_user,
                                       allow_past: current_user_admin?)
       if signup.save
         record_activity activity_key, @job, data: activity_data
+        confirmation_email.deliver_later
         return true
       else
         errors = signup.errors[:base].join(" ")

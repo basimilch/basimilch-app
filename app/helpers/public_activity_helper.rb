@@ -182,7 +182,9 @@ module PublicActivityHelper
         [Scope::MODEL, Visibility::ACTIVITY_USERS, Severity::MEDIUM]
       when :send_job_reminder,
            :send_job_canceled_notification,
-           :send_job_signup_canceled_notification
+           :send_job_signup_canceled_notification,
+           :send_new_job_signup_by_admin_confirmation,
+           :send_new_self_job_signup_confirmation
         [Scope::EMAIL, Visibility::ACTIVITY_USERS, Severity::LOW]
       when :send_signup_successful_notification,
            :send_new_signup_notification,

@@ -66,4 +66,18 @@ class UserMailerPreview < ActionMailer::Preview
   def job_signup_canceled_notification
     UserMailer.job_signup_canceled_notification(User.first, Job.first)
   end
+
+  # Preview this email at
+  #   http://localhost:3000/rails/mailers/user_mailer/new_self_job_signup_confirmation
+  def new_self_job_signup_confirmation
+    UserMailer.new_self_job_signup_confirmation(User.first, Job.first)
+  end
+
+  # Preview this email at
+  #   http://localhost:3000/rails/mailers/user_mailer/new_job_signup_by_admin_confirmation
+  def new_job_signup_by_admin_confirmation
+    UserMailer.new_job_signup_by_admin_confirmation(User.first,
+                                                    Job.first,
+                                                    User.admins.first)
+  end
 end

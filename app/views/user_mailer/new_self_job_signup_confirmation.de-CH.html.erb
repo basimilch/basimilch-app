@@ -1,0 +1,14 @@
+<p>
+  Hoi <%= @user.first_name %>
+</p>
+
+<p>
+  Das ist eine Bestätigung, dass du dich für den Einsatz <%= link_to "#{@job.title} am #{@job.full_date}", @job %> angemeldet hast.
+</p>
+
+<p>
+  Falls du Fragen hast, melde dich bitte bei der Ansprechperson:
+  <%= @job_coordinator.full_name %> (<%= mail_to @job_coordinator.email %>).
+</p>
+
+<%= render "shared/mailer_footer" %>
