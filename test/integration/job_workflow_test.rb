@@ -18,12 +18,15 @@ class JobWorkflowTest < ActionDispatch::IntegrationTest
 
     assert_equal false, @past_job.full?
     assert_equal true,  @past_job.past?
+    assert_equal false, @past_job.canceled?
 
     assert_equal false, @future_job.full?
     assert_equal false, @future_job.past?
+    assert_equal false, @future_job.canceled?
 
-    assert_equal true,   @full_job.full?
-    assert_equal false,  @full_job.past?
+    assert_equal true,  @full_job.full?
+    assert_equal false, @full_job.past?
+    assert_equal false, @full_job.canceled?
     assert_equal @admin_user, @full_job.job_signups.first.author
     assert_equal false, @full_job.job_signups.first.self_signup?
   end
@@ -31,10 +34,29 @@ class JobWorkflowTest < ActionDispatch::IntegrationTest
   test "deleting a job should delete dependent job_signups and send email" do
     get root_url
     fixture_log_in @admin_user
+    # A job can only be destroyed if it is canceled.
+    assert_no_difference ['Job.count', 'JobSignup.count'] do
+      delete job_path(@full_job)
+    end
+    put job_cancel_path(@full_job)
     assert_difference ['Job.count', 'JobSignup.count'], -1 do
-      assert_difference 'ActionMailer::Base.deliveries.size', 1 do
-        # Cancelling a job should send a notification to the signed up users.
-        delete job_path(@full_job)
+      delete job_path(@full_job)
+    end
+  end
+
+  test "canceling a job should cancel dependent job_signups and send email" do
+    get root_url
+    fixture_log_in @admin_user
+    assert_no_difference ['Job.count', 'JobSignup.count'] do
+      assert_difference ['Job.not_canceled.count',
+                         'JobSignup.not_canceled.count'], -1 do
+        assert_difference ['Job.canceled.count',
+                           'JobSignup.canceled.count'], 1 do
+          assert_difference 'ActionMailer::Base.deliveries.size', 1 do
+            # Canceling a job should send a notification to the signed up users.
+            put job_cancel_path(@full_job)
+          end
+        end
       end
     end
   end

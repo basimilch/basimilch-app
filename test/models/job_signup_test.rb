@@ -8,6 +8,10 @@ class JobSignupTest < ActiveSupport::TestCase
 
     assert_equal true,  @admin_user.admin?
     assert_equal false, @other_user.admin?
+
+    @job_signup = jobs(:future_job).job_signups.build(user:   @other_user,
+                                                      author: @admin_user)
+    assert_equal true, @job_signup.valid?
   end
 
   test "should not be possible to create a signup without user_id" do
@@ -52,5 +56,12 @@ class JobSignupTest < ActiveSupport::TestCase
     job_signup = jobs(:past_job).job_signups.build(user:   @other_user,
                                                    author: @other_user)
     assert_not_valid job_signup
+  end
+
+  test "job signup must be cancelable" do
+    assert Cancelable.included_in?(JobSignup)
+    assert_equal false, @job_signup.canceled?
+    assert_equal nil,   @job_signup.canceled_by
+    assert_equal nil,   @job_signup.canceled_reason
   end
 end

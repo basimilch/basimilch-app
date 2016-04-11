@@ -11,25 +11,16 @@
         </tr>
       </thead>
       <tbody>
-        <% user.current_year_jobs.each_with_index do |job, i| %>
-            <% if job %>
-              <tr class="user_signup_job_info <%= job.past? ? "success" : "warning" %>" data-href="<%= job_path(job.id)%>" >
+        <% user.current_year_job_signups.each_with_index do |job_signup, i| %>
+            <% if job_signup %>
+              <% job = job_signup.job %>
+              <tr class="user_signup_job_info <%= tr_class job_signup, job %>" data-href="<%= job_path(job.id)%>" >
                 <td><%= i + 1 %>.</td>
                 <td><%= job.start_at.to_date.to_localized_s :short_with_weekday %></td>
                 <td><%= "#{job.start_at.to_s(:time)} - #{job.end_at.to_s(:time)}" %></td>
                 <td><%= job.title %></td>
                 <td>
-                  <% if job.past? %>
-                    <%= icon :ok, t('.done') %>
-                  <% elsif job.ongoing? %>
-                    <%= icon :bell, t("time.now") %>
-                  <% else %>
-                    <%= icon :time do %>
-                      <%= time_tag job.start_at do %>
-                        <%= job.start_at.relative_in_words %>
-                      <% end %>
-                    <% end %>
-                  <% end %>
+                  <%= status_icon job_signup, job %>
                 </td>
             <% else %>
               <tr class="user_signup_job_info danger" >

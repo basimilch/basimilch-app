@@ -588,3 +588,32 @@ tr[data-href] {
     }
   }
 }
+
+.canceled {
+  // NOTE: text-decoration property cannot be overriden with e.g.
+  //        - text-decoration: none;
+  //        - text-decoration: none !important;
+  //       so that it seems challenging to implement a class like e.g.
+  //       '.prevent-canceled-styling'.
+  //       The property 'text-decoration-color' is not even useful because
+  //       it has the same bas properties and it's not even widely supported.
+  // SOURCE: http://stackoverflow.com/a/1823388
+  // DOC: http://www.w3.org/TR/CSS21/text.html#propdef-text-decoration
+  // DOC: http://www.w3schools.com/cssref/css3_pr_text-decoration-color.asp
+  text-decoration: line-through;
+  opacity: .7;
+}
+
+.job-signup-cancel-details {
+  font-size: small;
+  opacity: .7;
+  padding: {
+    left: 10px;
+  }
+  &::before {
+    content: "("
+  }
+  &::after {
+    content: ")"
+  }
+}

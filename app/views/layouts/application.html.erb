@@ -24,7 +24,7 @@
     <%= render 'layouts/header' %>
     <div class="container">
       <%= render 'shared/flash_messages' %>
-      <h1>
+      <h1 class="title <%= yield(:title_class) %>">
         <%= yield(:title) %>
       </h1>
       <% if !@title_labels.blank? %>

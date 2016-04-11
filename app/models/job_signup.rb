@@ -1,11 +1,17 @@
 class JobSignup < ActiveRecord::Base
 
+  include Cancelable
+
+  after_cancel    :notify_cancelation
+
   MIN_NUMBER_PER_USER_PER_YEAR = 4
 
-  after_destroy :notify_about_destroy
+  default_scope   -> { order(created_at: :asc) }
 
   # DOC: http://www.informit.com/articles/article.aspx?p=2220311
   scope :in_current_year, -> { joins(:job).merge(Job.in_current_year) }
+  scope :past,    -> { joins(:job).merge(Job.past) }
+  scope :future,  -> { joins(:job).merge(Job.future) }
 
   belongs_to :user
   belongs_to :job
@@ -53,8 +59,20 @@ class JobSignup < ActiveRecord::Base
       end
     end
 
-    def notify_about_destroy
-      # TODO: Send email notification to concerned users.
-      logger.warn "#{self} was destroyed."
+    class CancellationReason < Enum
+      enum :JOB_CANCELED
+      enum :JOB_SIGNUP_CANCELED
+    end
+
+    def notify_cancelation
+      case canceled_reason_key
+      when CancellationReason::JOB_CANCELED
+        UserMailer.job_canceled_notification(user, job).deliver_later
+      when CancellationReason::JOB_SIGNUP_CANCELED
+        UserMailer.job_signup_canceled_notification(user, job).deliver_later
+      else
+        logger.warn "Unexpected canceled_reason_key:" +
+                    " #{canceled_reason_key.inspect} - Nothing to do."
+      end
     end
 end

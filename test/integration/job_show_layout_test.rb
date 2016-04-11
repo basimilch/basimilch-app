@@ -77,7 +77,9 @@ class JobShowLayoutTest < ActionDispatch::IntegrationTest
                       count: (self_signup_button_shown ? 1 : 0)
       assert_select  "form[action='/jobs/#{job.id}/signup_users']",
                       count: (signup_others_button_shown ? 1 : 0)
-      assert_select  "[href='/jobs/#{job.id}/unregister_user/#{@user.id}']",
+      assert_select  "[href='/jobs/#{job.id}/cancel_job_signup/#{
+                        JobSignup.find_by(user: @user, job: job).try(:id)
+                      }']",
                       {count: (unregister_others_button_shown ? 1 : 0)}
       assert_select  "textarea[name='job[notes]']",
                       count: (notes_shown ? 1 : 0)

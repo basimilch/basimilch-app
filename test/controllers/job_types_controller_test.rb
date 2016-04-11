@@ -100,7 +100,20 @@ class JobTypesControllerTest < ActionController::TestCase
     assert_not_equal "some new title", @job_type.reload.title
   end
 
-  test "admin should destroy job_type" do
+  test "admin should not destroy not canceled job_type" do
+    assert_equal false, @job_type.canceled?
+    assert_no_difference 'JobType.count' do
+      assert_admin_protected login_as: @admin_user do
+        delete :destroy, id: @job_type
+      end
+    end
+    assert_redirected_to job_types_path
+  end
+
+  test "admin should destroy canceled job_type" do
+    assert_equal false, @job_type.canceled?
+    assert_equal true,  @job_type.cancel(author: @user)
+    assert_equal true,  @job_type.canceled?
     assert_difference 'JobType.count', -1 do
       assert_admin_protected login_as: @admin_user do
         delete :destroy, id: @job_type

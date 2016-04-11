@@ -750,6 +750,48 @@ about [Efficient Use of PostgreSQL Indexes].
 [this SO answer about creating simple vs compound indexed]: http://stackoverflow.com/a/1049392
 [Efficient Use of PostgreSQL Indexes]: https://devcenter.heroku.com/articles/postgresql-indexes
 
+#### Test DB out of sync
+
+If the tests seems to fail for a weird reason, please make sure that
+the test DB is in sync with the [`db/schema.rb`]. As suggested in
+["Maintaining The Test Database Schema"], you have to execute
+[`db:test:prepare`]:
+
+``` bash
+bundle exec db:test:prepare
+```
+
+In [some places](http://stackoverflow.com/a/28324956), this command
+is supposed deprecated (but worked for me :confused:). They recommend
+to execute instead:
+
+``` bash
+bundle exec rake db:migrate RAILS_ENV=test
+```
+
+Alternatively, if the [`db/schema.rb`] is correct you can reload it to
+the `test` environment with:
+
+``` bash
+bundle exec rake db:schema:load RAILS_ENV=test
+```
+
+Please make sure that neither the tests nor the `rails console` are
+running when applying migrations, since this can result in such
+misalignments.
+
+Another common cause of leaving the test DB in an inconsistent state
+is when rollbacking a migration (during dev) with `db:rollback`.
+
+For a comprehensive description of all `db:` rake tasks you can check
+the code at [`railties/databases.rake`].
+
+["Maintaining The Test Database Schema"]: http://guides.rubyonrails.org/v4.2.5.2/testing.html#maintaining-the-test-database-schema
+
+[`db:test:prepare`]: https://github.com/rails/rails/blob/v4.2.5.2/activerecord/lib/active_record/railties/databases.rake#L359-L364
+
+[`railties/databases.rake`]: https://github.com/rails/rails/blob/v4.2.5.2/activerecord/lib/active_record/railties/databases.rake
+
 ### Active Record `scopes`
 
 For a gut introduction to Active Record `scopes` you might want to

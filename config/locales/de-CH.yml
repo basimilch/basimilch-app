@@ -188,6 +188,7 @@ de-CH:
   title_labels:
     admin: "Admin"
     active: "Aktiv"
+    job_canceled: "Abgesagt"
     inactive: "Inaktiv"
 
   # Global flash messages
@@ -425,7 +426,14 @@ de-CH:
     job_signup:
       unregister: "Abmelden"
       unregister_confirmation_message: >
-        Möchtest du diese_n Genossenschafter_in sicher von diesem Einsatz abmelden?
+        Möchtest du diese_n Genossenschafter_in wirklich von diesem Einsatz abmelden?
+        Die Person wird automatisch per E-Mail benachrichtigt.
+      job_signup_cancel_by_current_user_details: >
+        abgemeldet von dir am %{canceled_at}
+      job_signup_cancel_by_user_details_html: >
+        abgemeldet von <a href='%{canceled_by_url}'>%{canceled_by}</a> am %{canceled_at}
+      job_signup_cancel_by_unknown_details: >
+        abgemeldet von unbekannt am %{canceled_at}
 
   # Controllers
 
@@ -550,8 +558,10 @@ de-CH:
       signup_from: "Anmeldung aus"
     job_reminder:
       subject: "Morgiger Einsatz: %{job_title}"
-    job_cancelled_notification:
+    job_canceled_notification:
       subject: "Einsatz ABGESAGT: %{job_title} am %{job_date}"
+    job_signup_canceled_notification:
+      subject: "Deine Anmeldung für %{job_title} am %{job_date} wurde abgesagt"
 
   share_certificates:
     index:
@@ -588,6 +598,7 @@ de-CH:
       free_type_jobs: Einsätze ohne Tätigkeit
       show_all_job_types: Alle Tätigkeiten
       show_jobs_from_now: Ab heute
+      job_canceled: Abgesagt
     show:
       <<: *table_headers
       title: Einsatz
@@ -597,6 +608,7 @@ de-CH:
       signup_for_job: Ich melde mich an
       signup_other_users_for_job: Andere Benutzer anmelden
       signup_other_users_placeholder: Namen eingeben
+      job_is_canceled: "Der Einsatz ist abgesagt!"
       job_is_full: "Der Einsatz ist ausgebucht, danke!"
       notes_hint: "NB: Diese Notizen sind nur für Admins sichtbar."
       save_notes: "Notizen speichern"
@@ -611,7 +623,27 @@ de-CH:
         Personen unter deinem Namen eintragen möchstest, kannst du dich nochmals
         anmelden.
       job_is_in_the_past: Der Einsatz ist bereits vorbei.
+      job_canceled: >
+        Der Einsatz wurde am %{canceled_at} abgesagt.
+      job_canceled_by_user: >
+        Der Einsatz wurde von <a href='%{canceled_by_url}'>%{canceled_by}</a>
+        am %{canceled_at} abgesagt.
+      job_canceled_by_unknown: >
+        Der Einsatz wurde von unbekannt am %{canceled_at} abgesagt.
       no_typeahead_user_suggestions_found: Keine Benutzer gefunden
+      cancellation_confirmation_message: >
+        Möchtest du diesen Einsatz wirklich absagen? Falls vorhanden werden
+        die angemeldeten Personen sofort und automatisch per E-Mail
+        benachrichtigt. Die Absage kann *NICHT* rückgängig gemacht werden.
+
+    destroy:
+      job_not_destroyed_because_not_canceled: >
+        Der Einsatz muss agbesagt werden, bevor es gelöscht werden kann. Beim
+        Absagen werden die angemeldete Benutzern per E-Mail benachrichtigt, falls
+        vorhanden.
+      unable_to_destroy_job: >
+        Löschen fehlgeschlagen. Der Einsatz könnte aus unerwarteten Gründen nicht
+        gelöscht werden.
     form:
       select_number_of_slots: "Anzahl Plätze auswählen"
       select_job_coordinator: "Einsatzkoordinator_in auswählen"
@@ -621,13 +653,22 @@ de-CH:
         repeat_weekly_4_times: Dieser Einsatz einmal wöchentlich für vier Wochen wiederholen
     signup_users:
       user_not_found: "Genossenschafter mit id '%{id}' nicht gefunden!"
+      canceled_job_cannot_accept_signups: >
+        Der Einsatz wurde abgesagt. Man kann sich dafür nicht mehr anmelden.
+    signup_current_user:
+      canceled_job_cannot_accept_signups: >
+        Der Einsatz wurde abgesagt. Man kann sich dafür nicht mehr anmelden.
     user_overview:
       done: Erledigt
+      canceled: Abgesagt
       open_slot: Noch offen
-    unregister_user:
-      user_unregistered_from_this_job: >
-        %{user_html} wurde von diesem Einsatz erfolgreich abgemeldet. NB: Die Person
-        wurde über die Abmeldung NICHT automatisch per E-Mail benachrichtigt.
-      user_not_signed_up_for_this_job: >
-        %{user_html} kann nicht von diesem Einsatz abgemeldet werden,
-        weil er oder sie nicht (mehr?) für diesen Einsatz angemeldet ist.
+    cancel_job_signup:
+      job_signup_successfully_canceled: >
+        %{user_html} wurde von diesem Einsatz erfolgreich abgemeldet. Die Person
+        wurde über die Abmeldung automatisch per E-Mail benachrichtigt.
+      job_signup_not_canceled: >
+        Abmeldung fehlgeschlagen. Wahrscheinlich wurde %{user_html} bereits von
+        diesem Einsatz abgemeldet.
+      unexpected_job_signup_id: >
+        Abmeldung fehlgeschlagen. Einsatzanmeldung '%{job_signup_id}' für diesen
+        Einsatz konnte nicht gefunden werden.

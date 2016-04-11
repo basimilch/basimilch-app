@@ -1,14 +1,35 @@
 <li>
   <% if current_user_admin? %>
-    <%= link_to job_signup.user.full_name, job_signup.user %>
-    - <code><%= mail_to job_signup.user.email %></code>
-    <%= link_to t('.unregister'),
-            job_unregister_user_path(user_id: job_signup.user_id),
-            { class:  "btn btn-xs btn-danger job-unregister-button",
-              method: :post,
-              data: { confirm: t('.unregister_confirmation_message') }} %>
-
+    <span class="<%= job_signup.canceled? ? 'canceled' : '' %>">
+      <%= link_to job_signup.user.full_name, job_signup.user %>
+    </span>
+    <% if job_signup.canceled? %>
+      <span class="job-signup-cancel-details">
+        <% cancellation_author = User.find_by(id: job_signup.canceled_by_id) %>
+        <% if current_user? cancellation_author %>
+          <%= t '.job_signup_cancel_by_current_user_details',
+                canceled_at:      job_signup.canceled_at.to_localized_s %>
+        <% elsif cancellation_author %>
+          <%= t '.job_signup_cancel_by_user_details_html',
+                canceled_at:      job_signup.canceled_at.to_localized_s,
+                canceled_by_url:  user_path(cancellation_author),
+                canceled_by:      cancellation_author.full_name %>
+        <% else %>
+          <%= t '.job_signup_cancel_by_unknown_details',
+                canceled_at: job_signup.canceled_at.to_localized_s %>
+        <% end %>
+      </span>
+    <% else %>
+      - <code><%= mail_to job_signup.user.email %></code>
+      <%= link_to t('.unregister'),
+              cancel_job_signup_path(job_signup_id: job_signup.id),
+              { class:  "btn btn-xs btn-danger job-unregister-button",
+                method: :put,
+                data: { confirm: t('.unregister_confirmation_message') }} %>
+    <% end %>
   <% else %>
-    <%= job_signup.user.full_name %>
+    <span class="<%= job_signup.canceled? ? 'canceled' : '' %>">
+      <%= job_signup.user.full_name %>
+    </span>
   <% end %>
 </li>

@@ -3,6 +3,10 @@ class Job < ActiveRecord::Base
   # DOC: https://github.com/chaps-io/public_activity/tree/v1.4.1
   include PublicActivity::Common
 
+  include Cancelable
+
+  before_cancel   :cancel_signups
+
   FREQUENCIES = [:just_once,
                  :repeat_weekly_4_times]
 
@@ -18,17 +22,22 @@ class Job < ActiveRecord::Base
   belongs_to :job_type
   # DOC: http://guides.rubyonrails.org/v4.2.5.2/association_basics.html#dependent
   has_many :job_signups, dependent: :destroy
-  has_many :users, -> {distinct}, through: :job_signups
+  has_many :users,
+           -> { distinct.merge(JobSignup.not_canceled).remove_order_by },
+           through: :job_signups
 
   default_scope   -> { order(start_at: :asc) }
   scope :future,  -> { where("start_at > ?", Time.current) }
-  scope :job_type, ->(id){ id == :all ? all : where(job_type_id: id) }
-  scope :at_day,  ->(d){  where("start_at > ?", d.to_date.at_beginning_of_day)
-                         .where("start_at < ?", d.to_date.at_end_of_day) }
+  scope :past,    -> { where("start_at < ?", Time.current) }
+  scope :job_type, ->(id) { id == :all ? all : where(job_type_id: id) }
+  scope :within_period, ->(t1, t2) {  where("start_at > ?", t1)
+                                     .where("start_at < ?", t2) }
+  scope :at_day,  ->(d) { within_period(d.to_date.at_beginning_of_day,
+                                        d.to_date.at_end_of_day) }
   scope :today,     -> { at_day(Date.today) }
   scope :tomorrow,  -> { at_day(Date.tomorrow) }
-  scope :in_current_year, -> { where("start_at > ?",
-                                     Time.current.beginning_of_year) }
+  scope :in_current_year, -> { within_period(Time.current.beginning_of_year,
+                                             Time.current.end_of_year) }
   scope :in_this_years_month, ->(m) do
     month = m.to_i
     # SOURCE: http://stackoverflow.com/a/10001043
@@ -86,7 +95,8 @@ class Job < ActiveRecord::Base
   def to_s
     ("Job #{id.inspect}: #{start_at.try(:to_date).try(:to_s, :db).inspect}," +
      " #{start_at.try(:to_s, :time).inspect}-" +
-     "#{start_at.try(:to_s, :time).inspect} - #{title.inspect}").truncate(100)
+     "#{start_at.try(:to_s, :time).inspect} - #{title.inspect}" +
+     "#{canceled? ? " (canceled)" : ""}").truncate(100)
   end
 
   def full_date
@@ -98,8 +108,13 @@ class Job < ActiveRecord::Base
     "#{place} - #{address}"
   end
 
+  # Returns the job signups of this job that has not been canceled.
+  def current_job_signups
+    job_signups.not_canceled
+  end
+
   def signup_status
-    count = job_signups.count
+    count = current_job_signups.count
     return :success if count >= slots
     return :danger  if count < (0.4 * slots)
     :warning
@@ -126,7 +141,7 @@ class Job < ActiveRecord::Base
   end
 
   def user_signed_up?(user)
-    job_signups.each do |job_signup|
+    current_job_signups.each do |job_signup|
       return true if job_signup.user_id == user.id
     end
     return false
@@ -166,6 +181,14 @@ class Job < ActiveRecord::Base
         errors.add :end_at,
                    I18n.t("errors.messages.job_end_must_be_between" +
                           "_30min_and__after_start")
+      end
+    end
+
+    def cancel_signups
+      job_signups.each do |job_signup|
+        job_signup.cancel reason:   canceled_reason,
+                        reason_key: JobSignup::CancellationReason::JOB_CANCELED,
+                        author:     canceled_by_id
       end
     end
 end

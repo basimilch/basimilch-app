@@ -167,4 +167,66 @@ class JobTest < ActiveSupport::TestCase
     @job.job_type_id = JobType.first.id
     assert_valid @job
   end
+
+  test "job must be cancelable" do
+    assert Cancelable.included_in?(Job)
+    assert_equal false, @job.canceled?
+    assert_equal nil,   @job.canceled_by
+    assert_equal nil,   @job.canceled_reason
+  end
+
+  test "unsaved job cannot be canceled" do
+    assert_equal false, @job.canceled?
+    assert_raises ActiveRecord::RecordNotFound do
+      @job.cancel
+    end
+    assert_equal false, @job.canceled?
+  end
+
+  test "saved job cannot be canceled without an author" do
+    assert_equal false, @job.canceled?
+    assert_equal true,  @job.save
+    assert_raises RuntimeError do
+      @job.cancel
+    end
+    assert_equal false, @job.canceled?
+  end
+
+  test "saved job can be canceled" do
+    assert_equal false, @job.canceled?
+    assert_equal true,  @job.save
+    assert_equal true,  @job.cancel(author: users(:one))
+    assert_equal true,  @job.canceled?
+  end
+
+  test "saved job cannot be canceled twice" do
+    assert_equal false, @job.canceled?
+    assert_equal true,  @job.save
+    assert_equal true,  @job.cancel(author: users(:one))
+    assert_equal true,  @job.canceled?
+    assert_equal false, @job.cancel(author: users(:one))
+    assert_equal true,  @job.canceled?
+  end
+
+  test "canceled job must have an author" do
+    assert_equal false,       @job.canceled?
+    assert_equal true,        @job.save
+    assert_equal true,        @job.cancel(author: users(:one))
+    assert_equal true,        @job.canceled?
+    assert_equal users(:one), @job.canceled_by
+  end
+
+  test "canceled job cannot be edited" do
+    assert_equal false,         @job.canceled?
+    assert_equal true,          @job.save
+    @job.title = "new title 1"
+    assert_equal true,          @job.save
+    assert_equal "new title 1", @job.reload.title
+    assert_equal true,          @job.cancel(author: users(:one))
+    assert_equal true,          @job.canceled?
+    @job.title = "new title 2"
+    assert_equal false,         @job.save
+    assert_equal "new title 2", @job.title
+    assert_equal "new title 1", @job.reload.title
+  end
 end

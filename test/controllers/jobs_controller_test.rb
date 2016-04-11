@@ -11,6 +11,8 @@ class JobsControllerTest < ActionController::TestCase
 
     assert_equal true,  @admin_user.admin?
     assert_equal false, @user.admin?
+    assert_equal false, @job.canceled?
+    assert_equal false, @full_job.canceled?
     assert_equal true, @full_job.full?
     assert_equal @admin_user, @full_job.job_signups.first.author
     assert_equal false, @full_job.job_signups.first.self_signup?
@@ -110,9 +112,9 @@ class JobsControllerTest < ActionController::TestCase
                                       end_at: 1.day.from_now + 1.hour,
                                       title: @job.title,
                                       user_id: @job.user_id,
-                                      notes: "udpated notes" }
+                                      notes: "updated notes" }
     end
-    assert_equal "udpated notes", @job.reload.notes
+    assert_equal "updated notes", @job.reload.notes
     assert_redirected_to job_path(assigns(:job))
   end
 
@@ -129,7 +131,20 @@ class JobsControllerTest < ActionController::TestCase
     end
   end
 
-  test "admin should destroy job" do
+  test "admin should not destroy not canceled job" do
+    assert_equal false, @job.canceled?
+    assert_no_difference 'Job.count' do
+      assert_admin_protected login_as: @admin_user do
+        delete :destroy, id: @job
+      end
+    end
+    assert_redirected_to @job
+  end
+
+  test "admin should destroy canceled job" do
+    assert_equal false, @job.canceled?
+    assert_equal true,  @job.cancel(author: @user)
+    assert_equal true,  @job.canceled?
     assert_difference 'Job.count', -1 do
       assert_admin_protected login_as: @admin_user do
         delete :destroy, id: @job
@@ -232,18 +247,22 @@ class JobsControllerTest < ActionController::TestCase
 
   test "admin user should be able to unregister a user form a job" do
     assert_equal @user, @full_job.users.first
-    assert_difference 'JobSignup.count', -1 do
+    assert_difference 'JobSignup.not_canceled.count', -1 do
       assert_admin_protected login_as: @admin_user do
-        post :unregister_user, id: @full_job.id, user_id: @user.id
+        put :cancel_job_signup,
+            id: @full_job.id,
+            job_signup_id: JobSignup.find_by(user: @user, job: @full_job).id
       end
     end
   end
 
   test "non-admin user should not be able to unregister a user form a job" do
     assert_equal @user, @full_job.users.first
-    assert_no_difference 'JobSignup.count' do
+    assert_no_difference 'JobSignup.not_canceled.count' do
       assert_admin_protected login_as: @user do
-        post :unregister_user, id: @full_job.id, user_id: @user.id
+        put :cancel_job_signup,
+            id: @full_job.id,
+            job_signup_id: JobSignup.find_by(user: @user, job: @full_job).id
       end
     end
   end

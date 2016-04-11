@@ -4,7 +4,7 @@ desc "This task is called by the Heroku scheduler add-on"
 
 task :send_reminders_for_tomorrow_jobs => :environment do
   puts "Sending reminders for tomorrow's jobs (#{Date.tomorrow})..."
-  tomorrow_jobs = Job.tomorrow
+  tomorrow_jobs = Job.tomorrow.not_canceled
   if tomorrow_jobs.empty?
     puts " => no jobs scheduled for tomorrow"
     puts " => nothing sent"

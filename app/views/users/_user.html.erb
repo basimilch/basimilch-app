@@ -46,7 +46,7 @@
     <%= mail_to user.email %>
   </td>
   <td>
-    <%= link_to user.job_signups.in_current_year.count,
+    <%= link_to user.count_of_jobs_done_this_year,
                 user_path(id: user.id, anchor: "job_overview") %>
   </td>
   <td>

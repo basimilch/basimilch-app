@@ -30,9 +30,10 @@ Rails.application.routes.draw do
   put     'signup'        => 'signups#create',            as: :signup_create
 
   post  'jobs/:id/signup'       => 'jobs#signup_current_user', as: :job_signup
-  post  'jobs/:id/signup_users' => 'jobs#signup_users',    as: :job_signup_users
-  post  'jobs/:id/unregister_user/:user_id' => 'jobs#unregister_user',
-                                                        as: :job_unregister_user
+  post  'jobs/:id/signup_users' => 'jobs#signup_users',   as: :job_signup_users
+  put   'jobs/:id/cancel_job_signup/:job_signup_id' => 'jobs#cancel_job_signup',
+                                                          as: :cancel_job_signup
+  put   'jobs/:id/cancel'       => 'jobs#cancel',         as: :job_cancel
 
   # DOC: http://stackoverflow.com/a/26286472/5764181
   # DOC: https://wearestac.com/blog/dynamic-error-pages-in-rails

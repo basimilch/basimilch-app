@@ -6,7 +6,8 @@ class JobsController < ApplicationController
   before_action :admin_user,  except: [:index, :show, :signup_current_user]
   before_action :set_job,     only:   [:show, :edit, :update, :destroy,
                                        :signup_current_user,
-                                       :signup_users, :unregister_user]
+                                       :signup_users, :cancel_job_signup,
+                                       :cancel]
 
   # GET /jobs
   # GET /jobs.json
@@ -33,7 +34,22 @@ class JobsController < ApplicationController
   # GET /jobs/1
   # GET /jobs/1.json
   def show
-    if @job.past?
+    if @job.canceled?
+      cancellation_author = User.find_by(id: @job.canceled_by_id)
+      t_key = if !current_user_admin?
+                '.job_canceled'
+              elsif cancellation_author
+                '.job_canceled_by_user'
+              else
+                '.job_canceled_by_unknown'
+              end
+      flash_now_t :warning,
+          t(t_key,
+            canceled_at:      @job.canceled_at.to_localized_s,
+            canceled_by:      cancellation_author.try(:full_name),
+            canceled_by_url:  cancellation_author &&
+                                user_path(cancellation_author))
+    elsif @job.past?
       flash_now_t :warning, :job_is_in_the_past
     elsif @job.user_signed_up? current_user
       flash_now_t :info, @job.full? ? :current_user_signed_up_and_job_full :
@@ -103,21 +119,36 @@ class JobsController < ApplicationController
   # DELETE /jobs/1.json
   def destroy
     record_activity :destroy, @job # Must come before the destroy action.
-    @job.job_signups.each do |job_signup|
-      UserMailer.job_cancelled_notification(job_signup.user, @job).deliver_later
-    end
-    @job.destroy
-    respond_to do |format|
-      format.html { redirect_to jobs_url, notice: 'Job was successfully destroyed.' }
-      format.json { head :no_content }
+    if @job.destroy
+      logger.info "#{@job} destroyed successfully"
+      flash_t :success, t(".job_destroyed_successfully")
+      respond_to do |format|
+        format.html { redirect_to jobs_url }
+        format.json { head :no_content }
+      end
+    else
+      record_activity :destroy_failed, @job
+      if !@job.canceled?
+        logger.warn "#{@job} not destroyed because not canceled"
+        flash_t :danger, t(".job_not_destroyed_because_not_canceled")
+      else
+        logger.error "Unable to destroy: #{@job}"
+        flash_t :danger, t(".unable_to_destroy_job")
+      end
+      respond_to do |format|
+        format.html { redirect_to @job }
+        format.json { head :no_content }
+      end
     end
   end
 
+  # POST /jobs/1/signup
   def signup_current_user
     signup_user current_user
     redirect_to @job
   end
 
+  # POST /jobs/1/signup_users
   def signup_users
     user_ids_to_signup = params.require(:users)
     users_to_signup = []
@@ -134,26 +165,37 @@ class JobsController < ApplicationController
     redirect_to @job
   end
 
-  def unregister_user
-    if user = User.find_by(id: params[:user_id])
-      if signup = JobSignup.where(user_id: user.id, job_id: @job.id).first
-        signup.destroy
-        record_activity :admin_unregister_user_from_job, @job, data: {
+  # PUT /jobs/1/cancel_job_signup/1
+  def cancel_job_signup
+    signup = JobSignup.find_by(id: params[:job_signup_id])
+    if signup && signup.job_id == @job.id
+      user = signup.user
+      if signup.cancel author: current_user,
+                  reason_key: JobSignup::CancellationReason::JOB_SIGNUP_CANCELED
+        record_activity :admin_cancel_job_signup, @job, data: {
           user: user,
-          destroyed_job_signup: signup
+          canceled_job_signup: signup
         }
-        flash_t :success, t(".user_unregistered_from_this_job",
+        flash_t :success, t(".job_signup_successfully_canceled",
                             user_html: user.to_html)
       else
-        record_activity :admin_unregister_user_from_job_failed, @job, data: {
-          user: user
-        }
-        flash_t :danger, t(".user_not_signed_up_for_this_job",
-                           user_html: user.to_html,
-                           job_id:  @job.id)
+        flash_t :success, t(".job_signup_not_canceled",
+                            user_html: user.to_html)
       end
     else
-      flash_t :danger, t(".user_not_found", id: user_id)
+      record_activity :admin_cancel_job_signup_failed, @job, data: {
+        job_signup_id: params[:job_signup_id]
+      }
+      flash_t :danger, t(".unexpected_job_signup_id",
+                         job_signup_id: params[:job_signup_id])
+    end
+    redirect_to @job
+  end
+
+  # PUT /jobs/1/cancel
+  def cancel
+    if @job.cancel author: current_user
+      record_activity :cancel, @job
     end
     redirect_to @job
   end
@@ -184,6 +226,10 @@ class JobsController < ApplicationController
     end
 
     def signup_user(user)
+      if @job.canceled?
+        flash_t :danger, :canceled_job_cannot_accept_signups
+        return false
+      end
       activity_key = current_user?(user) ? :current_user_sign_up_for_job :
                                            :admin_sign_up_user_for_job
       activity_data = current_user?(user) ? {} : {user: user}

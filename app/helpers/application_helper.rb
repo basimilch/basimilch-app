@@ -117,7 +117,7 @@ module ApplicationHelper
           "aria-hidden" => true
         })
       concat(label.to_s) if label
-      yield if block_given?
+      concat(yield) if block_given?
     end
   end
 end

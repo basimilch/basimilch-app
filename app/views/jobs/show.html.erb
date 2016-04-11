@@ -1,4 +1,5 @@
 <% provide(:title, "#{t '.title'}: #{@job.title}") %>
+<% provide(:title_class, "canceled") if @job.canceled? %>
 
 <p>
   <strong><%= t '.job_type' %>: </strong>
@@ -50,14 +51,22 @@
 
 <p>
   <strong><%= t '.slots' %>: </strong>
-  <%= "#{@job.job_signups.count} von #{@job.slots}" %>
+  <%= "#{@job.current_job_signups.count} von #{@job.slots}" %>
 </p>
 
 <ol>
-  <%= render @job.job_signups %>
+  <% if current_user_admin? %>
+    <%= render @job.job_signups %>
+  <% else %>
+    <%= render @job.current_job_signups %>
+  <% end %>
 </ol>
 
-<% if @job.full? %>
+<% if @job.canceled? %>
+  <div class="alert alert-warning" role="alert">
+    <%= t '.job_is_canceled' %>
+  </div>
+<% elsif @job.full? %>
   <div class="alert alert-success" role="alert">
     <%= t '.job_is_full' %>
   </div>
@@ -72,7 +81,7 @@
   </div> <!-- /row -->
 <% end %>
 
-<% if current_user_admin? && !@job.full? %>
+<% if current_user_admin? && !@job.full? && !@job.canceled? %>
   <div>
     <%= form_tag job_signup_users_path, class: "signup-other-users" do %>
       <div class="row">
@@ -85,7 +94,7 @@
           <%= select_tag "users", nil, multiple: true,
               placeholder: t('.signup_other_users_placeholder'),
               data: {
-          available_slots: @job.slots - @job.job_signups.count,
+          available_slots: @job.slots - @job.current_job_signups.count,
           typeahead_no_suggestions_msg: t(".no_typeahead_user_suggestions_found")
               } %>
         </div> <!-- /col -->
@@ -122,6 +131,8 @@
     <%= link_to 'Duplicate', new_job_path(duplicate: @job.id) %> |
     <%= link_to 'Edit', edit_job_path(@job) %> |
     <%# link_to 'Destroy', @job, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <%= link_to 'Cancel', job_cancel_path(@job), method: :put,
+        data: { confirm: t('.cancellation_confirmation_message') } %> |
     <%= link_to 'Back', jobs_path %>
   </div>
 <% end %>

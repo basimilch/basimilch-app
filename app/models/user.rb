@@ -11,15 +11,13 @@ class User < ActiveRecord::Base
 
   has_many :share_certificates
   has_many :job_signups
-  has_many :jobs, -> {distinct}, through: :job_signups
+  has_many :jobs, -> { distinct.remove_order_by }, through: :job_signups
 
   scope :by_name, -> { order(last_name: :asc).order(id: :asc) }
   scope :by_id, -> { order(id: :asc) }
   scope :admins, -> { by_name.where(admin: true) }
   scope :with_intern_email, -> { by_name.where('email ILIKE ?',
                                                '%' + INTERN_EMAIL_DOMAIN) }
-  # DOC: http://www.informit.com/articles/article.aspx?p=2220311
-  scope :working_tomorrow, -> { by_name.joins(:jobs).merge(Job.tomorrow).distinct }
   scope :emails, -> { pluck(:email) }
 
   # DOC: http://guides.rubyonrails.org/active_record_querying.html#conditions
@@ -353,13 +351,17 @@ class User < ActiveRecord::Base
                         .permit(:password, :password_confirmation))
   end
 
-  # Returns an array of jobs for which this user has signup this year.
+  # Returns an array of job_signups for this user and this year.
   # The array has a min length equal to the min number of jobs that
   # a user has to do, with 'nil' for the missing required signups.
-  def current_year_jobs
+  def current_year_job_signups
     min = JobSignup::MIN_NUMBER_PER_USER_PER_YEAR
-    jobs = job_signups.in_current_year.map(&:job)
-    (jobs + [nil] * min).take([jobs.count, min].max)
+    year_job_signups = job_signups.in_current_year
+    (year_job_signups + [nil] * min).take([year_job_signups.count, min].max)
+  end
+
+  def count_of_jobs_done_this_year
+    job_signups.in_current_year.past.not_canceled.count
   end
 
   def to_s

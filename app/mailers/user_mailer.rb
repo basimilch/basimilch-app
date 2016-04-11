@@ -89,15 +89,34 @@ class UserMailer < ApplicationMailer
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
-  #   de-CH.user_mailer.job_cancelled_notification.subject
+  #   de-CH.user_mailer.job_canceled_notification.subject
   #
-  def job_cancelled_notification(user, job)
+  def job_canceled_notification(user, job)
     # TODO: Consider sending only one email to all concerned users.
     @user = user
     @job = job
+    @job_coordinator = job.user
     mail to: "#{user.full_name} <#{user.email}>",
+         cc: "#{@job_coordinator.full_name} <#{@job_coordinator.email}>",
          subject: t(".subject", job_title: job.title,
                                 job_date: @job.start_at.to_date.to_localized_s(:short_with_weekday))
-    record_activity :send_job_cancelled_notification, @user, data: {job: @job}
+    record_activity :send_job_canceled_notification, @user, data: {job: @job}
+  end
+
+  # Subject can be set in your I18n file at config/locales/en.yml
+  # with the following lookup:
+  #
+  #   de-CH.user_mailer.job_signup_canceled_notification.subject
+  #
+  def job_signup_canceled_notification(user, job)
+    # TODO: Consider sending only one email to all concerned users.
+    @user = user
+    @job = job
+    @job_coordinator = job.user
+    mail to: "#{user.full_name} <#{user.email}>",
+         cc: "#{@job_coordinator.full_name} <#{@job_coordinator.email}>",
+         subject: t(".subject", job_title: job.title,
+                                job_date: @job.start_at.to_date.to_localized_s(:short_with_weekday))
+    record_activity :send_job_signup_canceled_notification, @user, data: {job: @job}
   end
 end

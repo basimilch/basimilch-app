@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160321230211) do
+ActiveRecord::Schema.define(version: 20160401210502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,12 +40,16 @@ ActiveRecord::Schema.define(version: 20160321230211) do
   create_table "job_signups", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "job_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
     t.integer  "author_id"
+    t.datetime "canceled_at"
+    t.string   "canceled_reason"
+    t.integer  "canceled_by_id"
   end
 
   add_index "job_signups", ["author_id"], name: "index_job_signups_on_author_id", using: :btree
+  add_index "job_signups", ["canceled_by_id"], name: "index_job_signups_on_canceled_by_id", using: :btree
   add_index "job_signups", ["job_id"], name: "index_job_signups_on_job_id", using: :btree
   add_index "job_signups", ["user_id"], name: "index_job_signups_on_user_id", using: :btree
 
@@ -56,10 +60,14 @@ ActiveRecord::Schema.define(version: 20160321230211) do
     t.string   "address"
     t.integer  "slots"
     t.integer  "user_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.datetime "canceled_at"
+    t.string   "canceled_reason"
+    t.integer  "canceled_by_id"
   end
 
+  add_index "job_types", ["canceled_by_id"], name: "index_job_types_on_canceled_by_id", using: :btree
   add_index "job_types", ["user_id"], name: "index_job_types_on_user_id", using: :btree
 
   create_table "jobs", force: :cascade do |t|
@@ -71,12 +79,16 @@ ActiveRecord::Schema.define(version: 20160321230211) do
     t.string   "address"
     t.integer  "slots"
     t.integer  "user_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
     t.integer  "job_type_id"
     t.text     "notes"
+    t.datetime "canceled_at"
+    t.string   "canceled_reason"
+    t.integer  "canceled_by_id"
   end
 
+  add_index "jobs", ["canceled_by_id"], name: "index_jobs_on_canceled_by_id", using: :btree
   add_index "jobs", ["job_type_id"], name: "index_jobs_on_job_type_id", using: :btree
   add_index "jobs", ["start_at"], name: "index_jobs_on_start_at", using: :btree
   add_index "jobs", ["user_id"], name: "index_jobs_on_user_id", using: :btree
@@ -143,8 +155,11 @@ ActiveRecord::Schema.define(version: 20160321230211) do
   add_foreign_key "job_signups", "jobs"
   add_foreign_key "job_signups", "users"
   add_foreign_key "job_signups", "users", column: "author_id"
+  add_foreign_key "job_signups", "users", column: "canceled_by_id"
   add_foreign_key "job_types", "users"
+  add_foreign_key "job_types", "users", column: "canceled_by_id"
   add_foreign_key "jobs", "job_types"
   add_foreign_key "jobs", "users"
+  add_foreign_key "jobs", "users", column: "canceled_by_id"
   add_foreign_key "share_certificates", "users"
 end

@@ -1,0 +1,29 @@
+<p>
+  Hoi <%= @user.first_name %>
+</p>
+
+<p>
+  <strong>
+    Du wurdest vom Einsatz "<%= link_to @job.title, @job %>" am <%= @job.full_date %> abgemeldet.
+  </strong>
+</p>
+
+<% if @job.user_signed_up? @user %>
+  <p>
+    ACHTUNG! Du warst mit Begleitpersonen für diesen Einsatz angemeldet. Bitte
+    beachte, dass diese E-Mail nur <strong>eine</strong> Abmeldung betrifft.
+    Es ist mindestens noch eine weitere Anmeldung von dir für diesen Einsatz
+    gültig. Überprüfe es "<%= link_to "hier", @job %>".
+  </p>
+<% end %>
+
+<p>
+  Du kannst dich für andere Einsätze <%= link_to "anmelden", jobs_url %>.
+</p>
+
+<p>
+  Falls du Fragen hast, melde dich bitte bei der Ansprechperson:
+  <%= @job.user.full_name %> (<%= mail_to @job.user.email %>) (im CC dieser E-Mail).
+</p>
+
+<%= render "shared/mailer_footer" %>

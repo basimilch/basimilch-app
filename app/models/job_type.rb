@@ -1,5 +1,7 @@
 class JobType < ActiveRecord::Base
 
+  include Cancelable
+
   belongs_to :user
   has_many :jobs
 

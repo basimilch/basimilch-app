@@ -8,9 +8,9 @@ class UserMailerTest < ActionMailer::TestCase
     user = users(:two)
     user.activation_sent_at = Time.current
     mail = UserMailer.account_activation(user)
-    assert_equal "Kontoaktivierung", mail.subject
-    assert_equal [user.email], mail.to
-    assert_equal ["noreply@example.org"],  mail.from
+    assert_equal "Kontoaktivierung",      mail.subject
+    assert_equal [user.email],            mail.to
+    assert_equal ["noreply@example.org"], mail.from
     assert_match user.first_name,         mail.body.encoded
     assert_match CGI::escape(user.email), mail.body.encoded
   end
@@ -21,7 +21,7 @@ class UserMailerTest < ActionMailer::TestCase
     mail = UserMailer.email_validation(user, email_validation_code)
     assert_equal "Validierung der E-Mail-Adresse",  mail.subject
     assert_equal [user.email],                      mail.to
-    assert_equal ["noreply@example.org"],            mail.from
+    assert_equal ["noreply@example.org"],           mail.from
     assert_match email_validation_code,             mail.body.encoded
   end
 
@@ -33,7 +33,7 @@ class UserMailerTest < ActionMailer::TestCase
                                  SessionsController::LOGIN_CODE_VALIDITY)
     assert_equal "Login Code",                  mail.subject
     assert_equal [user.email],                  mail.to
-    assert_equal ["noreply@example.org"],        mail.from
+    assert_equal ["noreply@example.org"],       mail.from
     assert_match login_code,                    mail.body.encoded
     assert_match "login/#{login_code.number}",  mail.body.encoded
   end
@@ -43,6 +43,27 @@ class UserMailerTest < ActionMailer::TestCase
     mail = UserMailer.signup_successful(user)
     assert_equal "Anmeldung erfolgreich",  mail.subject
     assert_equal [user.email],             mail.to
-    assert_equal ["noreply@example.org"],   mail.from
+    assert_equal ["noreply@example.org"],  mail.from
+  end
+
+  test "job_canceled_notification" do
+    user = users(:three)
+    job  = jobs(:one)
+    mail = UserMailer.job_canceled_notification(user, job)
+    assert_equal "Einsatz ABGESAGT: MyString am So, 17. Jan", mail.subject
+    assert_equal [user.email],             mail.to
+    assert_equal [users(:one).email],      mail.cc
+    assert_equal ["noreply@example.org"],  mail.from
+  end
+
+  test "job_signup_canceled_notification" do
+    user = users(:three)
+    job  = jobs(:one)
+    mail = UserMailer.job_signup_canceled_notification(user, job)
+    assert_equal "Deine Anmeldung für MyString am So, 17. Jan wurde abgesagt",
+                                           mail.subject
+    assert_equal [user.email],             mail.to
+    assert_equal [users(:one).email],      mail.cc
+    assert_equal ["noreply@example.org"],  mail.from
   end
 end

@@ -173,6 +173,7 @@ class String
   end
 
   # DOC: http://stackoverflow.com/a/4471202
+  # SOURCE: http://blog.bigbinary.com/2012/01/08/alias-vs-alias-method.html
   alias_method :original_percent_operator, :"%"
 
   # Allow an ActiveRecord as input for String#% formating to behave like a hash:
@@ -287,6 +288,13 @@ class ActiveRecord::Base
   def required_attribute?(attribute)
     self.class.validators_on(attribute).map(&:class).include?(
       ActiveRecord::Validations::PresenceValidator)
+  end
+
+  # SOURCE: http://stackoverflow.com/a/9491479
+  # DOC: http://api.rubyonrails.org/classes/ActiveRecord/
+  #                                           QueryMethods.html#method-i-reorder
+  def self.remove_order_by
+    reorder('')
   end
 end
 

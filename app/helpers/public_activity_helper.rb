@@ -116,8 +116,7 @@ module PublicActivityHelper
       parameters[:changeset] = last_version.try(:changeset)
     when :admin_sign_up_user_for_job,
          :admin_sign_up_user_for_job_failed,
-         :admin_unregister_user_from_job,
-         :admin_unregister_user_from_job_failed
+         :admin_cancel_job_signup
       recipient_model = parameters[:recipient] = parameters.pop(:user)
     end
 
@@ -174,14 +173,16 @@ module PublicActivityHelper
     # :severity    => low, medium, high, critical
     def activity_flags(activity_name)
       case activity_name
-      when :create
+      when :create,
+           :update
         [Scope::MODEL, Visibility::ACTIVITY_USERS, Severity::LOW]
-      when :update
-        [Scope::MODEL, Visibility::ACTIVITY_USERS, Severity::LOW]
-      when :destroy
+      when :destroy,
+           :destroy_failed,
+           :cancel
         [Scope::MODEL, Visibility::ACTIVITY_USERS, Severity::MEDIUM]
       when :send_job_reminder,
-           :send_job_cancelled_notification
+           :send_job_canceled_notification,
+           :send_job_signup_canceled_notification
         [Scope::EMAIL, Visibility::ACTIVITY_USERS, Severity::LOW]
       when :send_signup_successful_notification,
            :send_new_signup_notification,
@@ -209,11 +210,11 @@ module PublicActivityHelper
       when :current_user_sign_up_for_job,
            :admin_sign_up_user_for_job
         [Scope::JOB, Visibility::PUBLIC, Severity::LOW]
-      when :admin_unregister_user_from_job
+      when :admin_cancel_job_signup
         [Scope::JOB, Visibility::ACTIVITY_USERS, Severity::MEDIUM]
       when :current_user_sign_up_for_job_failed,
            :admin_sign_up_user_for_job_failed,
-           :admin_unregister_user_from_job_failed
+           :admin_cancel_job_signup_failed
         [Scope::JOB, Visibility::ADMIN, Severity::MEDIUM]
       else
         raise "Unknown activity name: #{activity_name}"
