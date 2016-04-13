@@ -77,7 +77,7 @@ class RecipientWhitelistBlacklistInterceptor
   def self.select_allowed_addresses(original_list,
                                     whitelist_regexp: nil,
                                     blacklist_regexp: nil)
-    original_list.select do |address|
+    (original_list || []).select do |address|
       address.match(whitelist_regexp || MATCH_EVERYTHING) &&
         !address.match(blacklist_regexp || MATCH_NOTHING)
     end
@@ -87,21 +87,41 @@ class RecipientWhitelistBlacklistInterceptor
     return unless WHITELIST || BLACKLIST
     logger = ActionMailer::Base.logger
     logger.info "Checking email recipients against whitelist/blacklist:"
-    original_recipients = message.to
-    allowed_recipients  = select_allowed_addresses original_recipients,
-                            whitelist_regexp: WHITELIST_REGEXP,
-                            blacklist_regexp: BLACKLIST_REGEXP
+    original_recipients = {
+      to:   message.to  || [],
+      cc:   message.cc  || [],
+      bcc:  message.bcc || []
+    }
+    allowed_recipients = {
+      to:   select_allowed_recipients(message.to),
+      cc:   select_allowed_recipients(message.cc),
+      bcc:  select_allowed_recipients(message.bcc)
+    }
     logger.info   " - Whitelist:        #{WHITELIST.inspect}"
     logger.debug  " - Whitelist Regexp: #{WHITELIST_REGEXP.inspect}"
     logger.info   " - Blacklist:        #{BLACKLIST.inspect}"
     logger.debug  " - Blacklist Regexp: #{BLACKLIST_REGEXP.inspect}"
     logger.info   " - Original recipients:  #{original_recipients.inspect}"
     logger.info   " - Allowed recipients:   #{allowed_recipients.inspect}"
-    message.to = allowed_recipients
-    if message.to.empty?
-      logger.warn "Email will not be delivered."
+    message.to  = allowed_recipients[:to]
+    message.cc  = allowed_recipients[:cc]
+    message.bcc = allowed_recipients[:bcc]
+    if allowed_recipients.values.all?(&:empty?)
+      logger.warn "Email will not be delivered"
       message.perform_deliveries = false
+    elsif original_recipients == allowed_recipients
+      logger.debug "Email will be delivered to all original recipients"
+    else
+      logger.warn "Email will be delivered but NOT to all original recipients"
     end
   end
+
+  private
+
+    def self.select_allowed_recipients(original_recipients)
+      select_allowed_addresses original_recipients,
+        whitelist_regexp: WHITELIST_REGEXP,
+        blacklist_regexp: BLACKLIST_REGEXP
+    end
 end
 ActionMailer::Base.register_interceptor(RecipientWhitelistBlacklistInterceptor)
