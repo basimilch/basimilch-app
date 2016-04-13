@@ -179,7 +179,7 @@ class JobsController < ApplicationController
         flash_t :success, t(".job_signup_successfully_canceled",
                             user_html: user.to_html)
       else
-        flash_t :success, t(".job_signup_not_canceled",
+        flash_t :warning, t(".job_signup_not_canceled",
                             user_html: user.to_html)
       end
     else
