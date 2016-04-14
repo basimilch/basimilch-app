@@ -85,4 +85,19 @@ class UsersControllerTest < ActionController::TestCase
     patch :update, id: @other_user, user: { notes: "some notes" }
     assert_not_equal "some notes", @other_user.reload.notes
   end
+
+  test "admin should be able to edit user email" do
+    fixture_log_in(@admin_user)
+    assert_equal "two@example.com", @other_user.reload.email
+    patch :update, id: @other_user, user: { email: "updated@email.com" }
+    assert_equal "updated@email.com", @other_user.reload.email
+  end
+
+  test "non-admin should not be able to edit user email" do
+    fixture_log_in(@other_user)
+    assert_not @other_user.admin?
+    assert_equal "two@example.com", @other_user.reload.email
+    patch :update, id: @other_user, user: { email: "updated@email.com" }
+    assert_equal "two@example.com", @other_user.reload.email
+  end
 end

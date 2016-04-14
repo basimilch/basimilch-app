@@ -2,7 +2,6 @@ module UsersHelper
 
   PERMITTED_ATTRIBUTES = [:first_name,
                           :last_name,
-                          :email,
                           :postal_address,
                           :postal_address_supplement,
                           :postal_code,
@@ -22,9 +21,10 @@ module UsersHelper
     # Pattern 'strong parameters' to secure form input.
     # Source:
     #   https://www.railstutorial.org/book/_single-page#sec-strong_parameters
+    new_user_signup = (controller_name == "signups")
     params.require(:user).permit(PERMITTED_ATTRIBUTES +
-                (current_user_admin?                        ? [:admin] : []) +
-                (current_user_admin? || current_user.blank? ? [:notes] : []))
+      (current_user_admin?                    ? [:admin] : []) +
+      (current_user_admin? || new_user_signup ? [:email, :notes] : []))
   end
 
   def query_params
