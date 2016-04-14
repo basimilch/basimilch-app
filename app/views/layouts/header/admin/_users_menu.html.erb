@@ -23,6 +23,11 @@
       <% end %>
     </li>
     <li>
+      <%= link_to users_path(view: :recently_online) do %>
+        <span class='glyphicon glyphicon-ok-circle text-success'></span> <%= t('.users_recently_online') %>
+      <% end %>
+    </li>
+    <li>
       <%= link_to users_path(view: :pending_activation) do %>
       <span class='glyphicon glyphicon-time'></span> <%= t('.users_pending_activation') %>
       <% end %>

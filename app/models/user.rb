@@ -13,11 +13,12 @@ class User < ActiveRecord::Base
   has_many :job_signups
   has_many :jobs, -> { distinct.remove_order_by }, through: :job_signups
 
-  scope :by_name, -> { order(last_name: :asc).order(id: :asc) }
   scope :by_id, -> { order(id: :asc) }
+  scope :by_name, -> { order(last_name: :asc).by_id }
   scope :admins, -> { by_name.where(admin: true) }
   scope :with_intern_email, -> { by_name.where('email ILIKE ?',
                                                '%' + INTERN_EMAIL_DOMAIN) }
+  scope :recently_online, -> { by_name.where("last_seen_at > ?",5.minutes.ago) }
   scope :emails, -> { pluck(:email) }
 
   # DOC: http://guides.rubyonrails.org/active_record_querying.html#conditions
