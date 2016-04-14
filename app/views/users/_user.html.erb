@@ -3,7 +3,7 @@
 <% else %>
   <tr class="user-index-row">
 <% end %>
-  <% unless @view == "by_id" %>
+  <% if @ordered_by_last_name %>
     <% current_initial = user.last_name.initial %>
     <% if @last_initial == current_initial %>
       <td></td>

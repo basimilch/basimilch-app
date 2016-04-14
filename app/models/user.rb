@@ -15,10 +15,12 @@ class User < ActiveRecord::Base
 
   scope :by_id, -> { order(id: :asc) }
   scope :by_name, -> { order(last_name: :asc).by_id }
+  scope :by_last_seen_online, -> { order(last_seen_at: :desc) }
   scope :admins, -> { by_name.where(admin: true) }
   scope :with_intern_email, -> { by_name.where('email ILIKE ?',
                                                '%' + INTERN_EMAIL_DOMAIN) }
-  scope :recently_online, -> { by_name.where("last_seen_at > ?",5.minutes.ago) }
+  scope :recently_online, -> { where("last_seen_at > ?", 5.minutes.ago)
+                                .by_last_seen_online }
   scope :emails, -> { pluck(:email) }
 
   # DOC: http://guides.rubyonrails.org/active_record_querying.html#conditions
@@ -39,7 +41,7 @@ class User < ActiveRecord::Base
   scope :inactive, -> { by_name.where(activated: [nil, false], activation_sent_at: nil)}
   scope :pending_activation, -> { by_name.where(activated: [nil, false])
                       .by_name.where(User.arel_table[:activation_sent_at].not_eq(nil)) }
-  scope :active, -> { by_name.where(activated: true) }
+  scope :active, -> { by_last_seen_online.where(activated: true) }
   scope :stale, -> { by_name.where(User.arel_table[:last_seen_at].lt(STALE_THRESHOLD)) }
 
   # Identify users with missing info:
