@@ -298,6 +298,65 @@ class ActiveRecord::Base
   end
 end
 
+class ActiveRecord::Relation
+
+  # Returns a hash of the columns by which the relation is ordered mapped to the
+  # direction of ordering and the level of the ordering. E.g.:
+  # >> User.by_name.to_sql
+  # => "SELECT \"users\".* FROM \"users\"  ORDER BY \"users\".\"last_name\" ASC,
+  #    \"users\".\"id\" ASC"
+  # >> User.by_name.ordering
+  # => {:last_name=>[:asc, 0], :id=>[:asc, 1]}
+  def ordering
+    order_values.each_with_index.reduce({}) do | orders, (ord, level) |
+      orders.merge ord.expr.name => [case ord
+                                       when Arel::Nodes::Descending then :desc
+                                       when Arel::Nodes::Ascending  then :asc
+                                     end,
+                                    level]
+    end
+  end
+
+  # If the relation is ordered by the attribute_name it returns an array with
+  # the order direction and the order level. Returns nil otherwise. E.g.:
+  # >> User.by_name.to_sql
+  # => "SELECT \"users\".* FROM \"users\"  ORDER BY \"users\".\"last_name\" ASC,
+  #    \"users\".\"id\" ASC"
+  # >> User.by_name.ordered_by :last_name
+  # => [:asc, 0]
+  # >> User.by_name.ordered_by :id
+  # => [:asc, 1]
+  def ordered_by(attribute_name)
+    ordering[attribute_name]
+  end
+
+  # Returns true if the relation is ordered by the attribute_name, and false
+  # otherwise.
+  def ordered_by?(attribute_name)
+    ordered_by(attribute_name).to_b
+  end
+
+  # Returns :asc or :desc if the relation is first ordered by the
+  # attribute_name, and nil otherwise. E.g.:
+  # >> User.by_name.to_sql
+  # => "SELECT \"users\".* FROM \"users\"  ORDER BY \"users\".\"last_name\" ASC,
+  #    \"users\".\"id\" ASC"
+  # >> User.by_name.first_ordered_by :last_name
+  # => :asc
+  # >> User.by_name.first_ordered_by :id
+  # => nil
+  def first_ordered_by(attribute_name)
+    direction, level = ordering[attribute_name]
+    return direction if level == 0
+  end
+
+  # Returns true if the relation is first ordered by the attribute_name, and
+  # false otherwise.
+  def first_ordered_by?(attribute_name)
+    first_ordered_by(attribute_name).to_b
+  end
+end
+
 class ActionDispatch::Request
 
   def remote_ip_and_address
