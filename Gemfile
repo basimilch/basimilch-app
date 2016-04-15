@@ -14,7 +14,7 @@ gem 'bcrypt',                   '3.1.11'
 gem 'faker',                    '1.6.3' # https://github.com/stympy/faker/releases
 gem 'carrierwave',              '0.11.0' # https://github.com/carrierwaveuploader/carrierwave/releases
 gem 'mini_magick',              '4.5.1' # https://github.com/minimagick/minimagick/releases
-gem 'fog',                      '1.37.0' # https://github.com/fog/fog/releases
+gem 'fog',                      '1.38.0' # https://github.com/fog/fog/releases
 gem 'will_paginate',            '3.1.0' # https://github.com/mislav/will_paginate/releases
 gem 'bootstrap-will_paginate',  '0.0.10'
 gem 'bootstrap-sass',           '3.3.6' # https://github.com/twbs/bootstrap-sass/releases
