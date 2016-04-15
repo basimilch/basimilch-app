@@ -121,6 +121,15 @@ class MailerTest < ActionController::TestCase
                         allowed_list: @gmail_adresses
   end
 
+  # The ENV variables in Heroku might translate the spaces in non-braking
+  # spaces, i.e. &nbsp. Therefore we test it here. This test is like the 16 but
+  # using a non-breaking space (i.e. ALT+SPACE in a Mac computer).
+  test "whitelist and blacklist for emails should work 17" do
+    assert_email_filter whitelist:    nil,
+                        blacklist:    "@example.com , @example.org",
+                        allowed_list: @gmail_adresses
+  end
+
   private
 
     def assert_email_filter(whitelist: nil, blacklist: nil, allowed_list: [])

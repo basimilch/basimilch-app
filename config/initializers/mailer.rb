@@ -30,10 +30,18 @@ class RecipientWhitelistBlacklistInterceptor
   MATCH_EVERYTHING = Regexp.new('')
   MATCH_NOTHING    = Regexp.new('.^')
 
+  # NOTE: According to the docs, \s only matches [ \t\r\n\f], i.e. it does not
+  #       match e.g. non-breaking space (&nbsp). The POSIX character class
+  #       [[:space:]] does match non-breaking space. This is relevant because
+  #       in Heroku, space in ENV variables might be translated as &nbsp.
+  # SOURCE: http://stackoverflow.com/a/13288542
+  COMMA_SEPARATION = /[[:space:]]*,[[:space:]]*/
+  MULTIPLE_COMMA_SEPARATION = /(?:[[:space:]]*,+[[:space:]]*)+/
+
   def self.regex_for_email_list(email_list)
     return nil            if email_list.nil?
     return MATCH_NOTHING  if email_list.strip.empty?
-    email_addresses = email_list.split(',').map do |address|
+    email_addresses = email_list.split(COMMA_SEPARATION).map do |address|
       # Match all emails addresses of a domain, if only the domain is given
       # Match the + aliases for gmail addresses
       # TODO: If a gmail alias is explicitly given, consider matching only
