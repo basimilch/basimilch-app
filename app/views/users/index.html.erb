@@ -13,7 +13,7 @@
       <%= t ".x_users_found", user_count: @users.count %>
     <% end %>
   </div>
-  <% @ordered_by_last_name = @users.ordered_by? :last_name %>
+  <% @ordered_by_last_name = @users.first_ordered_by? :last_name %>
   <div class="table-responsive">
     <table class="table table-hover table-condensed">
       <thead>
