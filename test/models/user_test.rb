@@ -115,6 +115,10 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "Bbbbb Ccc", @user.last_name
   end
 
+  test "user must be able to have an address" do
+    assert HasPostalAddress.included_in?(User)
+  end
+
   test "postal code validation should reject invalid swiss codes" do
     invalid_codes = %w[0000 000 a004 99999 CH-1243 ch-1234 ch-1]
     invalid_codes.each do |invalid_code|

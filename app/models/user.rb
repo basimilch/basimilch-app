@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
 
   # DOC: https://github.com/chaps-io/public_activity/tree/v1.4.1
   include PublicActivity::Common
+  include HasPostalAddress
 
   INTERN_EMAIL_DOMAIN = '@basimil.ch'
   INTERN_EMAIL_DOMAIN_REGEXP = Regexp.new("^.*#{INTERN_EMAIL_DOMAIN}$")
@@ -51,7 +52,6 @@ class User < ActiveRecord::Base
                               .matches("%@example.org")) }
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
-  VALID_SWISS_POSTAL_CODE_REGEX = /\A\d{4}\z/ # The 'CH-' part is not expected.
   ONLY_SPACES       = /\A\s*\z/
 
   STALE_THRESHOLD = 4.months.ago
@@ -61,12 +61,6 @@ class User < ActiveRecord::Base
   end
 
   attr_accessor :remember_token
-
-  # NOTE: A word of caution: 'after_initialize' means after the Ruby
-  # initialize. Hence it is run every time a record is loaded from the
-  # database and used to create a new model object in memory Source:
-  # http://stackoverflow.com/a/4576026
-  after_initialize :default_values
 
   validates :status, inclusion: { in: Status.all }, allow_nil: true
 
@@ -86,13 +80,6 @@ class User < ActiveRecord::Base
   before_validation :capitalize_last_name
   validates :last_name,   presence: true,
                           length: { maximum: 40 }
-
-  validates :postal_address,  presence: true
-  validates :postal_address_supplement, length: { maximum: 50 }
-  validates :postal_code,     presence: true,
-                              format: { with: VALID_SWISS_POSTAL_CODE_REGEX }
-  validates :city,            presence: true
-  validates :country,         presence: true
 
   # Source:
   #  http://guides.rubyonrails.org/active_record_validations.html#validates-each
@@ -138,85 +125,6 @@ class User < ActiveRecord::Base
   validates :wanted_subscription, presence: true, on: :create,
             inclusion: { in: WantedSubscriptionOptions.all },
             unless: :imported
-
-  validate :correct_full_postal_address
-
-  geocoded_by :full_postal_address
-
-  def full_postal_address(separator: ', ')
-    [postal_address, postal_code, city, country].compact.join(separator)
-  end
-
-  def coordinates_map_url
-    "http://maps.google.com/maps?q=#{latitude},#{longitude}" if geocoded?
-  end
-
-  def postal_address_map_url
-    if geocoded?
-      q = full_postal_address(separator: '+').replace_spaces_with("+")
-      "http://maps.google.com/maps?q=#{q}"
-    end
-  end
-
-  def correct_full_postal_address
-    if postal_address.blank? ||
-       postal_code.blank?    ||
-       city.blank?           ||
-       country.blank?
-      errors.add(:base, I18n.t("errors.messages.uncomplete_postal_address"))
-      return
-    end
-    unless postal_address_changed? ||
-           postal_code_changed?    ||
-           city_changed?           ||
-           country_changed?
-      return
-    end
-    initial_number_of_errors = errors.count
-    result = Geocoder.search(full_postal_address).first
-    unless result && result.route.present? && result.postal_code.present?
-      errors.add(:base, I18n.t("errors.messages.unrecornised_postal_address"))
-      return
-    end
-    result_postal_address = "#{result.route} #{result.street_number}".strip
-    self.postal_address = postal_address.strip
-    if postal_address != result_postal_address
-      errors.add(:postal_address,
-                 I18n.t("errors.messages.unrecornised_and_replaced",
-                        original:  postal_address,
-                        corrected: result_postal_address))
-      self.postal_address = result_postal_address
-    end
-    self.postal_code = postal_code.strip
-    if postal_code != result.postal_code
-      errors.add(:postal_code,
-                 I18n.t("errors.messages.unrecornised_and_replaced",
-                        original:  postal_code,
-                        corrected: result.postal_code))
-      self.postal_code = result.postal_code
-    end
-    self.city = city.strip
-    if city != result.city
-      errors.add(:city,
-                 I18n.t("errors.messages.unrecornised_and_replaced",
-                        original:  city,
-                        corrected: result.city))
-      self.city = result.city
-    end
-    self.country = country.strip
-    if country != result.country
-      errors.add(:country,
-                 I18n.t("errors.messages.unrecornised_and_replaced",
-                        original:  country,
-                        corrected: result.country))
-      self.country = result.country
-    end
-    if errors.count == initial_number_of_errors
-      # Manually geocode the user, to prevent a second API request
-      self.latitude       = result.latitude
-      self.longitude      = result.longitude
-    end
-  end
 
   def full_name
     "#{first_name} #{last_name}"
@@ -395,14 +303,6 @@ class User < ActiveRecord::Base
   # Private methods
 
   private
-
-    def default_values
-      # NOTE: To learn about the or-equals (i.e. '||=') form, see
-      #       https://www.railstutorial.org/book/_single-page#aside-or_equals
-      self.postal_code  ||= Rails.configuration.x.defaults.user_postal_code
-      self.city         ||= Rails.configuration.x.defaults.user_city
-      self.country      ||= Rails.configuration.x.defaults.user_country
-    end
 
     def normalize_tels
       self.tel_mobile = normalized_tel tel_mobile
