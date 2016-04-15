@@ -25,9 +25,11 @@ module Cancelable
 
   included do
 
-    unless ['canceled_at', 'canceled_by_id', 'canceled_reason'].map do |col|
-      columns_hash[col].try(:type)
-    end == [:datetime, :integer, :string]
+    unless {canceled_at:      :datetime,
+            canceled_by_id:   :integer,
+            canceled_reason:  :string}.all? do |col, typ|
+              columns_hash[col.to_s].try(:type) == typ
+            end
       # DOC: http://ruby-doc.org/core-2.2.1/doc/syntax/literals_rdoc.html#label-Here+Documents
       raise MissingMigrationException, <<-ERROR_MSG.red
 Model #{self} is missing the columns required by Cancelable.
