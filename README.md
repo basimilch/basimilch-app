@@ -891,3 +891,71 @@ non-free [Heroku SSL addon].
 [_Medium_ article]: https://sikac.hu/use-let-s-encrypt-tls-certificate-on-heroku-65f853870d90#.toyin35g1
 [Heroku's own documentation about SSL]: https://devcenter.heroku.com/articles/ssl-endpoint
 [Heroku SSL addon]: https://elements.heroku.com/addons/ssl
+
+### Certificate renewal
+
+The free certificates from [Let's encrypt] are valid (as of now) for
+**only 3 months**. The certificate for `meine.basimil.ch` can be
+renewed form the `Cloud9` IDE with the following steps from the
+[Let's encrypt documentation]:
+
+``` bash
+./letsencrypt-auto renew --manual-public-ip-logging-ok
+```
+
+_Note that `letsencrypt-auto` is the official "Let’s Encrypt" client,
+but the other [several `lets-encrypt` clients] available._
+
+To verify the certificate, the corresponding domain needs to serve a
+challenge string on a secret URL provided in the output of the command
+above, e.g.:
+
+``` bash
+-------------------------------------------------------------------------------
+Processing /etc/letsencrypt/renewal/meine.basimil.ch.conf
+-------------------------------------------------------------------------------
+Make sure your web server displays the following content at
+http://meine.basimil.ch/.well-known/acme-challenge/wheQaqVGXFyWh6c6-8PtX-pMJxyl6YE before continuing:
+
+wheQaqVGXFyWh6c6-8PtX-pMJxyl6YE._vNsdaf0TA_jMgfijgFq3xasa9xIFyNfdijf2U
+
+(...)
+Press ENTER to continue
+```
+
+To serve that file, you have to set up the `ENV` variable
+`LETSENCRYPT_CHALLENGE` with the value `filename,challenge`. For the
+example output above, that would be:
+
+``` bash
+heroku config:add --app basimilch LETSENCRYPT_CHALLENGE=wheQaqVGXFyWh6c6-8PtX-pMJxyl6YE,wheQaqVGXFyWh6c6-8PtX-pMJxyl6YE._vNsdaf0TA_jMgfijgFq3xasa9xIFyNfdijf2U
+```
+
+After the app has been restarted on Heroku, verify that the expected
+challenge is returned at the requested URL, e.g. in that case
+`http://meine.basimil.ch/.well-known/acme-challenge/wheQaqVGXFyWh6c6
+-8PtX-pMJxyl6YE`,
+and proceed with the renewal command by pressing `ENTER`.
+
+Once the certificate has successfully been renewed, the corresponding
+files must be updated on Heroku:
+
+``` bash
+heroku certs:update --app basimilch /etc/letsencrypt/live/meine.basimil.ch/fullchain.pem /etc/letsencrypt/live/meine.basimil.ch/privkey.pem
+```
+
+You will be asked to confirm. To proceed, type `basimilch`.
+
+**Note that it might take up to five minutes until you actually see
+that the certificates have been updated.**
+
+To verify that everything has gone as expected, you might list the
+certificates of the app with following command:
+
+``` bash
+heroku certs:info --app basimilch
+```
+
+[several `lets-encrypt` clients]: https://www.metachris.com/2015/12/comparison-of-10-acme-lets-encrypt-clients/
+[Let's encrypt documentation]: https://letsencrypt.org/getting-started/#renewing-a-certificate
+
