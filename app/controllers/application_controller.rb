@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   include PublicActivityHelper
   include ApplicationHelper
   include ActionFilterHelper
+  include CancelableHelper
   include SessionsHelper
   include UsersHelper
 

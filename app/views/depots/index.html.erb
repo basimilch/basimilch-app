@@ -1,0 +1,41 @@
+<% provide(:title, t('.title')) %>
+
+<% if  @depots.empty? %>
+  <%= t '.no_depots' %>
+<% else %>
+  <div class="table-responsive depots_table">
+    <table class="table table-hover table-condensed">
+      <thead>
+        <tr>
+          <th><%= t 'table_headers.name' %></th>
+          <th><%= t 'table_headers.delivery_time' %></th>
+          <th><%= t 'table_headers.address' %></th>
+          <th><%= t 'table_headers.coordinators' %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @depots.each do |depot| %>
+          <tr class="depot_info<%= " canceled" if depot.canceled? %>" data-href="<%= depot_path(depot.id) %>"=>
+            <td><%= depot.name %></td>
+            <td>
+              <%= delivery_time_message depot %>
+            </td>
+            <td><%= depot.full_postal_address %></td>
+            <td>
+              <% unless depot.active_coordinators.empty? %>
+              <ul>
+                <% depot.active_coordinators.each do |coordinator| %>
+                  <li><%= coordinator.user.full_name %></li>
+                <% end %>
+              <% else %>
+                <%= t '.no_coordinator_setup' %>
+              <% end %>
+              </ul>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <%= map_fit_image_tag @depots, height: '500px' %>
+<% end %>

@@ -23,7 +23,7 @@
       - <code><%= mail_to job_signup.user.email %></code>
       <%= link_to t('.unregister'),
               cancel_job_signup_path(job_signup_id: job_signup.id),
-              { class:  "btn btn-xs btn-danger job-unregister-button",
+              { class:  "btn btn-xs btn-danger cancel-button",
                 method: :put,
                 data: { confirm: t('.unregister_confirmation_message') }} %>
     <% end %>

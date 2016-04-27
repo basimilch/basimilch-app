@@ -34,6 +34,32 @@ de-CH:
   # Source: http://stackoverflow.com/a/22797880
 
   dictionary:
+    global: &global
+      directions:     Wegbeschreibung
+      opening_hours:  Abholzeiten
+      delivery_time:  Liefertag
+      map:            Karte
+      address:        Adresse
+      coordinator:    Koordinator_in
+      coordinators:   Koordinator_innen
+      created_at:     Erstellt
+      date:           Datum
+      description:    Beschreibung
+      email:          E-Mail-Adresse
+      id:             Nr.
+      job_signups:    Einsätze
+      job_title:      Einsatz
+      jobs:           Einsätze
+      last_seen_at:   Zuletzt online
+      name:           Name
+      notes:          Notizen
+      payed_at:       Bezahlt
+      place:          Ort
+      returned_at:    Rückerstattet
+      sent_at:        Abgeschickt
+      slots:          Anzahl Teilnehmende
+      time:           Zeit
+      user:           Genossenschafter_in
     attributes: &attributes
       activated_at:               "Aktiviert am"
       admin:                      "Admin"
@@ -90,27 +116,7 @@ de-CH:
       login_code:                 "xxx xxx"
 
   table_headers: &table_headers
-    address:      Adresse
-    coordinator:  Koordinator_in
-    created_at:   Erstellt
-    date:         Datum
-    description:  Beschreibung
-    email:        E-Mail-Adresse
-    id:           Nr.
-    job_signups:  Einsätze
-    job_title:    Einsatz
-    jobs:         Einsätze
-    last_seen_at: Zuletzt online
-    name:         Name
-    notes:        Notizen
-    payed_at:     Bezahlt
-    place:        Ort
-    returned_at:  Rückerstattet
-    sent_at:      Abgeschickt
-    slots:        Anzahl Teilnehmende
-    time:         Zeit
-    user:         Genossenschafter_in
-
+    <<: *global
   time:
     now:          jetzt
     tomorrow:     morgen
@@ -227,8 +233,9 @@ de-CH:
       job_signup_author_not_entitled: >
         Nur Admins dürfen andere Benutzern für Einsätze anmelden.
       job_end_must_be_after_start: "muss nach der Startzeit sein"
-      job_end_must_be_between_30min_and__after_start: >
-        "muss zwischen 30 Minuten und 8 Stunden nach der Startzeit sein"
+      job_end_must_be_between_30min_and_after_start: >
+        muss zwischen 30 Minuten und 8 Stunden nach der Startzeit sein
+      wrong: "nicht richtig"
 
 
   # Models
@@ -423,6 +430,9 @@ de-CH:
         hint: >
           Trage bitte den Namen der Person, mit der du ein Abo teilen möchstest,
           im oberen Notizfeld ein.
+    typeahead_field:
+      default_placeholder:  Genossenschafter_innen
+      no_suggestions_found: Keine Genossenschafter_innen gefunden
 
   job_signups:
     job_signup:
@@ -632,12 +642,13 @@ de-CH:
       job_is_in_the_past: Der Einsatz ist bereits vorbei.
       job_canceled: >
         Der Einsatz wurde am %{canceled_at} abgesagt.
+      job_canceled_by_current_user: >
+        Der Einsatz wurde von dir am %{canceled_at} abgesagt.
       job_canceled_by_user: >
         Der Einsatz wurde von <a href='%{canceled_by_url}'>%{canceled_by}</a>
         am %{canceled_at} abgesagt.
       job_canceled_by_unknown: >
         Der Einsatz wurde von unbekannt am %{canceled_at} abgesagt.
-      no_typeahead_user_suggestions_found: Keine Benutzer gefunden
       cancellation_confirmation_message: >
         Möchtest du diesen Einsatz wirklich absagen? Falls vorhanden werden
         die angemeldeten Personen sofort und automatisch per E-Mail
@@ -679,3 +690,54 @@ de-CH:
       unexpected_job_signup_id: >
         Abmeldung fehlgeschlagen. Einsatzanmeldung '%{job_signup_id}' für diesen
         Einsatz konnte nicht gefunden werden.
+
+  depots:
+    show:
+      <<: *global
+      title:  Depot
+      notes: Sonstiges
+      directions_map: Deine Wegbeschreibung
+      delivery_time_message: "%{day}, ab ca. %{time}h (Uhrzeit nur indikativ)"
+      cancellation_confirmation_message: >
+        Möchtest du dieses Depot wirklich annulieren? Diese Aktion kann *NICHT*
+        rückgängig gemacht werden.
+      depot_canceled: >
+        Der Depot wurde am %{canceled_at} abgesagt.
+      depot_canceled_by_current_user: >
+        Der Depot wurde von dir am %{canceled_at} abgesagt.
+      depot_canceled_by_user: >
+        Der Depot wurde von <a href='%{canceled_by_url}'>%{canceled_by}</a>
+        am %{canceled_at} abgesagt.
+      depot_canceled_by_unknown: >
+        Der Depot wurde von unbekannt am %{canceled_at} abgesagt.
+    cancel:
+      not_able_to_cancel_depot: >
+        Das Depot kann nicht abgesagt werden, weil es noch Koordinator_innen hat.
+        Zuerst müssen die Koordinator_innen vom Depot agbemeldet werden.
+    index:
+      title: Depots
+      no_depots: Keine Depots definiert.
+      no_coordinator_setup: Kein_e Koordinator_in
+      delivery_time_message: "%{day} (ca. %{time}h)"
+    form:
+      coordinators: Koordinator_innen
+    cancel_coordinator:
+      unexpected_error_and_coordinator_not_canceled: >
+        Oups. Etwas lief schief mit der Abmeldung der Koordinationsperson.
+        Melde es uns bitte auf
+        <code><a href="mailto:meine@basimil.ch">meine@basimil.ch</a></code>.
+
+  depot_coordinators:
+    depot_coordinator:
+      should_info_be_published: Veröffentlichen?
+      info_published: "" # left intentionally blank, since this label is not necessary
+      info_not_published: "Nicht veröffentlicht"
+      active_since: >
+        Koordinator_in seit %{from}
+      active_from_to: >
+        Koordinator_in von %{from} bis %{to}
+      cancel_coordinator: Abmelden
+      cancel_coordinator_confirmation_message: >
+        Möchtest du diese_r Genossenschafter_in als Depot-Koordinator_in
+        wirklich abmelden? Das kann nicht rückgängig gemacht werden. Die Person
+        wird NICHT automatisch per E-Mail benachrichtigt.

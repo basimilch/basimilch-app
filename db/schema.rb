@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160401210502) do
+ActiveRecord::Schema.define(version: 20160415144110) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,47 @@ ActiveRecord::Schema.define(version: 20160401210502) do
   add_index "activities", ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type", using: :btree
   add_index "activities", ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type", using: :btree
   add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type", using: :btree
+
+  create_table "depot_coordinators", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "depot_id"
+    t.boolean  "publish_email",      default: true
+    t.boolean  "publish_tel_mobile", default: true
+    t.datetime "canceled_at"
+    t.string   "canceled_reason"
+    t.integer  "canceled_by_id"
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+  end
+
+  add_index "depot_coordinators", ["canceled_by_id"], name: "index_depot_coordinators_on_canceled_by_id", using: :btree
+  add_index "depot_coordinators", ["depot_id"], name: "index_depot_coordinators_on_depot_id", using: :btree
+  add_index "depot_coordinators", ["user_id"], name: "index_depot_coordinators_on_user_id", using: :btree
+
+  create_table "depots", force: :cascade do |t|
+    t.string   "name"
+    t.string   "postal_address"
+    t.string   "postal_address_supplement"
+    t.string   "postal_code"
+    t.string   "city"
+    t.string   "country"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "exact_map_coordinates"
+    t.string   "picture"
+    t.text     "directions"
+    t.integer  "delivery_day"
+    t.integer  "delivery_time"
+    t.string   "opening_hours"
+    t.text     "notes"
+    t.datetime "canceled_at"
+    t.string   "canceled_reason"
+    t.integer  "canceled_by_id"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "depots", ["canceled_by_id"], name: "index_depots_on_canceled_by_id", using: :btree
 
   create_table "job_signups", force: :cascade do |t|
     t.integer  "user_id"
@@ -152,6 +193,10 @@ ActiveRecord::Schema.define(version: 20160401210502) do
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
+  add_foreign_key "depot_coordinators", "depots"
+  add_foreign_key "depot_coordinators", "users"
+  add_foreign_key "depot_coordinators", "users", column: "canceled_by_id"
+  add_foreign_key "depots", "users", column: "canceled_by_id"
   add_foreign_key "job_signups", "jobs"
   add_foreign_key "job_signups", "users"
   add_foreign_key "job_signups", "users", column: "author_id"

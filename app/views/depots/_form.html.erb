@@ -1,0 +1,75 @@
+<%= form_for(@depot, html: { multipart: true }) do |f| %>
+  <% if @depot.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@depot.errors.count, "error") %> prohibited this depot from being saved:</h2>
+
+      <ul>
+      <% @depot.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :postal_address %><br>
+    <%= f.text_field :postal_address %>
+  </div>
+  <div class="field">
+    <%= f.label :postal_address_supplement %><br>
+    <%= f.text_field :postal_address_supplement %>
+  </div>
+  <div class="field">
+    <%= f.label :postal_code %><br>
+    <%= f.text_field :postal_code %>
+  </div>
+  <div class="field">
+    <%= f.label :city %><br>
+    <%= f.text_field :city %>
+  </div>
+  <div class="field">
+    <%= f.label :exact_map_coordinates %><br>
+    <%= f.text_field :exact_map_coordinates %>
+  </div>
+  <div class="field">
+    <%= f.label :directions %><br>
+    <%= f.text_area :directions %>
+  </div>
+  <div class="field">
+    <%= f.label :delivery_time %><br>
+    <%= f.select :delivery_day, options_for_select(Depot::DELIVERY_DAYS.map {|d| [localized_weekday_name(d), d]}, @depot.delivery_day) %>
+    <%= f.select :delivery_time, options_for_select(Depot::DELIVERY_HOURS.map {|h| ["#{h}h", h]}, @depot.delivery_time) %>
+  </div>
+  <div class="field">
+    <%= f.label :opening_hours %><br>
+    <%= f.text_field :opening_hours %>
+  </div>
+
+  <div class="field">
+    <%= f.label :coordinators %><br>
+    <ul>
+      <%= render @depot.coordinators.not_canceled, form: f %><br>
+    </ul>
+    <div class="row">
+      <div class="col-sm-12">
+        <%= render 'shared/users_typeahead',
+                   for_attribute: "depot[coordinator_user_ids]",
+                   placeholder: t('.coordinators'),
+                   max_users: Depot::MAX_NUMBER_OF_COORDINATORS
+            %>
+      </div> <!-- /col -->
+    </div> <!-- /row -->
+  </div>
+
+  <div class="field">
+    <%= f.label :notes %><br>
+    <%= f.text_area :notes %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

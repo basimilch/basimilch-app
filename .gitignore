@@ -65,7 +65,16 @@ bower.json
 #
 # SOURCE: https://github.com/bkeepers/dotenv#multiple-rails-environments
 .env.*
+# Note that the .env.test should be committed since it sets the ENV variables
+# assumed during test. Be aware not to commit sensitive information within this
+# test file!
+!.env.test
 
 # Ignore Byebug command history file.
 # https://github.com/deivid-rodriguez/byebug
 .byebug_history
+
+# Default folder to locally store files uploaded with CarrierWave uploaders.
+# We don't need to commit the content of this folder, since it's populated
+# during dev.
+/public/uploads*

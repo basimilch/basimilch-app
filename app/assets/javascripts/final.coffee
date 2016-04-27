@@ -7,3 +7,9 @@ $(document).on 'page:change', ->
       $(@).find('[type=submit]')
         .attr('disabled', true)
       $$.loadingScreen.start()
+    # DOC: http://bootstrapdocs.com/v3.3.6/docs/javascript/#tooltips
+    $('[data-toggle="tooltip"]').tooltip()
+    # DOC: http://bootstrapdocs.com/v3.3.6/docs/javascript/#tabs-usage
+    $('#myTabs a').click (e) ->
+      e.preventDefault()
+      $(this).tab('show')

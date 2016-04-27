@@ -45,6 +45,7 @@ module PublicActivityHelper
   class Scope < Enum
     enum :EMAIL
     enum :JOB
+    enum :DEPOT
     enum :MODEL
     enum :SECURITY
   end
@@ -63,7 +64,7 @@ module PublicActivityHelper
     enum :CRITICAL
   end
 
-  def record_activity(activity_name, model, data: {})
+  def record_activity(activity_name, model, data: {}, owner: nil)
     raise "Activity name must be a symbol" unless activity_name.is_a? Symbol
     raise "Model cannot not be nil" unless model
     unless model.respond_to? :create_activity
@@ -78,7 +79,7 @@ module PublicActivityHelper
     end
     scope, visibility, severity = flags
     trackable_model = model
-    owner_model     = try(:current_user)
+    owner_model     = owner || try(:current_user)
     recipient_model = nil
     parameters      = data.merge({
         # Keep a denormalized string trace of the relations of this activity for
@@ -218,6 +219,8 @@ module PublicActivityHelper
            :admin_sign_up_user_for_job_failed,
            :admin_cancel_job_signup_failed
         [Scope::JOB, Visibility::ADMIN, Severity::MEDIUM]
+      when :admin_cancel_depot_coordinator
+        [Scope::DEPOT, Visibility::ACTIVITY_USERS, Severity::MEDIUM]
       else
         raise "Unknown activity name: #{activity_name}"
       end

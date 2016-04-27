@@ -25,6 +25,11 @@ module Cancelable
 
   included do
 
+    # DOC: https://github.com/chaps-io/public_activity/tree/v1.4.1
+    include PublicActivity::Common
+
+    include PublicActivityHelper
+
     unless {canceled_at:      :datetime,
             canceled_by_id:   :integer,
             canceled_reason:  :string}.all? do |col, typ|
@@ -97,8 +102,18 @@ ERROR_MSG
       )
     end
 
-    scope :not_canceled,  -> { where(canceled_at: nil) }
-    scope :canceled,      -> { where.not(canceled_at: nil) }
+    # Record canceled activity.
+    after_cancel do
+      record_activity :cancel, self, owner: canceled_by
+    end
+
+    scope :not_canceled,  -> { canceled(false) }
+    scope :canceled,  ->(canceled = true) do
+      canceled ? where.not(canceled_at: nil) : where(canceled_at: nil)
+    end
+    scope :include_canceled,  ->(include_canceled = true) do
+      include_canceled ? all : not_canceled
+    end
   end
 
   # Returns true if the model is being saved as canceled.
@@ -128,6 +143,10 @@ ERROR_MSG
 
   def canceled?
     canceled_at.present?
+  end
+
+  def not_canceled?
+    !canceled?
   end
 
   def canceled_by

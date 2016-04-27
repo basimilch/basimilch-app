@@ -109,6 +109,15 @@ class User < ActiveRecord::Base
   ALLOWED_NUMBER_OF_WANTED_SHARE_CERTIFICATES = (1..4)
   attr_accessor :wanted_number_of_share_certificates
   validates :wanted_number_of_share_certificates, presence: true, on: :create,
+            # NOTE: since this is a virtual attribute, Rails does not know the
+            #       type of the value and 'inclusion: { in: ALLOWED_NUMBER... }'
+            #       validation cannot be used. Compare with e.g.
+            #       Depot#delivery_day: since its an real DB attribute of type
+            #       integer it gets casted into a number and the
+            #       'inclusion: { in: ... }' validation does work.
+            #       The 'numericality' validation casts instead the value to a
+            #       number automatically.
+            # DOC: http://guides.rubyonrails.org/v4.2.5.2/active_record_validations.html#numericality
             numericality: {
     greater_than_or_equal_to: ALLOWED_NUMBER_OF_WANTED_SHARE_CERTIFICATES.first,
     less_than_or_equal_to:    ALLOWED_NUMBER_OF_WANTED_SHARE_CERTIFICATES.last
@@ -135,15 +144,30 @@ class User < ActiveRecord::Base
       raw_tel = send("tel_#{tel_type}") || ""
       # Source:
       #   https://github.com/floere/phony/blob/master/qed/format.md#options
-      raw_tel.phony_formatted(:normalize => 'CH',
-                              :format => :international, # => "+41 76 111 11 11"
-                              # :format => :national,    # => "076 111 11 11"
-                              :spaces => ' ')
+      raw_tel.phony_formatted(normalize:  'CH',
+                              format:   :international, # => "+41 76 111 11 11"
+                              # format: :national,    # => "076 111 11 11"
+                              spaces: ' ')
     end
+  end
+
+  # Returns the tel with national format if it's a swiss number (i.e. "0xx ..."
+  # instead of "+41 xx..."). Otherwise it returns the number with the country
+  # code.
+  def formatted_tel_national(tel_type)
+    formatted_tel   = formatted_tel(tel_type)
+    is_swiss_phone  = formatted_tel.remove_whitespace.swiss_phone_number?
+    formatted_tel.phony_formatted(normalize: 'CH',
+                            format: is_swiss_phone ? :national : :international,
+                            spaces: ' ')
   end
 
   def tel_mobile_formatted
     formatted_tel(:mobile)
+  end
+
+  def tel_mobile_formatted_national
+    formatted_tel_national(:mobile)
   end
 
   def tel_mobile_formatted=(value)
@@ -154,12 +178,20 @@ class User < ActiveRecord::Base
     formatted_tel(:home)
   end
 
+  def tel_home_formatted_national
+    formatted_tel_national(:home)
+  end
+
   def tel_home_formatted=(value)
     self.tel_home = value
   end
 
   def tel_office_formatted
     formatted_tel(:office)
+  end
+
+  def tel_office_formatted_national
+    formatted_tel_national(:office)
   end
 
   def tel_office_formatted=(value)

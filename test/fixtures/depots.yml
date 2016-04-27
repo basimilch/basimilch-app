@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+valid:
+  name: MyString
+  postal_address: Alte Kindhauserstrasse 3
+  postal_address_supplement: MyString
+  postal_code: 8953
+  city: Dietikon
+  country: Schweiz
+  exact_map_coordinates: 1.2,3.4
+  picture: MyString
+  directions: MyText
+  delivery_day: 2
+  delivery_time: 17
+  opening_hours: MyText
+  notes: MyText
+
+not_valid:
+  name: MyString
+  postal_address: MyString
+  postal_address_supplement: MyString
+  postal_code: MyString
+  city: MyString
+  country: MyString
+  exact_map_coordinates: 1.2,3.4
+  picture: MyString
+  directions: MyText
+  delivery_day: 2
+  delivery_time: 17
+  opening_hours: MyText
+  notes: MyText

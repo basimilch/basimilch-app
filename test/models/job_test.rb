@@ -21,7 +21,7 @@ class JobTest < ActiveSupport::TestCase
   # TODO: Refactor a 'should be present' type of test
 
   test "title should be present" do
-    assert @job.required_attribute?(:title)
+    assert_required_attribute  @job, :title
     @job.title = nil
     assert_not_valid @job
     @job.title = "    "
@@ -37,7 +37,7 @@ class JobTest < ActiveSupport::TestCase
   end
 
   test "description should be present" do
-    assert @job.required_attribute?(:description)
+    assert_required_attribute  @job, :description
     @job.description = nil
     assert_not_valid @job
     @job.description = "    "
@@ -53,7 +53,7 @@ class JobTest < ActiveSupport::TestCase
   end
 
   test "place should be present" do
-    assert @job.required_attribute?(:place)
+    assert_required_attribute  @job, :place
     @job.place = nil
     assert_not_valid @job
     @job.place = "    "
@@ -69,7 +69,7 @@ class JobTest < ActiveSupport::TestCase
   end
 
   test "address should be present" do
-    assert @job.required_attribute?(:address)
+    assert_required_attribute  @job, :address
     @job.address = nil
     assert_not_valid @job
     @job.address = "    "
@@ -85,7 +85,7 @@ class JobTest < ActiveSupport::TestCase
   end
 
   test "slots should be present" do
-    assert @job.required_attribute?(:slots)
+    assert_required_attribute  @job, :slots
     @job.slots = nil
     assert_not_valid @job
   end
@@ -110,7 +110,7 @@ class JobTest < ActiveSupport::TestCase
   end
 
   test "user_id should be present" do
-    assert @job.required_attribute?(:user_id)
+    assert_required_attribute  @job, :user_id
     @job.user_id = nil
     assert_not_valid @job
   end
@@ -127,13 +127,13 @@ class JobTest < ActiveSupport::TestCase
   end
 
   test "start_at should be present" do
-    assert @job.required_attribute?(:start_at)
+    assert_required_attribute  @job, :start_at
     @job.start_at = nil
     assert_not_valid @job
   end
 
   test "end_at should be present" do
-    assert @job.required_attribute?(:end_at)
+    assert_required_attribute  @job, :end_at
     @job.end_at = nil
     assert_not_valid @job
   end
@@ -154,7 +154,7 @@ class JobTest < ActiveSupport::TestCase
   end
 
   test "job_type_id needs not to be present" do
-    assert_not @job.required_attribute?(:job_type_id)
+    assert_required_attribute @job, :job_type_id, required: false
     @job.job_type_id = nil
     assert_valid @job
   end
@@ -195,7 +195,13 @@ class JobTest < ActiveSupport::TestCase
   test "saved job can be canceled" do
     assert_equal false, @job.canceled?
     assert_equal true,  @job.save
-    assert_equal true,  @job.cancel(author: users(:one))
+    canceled_counts     = ['Job.canceled.count', 'Job.canceled(true).count']
+    not_canceled_counts = ['Job.not_canceled.count','Job.canceled(false).count']
+    assert_difference canceled_counts, 1 do
+      assert_difference not_canceled_counts, -1 do
+        assert_equal true,  @job.cancel(author: users(:one))
+      end
+    end
     assert_equal true,  @job.canceled?
   end
 

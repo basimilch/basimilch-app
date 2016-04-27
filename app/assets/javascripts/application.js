@@ -23,11 +23,14 @@
 //= require init
 //
 //= require errors
+//= require users_typeahead
 //= require job_types
 //= require jobs
 //= require sessions
 //= require share_certificates
 //= require signups
 //= require users
+//
+//= require google_maps
 //
 //= require final

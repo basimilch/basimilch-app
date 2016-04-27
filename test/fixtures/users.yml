@@ -7,10 +7,10 @@ one:
   admin: true
   first_name: User
   last_name: Example
-  postal_address: Somestreet 10
-  postal_code: 8001
-  city: Zürich
-  country: Schweiz
+  postal_address: Alte Kindhauserstrasse 3
+  postal_code: 8953
+  city: Dietikon
+  country: Switzerland
   tel_mobile: +41 76 123 45 67
   tel_home: +41 44 123 45 67
   tel_office: +41 44 123 45 67

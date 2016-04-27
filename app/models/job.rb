@@ -53,10 +53,8 @@ class Job < ActiveRecord::Base
   validates :description,     presence: true, length: { maximum: 500 }
   validates :place,           presence: true, length: { maximum: 150 }
   validates :address,         presence: true, length: { maximum: 150 }
-  validates :slots,           presence: true, numericality: {
-                  greater_than_or_equal_to: ALLOWED_NUMBER_OF_SLOTS.first,
-                  less_than_or_equal_to:    ALLOWED_NUMBER_OF_SLOTS.last
-                }
+  validates :slots,           presence: true,
+                              inclusion: { in: ALLOWED_NUMBER_OF_SLOTS }
   validates :user_id,         presence: true
   validate  :user_exists,     unless: Proc.new {|j| j.user_id.blank?}
   validate  :job_type_exists, unless: Proc.new {|j| j.job_type_id.blank?}
@@ -180,7 +178,7 @@ class Job < ActiveRecord::Base
             end_at - start_at > MAX_JOB_DURATION
         errors.add :end_at,
                    I18n.t("errors.messages.job_end_must_be_between" +
-                          "_30min_and__after_start")
+                          "_30min_and_after_start")
       end
     end
 

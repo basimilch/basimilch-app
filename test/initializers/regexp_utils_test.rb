@@ -1,7 +1,7 @@
 require 'test_helper'
 
 # TODO: Should not be an Action Controller test, but a Unit Test instead.
-class MailerTest < ActionController::TestCase
+class RegexpUtilsTest < ActionController::TestCase
 
   setup do
     @no_address         = []
@@ -134,8 +134,8 @@ class MailerTest < ActionController::TestCase
 
     def assert_email_filter(whitelist: nil, blacklist: nil, allowed_list: [])
       interceptor_class = RecipientWhitelistBlacklistInterceptor
-      wl_regexp = interceptor_class.regex_for_email_list(whitelist)
-      bl_regexp = interceptor_class.regex_for_email_list(blacklist)
+      wl_regexp = RegexpUtils.regex_for_email_list(whitelist)
+      bl_regexp = RegexpUtils.regex_for_email_list(blacklist)
       assert_equal allowed_list, interceptor_class.select_allowed_addresses(
                                                     @all_adresses,
                                                     whitelist_regexp: wl_regexp,

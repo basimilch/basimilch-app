@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  depot_id: 
+  publish_email: false
+  publish_tel_mobile: false
+
+two:
+  user_id: 
+  depot_id: 
+  publish_email: false
+  publish_tel_mobile: false

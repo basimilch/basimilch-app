@@ -11,7 +11,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "status should be valid if present" do
-    assert_not @user.required_attribute?(:status)
+    assert_required_attribute @user, :status, required: false
     @user.status = nil
     assert_valid @user
     @user.status = User::Status::WAITING_LIST
@@ -21,7 +21,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "email should be present" do
-    assert @user.required_attribute?(:email)
+    assert_required_attribute @user, :email
     @user.email = nil
     assert_not_valid @user
     @user.email = "    "
@@ -82,7 +82,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "first name should be present" do
-    assert @user.required_attribute?(:first_name)
+    assert_required_attribute @user, :first_name
     @user.first_name = "     "
     assert_not_valid @user
   end
@@ -99,7 +99,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "last name should be present" do
-    assert @user.required_attribute?(:last_name)
+    assert_required_attribute @user, :last_name
     @user.last_name = "     "
     assert_not_valid @user
   end
@@ -128,10 +128,10 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "postal adress, postal code, city and country should be present" do
-    assert @user.required_attribute?(:postal_address)
-    assert @user.required_attribute?(:postal_code)
-    assert @user.required_attribute?(:city)
-    assert @user.required_attribute?(:country)
+    assert_required_attribute @user, :postal_address
+    assert_required_attribute @user, :postal_code
+    assert_required_attribute @user, :city
+    assert_required_attribute @user, :country
     @user.postal_code = @user.city = @user.country = nil
     assert_not_valid @user
     assert_equal 5, @user.errors.count, @user.errors.full_messages.join(", ")
@@ -263,6 +263,28 @@ class UserTest < ActiveSupport::TestCase
     assert_not_valid @user
   end
 
+  test "it should be possible to get formatted swiss tels" do
+    assert_equal '076 111 11 11', @user.tel_mobile
+    assert_equal '+41 76 111 11 11', @user.tel_mobile_formatted
+    assert_equal '076 111 11 11', @user.tel_mobile_formatted_national
+    assert @user.save
+    assert_equal '+41761111111', @user.reload.tel_mobile
+    assert_equal '+41 76 111 11 11', @user.tel_mobile_formatted
+    assert_equal '076 111 11 11', @user.tel_mobile_formatted_national
+  end
+
+  test "it should be possible to get formatted non-swiss tels" do
+    assert_equal '076 111 11 11', @user.tel_mobile
+    @user.tel_mobile = '+49 76 1 1 1 1 1 1 1'
+    assert_equal '+49 76 1 1 1 1 1 1 1', @user.tel_mobile
+    assert_equal '+49 761 111 111', @user.tel_mobile_formatted
+    assert_equal '+49 761 111 111', @user.tel_mobile_formatted_national
+    assert @user.save
+    assert_equal '+49761111111', @user.reload.tel_mobile
+    assert_equal '+49 761 111 111', @user.tel_mobile_formatted
+    assert_equal '+49 761 111 111', @user.tel_mobile_formatted_national
+  end
+
   test "authenticated? should return false for a user with nil digest" do
     assert_not @user.authenticated?(:remember, '')
     assert_not @user.authenticated?(:remember, 'something')
@@ -270,7 +292,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "wanted_number_of_share_certificates should be present and valid" do
-    assert @user.required_attribute?(:wanted_number_of_share_certificates)
+    assert_required_attribute @user, :wanted_number_of_share_certificates
     @user.wanted_number_of_share_certificates = -1
     assert_not_valid @user
     @user.wanted_number_of_share_certificates = 1
@@ -278,7 +300,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "wanted_subscription should be present and valid" do
-    assert @user.required_attribute?(:wanted_subscription)
+    assert_required_attribute @user, :wanted_subscription
     @user.wanted_subscription = 'blahblah'
     assert_not_valid @user
     @user.wanted_subscription = 'no_subscription'
@@ -286,7 +308,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "terms_of_service should be present and accepted" do
-    assert @user.required_attribute?(:terms_of_service)
+    assert_required_attribute @user, :terms_of_service
     @user.terms_of_service = "0"
     assert_not_valid @user
     @user.terms_of_service = "1"

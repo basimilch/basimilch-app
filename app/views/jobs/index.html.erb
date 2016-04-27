@@ -11,7 +11,7 @@
 <% unless @jobs.empty? %>
   <% if month = params[:month] %>
     <div class="text-center">
-      <%= t ".showing_jobs_for_month_html", month: t("date.month_names")[month.to_i] %>
+      <%= t ".showing_jobs_for_month_html", month: localized_month_name(month) %>
     </div>
   <% else %>
     <div class="text-center">
@@ -35,7 +35,7 @@
     <%= select_tag 'job_month_filter_selector',
         # SOURCE: http://stackoverflow.com/a/5567844
         # SOURCE: https://www.ruby-forum.com/topic/652976
-        options_for_select((1..12).map {|m| [t("date.month_names")[m], m]},
+        options_for_select((1..12).map {|m| [localized_month_name(m), m]},
                           params[:month]),
         class: "form-control",
         include_blank: t(".show_jobs_from_now") %>

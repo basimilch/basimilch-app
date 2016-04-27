@@ -14,10 +14,8 @@ class JobType < ActiveRecord::Base
   validates :description,   presence: true, length: { maximum: 500 }
   validates :place,         presence: true, length: { maximum: 150 }
   validates :address,       presence: true, length: { maximum: 150 }
-  validates :slots,         presence: true, numericality: {
-                  greater_than_or_equal_to: Job::ALLOWED_NUMBER_OF_SLOTS.first,
-                  less_than_or_equal_to:    Job::ALLOWED_NUMBER_OF_SLOTS.last
-                }
+  validates :slots,         presence: true,
+                              inclusion: { in: Job::ALLOWED_NUMBER_OF_SLOTS }
   validates :user_id,       presence: true
   validate  :user_exists,   unless: Proc.new {|j| j.user_id.blank?}
 

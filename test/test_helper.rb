@@ -97,6 +97,16 @@ class ActiveSupport::TestCase
     assert_equal true, fixture_logged_in?
   end
 
+  def assert_required_attribute(model, attribute, required: true)
+    if required
+      assert model.required_attribute?(attribute),
+        "Attribute #{attribute.inspect} of Model '#{model}' should be required."
+    else
+      assert_not model.required_attribute?(attribute),
+    "Attribute #{attribute.inspect} of Model '#{model}' should NOT be required."
+    end
+  end
+
   def assert_valid(model, additional_msg = nil, valid: true)
     if valid
       assert model.valid?, "Model '#{model}' should be valid. Errors:" +

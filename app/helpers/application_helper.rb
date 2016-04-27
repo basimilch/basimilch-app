@@ -109,6 +109,38 @@ module ApplicationHelper
     end
   end
 
+  # Returns a div element with the image centered and horizontally fitting the
+  # with of the div.
+  def fit_image_tag(image_url, width: nil, height: nil, css_class: nil)
+    html_options = {
+      class: 'fit-image',
+      style: "background-image: url('#{image_url}');"
+      }
+    html_options[:class] << " #{css_class};" if css_class.present?
+    html_options[:style] << "height:#{height};" if height.present?
+    html_options[:style] << "width:#{width};"   if width.present?
+    content_tag :div, nil, html_options
+  end
+
+  # Some notes about :to_i vs :to_int vs Integer()
+  # DOC: http://ruby-doc.org/core-2.2.4/Kernel.html#method-i-Integer
+  # SOURCE: http://stackoverflow.com/a/10093533/
+  # SOURCE: http://stackoverflow.com/a/11182123/
+
+  # Returns the localized weekday name for the given index. 0 means Sunday.
+  def localized_weekday_name(d)
+    d = Integer(d)
+    (0..6).include? d or raise ArgumentError, "#{d.inspect} is not valid"
+    t("date.day_names")[d]
+  end
+
+  # Returns the localized month name for the given index. 1 means January.
+  def localized_month_name(m)
+    m = Integer(m)
+    (1..12).include? m or raise ArgumentError, "#{m.inspect} is not valid"
+    t("date.month_names")[m]
+  end
+
   # DOC: https://bootstrapdocs.com/v3.3.6/docs/components/#glyphicons
   def icon(icon_name, label = nil)
     content_tag :span, class: "icon-container" do
@@ -120,4 +152,33 @@ module ApplicationHelper
       concat(yield) if block_given?
     end
   end
+
+  # Returns a phone number element, displayed as 'code' for readability,
+  # prefixed with a 'phone' icon and with an underlying 'tel:' link.
+  def icon_tel_to(tel, display_tel = tel, published: true)
+    content_tag :code, icon_to_html_options(:tel, published) do
+      link_to "tel:#{tel}" do
+        icon :earphone, display_tel
+      end
+    end
+  end
+
+  # Returns a 'mail_to' link element, displayed as 'code' for readability and
+  # prefixed with an 'envelope' icon.
+  def icon_mail_to(address, published: true)
+    content_tag :code, icon_to_html_options(:mail, published) do
+      mail_to address do
+        icon :envelope, address
+      end
+    end
+  end
+
+  private
+
+    def icon_to_html_options(type, published = true)
+      {'class'          => "icon-#{type}-to#{' not-published' if !published}",
+       'data-toggle'    => 'tooltip',
+       'data-placement' => 'top',
+       'title'          => t(".info_#{published ? '' : 'not_'}published")}
+    end
 end

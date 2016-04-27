@@ -20,11 +20,13 @@ end
 ActionMailer::Base.register_interceptor(AddAppPrefixToEmailSubject)
 
 
-# SOURCE: http://renderedtext.com/blog/2012/04/27/filtering-emails-on-staging/
-class RecipientWhitelistBlacklistInterceptor
+# TODO: Fix where to place utils like this
+# SOURCE: http://stackoverflow.com/questions/1068558/oo-design-in-rails-where-to-put-stuff
+# SOURCE: http://stackoverflow.com/questions/2726934/where-to-put-reusable-methods-for-access-by-controllers-in-rails
+# SOURCE: http://stackoverflow.com/questions/15318647/utility-classes-in-ruby-on-rails
+class RegexpUtils
 
-  # TODO: Consider refactoring the logic related to RegExps in this class out to
-  #       a file like regexp_util.rb.
+  # TODO: Gather here all regexps.
 
   # SOURCE: https://www.ruby-forum.com/topic/49046
   MATCH_EVERYTHING = Regexp.new('')
@@ -54,11 +56,16 @@ class RecipientWhitelistBlacklistInterceptor
     end
     Regexp.new("^(#{email_addresses.join("|")}:?)$")
   end
+end
+
+
+# SOURCE: http://renderedtext.com/blog/2012/04/27/filtering-emails-on-staging/
+class RecipientWhitelistBlacklistInterceptor
 
   WHITELIST        = ENV['EMAIL_RECIPIENTS_WHITELIST']
   BLACKLIST        = ENV['EMAIL_RECIPIENTS_BLACKLIST']
-  WHITELIST_REGEXP = regex_for_email_list(WHITELIST)
-  BLACKLIST_REGEXP = regex_for_email_list(BLACKLIST)
+  WHITELIST_REGEXP = RegexpUtils.regex_for_email_list(WHITELIST)
+  BLACKLIST_REGEXP = RegexpUtils.regex_for_email_list(BLACKLIST)
 
 
   # Returns a new array containing all email addresses in the 'original_list'
@@ -86,8 +93,8 @@ class RecipientWhitelistBlacklistInterceptor
                                     whitelist_regexp: nil,
                                     blacklist_regexp: nil)
     (original_list || []).select do |address|
-      address.match(whitelist_regexp || MATCH_EVERYTHING) &&
-        !address.match(blacklist_regexp || MATCH_NOTHING)
+      address.match(whitelist_regexp || RegexpUtils::MATCH_EVERYTHING) &&
+        !address.match(blacklist_regexp || RegexpUtils::MATCH_NOTHING)
     end
   end
 

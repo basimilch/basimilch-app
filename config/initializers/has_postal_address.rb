@@ -67,9 +67,9 @@ ERROR_MSG
     geocoded_by :full_postal_address
 
     # NOTE: A word of caution: 'after_initialize' means after the Ruby
-    # initialize. Hence it is run every time a record is loaded from the
-    # database and used to create a new model object in memory Source:
-    # http://stackoverflow.com/a/4576026
+    #       initialize. Hence it is run every time a record is loaded from the
+    #       database and used to create a new model object in memory Source:
+    #       http://stackoverflow.com/a/4576026
     after_initialize :default_values_for_postal_address
 
   end

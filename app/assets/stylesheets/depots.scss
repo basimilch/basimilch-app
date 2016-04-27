@@ -1,0 +1,43 @@
+// Place all the styles related to the Depots controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.depot-header-image {
+  padding: {
+    bottom: 25px;
+  }
+}
+
+.depot-coordinator-info {
+  .icon-tel-to,
+  .icon-mail-to {
+    margin: {
+      left: 10px;
+      right: 10px;
+    }
+  }
+  .publish-checkbox {
+    display: inline-block;
+    .checkbox {
+      margin: {
+        top: 0;
+        bottom: 0;
+      }
+      padding: {
+        left: 10px;
+        right: 20px;
+      }
+      label {
+        padding: {
+          top: 0;
+        }
+      }
+    }
+  }
+}
+
+.depot-embedded-maps {
+  padding: {
+    top: 50px;
+  }
+}

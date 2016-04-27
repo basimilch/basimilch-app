@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :share_certificates
   resources :jobs
   resources :job_types
+  resources :depots
 
   # You can have the root of your site routed with "root"
   root    'sessions#new'
@@ -34,6 +35,10 @@ Rails.application.routes.draw do
   put   'jobs/:id/cancel_job_signup/:job_signup_id' => 'jobs#cancel_job_signup',
                                                           as: :cancel_job_signup
   put   'jobs/:id/cancel'       => 'jobs#cancel',         as: :job_cancel
+
+  put   'depots/:id/cancel'     => 'depots#cancel',       as: :depot_cancel
+  put   'depots/:id/cancel_coordinator/:coordinator_id' =>
+          'depots#cancel_coordinator', as: :depot_cancel_coordinator
 
   # DOC: http://stackoverflow.com/a/26286472/5764181
   # DOC: https://wearestac.com/blog/dynamic-error-pages-in-rails

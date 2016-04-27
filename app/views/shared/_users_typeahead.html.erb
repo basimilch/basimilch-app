@@ -1,0 +1,15 @@
+<%#
+  NOTE: The select element must not include the data-role="tagsinput"
+        attribute if using it from the a jQuery.ready-like function.
+  SOURCE: http://stackoverflow.com/q/21460702
+%>
+<div class="users-typeahead">
+  <%= select_tag for_attribute.to_s, nil, multiple: true,
+      placeholder: defined?(placeholder) && placeholder ||
+                    t('users.typeahead_field.default_placeholder'),
+      data: {
+        max_users: defined?(max_users) && max_users ||
+                    2, # Arbitrary default upper limit
+        typeahead_no_suggestions_msg: t('users.typeahead_field.no_suggestions_found')
+      } %>
+</div>

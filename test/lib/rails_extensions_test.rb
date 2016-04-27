@@ -47,6 +47,28 @@ class RailsExtentionsTest < ActionController::TestCase
     end
   end
 
+  test "should be able to remove all whitespace chars from a string" do
+    assert_equal '', "".remove_whitespace
+    assert_equal '', "  ".remove_whitespace
+    assert_equal '', "  ".remove_whitespace # non-breaking space, i.e. ALT+SPACE
+    assert_equal '', "\t".remove_whitespace
+    assert_equal 'foo', " f oo ".remove_whitespace
+    assert_equal 'foo', " f oo ".remove_whitespace # non-breaking space
+    assert_equal 'foo', "\tf\too\t".remove_whitespace
+    assert_equal 'foo', " f\too ".remove_whitespace
+  end
+
+  test "should be able to recognize a swiss phone number string" do
+    assert_equal true,  '+41123456789'.swiss_phone_number?
+    assert_equal false, '+4112345678'.swiss_phone_number?
+    assert_equal false, '+411234567890'.swiss_phone_number?
+    assert_equal false, '+411'.swiss_phone_number?
+    assert_equal false, '+41'.swiss_phone_number?
+    assert_equal false, '+4'.swiss_phone_number?
+    assert_equal false, '+'.swiss_phone_number?
+    assert_equal false, ''.swiss_phone_number?
+  end
+
   test "should be able to merge symbols with + operator" do
     sym = :some_symbol
     assert_equal :some_symbol, sym + nil

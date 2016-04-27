@@ -34,21 +34,7 @@ class JobsController < ApplicationController
   # GET /jobs/1
   # GET /jobs/1.json
   def show
-    if @job.canceled?
-      cancellation_author = User.find_by(id: @job.canceled_by_id)
-      t_key = if !current_user_admin?
-                '.job_canceled'
-              elsif cancellation_author
-                '.job_canceled_by_user'
-              else
-                '.job_canceled_by_unknown'
-              end
-      flash_now_t :warning,
-          t(t_key,
-            canceled_at:      @job.canceled_at.to_localized_s,
-            canceled_by:      cancellation_author.try(:full_name),
-            canceled_by_url:  cancellation_author &&
-                                user_path(cancellation_author))
+    if cancelation_flash @job
     elsif @job.past?
       flash_now_t :warning, :job_is_in_the_past
     elsif @job.user_signed_up? current_user
@@ -194,9 +180,7 @@ class JobsController < ApplicationController
 
   # PUT /jobs/1/cancel
   def cancel
-    if @job.cancel author: current_user
-      record_activity :cancel, @job
-    end
+    @job.cancel author: current_user
     redirect_to @job
   end
 

@@ -93,6 +93,24 @@ class String
     scan(/\d/).join
   end
 
+  # Similar to :strip but removes *all* whitespace chars, i.e. also within the
+  # string, not only at both ends.
+  def remove_whitespace
+    # NOTE: According to the docs, \s only matches [ \t\r\n\f], i.e. it does not
+    #       match e.g. non-breaking space (&nbsp). The POSIX character class
+    #       [[:space:]] does match non-breaking space. This is relevant because
+    #       in Heroku, space in ENV variables might be translated as &nbsp.
+    # DOC: http://ruby-doc.org/core-2.2.4/Regexp.html#class-Regexp-label-Character+Classes
+    # SOURCE: http://stackoverflow.com/a/13288542
+    gsub(/[[:space:]]/, '')
+  end
+
+  SWISS_PHONE_NUMBER_REGEXP = /^\+41\d{9}$/
+
+  def swiss_phone_number?
+    match(SWISS_PHONE_NUMBER_REGEXP).to_b
+  end
+
   # Returns the first letter of a string.
   # NOTE: The meaning of the original method chr is not very clear.
   def initial

@@ -1,0 +1,74 @@
+<% provide(:title, "#{t '.title'}: #{@depot.name}") %>
+<% provide(:title_class, "canceled") if @depot.canceled? %>
+
+
+<div class="depot-header-image">
+  <%= map_fit_image_tag @depot, maptype: GoogleMapsHelper::Type::SATELLITE, zoom: 19 %>
+</div>
+
+<%#= fit_image_tag @depot.picture_url if @depot.picture? %>
+
+<p>
+  <strong><%= t '.address' %>:</strong>
+  <%= link_to @depot.full_postal_address, @depot.postal_address_map_url, target: '_blank'%>
+</p>
+
+<p>
+  <strong><%= t '.directions' %>:</strong>
+  <%= @depot.directions %>
+</p>
+
+<p>
+  <strong><%= t '.delivery_time' %>:</strong>
+  <%= t '.delivery_time_message',
+        day: localized_weekday_name(@depot.delivery_day),
+        time: @depot.delivery_time %>
+</p>
+
+<p>
+  <strong><%= t '.opening_hours' %>:</strong>
+  <%= @depot.opening_hours %>
+</p>
+
+<p>
+  <strong><%= t '.coordinators' %>:</strong>
+  <ul>
+    <%= render @depot.coordinators.include_canceled(current_user_admin?) ||
+      t('.no_coordinators') %><br>
+  </ul>
+</p>
+
+<% if @depot.notes.present? %>
+  <p>
+    <strong><%= t '.notes' %>:</strong>
+    <%= @depot.notes %>
+  </p>
+<% end %>
+
+<div class="depot-embedded-maps">
+
+  <!-- Nav pills -->
+  <ul class="nav nav-pills nav-justified" role="tablist">
+    <li role="presentation" class="active"><a href="#map" aria-controls="map" role="tab" data-toggle="tab"><%= t '.map' %></a></li>
+    <li role="presentation"><a href="#directions-map" aria-controls="directions-map" role="tab" data-toggle="tab"><%= t '.directions_map' %></a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="map">
+      <%= embedded_map @depot, zoom: 19, maptype: GoogleMapsHelper::Type::SATELLITE %>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="directions-map">
+      <%= embedded_map @depot, origin_geocoded_item: current_user %>
+    </div>
+  </div>
+
+<br>
+<br>
+
+<% if current_user_admin? %>
+  <%= link_to 'Edit', edit_depot_path(@depot) %> |
+  <%= link_to 'Cancel', depot_cancel_path(@depot), method: :put,
+    data: { confirm: t('.cancellation_confirmation_message') } %> |
+  <%= link_to 'Back', depots_path %>
+<% end %>

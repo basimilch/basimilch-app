@@ -18,7 +18,7 @@ class JobTypeTest < ActiveSupport::TestCase
   # TODO: Refactor a 'should be present' type of test
 
   test "title should be present" do
-    assert @job_type.required_attribute?(:title)
+    assert_required_attribute @job_type, :title
     @job_type.title = nil
     assert_not_valid @job_type
     @job_type.title = "    "
@@ -34,7 +34,7 @@ class JobTypeTest < ActiveSupport::TestCase
   end
 
   test "description should be present" do
-    assert @job_type.required_attribute?(:description)
+    assert_required_attribute @job_type, :description
     @job_type.description = nil
     assert_not_valid @job_type
     @job_type.description = "    "
@@ -50,7 +50,7 @@ class JobTypeTest < ActiveSupport::TestCase
   end
 
   test "place should be present" do
-    assert @job_type.required_attribute?(:place)
+    assert_required_attribute @job_type, :place
     @job_type.place = nil
     assert_not_valid @job_type
     @job_type.place = "    "
@@ -66,7 +66,7 @@ class JobTypeTest < ActiveSupport::TestCase
   end
 
   test "address should be present" do
-    assert @job_type.required_attribute?(:address)
+    assert_required_attribute @job_type, :address
     @job_type.address = nil
     assert_not_valid @job_type
     @job_type.address = "    "
@@ -82,7 +82,7 @@ class JobTypeTest < ActiveSupport::TestCase
   end
 
   test "slots should be present" do
-    assert @job_type.required_attribute?(:slots)
+    assert_required_attribute @job_type, :slots
     @job_type.slots = nil
     assert_not_valid @job_type
   end
@@ -107,7 +107,7 @@ class JobTypeTest < ActiveSupport::TestCase
   end
 
   test "user_id should be present" do
-    assert @job_type.required_attribute?(:user_id)
+    assert_required_attribute @job_type, :user_id
     @job_type.user_id = nil
     assert_not_valid @job_type
     @job_type.user_id = 0
