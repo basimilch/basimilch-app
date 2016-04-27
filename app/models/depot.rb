@@ -26,7 +26,7 @@ class Depot < ActiveRecord::Base
 
   scope :by_delivery_time, -> { order(delivery_day: :asc)
                                 .order(delivery_time: :asc)
-                                .order(name: :asc) }
+                                .order(id: :asc) }
 
   # NOTE: A word of caution: 'after_initialize' means after the Ruby
   #       initialize. Hence it is run every time a record is loaded from the
