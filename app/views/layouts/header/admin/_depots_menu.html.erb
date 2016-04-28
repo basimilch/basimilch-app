@@ -3,8 +3,7 @@
     <%= t('.depots') %> <span class="caret"></span>
   </a>
   <ul class="dropdown-menu">
-    <li><%= link_to t('.show_all_depots'), depots_path %></li>
-    <li role="separator" class="divider"></li>
-    <li><%= link_to t('.new_depot'),  new_depot_path %></li>
+    <%= menu_action t('.depot.show_all'), depots_path %>
+    <%= menu_action t('.depot.new'), new_depot_path, icon: 'plus' %>
   </ul>
 </li>

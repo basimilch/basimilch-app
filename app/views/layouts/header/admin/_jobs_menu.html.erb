@@ -3,18 +3,10 @@
     <%= t('.jobs') %> <span class="caret"></span>
   </a>
   <ul class="dropdown-menu">
-    <li><%= link_to t('.all_job_types'), job_types_path %></li>
-    <li>
-      <%= link_to new_job_type_path, class: "menu-action-with-glyphicon" do %>
-        <span class='glyphicon glyphicon-plus'></span> <%= t('.new_job_type') %>
-      <% end %>
-    </li>
-    <li role="separator" class="divider"></li>
-    <li><%= link_to t('.all_jobs'), jobs_path %></li>
-    <li>
-      <%= link_to new_job_path, class: "menu-action-with-glyphicon" do %>
-        <span class='glyphicon glyphicon-plus'></span> <%= t('.new_job') %>
-      <% end %>
-    </li>
+    <%= menu_action t('.all_job_types'), job_types_path %>
+    <%= menu_action t('.new_job_type'), new_job_type_path, icon: 'plus' %>
+    <%= menu_action_separator %>
+    <%= menu_action t('.all_jobs'), jobs_path %>
+    <%= menu_action t('.new_job'), new_job_path, icon: 'plus' %>
   </ul>
 </li>

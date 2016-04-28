@@ -3,59 +3,23 @@
     <%= t('.users') %> <span class="caret"></span>
   </a>
   <ul class="dropdown-menu">
-    <li><%= link_to t('.users_all'), users_path %></li>
-    <li><%= link_to t('.users_by_id'), users_path(view: :by_id) %></li>
-    <li role="separator" class="divider"></li>
-    <li>
-      <%= link_to users_path(view: :admins) do %>
-        <span class='glyphicon glyphicon-star'></span> <%= t('.users_admins') %>
-      <% end %>
-    </li>
-    <li>
-      <%= link_to users_path(view: :with_intern_email) do %>
-        <span class='glyphicon glyphicon-star-empty'></span> <%= t('.users_with_intern_email') %>
-      <% end %>
-    </li>
-    <li role="separator" class="divider"></li>
-    <li>
-      <%= link_to users_path(view: :active) do %>
-        <span class='glyphicon glyphicon-ok-circle'></span> <%= t('.users_active') %>
-      <% end %>
-    </li>
-    <li>
-      <%= link_to users_path(view: :recently_online) do %>
-        <span class='glyphicon glyphicon-ok-circle text-success'></span> <%= t('.users_recently_online') %>
-      <% end %>
-    </li>
-    <li>
-      <%= link_to users_path(view: :pending_activation) do %>
-      <span class='glyphicon glyphicon-time'></span> <%= t('.users_pending_activation') %>
-      <% end %>
-    </li>
-    <li>
-      <%= link_to users_path(view: :inactive) do %>
-      <span class='glyphicon glyphicon-remove-circle'></span> <%= t('.users_inactive') %>
-      <% end %>
-    </li>
-    <li>
-      <%= link_to users_path(view: :stale) do %>
-      <span class='glyphicon glyphicon-record'></span> <%= t('.users_stale') %>
-      <% end %>
-    </li>
-    <li role="separator" class="divider"></li>
-    <li>
-      <%= link_to users_path(view: :without_tel) do %>
-      <span class='glyphicon glyphicon-warning-sign'></span> <%= t('.users_without_tel') %>
-      <% end %>
-    </li>
-    <li>
-      <%= link_to users_path(view: :without_email) do %>
-      <span class='glyphicon glyphicon-warning-sign'></span> <%= t('.users_without_email') %>
-      <% end %>
-    </li>
-    <li role="separator" class="divider"></li>
-    <li><%= link_to t('.share_certificates'), share_certificates_path %></li>
-    <li role="separator" class="divider"></li>
-    <li><%= link_to t('.new_user'), new_user_path %></li>
+    <%= menu_action t('.users_all'), users_path %>
+    <%= menu_action t('.users_by_id'), users_path(view: :by_id) %>
+    <%= menu_action_separator %>
+    <%= menu_action t('.users_admins'), users_path(view: :admins), icon: 'star' %>
+    <%= menu_action t('.users_with_intern_email'), users_path(view: :with_intern_email), icon: 'star-empty' %>
+    <%= menu_action_separator %>
+    <%= menu_action t('.users_active'), users_path(view: :active), icon: 'ok-circle' %>
+    <%= menu_action t('.users_recently_online'), users_path(view: :recently_online), icon: 'ok-circle text-success' %>
+    <%= menu_action t('.users_pending_activation'), users_path(view: :pending_activation), icon: 'time' %>
+    <%= menu_action t('.users_inactive'), users_path(view: :inactive), icon: 'remove-circle' %>
+    <%= menu_action t('.users_stale'), users_path(view: :stale), icon: 'record' %>
+    <%= menu_action_separator %>
+    <%= menu_action t('.users_without_tel'), users_path(view: :without_tel), icon: 'warning-sign' %>
+    <%= menu_action t('.users_without_email'), users_path(view: :without_email), icon: 'warning-sign' %>
+    <%= menu_action_separator %>
+    <%= menu_action t('.share_certificates'), share_certificates_path %>
+    <%= menu_action_separator %>
+    <%= menu_action t('.new_user'), new_user_path %>
   </ul>
 </li>

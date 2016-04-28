@@ -321,10 +321,17 @@ de-CH:
           new_user:                 "Neue_r Genossenschafter_in"
         subscriptions_menu:
           subscriptions: "Abos"
+          subscription:
+            show_all: Abos
+            new: Neues Abo
+          product_option:
+            show_all: Produkte
+            new: Neues Produkt
         depots_menu:
           depots: "Depots"
-          show_all_depots: "Alle"
-          new_depot: "Neues Depot"
+          depot:
+            show_all: "Alle"
+            new: "Neues Depot"
         jobs_menu:
           jobs: "Mitarbeit"
           all_job_types: "Tätigkeiten"

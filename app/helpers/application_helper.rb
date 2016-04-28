@@ -173,6 +173,23 @@ module ApplicationHelper
     end
   end
 
+  def menu_action(label, path, icon: nil)
+    content_tag :li do
+      html_options = {}
+      html_options['class'] = 'menu-action-with-glyphicon' if icon
+      link_to path, html_options do
+        if icon
+          concat content_tag :span, nil, class: "glyphicon glyphicon-#{icon}"
+        end
+        concat label
+      end
+    end
+  end
+
+  def menu_action_separator
+    content_tag :li, nil, role: 'separator', class: 'divider'
+  end
+
   private
 
     def icon_to_html_options(type, published = true)
