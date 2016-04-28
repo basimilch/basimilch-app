@@ -210,6 +210,29 @@ class DepotsControllerTest < ActionController::TestCase
     assert_redirected_to depot_path(assigns(:depot))
   end
 
+  # Add coordinator to depot
+
+  test "admin should be able to add a coordinator" do
+    assert_admin_protected login_as: @admin_user do
+      put :update, id: @depot, depot: {
+        coordinator_user_ids: [ users(:one).id ]
+      }
+    end
+    assert_redirected_to depot_path(assigns(:depot))
+    assert_equal users(:one), @depot.reload.coordinators.first.user
+  end
+
+  test "admin should be able to add a coordinator without mobile phone" do
+    assert_equal true, users(:one).update_attribute(:tel_mobile, nil)
+    assert_admin_protected login_as: @admin_user do
+      put :update, id: @depot, depot: {
+        coordinator_user_ids: [ users(:one).id ]
+      }
+    end
+    assert_redirected_to depot_path(assigns(:depot))
+    assert_equal users(:one), @depot.reload.coordinators.first.user
+  end
+
   # Cancel depot
 
   test "admin should cancel depot" do

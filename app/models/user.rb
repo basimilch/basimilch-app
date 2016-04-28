@@ -155,7 +155,7 @@ class User < ActiveRecord::Base
   # instead of "+41 xx..."). Otherwise it returns the number with the country
   # code.
   def formatted_tel_national(tel_type)
-    formatted_tel   = formatted_tel(tel_type)
+    formatted_tel   = formatted_tel(tel_type) || ''
     is_swiss_phone  = formatted_tel.remove_whitespace.swiss_phone_number?
     formatted_tel.phony_formatted(normalize: 'CH',
                             format: is_swiss_phone ? :national : :international,

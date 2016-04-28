@@ -626,6 +626,12 @@ tr[data-href] {
   @extend .small-appended-info;
 }
 
+.no-mobile-phone-available {
+  @extend .small-appended-info;
+  padding: {
+    left: 10px;
+  }
+}
 
 .cancel-button {
   opacity: .2;

@@ -51,11 +51,15 @@ module DepotCoordinatorsHelper
       end
       if coordinator.not_canceled?
         if coordinator.publish_tel_mobile || current_user_admin? || form
-          tel         = coordinator.user.tel_mobile
-          tel_display = coordinator.user.tel_mobile_formatted_national
-          concat icon_tel_to(tel, tel_display,
-                 published: coordinator.publish_tel_mobile )
-          concat publish_info_checkbox(coordinator, form, :tel_mobile)
+          if tel        = coordinator.user.tel_mobile
+            tel_display = coordinator.user.tel_mobile_formatted_national
+            concat icon_tel_to(tel, tel_display,
+                   published: coordinator.publish_tel_mobile )
+            concat publish_info_checkbox(coordinator, form, :tel_mobile)
+          else
+            concat content_tag(:span, t('.no_mobile_phone_available'),
+                               class: 'no-mobile-phone-available')
+          end
         end
         if coordinator.publish_email || current_user_admin? || form
           concat icon_mail_to(coordinator.user.email,
