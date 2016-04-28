@@ -1,1 +1,12 @@
-<li><%= link_to t('.subscriptions'), "#" %></li>
+<li class="dropdown">
+  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+    <%= t('.subscriptions') %> <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu">
+    <%= menu_action t('.subscription.show_all'), '#' %>
+    <%= menu_action t('.subscription.new'), '#', icon: 'plus' %>
+    <%= menu_action_separator %>
+    <%= menu_action t('.product_option.show_all'), '#' %>
+    <%= menu_action t('.product_option.new'), '#', icon: 'plus' %>
+  </ul>
+</li>
