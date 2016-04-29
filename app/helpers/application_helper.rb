@@ -173,11 +173,12 @@ module ApplicationHelper
     end
   end
 
-  def menu_action(label, path, icon: nil, link_method: nil)
+  def menu_action(label, path, icon: nil, link_method: nil, link_confirm: nil)
     content_tag :li do
       html_options = {}
       html_options[:method] = link_method if link_method
-      html_options[:class] = 'menu-action-with-glyphicon' if icon
+      html_options[:data]   = { confirm: link_confirm } if link_confirm
+      html_options[:class]  = 'menu-action-with-glyphicon' if icon
       link_to path, html_options do
         if icon
           concat content_tag :span, nil, class: "glyphicon glyphicon-#{icon}"

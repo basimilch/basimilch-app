@@ -5,6 +5,16 @@
   <ul class="dropdown-menu">
     <%= menu_action t('.profile'), profile_path %>
     <%= menu_action_separator %>
-    <%= menu_action t('.log_out'), logout_path, link_method: 'delete', icon: 'log-out' %>
+    <%= menu_action t('.log_out'), logout_path,
+                                   icon: 'log-out',
+                                   link_method: 'delete'
+                                   # TODO: Consider adding a logout confirmation
+                                   #       message to remind people that they can
+                                   #       stayed logged in if they are on their own
+                                   #       computer to avoid requesting a new login code
+                                   #       per email.
+                                   # ,
+                                   # link_confirm: 'Are you sure to log out?'
+                                   %>
   </ul>
 </li>
