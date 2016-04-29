@@ -543,8 +543,8 @@ end
 # Modify 'byebug' breakpoint helper to prevent forgetting it in production and
 # and to stop on breakpoints in tests.
 # SOURCE: https://github.com/deivid-rodriguez/byebug/blob/3ac521e2/lib/byebug/attacher.rb#L28-L34
-# DOC: http://ruby-doc.org/core-2.2.0/Binding.html#method-i-receiver
-# DOC: http://ruby-doc.org/core-2.1.1/Kernel.html#method-i-caller
+# DOC: http://ruby-doc.org/core-2.2.4/Binding.html#method-i-receiver
+# DOC: http://ruby-doc.org/core-2.2.4/Kernel.html#method-i-caller
 # TODO: Consider creating a PR to contribute this option to byebug.
 module Kernel
   def byebug
