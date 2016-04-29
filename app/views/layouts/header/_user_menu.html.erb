@@ -3,13 +3,8 @@
     <%= current_user.first_name %> <span class="caret"></span>
   </a>
   <ul class="dropdown-menu">
-    <li><%= link_to t('.profile'), profile_path %></li>
-    <li role="separator" class="divider"></li>
-    <li>
-      <%= link_to logout_path, method: "delete" do%>
-        <span class='glyphicon glyphicon-log-out'></span>
-        <%= t('.log_out') %>
-      <% end %>
-    </li>
+    <%= menu_action t('.profile'), profile_path %>
+    <%= menu_action_separator %>
+    <%= menu_action t('.log_out'), logout_path, link_method: 'delete', icon: 'log-out' %>
   </ul>
 </li>
