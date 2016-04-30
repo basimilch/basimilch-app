@@ -57,6 +57,35 @@ class NilClass
   include ToIntegerUtils
 end
 
+class BigDecimal
+  # SOURCE: http://stackoverflow.com/questions/8514167/float-vs-decimal-in-activerecord
+  include ActionView::Helpers::NumberHelper
+
+  # Returns a string representing the BigDecimal but only with the significant
+  # digits, i.e. without insignificant trailing zeros after 'decimals' digits
+  # after the comma.
+  def to_s_significant(decimals: 3)
+    # NOTE: Similar to something like '"%g" % self' in pure ruby but arguably
+    #       easier to understand. Moreover, it's not an overhead since we have
+    #       Rails available anyway.
+    # SOURCE: http://stackoverflow.com/a/18592312
+    # DOC: http://api.rubyonrails.org/v4.2.5.2/classes/ActionView/Helpers/NumberHelper.html#method-i-number_with_precision
+    number_with_precision(self,
+                          precision: decimals,
+                          significant: false,
+                          strip_insignificant_zeros: true)
+  end
+
+  # Returns a string representing the BigDecimal as a currency value, using
+  # Rails' :number_to_currency method.
+  def to_s_currency(locale: I18n.locale, decimals: 2)
+    # DOC: http://api.rubyonrails.org/v4.2.5.2/classes/ActionView/Helpers/NumberHelper.html#method-i-number_to_currency
+    number_to_currency(self,
+                       locale: locale,
+                       precision: decimals)
+  end
+end
+
 # SOURCE: http://stackoverflow.com/a/11482430
 # NOTE: If more colorization features are needed, consider adding the gem
 #       https://github.com/fazibear/colorize

@@ -143,4 +143,38 @@ class RailsExtentionsTest < ActionController::TestCase
       assert_equal "in etwa 2 Wochen",     Time.new(2011,  1, 16,  9,  0,  0).relative_in_words # Sunday
     end
   end
+
+  test "BigDecimal should be properly formatted" do
+
+    # Note the differences between the Rails' .to_s and our .to_s_significant.
+
+    assert_equal '1.0003', BigDecimal.new('1.0003').to_s
+    assert_equal '1.0', BigDecimal.new('1').to_s
+    assert_equal '1.0', BigDecimal.new('1.0').to_s
+    assert_equal '100.3', BigDecimal.new('100.3').to_s
+    assert_equal '100.3', BigDecimal.new('100.300').to_s
+    assert_equal '100.301', BigDecimal.new('100.301').to_s
+    assert_equal '100.31', BigDecimal.new('100.31').to_s
+
+    assert_equal '1', BigDecimal.new('1.0003').to_s_significant
+    assert_equal '1', BigDecimal.new('1.0003').to_s_significant(decimals: 2)
+    assert_equal '1.0003', BigDecimal.new('1.0003').to_s_significant(decimals: 4)
+    assert_equal '1', BigDecimal.new('1').to_s_significant
+    assert_equal '1', BigDecimal.new('1.0').to_s_significant
+    assert_equal '100.3', BigDecimal.new('100.3').to_s_significant
+    assert_equal '100.3', BigDecimal.new('100.300').to_s_significant
+    assert_equal '100.3', BigDecimal.new('100.3001').to_s_significant
+    assert_equal '100.301', BigDecimal.new('100.301').to_s_significant
+
+    assert_equal 'CHF 1.00', BigDecimal.new('1.0003').to_s_currency
+    assert_equal '1,00 €', BigDecimal.new('1.0003').to_s_currency(locale: :fr)
+    assert_equal 'CHF 1', BigDecimal.new('1.0003').to_s_currency(decimals: 0)
+    assert_equal 'CHF 1.0003', BigDecimal.new('1.0003').to_s_currency(decimals: 4)
+    assert_equal 'CHF 1.00', BigDecimal.new('1').to_s_currency
+    assert_equal 'CHF 1.00', BigDecimal.new('1.0').to_s_currency
+    assert_equal 'CHF 100.30', BigDecimal.new('100.3').to_s_currency
+    assert_equal 'CHF 100.30', BigDecimal.new('100.300').to_s_currency
+    assert_equal 'CHF 100.30', BigDecimal.new('100.3001').to_s_currency
+    assert_equal 'CHF 100.301', BigDecimal.new('100.301').to_s_currency(decimals: 3)
+  end
 end
