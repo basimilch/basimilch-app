@@ -31,9 +31,9 @@ class DepotsController < ApplicationController
   # POST /depots.json
   def create
     @depot = Depot.new(depot_params)
-
     respond_to do |format|
       if @depot.save
+        record_activity :create, @depot
         format.html { redirect_to @depot, notice: 'Depot was successfully created.' }
         format.json { render :show, status: :created, location: @depot }
       else
@@ -46,9 +46,9 @@ class DepotsController < ApplicationController
   # PATCH/PUT /depots/1
   # PATCH/PUT /depots/1.json
   def update
-    logger.warn depot_params.to_s.pink
     respond_to do |format|
       if @depot.update(depot_params)
+        record_activity :update, @depot
         format.html { redirect_to @depot, notice: 'Depot was successfully updated.' }
         format.json { render :show, status: :ok, location: @depot }
       else
@@ -61,7 +61,10 @@ class DepotsController < ApplicationController
   # DELETE /depots/1
   # DELETE /depots/1.json
   def destroy
-    @depot.destroy
+    record_activity :destroy, @depot # Must come before the destroy action.
+    unless @depot.destroy
+      record_activity :destroy_failed, @depot
+    end
     respond_to do |format|
       format.html { redirect_to depots_url, notice: 'Depot was successfully destroyed.' }
       format.json { head :no_content }

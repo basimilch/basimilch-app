@@ -30,9 +30,9 @@ class ProductOptionsController < ApplicationController
   # POST /product_options.json
   def create
     @product_option = ProductOption.new(product_option_params)
-
     respond_to do |format|
       if @product_option.save
+        record_activity :create, @product_option
         format.html { redirect_to @product_option, notice: 'Product option was successfully created.' }
         format.json { render :show, status: :created, location: @product_option }
       else
@@ -47,6 +47,7 @@ class ProductOptionsController < ApplicationController
   def update
     respond_to do |format|
       if @product_option.update(product_option_params)
+        record_activity :update, @product_option
         format.html { redirect_to @product_option, notice: 'Product option was successfully updated.' }
         format.json { render :show, status: :ok, location: @product_option }
       else
@@ -65,7 +66,10 @@ class ProductOptionsController < ApplicationController
   # DELETE /product_options/1
   # DELETE /product_options/1.json
   def destroy
-    @product_option.destroy
+    record_activity :destroy, @product_option # Must come before the destroy action.
+    unless @product_option.destroy
+      record_activity :destroy_failed, @product_option
+    end
     respond_to do |format|
       format.html { redirect_to product_options_url, notice: 'Product option was successfully destroyed.' }
       format.json { head :no_content }
