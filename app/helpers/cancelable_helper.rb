@@ -2,7 +2,7 @@ module CancelableHelper
 
   def cancelation_flash(model)
     model.canceled? or return false
-    prefix = model.class.to_s.downcase
+    prefix = model.class.to_s.underscore
     cancellation_author = User.find_by(id: model.canceled_by_id)
     t_key = if !current_user_admin?
               ".#{prefix}_canceled"
