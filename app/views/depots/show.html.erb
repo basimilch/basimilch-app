@@ -69,6 +69,6 @@
 <% if current_user_admin? && @depot.not_canceled? %>
   <%= link_to 'Edit', edit_depot_path(@depot) %> |
   <%= link_to 'Cancel', depot_cancel_path(@depot), method: :put,
-    data: { confirm: t('.cancellation_confirmation_message') } %> |
+    data: { confirm: t('.cancelation_confirmation_message') } %> |
   <%= link_to 'Back', depots_path %>
 <% end %>

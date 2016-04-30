@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyText
+  picture: MyString
+  size: 9.990
+  size_unit: liter
+  equivalent_in_milk_liters: 9.990
+  canceled_at:
+  canceled_reason:
+  canceled_by_id:
+  notes: MyText
+
+two:
+  name: MyString
+  description: MyText
+  picture: MyString
+  size: 200
+  size_unit: gram
+  equivalent_in_milk_liters: 1
+  canceled_at: 2016-04-29 19:54:36
+  canceled_reason: MyString
+  canceled_by_id:
+  notes: MyText

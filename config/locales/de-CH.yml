@@ -60,6 +60,8 @@ de-CH:
       slots:          Anzahl Teilnehmende
       time:           Zeit
       user:           Genossenschafter_in
+      size:           Grösse
+      equivalence:    Entsprechung
     attributes: &attributes
       activated_at:               "Aktiviert am"
       admin:                      "Admin"
@@ -325,8 +327,8 @@ de-CH:
             show_all: Abos
             new: Neues Abo
           product_option:
-            show_all: Produkte
-            new: Neues Produkt
+            show_all: Produktoptionen
+            new: Neue Produktoption
         depots_menu:
           depots: "Depots"
           depot:
@@ -656,7 +658,7 @@ de-CH:
         am %{canceled_at} abgesagt.
       job_canceled_by_unknown: >
         Der Einsatz wurde von unbekannt am %{canceled_at} abgesagt.
-      cancellation_confirmation_message: >
+      cancelation_confirmation_message: >
         Möchtest du diesen Einsatz wirklich absagen? Falls vorhanden werden
         die angemeldeten Personen sofort und automatisch per E-Mail
         benachrichtigt. Die Absage kann *NICHT* rückgängig gemacht werden.
@@ -705,7 +707,7 @@ de-CH:
       notes: Sonstiges
       directions_map: Deine Wegbeschreibung
       delivery_time_message: "%{day}, ab ca. %{time}h (Uhrzeit nur indikativ)"
-      cancellation_confirmation_message: >
+      cancelation_confirmation_message: >
         Möchtest du dieses Depot wirklich annulieren? Diese Aktion kann *NICHT*
         rückgängig gemacht werden.
       depot_canceled: >
@@ -749,3 +751,50 @@ de-CH:
         wirklich abmelden? Das kann nicht rückgängig gemacht werden. Die Person
         wird NICHT automatisch per E-Mail benachrichtigt.
       no_mobile_phone_available: Keine Natelnummer vorhanden
+
+  product_options:
+    equivalent_in_milk_liters_msg: "%{liters} Liter Frischmilch"
+    size_unit:
+      milliliter:
+        abbreviation: ml
+        one: Milliliter
+        other: Milliliter
+      centiliter:
+        abbreviation: cl
+        one: Zentiliter
+        other: Zentiliter
+      deciliter:
+        abbreviation: dl
+        one: Deziliter
+        other: Deziliter
+      liter:
+        abbreviation: l
+        one: Liter
+        other: Liter
+      gram:
+        abbreviation: g
+        one: Gramm
+        other: Gramm
+      kilogram:
+        abbreviation: kg
+        one: Kilogramm
+        other: Kilogramm
+    index:
+      title: Produktoptionen
+      no_product_options: Keine Produktoptionen definiert.
+    show:
+      title: Produktoption
+      product_option_canceled: >
+        Die Produktoption wurde abgesagt.
+      product_option_canceled_by_current_user: >
+        Die Produktoption wurde von dir am %{canceled_at} abgesagt.
+      product_option_canceled_by_user: >
+        Die Produktoption wurde von <a href='%{canceled_by_url}'>%{canceled_by}</a>
+        am %{canceled_at} abgesagt.
+      product_option_canceled_by_unknown: >
+        Die Produktoption wurde von unbekannt am %{canceled_at} abgesagt.
+      cancelation_confirmation_message: >
+        Möchtest du diese Produktoption wirklich absagen? Wenn Abos diese Option
+        immer noch gewählt haben, kann sie nicht agbesagt werden.
+        Die Absage kann *NICHT* rückgängig gemacht werden.
+

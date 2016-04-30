@@ -1,0 +1,28 @@
+<% provide(:title, t('.title')) %>
+
+<% if  @product_options.empty? %>
+  <%= t '.no_product_options' %>
+<% else %>
+  <div class="table-responsive product_options_table">
+    <table class="table table-hover table-condensed">
+      <thead>
+        <tr>
+          <th><%= t 'table_headers.name' %></th>
+          <th><%= t 'table_headers.size' %></th>
+          <th><%= t 'table_headers.equivalence' %></th>
+          <th><%= t 'table_headers.description' %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @product_options.each do |product_option| %>
+          <tr class="product_option_info<%= " canceled" if product_option.canceled? %>" data-href="<%= product_option_path(product_option.id) %>"=>
+            <td><%= product_option.name %></td>
+            <td><%= localized_product_size product_option %></td>
+            <td><%= localized_product_equivalent product_option %></td>
+            <td><%= product_option.description.truncate_naturally at: 60 %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

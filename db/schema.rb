@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160415144110) do
+ActiveRecord::Schema.define(version: 20160429175436) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -134,6 +134,23 @@ ActiveRecord::Schema.define(version: 20160415144110) do
   add_index "jobs", ["start_at"], name: "index_jobs_on_start_at", using: :btree
   add_index "jobs", ["user_id"], name: "index_jobs_on_user_id", using: :btree
 
+  create_table "product_options", force: :cascade do |t|
+    t.string   "name",                      null: false
+    t.text     "description"
+    t.string   "picture"
+    t.decimal  "size",                      null: false
+    t.string   "size_unit",                 null: false
+    t.decimal  "equivalent_in_milk_liters", null: false
+    t.datetime "canceled_at"
+    t.string   "canceled_reason"
+    t.integer  "canceled_by_id"
+    t.text     "notes"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "product_options", ["canceled_by_id"], name: "index_product_options_on_canceled_by_id", using: :btree
+
   create_table "share_certificates", force: :cascade do |t|
     t.integer  "user_id"
     t.date     "sent_at"
@@ -206,5 +223,6 @@ ActiveRecord::Schema.define(version: 20160415144110) do
   add_foreign_key "jobs", "job_types"
   add_foreign_key "jobs", "users"
   add_foreign_key "jobs", "users", column: "canceled_by_id"
+  add_foreign_key "product_options", "users", column: "canceled_by_id"
   add_foreign_key "share_certificates", "users"
 end

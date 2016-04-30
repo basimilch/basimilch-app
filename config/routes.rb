@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :jobs
   resources :job_types
   resources :depots
+  resources :product_options
 
   # You can have the root of your site routed with "root"
   root    'sessions#new'
@@ -39,6 +40,9 @@ Rails.application.routes.draw do
   put   'depots/:id/cancel'     => 'depots#cancel',       as: :depot_cancel
   put   'depots/:id/cancel_coordinator/:coordinator_id' =>
           'depots#cancel_coordinator', as: :depot_cancel_coordinator
+
+  put   'product_options/:id/cancel' => 'product_options#cancel',
+                                     as: :product_option_cancel
 
   # DOC: http://stackoverflow.com/a/26286472/5764181
   # DOC: https://wearestac.com/blog/dynamic-error-pages-in-rails

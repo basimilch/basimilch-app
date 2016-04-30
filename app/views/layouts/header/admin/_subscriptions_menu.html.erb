@@ -6,7 +6,7 @@
     <%= menu_action t('.subscription.show_all'), '#' %>
     <%= menu_action t('.subscription.new'), '#', icon: 'plus' %>
     <%= menu_action_separator %>
-    <%= menu_action t('.product_option.show_all'), '#' %>
-    <%= menu_action t('.product_option.new'), '#', icon: 'plus' %>
+    <%= menu_action t('.product_option.show_all'), product_options_path %>
+    <%= menu_action t('.product_option.new'), new_product_option_path, icon: 'plus' %>
   </ul>
 </li>

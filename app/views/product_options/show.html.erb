@@ -1,0 +1,44 @@
+<% provide(:title, "#{t '.title'}: #{@product_option.name}") %>
+<% provide(:title_class, "canceled") if @product_option.canceled? %>
+
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @product_option.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @product_option.description %>
+</p>
+
+<p>
+  <strong>Picture:</strong>
+  <%= @product_option.picture %>
+</p>
+
+<p>
+  <strong>Size:</strong>
+  <%= localized_product_size @product_option %>
+</p>
+
+<p>
+  <strong>Equivalent:</strong>
+  <%= localized_product_equivalent @product_option %>
+</p>
+
+<p>
+  <strong>Notes:</strong>
+  <%= @product_option.notes %>
+</p>
+
+<% if current_user_admin? && @product_option.not_canceled? %>
+  <div class="product_option_show_bottom_actions">
+    <%= link_to 'Edit', edit_product_option_path(@product_option) %> |
+    <%# link_to 'Destroy', @product_option, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <%= link_to 'Cancel', product_option_cancel_path(@product_option), method: :put,
+        data: { confirm: t('.cancelation_confirmation_message') } %> |
+    <%= link_to 'Back', product_options_path %>
+  </div>
+<% end %>
