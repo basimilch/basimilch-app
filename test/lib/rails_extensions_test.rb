@@ -177,4 +177,22 @@ class RailsExtentionsTest < ActionController::TestCase
     assert_equal 'CHF 100.30', BigDecimal.new('100.3001').to_s_currency
     assert_equal 'CHF 100.301', BigDecimal.new('100.301').to_s_currency(decimals: 3)
   end
+
+  test "truncate strings at a natural point" do
+    lorem = 'Lorem ipsum dolor sit amet, consetetur. Sadipscing elit, sed diam.'
+    assert_equal 'Lorem ipsum dolor sit amet, consetetur...',
+                  lorem.truncate_naturally
+    assert_equal 'Lorem...',
+                  lorem.truncate_naturally(at: 10)
+    assert_equal 'Lorem...',
+                  lorem.truncate_naturally(at: 13)
+    assert_equal 'Lorem ipsum...',
+                  lorem.truncate_naturally(at: 14)
+    assert_equal 'Lorem ipsum dolor sit...',
+                  lorem.truncate_naturally(at: 26)
+    assert_equal 'Lorem ipsum dolor sit amet...',
+                  lorem.truncate_naturally(at: 29)
+    assert_equal 'Lorem ipsum dolor sit amet...',
+                  lorem.truncate_naturally(at: 32)
+  end
 end

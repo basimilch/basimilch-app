@@ -146,6 +146,15 @@ class String
     chr
   end
 
+  # DOC: http://www.regular-expressions.info/wordboundaries.html
+  # DOC: http://www.regular-expressions.info/lookaround.html
+  END_OF_WORD_REGEXP = /(?<=\w)\b/
+
+  def truncate_naturally(at: 50)
+    # DOC: http://api.rubyonrails.org/v4.2.5.2/classes/String.html#method-i-truncate
+    self.truncate(at, separator: END_OF_WORD_REGEXP)
+  end
+
   # DOC: http://www.rubydoc.info/stdlib/erb/ERB%2FUtil.url_encode
   include ERB::Util
   def url_encoded(only_spaces: false)
