@@ -57,8 +57,8 @@ class NilClass
   include ToIntegerUtils
 end
 
-class BigDecimal
-  # SOURCE: http://stackoverflow.com/questions/8514167/float-vs-decimal-in-activerecord
+module NumericFormattingUtils
+
   include ActionView::Helpers::NumberHelper
 
   # Returns a string representing the BigDecimal but only with the significant
@@ -84,6 +84,24 @@ class BigDecimal
                        locale: locale,
                        precision: decimals)
   end
+end
+
+module NumericPredicateUtils
+  def pos?
+    self > 0
+  end
+  def neg?
+    self < 0
+  end
+end
+
+# NOTE: Numeric is a base class for other, more specific, types of number
+#       objects, e.g. Fixnum, Float, Bignum, BigDecimal.
+# DOC: http://ruby-doc.org/core-2.2.4/Numeric.html
+# SOURCE: http://stackoverflow.com/questions/8514167/float-vs-decimal-in-activerecord
+class Numeric
+  include NumericFormattingUtils
+  include NumericPredicateUtils
 end
 
 # SOURCE: http://stackoverflow.com/a/11482430

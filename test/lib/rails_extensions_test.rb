@@ -178,6 +178,33 @@ class RailsExtentionsTest < ActionController::TestCase
     assert_equal 'CHF 100.301', BigDecimal.new('100.301').to_s_currency(decimals: 3)
   end
 
+  test "numbers should have pos? and neg? predicates" do
+    assert_equal true,  1.pos?
+    assert_equal false, 1.neg?
+    assert_equal true,  0.1.pos?
+    assert_equal false, 0.1.neg?
+    assert_equal true,  BigDecimal('1').pos?
+    assert_equal false, BigDecimal('1').neg?
+    assert_equal true,  (100**100).pos?
+    assert_equal false, (100**100).neg?
+
+    assert_equal false, 0.pos?
+    assert_equal false, 0.neg?
+    assert_equal false, 0.0.pos?
+    assert_equal false, 0.0.neg?
+    assert_equal false, BigDecimal('0').pos?
+    assert_equal false, BigDecimal('0').neg?
+
+    assert_equal false, -1.pos?
+    assert_equal true,  -1.neg?
+    assert_equal false, -0.1.pos?
+    assert_equal true,  -0.1.neg?
+    assert_equal false, BigDecimal('-1').pos?
+    assert_equal true,  BigDecimal('-1').neg?
+    assert_equal false, (-1 * 100**100).pos?
+    assert_equal true,  (-1 * 100**100).neg?
+  end
+
   test "truncate strings at a natural point" do
     lorem = 'Lorem ipsum dolor sit amet, consetetur. Sadipscing elit, sed diam.'
     assert_equal 'Lorem ipsum dolor sit amet, consetetur...',
