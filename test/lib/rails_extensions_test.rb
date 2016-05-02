@@ -47,6 +47,19 @@ class RailsExtentionsTest < ActionController::TestCase
     end
   end
 
+  test "should be able to get a non blank string" do
+    assert_equal nil, ''.not_blank
+    assert_equal nil, ' '.not_blank
+    assert_equal nil, '  '.not_blank # non-breaking spaces
+    assert_equal nil, "\t".not_blank
+    assert_equal nil, nil.not_blank
+
+    assert_equal 'a', 'a'.not_blank
+    assert_equal 'a ', 'a '.not_blank
+    assert_equal ' a ', ' a '.not_blank # non-breaking spaces
+    assert_equal "a\t", "a\t".not_blank
+  end
+
   test "should be able to remove all whitespace chars from a string" do
     assert_equal '', "".remove_whitespace
     assert_equal '', "  ".remove_whitespace

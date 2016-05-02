@@ -53,8 +53,15 @@ module ToIntegerUtils
   end
 end
 
+module NonBlankUtils
+  def not_blank
+    return self unless blank?
+  end
+end
+
 class NilClass
   include ToIntegerUtils
+  include NonBlankUtils
 end
 
 module NumericFormattingUtils
@@ -136,6 +143,8 @@ end
 class String
   include Colorize
   include ToIntegerUtils
+  include NonBlankUtils
+
   def number
     scan(/\d/).join
   end
