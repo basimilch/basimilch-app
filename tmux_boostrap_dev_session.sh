@@ -58,8 +58,10 @@ tmux select-pane   -t $SESSION:server.0
 tmux send-keys     '#rails server' Enter
 tmux select-window -t $SESSION:rake
 tmux select-pane   -t $SESSION:rake.0
-tmux send-keys     '#bundle exec rake db:migrate' Enter
 tmux send-keys     '#bundle exec rake db:reset' Enter
+tmux send-keys     '#bundle exec rake db:rollback STEP=3' Enter
+tmux send-keys     '#bundle exec rake db:schema:load RAILS_ENV=test' Enter
+tmux send-keys     '#bundle exec rake db:migrate' Enter
 
 # all done, select starting window and get to work
 tmux select-window -t $SESSION:git
