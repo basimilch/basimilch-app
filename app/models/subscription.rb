@@ -5,11 +5,44 @@ class Subscription < ActiveRecord::Base
   # DOC: https://github.com/airblade/paper_trail/tree/v4.1.0#basic-usage
   has_paper_trail ignore: [:updated_at]
 
-  NEXT_UPDATE_WEEK_NUMBER = Rails.configuration.x.subscription
-                                .next_update_week_number
-  UPDATE_DEADLINE_BEFORE_DELIVERY_DAY = 3.days
+  def self.capture_week_number_env
+    week_number_env = ENV['SUBSCRIPTION_NEXT_UPDATE_WEEK_NUMBER'].not_blank
+    case week_number_env
+    when String
+      logger.info "ENV['SUBSCRIPTION_NEXT_UPDATE_WEEK_NUMBER'] =" +
+                    " #{week_number_env.inspect}"
+      # NOTE: :to_i returns 0 for nil
+      next_week_number = week_number_env[/^\s*(\d+)\s*$/, 1].to_i
+      if !(1..52).include? next_week_number
+        logger.warn ("Invalid SUBSCRIPTION_NEXT_UPDATE_WEEK_NUMBER." +
+                      " Must be an integer between 1 and 52.").red
+        nil
+      elsif next_week_number <= Date.current.cweek
+        logger.warn ("SUBSCRIPTION_NEXT_UPDATE_WEEK_NUMBER must be in" +
+              " future. Current week number is #{Date.current.cweek}.").red
+        nil
+      else
+        logger.info ("Valid SUBSCRIPTION_NEXT_UPDATE_WEEK_NUMBER:" +
+              " #{next_week_number}. Current week number is" +
+              " #{Date.current.cweek}.").green
+        logger.info ("Regular (i.e. non admin) users CAN update the" +
+              " items of their subscription until week" +
+              " #{next_week_number}.").yellow
+        next_week_number
+      end
+    else
+      logger.info ("SUBSCRIPTION_NEXT_UPDATE_WEEK_NUMBER ENV var not set" +
+            " up. This is OK but means that regular (i.e. non admin) users" +
+            " cannot update the items of their subscription.").yellow
+      nil
+    end
+  end
+
+  NEXT_UPDATE_WEEK_NUMBER = capture_week_number_env
   logger.debug "Subscription::NEXT_UPDATE_WEEK_NUMBER set to" +
                   " '#{NEXT_UPDATE_WEEK_NUMBER.inspect}'"
+
+  UPDATE_DEADLINE_BEFORE_DELIVERY_DAY = 3.days
 
   belongs_to :depot
   has_many :subscriberships, -> { by_creation_date }
