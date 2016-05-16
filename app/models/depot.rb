@@ -109,7 +109,7 @@ class Depot < ActiveRecord::Base
 
   # It might be in the past week or in the current week.
   def previous_delivery_day
-    delivery_day_before Date.today
+    delivery_day_before Date.current
   end
 
   def delivery_day_after(date)
@@ -119,19 +119,19 @@ class Depot < ActiveRecord::Base
 
   # It might be in the current week or in the next week.
   def next_delivery_day
-    delivery_day_after Date.today
+    delivery_day_after Date.current
   end
 
   # It might be in the past.
   def delivery_day_of_current_week
-    today = Date.today
+    today = Date.current
     # NOTE: Sunday is 7 for Date.commercial method, but is zero in delivery_day.
     # DOC: http://ruby-doc.org/stdlib-2.2.4/libdoc/date/rdoc/Date.html#method-c-commercial
     Date.commercial(today.year, today.cweek, [7,1,2,3,4,5,6][delivery_day])
   end
 
   def today_is_delivery_day?
-    delivery_day_between(Date.today, Date.today).to_b
+    delivery_day_between(Date.current, Date.current).to_b
   end
 
   # Holidays and exceptional non-delivery-days are not taken into account.
@@ -146,7 +146,7 @@ class Depot < ActiveRecord::Base
   NEW_YEAR_HOLIDAYS_MARGIN = 2.days
 
   def delivery_days_of_current_year
-    today = Date.today
+    today = Date.current
     @delivery_days_of_current_year ||= delivery_days(
                             today.beginning_of_year + NEW_YEAR_HOLIDAYS_MARGIN,
                             today.end_of_year

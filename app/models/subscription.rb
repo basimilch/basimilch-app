@@ -83,7 +83,7 @@ class Subscription < ActiveRecord::Base
   end
 
   def next_modifiable_delivery_day
-    depot.delivery_day_after(Date.today + UPDATE_DEADLINE_BEFORE_DELIVERY_DAY)
+    depot.delivery_day_after(Date.current + UPDATE_DEADLINE_BEFORE_DELIVERY_DAY)
   end
 
   # Returns an array of the :valid_since dates of all items of this

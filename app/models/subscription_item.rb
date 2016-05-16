@@ -24,7 +24,7 @@ class SubscriptionItem < ActiveRecord::Base
   scope :valid_within_period, ->(d1, d2) { valid_since_on_or_before(d1)
                                            .valid_until_on_or_after(d2) }
   scope :valid_on_date, ->(date) { valid_within_period(date, date) }
-  scope :currently_valid, -> { valid_on_date(Date.today) }
+  scope :currently_valid, -> { valid_on_date(Date.current) }
   scope :open, -> { not_canceled.where(valid_until: nil) }
 
   def self.valid_since_dates

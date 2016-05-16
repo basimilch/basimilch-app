@@ -48,14 +48,14 @@ module BasimilchApp
             puts ("Invalid SUBSCRIPTION_NEXT_UPDATE_WEEK_NUMBER." +
                   " Must be an integer between 1 and 52.").red
             nil
-          elsif next_week_number <= Date.today.cweek
+          elsif next_week_number <= Date.current.cweek
             puts ("SUBSCRIPTION_NEXT_UPDATE_WEEK_NUMBER must be in future." +
-                  " Current week number is #{Date.today.cweek}.").red
+                  " Current week number is #{Date.current.cweek}.").red
             nil
           else
             puts ("Valid SUBSCRIPTION_NEXT_UPDATE_WEEK_NUMBER:" +
                   " #{next_week_number}." +
-                  " Current week number is #{Date.today.cweek}.").green
+                  " Current week number is #{Date.current.cweek}.").green
             puts ("Regular (i.e. non admin) users CAN update the items of" +
                   " their subscription until week #{next_week_number}.").yellow
 

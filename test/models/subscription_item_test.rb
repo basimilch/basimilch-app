@@ -9,7 +9,7 @@ class SubscriptionItemTest < ActiveSupport::TestCase
         product_option: product_options(:one),
         # NOTE: can also be: product_option_id: product_options(:one).id,
         # quantity:       0, # It's set up by default by the DB, see schema
-        valid_since:    Date.today,
+        valid_since:    Date.current,
         valid_until:    nil
       })
   end

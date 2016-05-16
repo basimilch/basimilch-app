@@ -34,7 +34,7 @@ class Job < ActiveRecord::Base
                                      .where("start_at < ?", t2) }
   scope :at_day,  ->(d) { within_period(d.to_date.at_beginning_of_day,
                                         d.to_date.at_end_of_day) }
-  scope :today,     -> { at_day(Date.today) }
+  scope :today,     -> { at_day(Date.current) }
   scope :tomorrow,  -> { at_day(Date.tomorrow) }
   scope :in_current_year, -> { within_period(Time.current.beginning_of_year,
                                              Time.current.end_of_year) }

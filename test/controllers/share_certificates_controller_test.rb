@@ -33,7 +33,7 @@ class ShareCertificatesControllerTest < ActionController::TestCase
       assert_admin_protected login_as: @admin_user do
         post :create, share_certificate: {
           notes:        nil,
-          payed_at:     Date.today,
+          payed_at:     Date.current,
           returned_at:  Time.current,
           sent_at:      nil,
           user_id:      2
@@ -48,7 +48,7 @@ class ShareCertificatesControllerTest < ActionController::TestCase
       assert_admin_protected login_as: @user do
         post :create, share_certificate: {
           notes:        nil,
-          payed_at:     Date.today,
+          payed_at:     Date.current,
           returned_at:  Time.current,
           sent_at:      nil,
           user_id:      2
@@ -62,7 +62,7 @@ class ShareCertificatesControllerTest < ActionController::TestCase
       assert_admin_protected login_as: @admin_user do
         post :create, share_certificate: {
           notes:        nil,
-          payed_at:     Date.today,
+          payed_at:     Date.current,
           returned_at:  Time.current,
           sent_at:      nil,
           user_id:      10000
