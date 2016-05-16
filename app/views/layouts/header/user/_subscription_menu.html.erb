@@ -1,1 +1,1 @@
-<li><%= link_to t('.subscription'), current_user.subscription && false ? current_user_subscription_path : "#" %></li>
+<li><%= link_to t('.subscription'), current_user.subscription ? current_user_subscription_path : "#" %></li>
