@@ -1,4 +1,4 @@
-# # Inspired from: http://stackoverflow.com/a/677141
+# Inspired from: http://stackoverflow.com/a/677141
 
 # TODO: Refactor this file in several files.
 
@@ -44,6 +44,10 @@ class Symbol
       raise TypeError, "Cannot add #{other_symbol.class} to Symbol."
     end
     (to_s + other_symbol.to_s).to_sym
+  end
+
+  def to_class
+    to_s.classify.constantize
   end
 end
 
@@ -119,6 +123,10 @@ module Colorize
     "\e[#{color_code}m#{self}\e[0m"
   end
 
+  def white
+    colorize(37)
+  end
+
   def red
     colorize(31)
   end
@@ -135,8 +143,26 @@ module Colorize
     colorize(34)
   end
 
-  def pink
+  def magenta
     colorize(35)
+  end
+
+  def pink
+    magenta
+  end
+
+  def cyan
+    colorize(36)
+  end
+
+  def light_blue
+    cyan
+  end
+end
+
+module NameUtils
+  def ensure_end(str)
+    to_s.chomp(str) + str
   end
 end
 
@@ -144,6 +170,7 @@ class String
   include Colorize
   include ToIntegerUtils
   include NonBlankUtils
+  include NameUtils
 
   def number
     scan(/\d/).join
@@ -163,8 +190,22 @@ class String
 
   SWISS_PHONE_NUMBER_REGEXP = /^\+41\d{9}$/
 
+  def match?(re_or_str)
+    match(re_or_str).to_b
+  end
+
+  def not_match?(re_or_str)
+    !match?(re_or_str)
+  end
+
+  # Returns the string stripping all the chars before the argument string.
+  def strip_up_to(str)
+    raise "Argument must be a string: #{str.inspect}" unless str.is_a? String
+    sub(Regexp.new("^.*?#{str}"), str)
+  end
+
   def swiss_phone_number?
-    match(SWISS_PHONE_NUMBER_REGEXP).to_b
+    match? SWISS_PHONE_NUMBER_REGEXP
   end
 
   # Returns the first letter of a string.
@@ -376,8 +417,26 @@ class ActiveRecord::Base
   # SOURCE: http://stackoverflow.com/a/9491479
   # DOC: http://api.rubyonrails.org/classes/ActiveRecord/
   #                                           QueryMethods.html#method-i-reorder
-  def self.remove_order_by
+  def self.remove_order
     reorder('')
+  end
+
+  # E.g. in a model which belongs_to :user, add 'validate_id_for :user'.
+  # NOTE: Direct validation using the :inclusion with a block (e.g.
+  #       inclusion: { in: Subscription.pluck(:id) } ) does not work because
+  #       validators are instantiated only once, i.e. the inclusion
+  #       validator won't take into account ids of records created after
+  #       application start.
+  def self.validate_id_for(attribute)
+    _class = attribute.to_class
+    _scope = Cancelable.included_in?(_class) ? :not_canceled : :all
+    validate do
+      _id = send(attribute.to_s + "_id")
+      unless _id.blank? || _class.send(_scope).find_by(id: _id)
+        errors.add attribute, I18n.t("errors.messages.not_found.#{attribute}",
+                                    id: _id)
+      end
+    end
   end
 end
 
@@ -484,11 +543,16 @@ class ActionView::Helpers::FormBuilder
       :text_field
   end
 
+  # DOC: http://ruby-doc.org/core-2.2.4/String.html#method-i-5B-5D-3D
+  SELECTED_OPTION_VALUE_REGEXP =
+           /^<option[^>]*selected="selected"[^>]*>(?<selected>[^<]*)<\/option>$/
+
   # Returns HTML for a form field with labels and proper configuration
   # using Bootstrap classes.
   # Consider: https://github.com/bootstrap-ruby/rails-bootstrap-forms ;)
   def field_for(attribute, options = {})
-    is_view_mode  = self.options[:view_mode] == true
+    is_view_mode  = options.include?(:view_mode) ? options[:view_mode] :
+                                              (self.options[:view_mode] == true)
     input_tag     = input_tag_for(options[:as_type] ||
                                   options[:real_attribute] ||
                                   attribute)
@@ -500,6 +564,7 @@ class ActionView::Helpers::FormBuilder
     label_text    = options.include?(:label) ? options[:label] : nil
     include_blank = options.include?(:include_blank) ? options[:include_blank]
                                                      : false
+    prompt        = options.include?(:prompt) ? options[:prompt] : false
     value         = options.include?(:value) ? options[:value]
                                              : object.try(attribute)
     hint_text     = options.get(:hint, :text) || options[:hint]
@@ -516,9 +581,11 @@ class ActionView::Helpers::FormBuilder
     end
 
     unless is_checkbox
-      t_key_placeholder = (options[:placeholder] || attribute)
-      placeholder       = I18n.t("#{t_key_base_placeholder}" +
-                                 ".#{t_key_placeholder}")
+      unless placeholder = options[:placeholder].not_blank
+        t_key_placeholder = (options[:placeholder_t_key] || attribute)
+        placeholder       = I18n.t("#{t_key_base_placeholder}" +
+                                   ".#{t_key_placeholder}")
+      end
     end
 
 
@@ -550,13 +617,27 @@ class ActionView::Helpers::FormBuilder
           end
         end)
         if input_tag == :select
-          @template.concat select(attribute,
-                                  value,
-                                  class:          input_class,
-                                  readonly:       readonly,
-                                  include_blank:  include_blank,
-                                  autofocus:      options[:autofocus],
-                                  disabled:       is_view_mode)
+          if is_view_mode
+            # NOTE: In a :select the value is a html string with the <option>
+            #       tags. We have to extract the selected one with a regexp.
+            # SOURCE: http://stackoverflow.com/a/519593
+            # DOC: http://ruby-doc.org/core-2.2.4/String.html#method-i-5B-5D-3D
+            selected_value = value[SELECTED_OPTION_VALUE_REGEXP, "selected"]
+            @template.concat text_field(attribute,
+                                        value:    selected_value,
+                                        class:    input_class,
+                                        readonly: readonly,
+                                        disabled: true)
+          else
+            @template.concat select(attribute,
+                                    value,
+                                    class:          input_class,
+                                    readonly:       readonly,
+                                    include_blank:  include_blank,
+                                    prompt:         prompt,
+                                    autofocus:      options[:autofocus],
+                                    disabled:       is_view_mode)
+          end
         else
           @template.concat send(input_tag, attribute,
                                             class:       input_class,
@@ -620,4 +701,26 @@ module Kernel
   end
 
   alias debugger byebug
+end
+
+# Very lightweight TimelinessValidator inspired from gem 'validates_timeliness'.
+# Usage: validates :valid_until, presence: false,  timeliness: { type: :date }
+# Take into account that Rails will nil-lify date attributes whose
+# value is not a valid date like Strings, but not Integers.
+# SOURCE: http://stackoverflow.com/a/597776
+# SOURCE: https://github.com/adzap/validates_timeliness
+# DOC: http://api.rubyonrails.org/v4.2.5.2/classes/ActiveModel/Validator.html
+# TODO: Find a better place fir this kind of class.
+class TimelinessValidator < ActiveModel::EachValidator
+  VALID_TYPES = [:date_time, :date, :time]
+  def validate_each(record, attribute, value)
+    type = @options[:type] || VALID_TYPES.first
+    unless VALID_TYPES.include? type
+      raise "Timeliness type: #{type.inspect} must be one of #{VALID_TYPES}"
+    end
+    return if value.blank? && !record.required_attribute?(attribute)
+    unless value.is_a? type.to_class
+      record.errors.add attribute, "must be a #{type.to_class}"
+    end
+  end
 end

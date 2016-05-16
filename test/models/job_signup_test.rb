@@ -3,7 +3,7 @@ require 'test_helper'
 class JobSignupTest < ActiveSupport::TestCase
 
   def setup
-    @admin_user = users(:one)
+    @admin_user = users(:admin)
     @other_user = users(:two)
 
     assert_equal true,  @admin_user.admin?
@@ -20,12 +20,12 @@ class JobSignupTest < ActiveSupport::TestCase
   end
 
   test "should not be possible to create a signup without job_id" do
-    job_signup = users(:one).job_signups.build
+    job_signup = users(:admin).job_signups.build
     assert_not_valid job_signup
   end
 
   test "should not be possible to signup for a non existing job_id" do
-    job_signup = users(:one).job_signups.build(job_id: -1)
+    job_signup = users(:admin).job_signups.build(job_id: -1)
     assert_not_valid job_signup
   end
 

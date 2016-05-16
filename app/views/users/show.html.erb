@@ -47,6 +47,18 @@
   <% end %>
 </div>
 
+<div class="user-subscription">
+  <div>
+    <strong><%= t ".subscription_title" %></strong>
+  </div>
+  <hr>
+  <% if subscription = @user.subscription %>
+    <%= render subscription %>
+  <% else %>
+    <%= t '.no_subscription' %>
+  <% end %>
+</div>
+
 <% if current_user.admin? %>
   <div id="job_overview" class="user_job_overview_for_admin">
     <div class="title">

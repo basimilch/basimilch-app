@@ -3,7 +3,7 @@ require 'test_helper'
 class JobShowLayoutTest < ActionDispatch::IntegrationTest
 
   setup do
-    @admin_user = users(:one)
+    @admin_user = users(:admin)
     @user       = users(:two)
     @past_job   = jobs(:past_job)
     @future_job = jobs(:future_job)

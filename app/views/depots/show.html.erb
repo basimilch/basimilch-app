@@ -1,6 +1,13 @@
-<% provide(:title, "#{t '.title'}: #{@depot.name}") %>
-<% provide(:title_class, "canceled") if @depot.canceled? %>
-
+<%
+  if @depot.blank?
+    return "" # don't render anything further if no depot available
+  elsif current_user_depot?
+    provide(:title, "#{t '.title.current_user'}: #{@depot.name}")
+  else
+    provide(:title, "#{t '.title.admin'}: #{@depot.name}")
+  end
+  provide(:title_class, "canceled") if @depot.canceled?
+%>
 
 <div class="depot-header-image">
   <%= map_fit_image_tag @depot, maptype: GoogleMapsHelper::Type::SATELLITE, zoom: 19 %>
@@ -62,9 +69,33 @@
       <%= embedded_map @depot, origin_geocoded_item: current_user %>
     </div>
   </div>
+</div>
 
 <br>
 <br>
+
+<% if current_user_admin? %>
+
+  <div class="depot-users-and-subscriptions">
+
+    <!-- Nav pills -->
+    <ul class="nav nav-pills nav-justified" role="tablist">
+      <li role="presentation" class="active"><a href="#subscriptions" aria-controls="subscriptions" role="tab" data-toggle="tab"><%= t '.subscriptions' %></a></li>
+      <li role="presentation"><a href="#users" aria-controls="users" role="tab" data-toggle="tab"><%= t '.users' %></a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="subscriptions">
+        <%= render 'subscriptions/index_table', subscriptions: @depot.subscriptions %>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="users">
+        <%= render 'users/index_table', users: @depot.users %>
+      </div>
+    </div>
+  </div>
+
+<% end %>
 
 <% if current_user_admin? && @depot.not_canceled? %>
   <%= link_to 'Edit', edit_depot_path(@depot) %> |

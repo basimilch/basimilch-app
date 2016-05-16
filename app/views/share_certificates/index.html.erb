@@ -16,13 +16,13 @@
 
     <tbody>
       <% @share_certificates.each do |share_certificate| %>
-        <tr>
-          <td><%= link_to share_certificate.id, share_certificate %></td>
+        <tr data-href="<%= share_certificate_path(share_certificate.id) %>">
+          <td><%= share_certificate.id %></td>
           <td><%= link_to share_certificate.user.full_name, share_certificate.user %></td>
-          <td><%= share_certificate.created_at.to_date.try(:to_localized_s, :short_with_year) %></td>
-          <td><%= share_certificate.sent_at.try(:to_localized_s, :short_with_year) %></td>
-          <td><%= share_certificate.payed_at.try(:to_localized_s, :short_with_year) %></td>
-          <td><%= share_certificate.returned_at.try(:to_localized_s, :short_with_year) %></td>
+          <td><%= localized_date_tag share_certificate.created_at, :short_with_year %></td>
+          <td><%= localized_date_tag share_certificate.sent_at, :short_with_year %></td>
+          <td><%= localized_date_tag share_certificate.payed_at, :short_with_year %></td>
+          <td><%= localized_date_tag share_certificate.returned_at, :short_with_year %></td>
           <td><%= truncate share_certificate.notes, length: 20 %></td>
           <td>
             <%= link_to t('.edit'), edit_share_certificate_path(share_certificate) %>

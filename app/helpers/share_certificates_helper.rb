@@ -1,6 +1,6 @@
 module ShareCertificatesHelper
 
-def date_field(form, field_name)
+def share_certificate_date_field(form, field_name)
   content_tag(:div, class: "field date-field") do
     concat form.label(field_name)
     if date = form.object.try(field_name)

@@ -1,1 +1,1 @@
-<li><%= link_to t('.depot'), "#" %></li>
+<li><%= link_to t('.depot'), current_user.depot ? current_user_depot_path : "#" %></li>

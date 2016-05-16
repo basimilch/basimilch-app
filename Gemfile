@@ -40,6 +40,9 @@ gem 'pg',                       '0.18.4'
 group :development do
   # Dropping a `console` call in a controller or view, you get a ruby console in the browser.
   gem 'web-console',            '3.1.1' # https://github.com/rails/web-console/releases
+  # FIXME: Does not work from within tmux.
+  # DOC: https://github.com/Codaisseur/terminal-notifier-guard#caveats
+  # gem 'terminal-notifier-guard','1.7.0' # https://github.com/Codaisseur/terminal-notifier-guard/releases
 end
 
 group :development, :test do

@@ -1,0 +1,38 @@
+<% unless users.blank? %>
+  <div class="user-count-label">
+    <% if users.count == User.count %>
+      <%= t ".showing_all_x_users", user_count: users.count %>
+    <% elsif users.count == 1 %>
+      <%= t ".one_user_found" %>
+    <% else %>
+      <%= t ".x_users_found", user_count: users.count %>
+    <% end %>
+  </div>
+  <% @ordered_by_last_name = users.first_ordered_by? :last_name %>
+  <div class="table-responsive">
+    <table class="table table-hover table-condensed">
+      <thead>
+        <tr>
+          <% if @ordered_by_last_name %>
+            <th></th>
+          <% end %>
+          <th></th>
+          <th></th>
+          <th><%= t('table_headers.id') %></th>
+          <th><%= t('table_headers.name') %></th>
+          <th><%= t('table_headers.email') %></th>
+          <th><%= t('table_headers.job_signups') %></th>
+          <th><%= t('table_headers.last_seen_at') %></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render(users) %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div>
+    <%= t('.no_users_found') %>
+  </div>
+<% end %>

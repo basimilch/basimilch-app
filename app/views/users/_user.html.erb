@@ -1,8 +1,4 @@
-<% if user.id == current_user.id %>
-  <tr class="user-index-row info">
-<% else %>
-  <tr class="user-index-row">
-<% end %>
+<tr class="user-index-row<%= ' info' if current_user? user %>" data-href="<%= user_path(user) %>">
   <% if @ordered_by_last_name %>
     <% current_initial = user.last_name.initial %>
     <% if @last_initial == current_initial %>
@@ -40,7 +36,7 @@
     <%= user.id %>
   </td>
   <td>
-    <%= link_to "#{user.full_name}", user %>
+    <%= user.full_name %>
   </td>
   <td>
     <%= mail_to user.email %>

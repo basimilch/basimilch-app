@@ -1,0 +1,16 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  basic_units: 1
+  supplement_units: 1
+  # SOURCE http://stackoverflow.com/a/22961568
+  depot_id: <%= ActiveRecord::FixtureSet.identify(:valid) %>
+  notes: MyText
+
+two:
+  name: MyString
+  basic_units: 1
+  supplement_units: 1
+  depot_id:
+  notes: MyText

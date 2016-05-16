@@ -89,6 +89,7 @@ module ApplicationHelper
   # you can use
   #   flash_t :success, :email_successfully_sent
   def flash_t(k, v, global: false)
+    log_flash k, v
     flash[k] = case
     when global
       I18n.t("flash.#{v}")
@@ -99,6 +100,7 @@ module ApplicationHelper
     end
   end
   def flash_now_t(k, v, global: false)
+    log_flash k, v
     flash.now[k] = case
     when global
       I18n.t("flash.#{v}")
@@ -192,7 +194,41 @@ module ApplicationHelper
     content_tag :li, nil, role: 'separator', class: 'divider'
   end
 
+  def localized_time_tag(time, format = :long)
+    return if time.blank?
+    label = format == :relative ?   time.relative_in_words.strip :
+                                    time.to_localized_s(format).strip
+    tooltip = format == :long ? nil : time.to_localized_s(:long).strip
+    time_tag time, label, title: tooltip
+  end
+
+  def localized_date_tag(date, format = :long)
+    return if date.blank?
+    localized_time_tag date.to_date, format
+  end
+
+  def t_abbr(t_key)
+    content_tag :span, title: t(t_key), data: {toggle: "tooltip"} do
+      t t_key + "_abbr"
+    end
+  end
+
   private
+
+    def flash_k_to_logger_level(k)
+      case k
+      when :warning then :warn
+      when :danger  then :warn
+      else :info
+      end
+    end
+
+    def log_flash(k, v)
+      flash_t_method = caller[0][/.+`(?<method>\w+)'/, 'method']
+      caller_info = caller[1].sub(/.+\//,'')
+      logger.send flash_k_to_logger_level(k),
+                  "#{flash_t_method} in #{caller_info}: #{v.inspect}"
+    end
 
     def icon_to_html_options(type, published = true)
       {'class'          => "icon-#{type}-to#{' not-published' if !published}",

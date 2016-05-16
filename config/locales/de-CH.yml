@@ -38,7 +38,11 @@ de-CH:
       directions:     Wegbeschreibung
       opening_hours:  Abholzeiten
       delivery_time:  Liefertag
+      delivery_day:   Liefertag
       map:            Karte
+      quantity:       Menge
+      members:        Abonnenten
+      depot:          Depot
       address:        Adresse
       coordinator:    Koordinator_in
       coordinators:   Koordinator_innen
@@ -50,6 +54,7 @@ de-CH:
       job_signups:    Einsätze
       job_title:      Einsatz
       jobs:           Einsätze
+      jobs_abbr:      E
       last_seen_at:   Zuletzt online
       name:           Name
       notes:          Notizen
@@ -61,8 +66,23 @@ de-CH:
       time:           Zeit
       user:           Genossenschafter_in
       size:           Grösse
+      unit:           Einheit
+      subscription:   Abo
+      subscriptions:  Abos
+      user:           Genossenschafter_in
+      users:          Genossenschafter_innen
+      subscriber:     Abomitglied
+      share_certificates: Anteilscheine
+      share_certificates_abbr: AS
       equivalence:    Entsprechung
+      total_equivalence:    Gesamtentsprechung
+      total_share_certificates: Anteilscheineanzahl
+      equivalence_per_unit: Entsprechung / Einheit
+      since: Seit
+      from: Von
+      until: Bis
     attributes: &attributes
+      <<: *global
       activated_at:               "Aktiviert am"
       admin:                      "Admin"
       city:                       "Ort"
@@ -95,6 +115,7 @@ de-CH:
       updated_at:                 "Zuletzt aktualisiert am"
       wanted_number_of_share_certificates: "Gewünschte Anzahl an Anteilscheine"
       wanted_subscription:        "Abo-Optionen"
+      new_items_valid_from:       Neue Zusammensetzung gültig ab
       # start_at:               Begin
       # end_at:                 Ende
       # title:                  Titel
@@ -103,6 +124,8 @@ de-CH:
       # address:                Adresse
       # slots:                  Plätze
     placeholders: &placeholders
+      <<: *global
+      name:                       "Name"
       first_name:                 "Vorname"
       last_name:                  "Nachname"
       password:                   "Passwort"
@@ -119,7 +142,19 @@ de-CH:
 
   table_headers: &table_headers
     <<: *global
+
+  # Default values defined by rails-i18n gem
+  # SOURCE: https://github.com/svenfuchs/rails-i18n/blob/master/rails/locale/de-CH.yml
+  date:
+    formats:
+      short_with_weekday:   "%a, %e. %b"
+      short_with_year:      "%e. %b %Y"
+      long:                 "%A, %-d. %B %Y"
+      long_without_weekday: "%-d. %B %Y"
+      long_month_and_year:  "%B %Y"
   time:
+    formats:
+      short_only_date:   "%e. %b"
     now:          jetzt
     tomorrow:     morgen
     yesterday:    gestern
@@ -175,14 +210,6 @@ de-CH:
         one:    "vor einem Jahr"
         other:  "vor %{count} Jahren"
 
-  # Default values defined by rails-i18n gem
-  # SOURCE: https://github.com/svenfuchs/rails-i18n/blob/master/rails/locale/de-CH.yml
-  date:
-    formats:
-      short_with_weekday: "%a, %e. %b"
-      short_with_year:    "%e. %b %Y"
-      long_with_weekday:  "%A, %-d. %B %Y"
-
   # Misc
 
   switzerland: "Schweiz"
@@ -228,8 +255,6 @@ de-CH:
       unrecornised_postal_address: "Postadresse nicht erkannt"
       uncomplete_postal_address: "Postadresse unvollständig"
       unrecornised_and_replaced: "\"%{original}\" wurde mit \"%{corrected}\" ersetzt"
-      user_not_found: "Genossenschafter_in mit id '%{id}' nicht gefunden!"
-      job_type_not_found: "Tätigkeit mit id '%{id}' nicht gefunden!"
       job_does_not_accept_signups: >
         Es ist nicht mehr möglich, sich für diesen Einsatz anzumelden.
       job_signup_author_not_entitled: >
@@ -238,6 +263,21 @@ de-CH:
       job_end_must_be_between_30min_and_after_start: >
         muss zwischen 30 Minuten und 8 Stunden nach der Startzeit sein
       wrong: "nicht richtig"
+      user_has_already_subscription: >
+        Genossenschafter_in %{user} hat bereits ein Abo.
+      max_number_of_subscribers: >
+        Ein Abo kann höschstens %{count} Mitglieder haben.
+      product_option_unexpeted_quantity: >
+        Oups! Unerwarteter Fehler bei dem Wert für die Menge eines Produkts.
+        Melde es bitte uns auf meine@basimil.ch.
+      wrong_total_quantity_of_subscription_items: >
+        Die ausgewählte Productoptionen müssen %{expected_total} Liter Frischmilch
+        entsprechen. Die jetzige Auswahl macht %{actual_total} Liter aus.
+      not_found:
+        user: "Genossenschafter_in mit id '%{id}' nicht gefunden!"
+        job_type: "Tätigkeit mit id '%{id}' nicht gefunden!"
+        subscription: "Abo mit id '%{id}' nicht gefunden!"
+        product_option: "Produktoption mit id '%{id}' nicht gefunden!"
 
 
   # Models
@@ -261,6 +301,11 @@ de-CH:
         <<: *attributes
         # attribute_name: "translation to override the one in *attributes"
         id: "Nr."
+      subscription:
+        <<: *attributes
+        # attribute_name: "translation to override the one in *attributes"
+        basic_units: Aboeinheiten
+        supplement_units: Zusatsabos
     errors:
       models:
         user:
@@ -274,6 +319,9 @@ de-CH:
         id: "Automatisch"
       job:
         <<: *placeholders
+      subscription:
+        <<: *placeholders
+        name: "Name"
 
   # Views
 
@@ -319,6 +367,7 @@ de-CH:
           users_stale:              "Verschwunden"
           users_without_tel:        "Ohne Telefonnr."
           users_without_email:      "Ohne E-Mail-Adresse"
+          users_without_subscription: "Ohne Abo"
           share_certificates:       "Anteilscheine"
           new_user:                 "Neue_r Genossenschafter_in"
         subscriptions_menu:
@@ -364,12 +413,14 @@ de-CH:
         stale_users: "Verschwundene Genossenschafter_innen"
         without_tel_users: "Genossenschafter_innen ohne Telefonnummer"
         without_email_users: "Genossenschafter_innen ohne E-Mail-Adresse"
-      one_user_found:   "Ein_e Genossenschafter_in gefunden."
-      x_users_found:    "%{user_count} Genossenschafter_innen gefunden."
-      showing_all_x_users:   "Alle %{user_count} Genossenschafter_innen angezeigt"
+        without_subscription_users: "Genossenschafter_innen ohne Abo"
       only_from_zurich: "Nur in Zürich wohnend"
       download_all_users_as_csv: "Alle Genossenschafter_innen als CSV herunterladen"
       csv_file_basemane: "basimilch_genossenschafter_liste"
+    index_table:
+      one_user_found:   "Ein_e Genossenschafter_in gefunden."
+      x_users_found:    "%{user_count} Genossenschafter_innen gefunden."
+      showing_all_x_users:   "Alle %{user_count} Genossenschafter_innen angezeigt"
       no_users_found: "Keine Genossenschafter_innen gefunden."
     show:
       title: "Dein Profil"
@@ -383,7 +434,9 @@ de-CH:
       share_certificates_title: "Anteilscheine"
       no_share_certificates: "Es gibt keine Anteilscheine für diese_n Genossenschafter_in."
       add_new_share_certificate_for_user: "Anteilschein registrieren"
+      subscription_title: Abo
       job_overview_title: Mitarbeit-Konto
+      no_subscription: Kein Abo definiert
     create:
       flash:
         user_successfully_created: "Genossenschafter '%{full_name}' (Id %{id}) angemeldet!"
@@ -703,7 +756,9 @@ de-CH:
   depots:
     show:
       <<: *global
-      title:  Depot
+      title:
+        admin: Depot
+        current_user: Dein depot
       notes: Sonstiges
       directions_map: Deine Wegbeschreibung
       delivery_time_message: "%{day}, ab ca. %{time}h (Uhrzeit nur indikativ)"
@@ -735,6 +790,11 @@ de-CH:
         Oups. Etwas lief schief mit der Abmeldung der Koordinationsperson.
         Melde es uns bitte auf
         <code><a href="mailto:meine@basimil.ch">meine@basimil.ch</a></code>.
+    depot:
+      no_current_user_depot: >
+        Du bist zu keinem Depot angemeldet, wahrscheinlich weil du kein Abo hast.
+        Sollte es sich um einen Fehler unsererseits handeln, melde es uns bitte auf
+        <code><a href="mailto:meine@basimil.ch">meine@basimil.ch</a></code>.
 
   depot_coordinators:
     depot_coordinator:
@@ -747,7 +807,7 @@ de-CH:
         Koordinator_in von %{from} bis %{to}
       cancel_coordinator: Abmelden
       cancel_coordinator_confirmation_message: >
-        Möchtest du diese_r Genossenschafter_in als Depot-Koordinator_in
+        Möchtest du diese_n Genossenschafter_in als Depot-Koordinator_in
         wirklich abmelden? Das kann nicht rückgängig gemacht werden. Die Person
         wird NICHT automatisch per E-Mail benachrichtigt.
       no_mobile_phone_available: Keine Natelnummer vorhanden
@@ -798,3 +858,115 @@ de-CH:
         immer noch gewählt haben, kann sie nicht agbesagt werden.
         Die Absage kann *NICHT* rückgängig gemacht werden.
 
+  subscriptions:
+    units: &subscription_units
+      basic:
+        one: Eine Abo-Einheit
+        other: "%{count} Abo-Einheiten"
+      supplement:
+        zero: und kein Zusatsabo
+        one: und ein Zusatsabo
+        other: " und %{count} Zusatsabos"
+    index_table:
+      units: *subscription_units
+      equivalent_in_milk_liters_msg: "%{liters} l Frischmilch"
+      no_subscriptions: Keine Abos definiert.
+      no_members: Keine Abonnenten
+      no_name: "-"
+      invalid_subscription_please_fix_html: >
+        <span class="text-danger">
+        <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
+        <strong style="padding-left:5px;">Oups! Dies ist ein ungültiges Abo</strong>
+        und kann nicht dargestellt werden. Melde es bitte auf
+        <code><a href="mailto:meine@basimil.ch">meine@basimil.ch</a></code>
+        damit wir es reparieren.
+        </span>
+
+    index:
+      # units: *subscription_units
+      title: Abos
+    show:
+      title:
+        current_user_subscription: Dein Abo
+        admin: Abo
+      no_subscriber_alert: Dieses Abo hat keine aktive Genossenschafter_innen.
+    edit:
+      title:
+        current_user_subscription: Abo bearbeiten
+        admin: Abo bearbeiten
+    new:
+      title: Neues Abo
+    form:
+      units:
+        <<: *subscription_units
+        supplement:
+          zero: kein Zusatsabo
+          one: ein Zusatsabo
+          other: "%{count} Zusatsabos"
+      create_new_subscription: Abo erstellen
+      update_subscription: Abo aktualisieren
+      name: z.B. Vereinsname (optional)
+      equivalent_in_milk_liters_msg: >
+        %{liters} Liter Frischmilch, davon %{flexible_liters} Liter selbst wählbar
+      abo_creation_hint: >
+        Nach dem Erstellen des Abos, kannst du Genossenschafter_innen und
+        Produkte hinzufügen.
+    items_list:
+      no_current_subscription_items: Das Abo hat noch keine Produkte.
+      no_current_available_product_options: Es gibt zurzeit keine Produktoptionen verfügbar.
+      total: "Gesamt"
+      equivalent_in_milk_liters_msg: "%{liters} Liter Frischmilch"
+      by:
+        you:  "von dir"
+        user: "von %{user}"
+      section_title:
+        current_items:
+          empty_html: >
+            Bestehende Zusammensetzung (noch nicht definiert)
+          open_html: >
+            Bestehende Zusammensetzung (gültig seit %{valid_since_tag})
+          closed_html: >
+            Bestehende Zusammensetzung (gültig vom %{valid_since_tag} bis %{valid_until_tag})
+        planned_items:
+          closed_html: >
+            Vorgesehene Zusammensetzung (gültig ab %{planned_items_valid_since_tag})
+          details_html: >
+            eingetragen %{by_author} am %{date_tag}
+    items_form:
+      total_equivalence_label: "Gesamt (muss %{target}  Liter Frischmilch entsprechen)"
+      section_title:
+        items_form_html: >
+          Vorgesehene Zusammensetzung (gültig ab %{non_admin_planned_items_valid_since_tag})
+    subscription: &subscription
+      units: *subscription_units
+      details: >
+        Abo Nr. %{id} "%{name}": %{size} geliefert am %{delivery_day}
+        im Depot "%{depot}".
+      no_current_user_subscription: >
+        Du hast kein Abo. Sollte es sich um einen
+        Fehler unsererseits handeln, melde es uns bitte auf
+        <code><a href="mailto:meine@basimil.ch">meine@basimil.ch</a></code>.
+    subscription_edit:
+      <<: *subscription
+      update_currently_not_possible: >
+        Zurzeit ist es nicht möglich, die Abozusammensetzung zu ändern.
+    subscription_update:
+      update_ok: Dein Abo wurde erfolgreich aktualisiert.
+    cancel_subscribership:
+      subscribership_successfully_canceled: >
+        %{user} wurde aus dem Abo gelöscht.
+      subscribership_not_able_to_be_canceled: >
+        %{user} könnte nicht aus dem Abo gelöscht werden.
+      subcribership_not_found_for_this_subscription: >
+        Mitgliedshaft '%{subscribership_id}' könnte nicht für dieses Abo
+        gefunden werden.
+    subscriber_list:
+      <<: *global
+      section_title: Genossenschafter_innen
+      no_subscribers: Dieses Abo hat keine aktive Genossenschafter_innen
+      add_users_placeholder: Mitglied hinzufügen
+      cancel_subscribership: Aus dem Abo löschen
+      cancel_subscribership_confirmation_message: >
+        Möchtest du diese_n Genossenschafter_in aus dem Abo wirklich löschen?
+        Das kann nicht rückgängig gemacht werden. Die Person
+        wird NICHT automatisch per E-Mail benachrichtigt.

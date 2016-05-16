@@ -17,20 +17,11 @@ class JobType < ActiveRecord::Base
   validates :slots,         presence: true,
                               inclusion: { in: Job::ALLOWED_NUMBER_OF_SLOTS }
   validates :user_id,       presence: true
-  validate  :user_exists,   unless: Proc.new {|j| j.user_id.blank?}
+  validate_id_for :user
 
 
   def to_s
     ("Job Type #{id.inspect}: #{title.inspect} -" +
       " #{description.inspect}").truncate(100)
   end
-
-  private
-    # TODO: Extract a common helper with Job#user_exists
-    def user_exists
-      unless User.find_by(id: user_id)
-        errors.add :user_id, I18n.t("errors.messages.user_not_found",
-                                    id: user_id)
-      end
-    end
 end

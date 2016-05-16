@@ -23,7 +23,7 @@ class Job < ActiveRecord::Base
   # DOC: http://guides.rubyonrails.org/v4.2.5.2/association_basics.html#dependent
   has_many :job_signups, dependent: :destroy
   has_many :users,
-           -> { distinct.merge(JobSignup.not_canceled).remove_order_by },
+           -> { distinct.merge(JobSignup.not_canceled).remove_order },
            through: :job_signups
 
   default_scope   -> { order(start_at: :asc) }
@@ -56,8 +56,8 @@ class Job < ActiveRecord::Base
   validates :slots,           presence: true,
                               inclusion: { in: ALLOWED_NUMBER_OF_SLOTS }
   validates :user_id,         presence: true
-  validate  :user_exists,     unless: Proc.new {|j| j.user_id.blank?}
-  validate  :job_type_exists, unless: Proc.new {|j| j.job_type_id.blank?}
+  validate_id_for :user
+  validate_id_for :job_type
   validates :start_at,        presence: true
   validates :end_at,          presence: true
   validate  :correct_start_and_end_dates
@@ -98,7 +98,7 @@ class Job < ActiveRecord::Base
   end
 
   def full_date
-    "#{start_at.to_date.to_localized_s :long_with_weekday}, " +
+    "#{start_at.to_date.to_localized_s :long}, " +
     "#{start_at.to_s :time} - #{end_at.to_s :time}"
   end
 
@@ -154,20 +154,6 @@ class Job < ActiveRecord::Base
   end
 
   private
-
-    def user_exists
-      unless User.find_by(id: user_id)
-        errors.add :user_id, I18n.t("errors.messages.user_not_found",
-                                    id: user_id)
-      end
-    end
-
-    def job_type_exists
-      unless JobType.find_by(id: job_type_id)
-        errors.add :job_type_id, I18n.t("errors.messages.job_type_not_found",
-                                    id: job_type_id)
-      end
-    end
 
     def correct_start_and_end_dates
       return unless start_at && end_at

@@ -1,0 +1,8 @@
+<div class="subscription" data-href="<%= subscription_path(subscription) %>">
+  <%= t '.details',
+      id: subscription.id,
+      name: subscription.name,
+      size: localized_subscription_size(subscription),
+      depot: subscription.depot.name,
+      delivery_day: localized_weekday_name(subscription.depot.delivery_day) %>
+</div>

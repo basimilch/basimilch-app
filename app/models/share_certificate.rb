@@ -15,11 +15,11 @@ class ShareCertificate < ActiveRecord::Base
   #       happens for new models, we add the condition 'if: :new_record?'
   # SOURCE: http://stackoverflow.com/a/33034815
   # DOC: http://api.rubyonrails.org/v4.2.5.2/classes/ActiveRecord/Callbacks.html
-  after_initialize :init_value, if: :new_record?
+  after_initialize :init_values, if: :new_record?
 
   belongs_to :user
   validates  :user_id, presence: true
-  validate   :user_exists
+  validate_id_for :user
   validates  :value_in_chf, presence: true, numericality: {
     equal_to: UNIT_PRICE
   }
@@ -30,14 +30,8 @@ class ShareCertificate < ActiveRecord::Base
 
   private
 
-    def init_value
+    def init_values
       self.value_in_chf ||= UNIT_PRICE
-    end
-
-    def user_exists
-      unless User.find_by(id: user_id)
-        errors.add(:user_id, I18n.t("errors.messages.user_not_found",
-                                    id: user_id))
-      end
+      self.created_at ||= Time.current
     end
 end

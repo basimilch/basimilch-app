@@ -1,0 +1,10 @@
+<%
+  if @subscription.blank?
+    return "" # don't render anything further if no subscription available
+  elsif current_user_subscription?
+    provide(:title, "#{t('.title.current_user_subscription')}")
+  else
+    provide(:title, "#{t('.title.admin')}: #{@subscription.id}. #{@subscription.name}")
+  end
+%>
+<%= render 'form', view_mode: true %>

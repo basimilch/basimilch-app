@@ -6,7 +6,7 @@ class JobWorkflowTest < ActionDispatch::IntegrationTest
   # SOURCE: http://technicalpickles.com/posts/
   #                            rails-special-sauce-test-unit-setup-and-teardown/
   setup do
-    @admin_user = users(:one)
+    @admin_user = users(:admin)
     @user       = users(:two)
     @past_job   = jobs(:past_job)
     @future_job = jobs(:future_job)

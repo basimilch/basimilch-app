@@ -52,7 +52,7 @@ class UserMailerTest < ActionMailer::TestCase
     mail = UserMailer.job_canceled_notification(user, job)
     assert_equal "Einsatz ABGESAGT: MyString am So, 17. Jan", mail.subject
     assert_equal [user.email],             mail.to
-    assert_equal [users(:one).email],      mail.cc
+    assert_equal [users(:admin).email],    mail.cc
     assert_equal ["noreply@example.org"],  mail.from
   end
 
@@ -63,7 +63,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_equal "Deine Anmeldung für MyString am So, 17. Jan wurde abgesagt",
                                            mail.subject
     assert_equal [user.email],             mail.to
-    assert_equal [users(:one).email],      mail.cc
+    assert_equal [users(:admin).email],    mail.cc
     assert_equal ["noreply@example.org"],  mail.from
   end
 

@@ -13,7 +13,7 @@ class ProductOptionsControllerTest < ActionController::TestCase
       notes: @product_option.notes
     }
 
-    @admin_user = users(:one)
+    @admin_user = users(:admin)
     @other_user = users(:two)
 
     assert_equal true,  @admin_user.admin?

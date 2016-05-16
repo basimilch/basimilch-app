@@ -105,27 +105,27 @@
     <%# The form for new users cannot use the formatted versions yet %>
     <div class="row">
       <div class="col-sm-4">
-        <%= f.field_for :tel_mobile,  placeholder: :tel_mobile %>
+        <%= f.field_for :tel_mobile,  placeholder_t_key: :tel_mobile %>
       </div>
       <div class="col-sm-4">
-        <%= f.field_for :tel_home,    placeholder: :tel_landline %>
+        <%= f.field_for :tel_home,    placeholder_t_key: :tel_landline %>
       </div>
       <div class="col-sm-4">
-        <%= f.field_for :tel_office,  placeholder: :tel_landline %>
+        <%= f.field_for :tel_office,  placeholder_t_key: :tel_landline %>
       </div>
     </div>
   <% else %>
     <div class="row">
       <div class="col-sm-4">
-        <%= f.field_for :tel_mobile_formatted,  placeholder: :tel_mobile,
+        <%= f.field_for :tel_mobile_formatted,  placeholder_t_key: :tel_mobile,
                                                 real_attribute: :tel_mobile %>
       </div>
       <div class="col-sm-4">
-        <%= f.field_for :tel_home_formatted,    placeholder: :tel_landline,
+        <%= f.field_for :tel_home_formatted,    placeholder_t_key: :tel_landline,
                                                 real_attribute: :tel_home %>
       </div>
       <div class="col-sm-4">
-        <%= f.field_for :tel_office_formatted,  placeholder: :tel_landline,
+        <%= f.field_for :tel_office_formatted,  placeholder_t_key: :tel_landline,
                                                 real_attribute: :tel_office %>
       </div>
     </div>

@@ -10,7 +10,7 @@ valid:
   exact_map_coordinates: 1.2,3.4
   picture: MyString
   directions: MyText
-  delivery_day: 2
+  delivery_day: 6
   delivery_time: 17
   opening_hours: MyText
   notes: MyText

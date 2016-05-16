@@ -4,6 +4,9 @@ class ProductOption < ActiveRecord::Base
 
   # TODO: before_cancel :verify_not_used
 
+  has_many :subscription_items
+  has_many :subscriptions, through: :subscription_items
+
   # DOC: https://github.com/airblade/paper_trail/tree/v4.1.0#basic-usage
   has_paper_trail ignore: [:updated_at]
 

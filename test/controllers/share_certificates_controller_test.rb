@@ -3,7 +3,7 @@ require 'test_helper'
 class ShareCertificatesControllerTest < ActionController::TestCase
 
   setup do
-    @admin_user = users(:one)
+    @admin_user = users(:admin)
     @share_certificate = share_certificates(:two)
     @user = @share_certificate.user
   end

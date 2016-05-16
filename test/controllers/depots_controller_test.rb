@@ -5,7 +5,7 @@ class DepotsControllerTest < ActionController::TestCase
   setup do
     @depot = depots(:valid)
 
-    @admin_user = users(:one)
+    @admin_user = users(:admin)
     @other_user = users(:two)
 
     assert_equal true,  @admin_user.admin?
@@ -150,8 +150,9 @@ class DepotsControllerTest < ActionController::TestCase
           postal_code: @depot.postal_code
         }
       end
+      assert_response :redirect
+      assert_redirected_to depot_path(assigns(:depot))
     end
-    assert_redirected_to depot_path(assigns(:depot))
   end
 
   # put :update, id: @depot
@@ -207,6 +208,7 @@ class DepotsControllerTest < ActionController::TestCase
         postal_code: @depot.postal_code
       }
     end
+    assert_response :redirect
     assert_redirected_to depot_path(assigns(:depot))
   end
 
@@ -215,28 +217,28 @@ class DepotsControllerTest < ActionController::TestCase
   test "admin should be able to add a coordinator" do
     assert_admin_protected login_as: @admin_user do
       put :update, id: @depot, depot: {
-        coordinator_user_ids: [ users(:one).id ]
+        coordinator_user_ids: [ users(:admin).id ]
       }
     end
     assert_redirected_to depot_path(assigns(:depot))
-    assert_equal users(:one), @depot.reload.coordinators.first.user
+    assert_equal users(:admin), @depot.reload.coordinators.first.user
   end
 
   test "admin should be able to add a coordinator without mobile phone" do
-    assert_equal true, users(:one).update_attribute(:tel_mobile, nil)
+    assert_equal true, users(:admin).update_attribute(:tel_mobile, nil)
     assert_admin_protected login_as: @admin_user do
       put :update, id: @depot, depot: {
-        coordinator_user_ids: [ users(:one).id ]
+        coordinator_user_ids: [ users(:admin).id ]
       }
     end
     assert_redirected_to depot_path(assigns(:depot))
-    assert_equal users(:one), @depot.reload.coordinators.first.user
+    assert_equal users(:admin), @depot.reload.coordinators.first.user
   end
 
   # Cancel depot
 
   test "admin should cancel depot" do
-    assert @depot.coordinators.create(user: users(:one)).save
+    assert @depot.coordinators.create(user: users(:admin)).save
     fixture_log_in @admin_user
     assert_no_difference 'Depot.not_canceled.count' do
       # It should not be possible to cancel a depot with active coordinator(s)

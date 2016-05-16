@@ -3,7 +3,7 @@ require 'test_helper'
 class ShareCertificateTest < ActiveSupport::TestCase
 
   def setup
-    @user = users(:one)
+    @user = users(:admin)
     @share_certificate = @user.share_certificates.build
   end
 
@@ -14,6 +14,13 @@ class ShareCertificateTest < ActiveSupport::TestCase
   test "user id should be present" do
     @share_certificate.user_id = nil
     assert_not_valid @share_certificate
+  end
+
+  test "user id should be valid" do
+    @share_certificate.user_id = 0
+    assert_not_valid @share_certificate
+    @share_certificate.user_id = @user.id
+    assert_valid @share_certificate
   end
 
   test "value_in_chf should be setup by default" do

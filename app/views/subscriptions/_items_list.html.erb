@@ -1,0 +1,48 @@
+<% return if list_type == :planned_items && !@subscription.planned_items? %>
+<% items = @subscription.send(list_type) %>
+
+<div class="section-title">
+  <%= t ".section_title.#{list_type}.#{@subscription.current_items_status}_html",
+        localized_validity_of_current_items(@subscription) %>
+  <% if list_type == :planned_items %>
+    <%= t ".section_title.planned_items.details_html",
+          localized_modification_details(@subscription) %>
+  <% end %>
+</div>
+
+<div class="table-responsive product-options-table">
+  <table class="table table-hover table-condensed">
+    <thead>
+      <tr>
+        <th class="col-xs-3"><%= t 'table_headers.name' %></th>
+        <th class="col-xs-2"><%= t 'table_headers.unit' %></th>
+        <th class="col-xs-3 text-right"><%= t 'table_headers.equivalence_per_unit' %></th>
+        <th class="col-xs-1 text-right"><%= t 'table_headers.quantity' %></th>
+        <th class="col-xs-3 text-right"><%= t 'table_headers.equivalence' %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% current_total_equivalent = 0 %>
+      <% if items.each do |item| %>
+        <% product_option = item.product_option %>
+        <tr>
+          <td class="col-xs-1"><%= product_option.name %></td>
+          <td class=""><%= localized_product_size product_option %></td>
+          <%= product_option_equivalence_td_tag product_option %>
+          <% current_total_equivalent += item.quantity * product_option.equivalent_in_milk_liters %>
+          <td class="text-right"><%= item.quantity %></td>
+          <td class="text-right"><%= localized_product_equivalent product_option, quantity: item.quantity %></td>
+        </tr>
+      <% end.empty? %>
+        <tr>
+          <td colspan="5" class="text-center"><%= t '.no_current_subscription_items' %></td>
+        </tr>
+      <% else %>
+        <tr class="total current-subscription-items">
+          <td colspan="4" class="text-right"><strong><%= t '.total' %>:</strong></td>
+          <td class="text-right total"><strong><%= t '.equivalent_in_milk_liters_msg', liters: current_total_equivalent.to_s_significant %></strong></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

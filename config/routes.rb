@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :job_types
   resources :depots
   resources :product_options
+  resources :subscriptions
 
   # You can have the root of your site routed with "root"
   root    'sessions#new'
@@ -43,6 +44,19 @@ Rails.application.routes.draw do
 
   put   'product_options/:id/cancel' => 'product_options#cancel',
                                      as: :product_option_cancel
+
+  get   'subscription'       => 'subscriptions#subscription',
+                               as: :current_user_subscription
+  get   'subscription/edit'  => 'subscriptions#subscription_edit',
+                               as: :current_user_subscription_edit
+  patch 'subscription'       => 'subscriptions#subscription_update',
+                               as: :current_user_subscription_update
+  put   'subscriptions/:id/cancel_subscribership/:subscribership_id' =>
+          'subscriptions#cancel_subscribership', as: :cancel_subscribership
+
+  get   'depot'              => 'depots#depot', as: :current_user_depot
+
+
 
   # DOC: http://stackoverflow.com/a/26286472/5764181
   # DOC: https://wearestac.com/blog/dynamic-error-pages-in-rails

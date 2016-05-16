@@ -1,0 +1,31 @@
+// Place all the styles related to the Subscriptions controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+body.subscriptions {
+  .section-title {
+    border-bottom: 1px solid #ddd;
+    // margin: 1em 0;
+    // padding: 0;
+    padding: {
+      top: 35px;
+      bottom: 5px;
+    }
+  }
+  .product-options-table {
+    padding: {
+      top: 15px;
+    }
+    select {
+      margin: 0;
+    }
+  }
+  tr.total {
+    font-weight: bold;
+    td {
+      padding: {
+        top: 15px;
+        bottom: 15px;
+      }
+    }
+  }
+}

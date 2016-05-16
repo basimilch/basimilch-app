@@ -36,7 +36,31 @@ do ( $$ = window.Basimilch ||= {}, $=jQuery ) ->
 
   # Array prototype extensions
   $.extend Array.prototype,
-    contains: (thing) -> ($.inArray(thing, @) == -1) ? false : true;
+    contains: (thing) -> ($.inArray(thing, @) == -1) ? false : true
+
+  # String prototype extensions
+  $.extend String.prototype,
+    # Replaces each nth occurrence of a number with the correponding nth argument.
+    # If the nth argument is 'null' or 'undefined', the nth number is not updated.
+    # DOC: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace
+    updateNumber: (newNumber1, newNumber2, ...) ->
+      i = 0
+      all_numbers_re = /\d+(?:\.\d+)?/g
+      newNumbers = Array.prototype.slice.call arguments
+      this.replace all_numbers_re, (match) -> newNumbers[i++] || match
+
+  # jQuery extensions
+  $.fn.extend
+    # Like normal 'data(key, value)' but triggers 'datachange' event.
+    # SOURCE: http://stackoverflow.com/a/16781831
+    setData: (key, value) ->
+      $(this).data(key, value).trigger('datachange')
+    # Updates the text of the matching element by applying the function f to the
+    # current text.
+    updateText: (f) -> this.text(f(this.text()))
+    # Updates the value of the matching element by applying the function f to the
+    # current value.
+    updateVal: (f) -> this.val(f(this.val()))
 
 
 
@@ -52,5 +76,5 @@ $(document).on 'page:change', ->
     # Initialize Bootstrap popovers
     # SOURCE: http://getbootstrap.com/javascript/#popovers
     $('[data-toggle=popover]').popover()
-    $('tr[data-href]').click (e) ->
+    $('[data-href]').click (e) ->
       document.location = $(this).data('href') unless $(e.target).is('a')

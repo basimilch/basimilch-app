@@ -23,3 +23,24 @@ two:
   canceled_reason: MyString
   canceled_by_id:
   notes: MyText
+
+milk:
+  name: Milk
+  description: One liter milk
+  size: 1
+  size_unit: liter
+  equivalent_in_milk_liters: 1
+
+yogurt:
+  name: Yogurt
+  description: 500gr yogurt
+  size: 500
+  size_unit: gram
+  equivalent_in_milk_liters: 0.5
+
+cheese:
+  name: Cheese
+  description: 200gr cheese
+  size: 200
+  size_unit: gram
+  equivalent_in_milk_liters: 2

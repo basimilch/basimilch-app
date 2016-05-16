@@ -18,8 +18,17 @@ module ProductOptionsHelper
     size << localized_size_unit(product_option.size_unit, type: :abbreviation)
   end
 
-  def localized_product_equivalent(product_option)
+  def localized_product_equivalent(product_option, quantity: 1)
+    equivalent_in_liters = product_option.equivalent_in_milk_liters * quantity
     t 'product_options.equivalent_in_milk_liters_msg',
-      liters: product_option.equivalent_in_milk_liters.to_s_significant
+      liters: equivalent_in_liters.to_s_significant
+  end
+
+  def product_option_equivalence_td_tag(product_option)
+    content_tag :td, class: 'text-right milk-equivalence-per-unit', data: {
+        equivalent_in_milk_liters: product_option.equivalent_in_milk_liters
+      } do
+      localized_product_equivalent product_option
+    end
   end
 end

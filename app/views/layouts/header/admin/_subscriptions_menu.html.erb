@@ -3,8 +3,8 @@
     <%= t('.subscriptions') %> <span class="caret"></span>
   </a>
   <ul class="dropdown-menu">
-    <%= menu_action t('.subscription.show_all'), '#' %>
-    <%= menu_action t('.subscription.new'), '#', icon: 'plus' %>
+    <%= menu_action t('.subscription.show_all'), subscriptions_path %>
+    <%= menu_action t('.subscription.new'), new_subscription_path, icon: 'plus' %>
     <%= menu_action_separator %>
     <%= menu_action t('.product_option.show_all'), product_options_path %>
     <%= menu_action t('.product_option.new'), new_product_option_path, icon: 'plus' %>

@@ -141,25 +141,25 @@ class JobTypeTest < ActiveSupport::TestCase
   test "saved job_type can be canceled" do
     assert_equal false, @job_type.canceled?
     assert_equal true,  @job_type.save
-    assert_equal true,  @job_type.cancel(author: users(:one))
+    assert_equal true,  @job_type.cancel(author: users(:admin))
     assert_equal true,  @job_type.canceled?
   end
 
   test "saved job_type cannot be canceled twice" do
     assert_equal false, @job_type.canceled?
     assert_equal true,  @job_type.save
-    assert_equal true,  @job_type.cancel(author: users(:one))
+    assert_equal true,  @job_type.cancel(author: users(:admin))
     assert_equal true,  @job_type.canceled?
-    assert_equal false, @job_type.cancel(author: users(:one))
+    assert_equal false, @job_type.cancel(author: users(:admin))
     assert_equal true,  @job_type.canceled?
   end
 
   test "canceled job_type must have an author" do
     assert_equal false,       @job_type.canceled?
     assert_equal true,        @job_type.save
-    assert_equal true,        @job_type.cancel(author: users(:one))
+    assert_equal true,        @job_type.cancel(author: users(:admin))
     assert_equal true,        @job_type.canceled?
-    assert_equal users(:one), @job_type.canceled_by
+    assert_equal users(:admin), @job_type.canceled_by
   end
 
   test "canceled job_type cannot be edited" do
@@ -168,7 +168,7 @@ class JobTypeTest < ActiveSupport::TestCase
     @job_type.title = "new title 1"
     assert_equal true,          @job_type.save
     assert_equal "new title 1", @job_type.reload.title
-    assert_equal true,          @job_type.cancel(author: users(:one))
+    assert_equal true,          @job_type.cancel(author: users(:admin))
     assert_equal true,          @job_type.canceled?
     @job_type.title = "new title 2"
     assert_equal false,         @job_type.save

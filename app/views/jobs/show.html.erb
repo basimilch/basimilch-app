@@ -19,7 +19,7 @@
 
 <p>
   <strong><%= t '.date' %>: </strong>
-  <%= @job.start_at.to_date.to_localized_s :long_with_weekday %>
+  <%= @job.start_at.to_date.to_localized_s :long %>
   <i>(<%= @job.start_at.relative_in_words %>)</i>
 </p>
 
@@ -89,9 +89,7 @@
           <%= render 'shared/users_typeahead',
                  for_attribute: "users",
                  placeholder: t('.signup_other_users_placeholder'),
-                 max_users: @job.slots - @job.current_job_signups.count
-            %>
-
+                 max_users: @job.slots - @job.current_job_signups.count %>
         </div> <!-- /col -->
       </div> <!-- /row -->
       <div class="row">

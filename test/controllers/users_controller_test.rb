@@ -3,7 +3,7 @@ require 'test_helper'
 class UsersControllerTest < ActionController::TestCase
 
   def setup
-    @admin_user = users(:one)
+    @admin_user = users(:admin)
     @other_user = users(:two)
 
     assert_equal true,  @admin_user.admin?

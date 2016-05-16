@@ -20,6 +20,20 @@ class ActiveSupport::TestCase
   # order.
   fixtures :all
 
+  def log(msg, color: :red)
+    test_caller = caller.find { |caller_item| caller_item.not_match? __FILE__ }
+    colored_msg = (msg.is_a?(String) ? msg : msg.inspect).send(color)
+    Rails::logger.debug "#{test_caller.strip_up_to "test"}: #{colored_msg}"
+  end
+
+  def log_flash
+    log "Flash messages: #{flash.each{ |i| i.to_s}}", color: :pink
+  end
+
+  def log_response_html_body
+    log @response.body, color: :blue
+  end
+
   # NOTE: Not using a constant (e.g. VALID_USER_INFO) because one (i.e. me ;)
   #       can easily forget to use '.dup' in the test (like e.g.
   #       'user_info = VALID_USER_INFO.dup'), and the reference value could be
@@ -214,6 +228,30 @@ class ActiveSupport::TestCase
       }
     ]
   )
+
+  # SOURCE: http://stackoverflow.com/a/3377188
+  # NOTE: ;deconstantize and :demodulize are Rails helpers that work like this:
+  #       >> "Subscription::NEXT_UPDATE_WEEK_NUMBER".deconstantize
+  #       # => "Subscription"
+  #       >> "Subscription::NEXT_UPDATE_WEEK_NUMBER".demodulize
+  #       # => "NEXT_UPDATE_WEEK_NUMBER"
+  def with_redefined_const(const, new_val)
+    _orig_val = const.constantize
+    _class = const.deconstantize.constantize
+    assert (_class.is_a?(Class) || _class.is_a?(Module))
+    _const_name = const.demodulize.to_sym
+    _class.send(:remove_const, _const_name)
+    _class.const_set(_const_name, new_val)
+    log "#{const} redefined to: #{const.constantize.inspect}", color: :red
+    begin
+      yield
+    ensure
+      _class.send(:remove_const, _const_name)
+      _class.const_set(_const_name, _orig_val)
+      log "#{const} reverted to its original value:" +
+          " #{const.constantize.inspect}", color: :blue
+    end
+  end
 
   private
 

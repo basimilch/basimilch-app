@@ -3,7 +3,7 @@ require 'test_helper'
 class UsersCreationTest < ActionDispatch::IntegrationTest
 
   def setup
-    @user = users(:one)
+    @user = users(:admin)
     @valid_user_info = valid_user_info_for_tests
   end
 

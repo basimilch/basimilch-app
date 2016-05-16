@@ -13,9 +13,12 @@ class ProductOptionTest < ActiveSupport::TestCase
       })
   end
 
-  test "fixture depot should be valid" do
-    assert_valid @product_option, "Initial fixture depot should be valid."
-    assert_valid product_options(:one), "Fixtures depot should be valid."
+  test "fixture product_options should be valid" do
+    assert_valid @product_option, "Initial fixture should be valid."
+    assert_valid product_options(:one),     "Fixtures should be valid."
+    assert_valid product_options(:milk),    "Fixtures should be valid."
+    assert_valid product_options(:yogurt),  "Fixtures should be valid."
+    assert_valid product_options(:cheese),  "Fixtures should be valid."
   end
 
   # TODO: refactor (also in depot_test.rb) to use this method in test_helper.rb.

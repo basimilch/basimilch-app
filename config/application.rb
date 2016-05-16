@@ -36,6 +36,38 @@ module BasimilchApp
     #   http://guides.rubyonrails.org/configuring.html#initialization-events
     config.after_initialize do
 
+      week_number_env = ENV['SUBSCRIPTION_NEXT_UPDATE_WEEK_NUMBER'].not_blank
+      config.x.subscription.next_update_week_number = case week_number_env
+        when String
+          # TODO: How to properly use the logger here?
+          puts "ENV['SUBSCRIPTION_NEXT_UPDATE_WEEK_NUMBER'] =" +
+                " #{week_number_env.inspect}"
+          # NOTE: :to_i returns 0 for nil
+          next_week_number = week_number_env[/^\s*(\d+)\s*$/, 1].to_i
+          if !(1..52).include? next_week_number
+            puts ("Invalid SUBSCRIPTION_NEXT_UPDATE_WEEK_NUMBER." +
+                  " Must be an integer between 1 and 52.").red
+            nil
+          elsif next_week_number <= Date.today.cweek
+            puts ("SUBSCRIPTION_NEXT_UPDATE_WEEK_NUMBER must be in future." +
+                  " Current week number is #{Date.today.cweek}.").red
+            nil
+          else
+            puts ("Valid SUBSCRIPTION_NEXT_UPDATE_WEEK_NUMBER:" +
+                  " #{next_week_number}." +
+                  " Current week number is #{Date.today.cweek}.").green
+            puts ("Regular (i.e. non admin) users CAN update the items of" +
+                  " their subscription until week #{next_week_number}.").yellow
+
+            next_week_number
+          end
+        else
+          puts ("SUBSCRIPTION_NEXT_UPDATE_WEEK_NUMBER ENV var not set up." +
+                " This is OK but means that regular (i.e. non admin) users" +
+                " cannot update the items of their subscription.").yellow
+          nil
+        end
+
       # Basimilch global defaults
       config.x.defaults.user_postal_code  = "8000"
       config.x.defaults.user_city         = I18n.t :zurich

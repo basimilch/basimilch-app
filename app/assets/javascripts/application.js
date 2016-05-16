@@ -30,6 +30,7 @@
 //= require share_certificates
 //= require signups
 //= require users
+//= require subscriptions
 //
 //= require google_maps
 //

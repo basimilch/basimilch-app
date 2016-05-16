@@ -46,6 +46,7 @@ module PublicActivityHelper
     enum :EMAIL
     enum :JOB
     enum :DEPOT
+    enum :SUBSCRIPTION
     enum :MODEL
     enum :SECURITY
   end
@@ -221,6 +222,9 @@ module PublicActivityHelper
         [Scope::JOB, Visibility::ADMIN, Severity::MEDIUM]
       when :admin_cancel_depot_coordinator
         [Scope::DEPOT, Visibility::ACTIVITY_USERS, Severity::MEDIUM]
+      when :planned_items_list_modified,
+           :current_items_list_modified
+        [Scope::SUBSCRIPTION, Visibility::ACTIVITY_USERS, Severity::MEDIUM]
       else
         raise "Unknown activity name: #{activity_name}"
       end

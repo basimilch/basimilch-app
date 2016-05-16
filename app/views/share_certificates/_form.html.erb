@@ -30,7 +30,7 @@
   </div>
 
   <% [:created_at, :sent_at, :payed_at, :returned_at].each do |date_name| %>
-    <%= date_field f, date_name %>
+    <%= share_certificate_date_field f, date_name %>
   <% end %>
 
   <div class="field">

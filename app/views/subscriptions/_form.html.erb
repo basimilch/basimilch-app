@@ -1,0 +1,150 @@
+<% if @subscription %>
+
+  <%= render 'shared/error_messages', errors: @subscription.errors %>
+
+  <%#
+    NOTE: When constructing a form using form_for(subscription), Rails uses POST
+          if @subscription.new_record? is true and PATCH if it is false.
+  %>
+  <%= form_for @subscription, html: { class: 'subscription-form' },
+               url: current_user_subscription? ? current_user_subscription_update_path : @subscription,
+               view_mode: (defined?(view_mode) ? view_mode : false) do |f| %>
+
+    <% form_buttons = capture do %>
+      <% if @subscription.can_be_updated_by? current_user %>
+        <div class="row form-buttons">
+          <% if f.options[:view_mode] %>
+            <div class="col-md-2 col-md-offset-10 col-sm-3 col-sm-offset-9">
+              <% if current_user_admin? %>
+                <%= f.edit_button edit_subscription_path(@subscription) %>
+              <% else %>
+                <%= f.edit_button current_user_subscription_edit_path %>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="col-md-2 col-md-offset-8 col-sm-3 col-sm-offset-6 col-xs-6">
+              <% if current_user_admin? %>
+                <% if @subscription.new_record? %>
+                  <%= f.cancel_button subscriptions_path %>
+                <% else %>
+                  <%= f.cancel_button @subscription %>
+                <% end %>
+              <% else %>
+                <%= f.cancel_button current_user_subscription_path %>
+              <% end %>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-6">
+              <% if @subscription.new_record? %>
+                <%= f.submit_button t('.create_new_subscription') %>
+              <% else %>
+                <%= f.submit_button t('.update_subscription') %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+
+    <% if f.options[:view_mode] && current_user_admin? %>
+      <%= form_buttons %>
+    <% end %>
+
+    <% forced_view_mode = !current_user_admin? || f.options[:view_mode] %>
+
+    <div class="row">
+      <div class="col-sm-1 col-xs-3">
+        <% if @subscription.new_record? %>
+          <%= f.field_for :id, readonly: true, value: Subscription.count + 1 %>
+        <% else %>
+          <%= f.field_for :id, readonly: true, view_mode: forced_view_mode %>
+        <% end %>
+      </div>
+      <div class="col-sm-3 col-xs-9">
+        <%= f.field_for :name, placeholder: t('.name'),
+                               view_mode: forced_view_mode %>
+      </div>
+      <div class="col-sm-8 col-xs-12">
+        <%= f.field_for :depot_id,
+                        as_type: :select,
+                        view_mode: forced_view_mode,
+                        value: options_for_subscription_depot(@subscription),
+                        include_blank: false %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4 col-xs-12">
+        <%= f.field_for :basic_units,
+                        as_type: :select,
+                        view_mode: forced_view_mode,
+                        value: options_for_subscription_basic_units(@subscription),
+                        include_blank: false %>
+      </div>
+      <div class="col-sm-4 col-xs-12">
+        <%= f.field_for :supplement_units,
+                        as_type: :select,
+                        view_mode: forced_view_mode,
+                        value: options_for_subscription_supplement_units(@subscription),
+                        include_blank: false %>
+      </div>
+      <div class="col-sm-4 col-xs-12">
+        <%= f.field_for :total_equivalence,
+                        as_type: :string,
+                        readonly: true,
+                        view_mode: forced_view_mode,
+                        value: localized_subscription_size_equivalence(@subscription) %>
+      </div>
+    </div>
+
+    <% unless @subscription.new_record? %>
+      <div class="row">
+        <div class="col-sm-4 col-xs-12">
+          <%= f.field_for :created_at,
+                          readonly: true,
+                          view_mode: true,
+                          value: @subscription.created_at.to_localized_s(:long) %>
+        </div>
+        <div class="col-sm-4 col-xs-12">
+          <%= f.field_for :updated_at,
+                          readonly: true,
+                          view_mode: true,
+                          value: @subscription.updated_at.to_localized_s(:long) %>
+        </div>
+        <div class="col-sm-4 col-xs-12">
+          <%= f.field_for :total_share_certificates,
+                          as_type: :string,
+                          readonly: true,
+                          view_mode: true,
+                          value: @subscription.total_number_of_share_certificates %>
+        </div>
+      </div>
+      <%= render 'items_list', list_type: :current_items %>
+      <% if f.options[:view_mode] %>
+        <%= render 'items_list', list_type: :planned_items %>
+      <% else %>
+        <%= render 'items_form', f: f %>
+      <% end %>
+      <% unless current_user_admin? %>
+        <%= form_buttons %>
+      <% end %>
+      <%= render 'subscriber_list', view_mode: f.options[:view_mode] %>
+    <% else %>
+      <%= t '.abo_creation_hint' %>
+    <% end %>
+
+    <%= form_buttons if current_user_admin? %>
+
+    <% if Rails.env.development? %>
+      <h1>Product options details:</h1>
+      <ul>
+        <% if @subscription.subscription_items.each do |item| %>
+          <li><%= item %></li>
+        <% end.empty? %>
+          This subscription has no items (canceled, past or whatever).
+        <% end %>
+      </ul>
+    <% end %>
+
+  <% end # of form_for %>
+
+<% end # of if @subscription %>

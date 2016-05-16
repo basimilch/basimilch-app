@@ -16,12 +16,12 @@ class GoogleMapsHelperTest < ActionView::TestCase
           "abcd1234&language=de-CH"
     assert_equal url, embedded_map_url(
                         depots(:valid),
-                        origin_geocoded_item: users(:one)
+                        origin_geocoded_item: users(:admin)
                       )
     assert_equal url, embedded_map_url(
                         depots(:valid),
                         zoom: 100, # not taken into account for directions
-                        origin_geocoded_item: users(:one)
+                        origin_geocoded_item: users(:admin)
                       )
   end
 
@@ -33,13 +33,13 @@ class GoogleMapsHelperTest < ActionView::TestCase
   end
 
   test "map_static_url for item array" do
-    assert users(:one).geocode
+    assert users(:admin).geocode
     url = "http://maps.google.com/maps/api/staticmap?size=640x640&sensor=fals" +
           "e&scale=2&format=png&maptype=roadmap&markers=color:blue|1." +
           "2%2C3.4|47.3971058%2C8.392147"
-    assert_equal url, map_static_url([depots(:valid), users(:one)])
+    assert_equal url, map_static_url([depots(:valid), users(:admin)])
     # not taken into account for multiple items
-    assert_equal url, map_static_url([depots(:valid), users(:one)], zoom: 100)
+    assert_equal url, map_static_url([depots(:valid), users(:admin)], zoom: 100)
   end
 
   test "map_static_url has correct format" do

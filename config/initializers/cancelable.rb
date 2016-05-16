@@ -103,6 +103,8 @@ ERROR_MSG
     end
 
     # Record canceled activity.
+    # TODO: Ensure that this is the first after_cancel executed. In fact, why
+    #       not place it right in the :cancel method?
     after_cancel do
       record_activity :cancel, self, owner: canceled_by
     end

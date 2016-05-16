@@ -1,0 +1,69 @@
+<div class="section-title">
+  <%= t '.section_title' %>
+</div>
+
+<div class="table-responsive subscribers-table">
+  <table class="table table-hover table-condensed">
+    <thead>
+      <tr>
+        <th class="col-xs-1"><%= t 'table_headers.id' %></th>
+        <th class="col-xs-3"><%= t 'table_headers.name' %></th>
+        <th class="col-xs-3"><%= t 'table_headers.email' %></th>
+        <th class="col-xs-2"><%= t 'table_headers.share_certificates' %></th>
+        <th class="col-xs-3"><%= t 'table_headers.subscriber' %></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @subscription.subscriberships.include_canceled(current_user_admin?).each do |subscribership| %>
+        <% user = subscribership.user %>
+        <tr class="subscriber_info<%= " canceled-soft" if subscribership.canceled? %>" data-href="<%= user_path(user) %>" >
+          <td><%= user.id %></td>
+          <td><%= user.full_name %></td>
+          <td><%= mail_to user.email %></td>
+          <td><%= user.share_certificates.map(&:id).join(", ") %></td>
+          <% if subscribership.canceled? %>
+            <td colspan="2" >
+              <%= t '.from' %>
+              <%= localized_date_tag subscribership.created_at, :short_with_year %>
+              <%= t('.until').downcase %>
+              <%= localized_date_tag subscribership.canceled_at, :short_with_year %>
+            </td>
+          <% else %>
+            <td>
+              <%= t '.since' %>
+              <%= localized_date_tag subscribership.created_at, :short_with_year %>
+            </td>
+            <td>
+              <% if current_user_admin? && subscribership.not_canceled? && view_mode %>
+                    <%= link_to t('.cancel_subscribership'),
+                      cancel_subscribership_path(id: @subscription.id,
+                                                 subscribership_id: subscribership.id),
+                      { class:  "btn btn-xs btn-danger cancel-button",
+                        method: :put,
+                        data: { confirm: t('.cancel_subscribership_confirmation_message') }} %>
+              <% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end.empty? %>
+        <tr>
+          <td colspan="6" class="text-center"><%= t '.no_subscribers' %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<% if current_user_admin? && !view_mode %>
+  <div>
+    <%# TODO: Consider using /users?view=without_subscription for the typeahead
+              engine. However, it might be more clear to return the current error
+              if a user already has a subscription, intead of silently not showing
+              it in the typeahead field %>
+    <%= render 'shared/users_typeahead',
+       for_attribute: "subscription[subscriber_user_ids]",
+       placeholder: t('.add_users_placeholder'),
+       max_users: Subscription::MAX_NUMBER_OF_SUBSCRIBERS %>
+  </div>
+<% end %>

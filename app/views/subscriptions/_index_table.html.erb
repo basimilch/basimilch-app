@@ -1,0 +1,52 @@
+<% if  subscriptions.empty? %>
+  <%= t '.no_subscriptions' %>
+<% else %>
+  <div class="table-responsive subscriptions_table">
+    <table class="table table-hover table-condensed">
+      <thead>
+        <tr>
+          <th><%= t 'table_headers.id' %></th>
+          <th><%= t 'table_headers.name' %></th>
+          <th><%= t 'table_headers.size' %></th>
+          <th><%= t 'table_headers.equivalence' %></th>
+          <th><%= t 'table_headers.depot' %></th>
+          <th><%= t 'table_headers.delivery_day' %></th>
+          <th><%= t 'table_headers.members' %></th>
+          <th><%= t_abbr 'table_headers.share_certificates' %></th>
+          <th><%= t_abbr 'table_headers.jobs' %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% subscriptions.each do |subscription| %>
+          <tr class="subscription_info<%= " canceled" if subscription.canceled? %><%= if subscription.without_users? then " danger" elsif subscription.without_items? then " warning" end %>" data-href="<%= subscription_path(subscription.id) %>">
+            <td><%= subscription.id %></td>
+            <% if subscription.valid? %>
+              <td><%= (subscription.name || t('.no_name')).truncate_naturally(at: 60).not_blank %></td>
+              <td><%= localized_subscription_size subscription %></td>
+              <td><%= localized_subscription_size_equivalence subscription %></td>
+              <td><%= link_to subscription.depot.name, subscription.depot %></td>
+              <td><%= localized_subscription_delivery_day subscription %></td>
+              <td>
+                <% unless subscription.users.empty? %>
+                  <% subscription.users.each do |user| %>
+                    <%= link_to user.full_name, user %><br/>
+                  <% end %>
+                <% else %>
+                  <%= t '.no_members' %>
+                <% end %>
+              </td>
+              <td>
+                <%= subscription.total_number_of_share_certificates %>
+              </td>
+              <td>
+                <%= subscription.total_number_of_jobs_done_this_year %>
+              </td>
+            <% else %>
+              <td colspan="8"><%= t '.invalid_subscription_please_fix_html' %></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

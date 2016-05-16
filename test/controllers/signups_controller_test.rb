@@ -13,7 +13,7 @@ class SignupsControllerTest < ActionController::TestCase
   end
 
   test "should get redirected to profile page when logged in" do
-    fixture_log_in users(:one)
+    fixture_log_in users(:admin)
     get :new
     assert_response :redirect
   end

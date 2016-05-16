@@ -166,6 +166,14 @@ span[onclick] {
   cursor: pointer;
 }
 
+// Dev
+
+// Over-specifying a bit to override default rule.
+body > .console {
+  opacity: 0.7;
+  height: 60px;
+}
+
 // Header
 
 header {
@@ -322,6 +330,9 @@ form {
     margin-bottom: 25px;
     &:not(.row) .btn {
       margin-bottom: 25px;
+    }
+    a.btn {
+      width: 100%;
     }
   }
   input {
@@ -516,8 +527,11 @@ form {
     }
 }
 
-tr[data-href] {
+[data-href] {
   cursor: pointer;
+  &:hover:not(tr){
+    background: $gray-medium-light;
+  }
 }
 
 .jobs-table {
@@ -589,7 +603,11 @@ tr[data-href] {
   }
 }
 
+.canceled-soft {
+  opacity: .5;
+}
 .canceled {
+  @extend .canceled-soft;
   // NOTE: text-decoration property cannot be overriden with e.g.
   //        - text-decoration: none;
   //        - text-decoration: none !important;
@@ -601,7 +619,6 @@ tr[data-href] {
   // DOC: http://www.w3.org/TR/CSS21/text.html#propdef-text-decoration
   // DOC: http://www.w3schools.com/cssref/css3_pr_text-decoration-color.asp
   text-decoration: line-through;
-  opacity: .7;
 }
 
 .small-appended-info {

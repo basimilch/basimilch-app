@@ -82,28 +82,53 @@ class RailsExtentionsTest < ActionController::TestCase
     assert_equal false, ''.swiss_phone_number?
   end
 
+  test "should be able call match? on a string" do
+    assert_equal true,  "a".match?(/a/)
+    assert_equal false, "b".match?(/a/)
+    assert_equal true,  "hello, world".match?(/l{2}/)
+  end
+
+  test "should be able call strip_up_to on a string" do
+    assert_equal "string",      "some string".strip_up_to("string")
+    assert_equal "some string", "some string".strip_up_to("s")
+    assert_equal "ing",         "some string".strip_up_to("i")
+    assert_equal "ing",         "some string".strip_up_to("ing")
+    assert_equal "some string", "some string".strip_up_to("not_found")
+    assert_equal "some string", "some string".strip_up_to("")
+    assert_raise { "some string".strip_up_to(nil) }
+    assert_raise { "some string".strip_up_to() }
+    assert_raise { "some string".strip_up_to(1) }
+  end
+
+  test "should be able to ensure that a string ends with a given string" do
+    assert_equal "asdf", "asdf".ensure_end("df")
+    assert_equal "asdf", "as".ensure_end("df")
+    # TODO: Fix the following case if need be ;)
+    assert_equal "asddf", "asd".ensure_end("df")
+  end
+
   test "should be able to merge symbols with + operator" do
     sym = :some_symbol
     assert_equal :some_symbol, sym + nil
     assert_equal :some_symbol_suffix, sym + :_suffix
-    assert_raise do
-      sym + "_suffix"
-    end
+    assert_raise { sym + "_suffix" }
     assert_equal :prefix_some_symbol, :prefix_ + sym
-    assert_raise do
-      "prefix_" + sym
-    end
-    assert_raise do
-      sym + 1
-    end
+    assert_raise { "prefix_" + sym }
+    assert_raise { sym + 1 }
+  end
+
+  test "should be able to transform keyword into class" do
+    assert_equal String, :string.to_class
+    assert_equal ActiveRecord, :active_record.to_class
+    assert_raise { :non_existent_class.to_class }
   end
 
   test "ActiveRecord as input for String formating should behave like a hash" do
-    u = users(:one)
+    u = users(:admin)
     assert_equal "Hello User Example! Your email is one@example.com",
                  "Hello %{first_name} %{last_name}! Your email is %{email}" % u
     # With '%s' you must explicitly convert it to a String:
-    assert_equal "User 1: \"User Example\" <one@example.com>",
+    assert_equal "User 1: \"User Example\" <one@example.com> (ADMIN)",
                  "%s" % u.to_s
     # The standard behavior of String#% should not be broken:
     # DOC: http://ruby-doc.org/core-2.2.4/String.html#method-i-25

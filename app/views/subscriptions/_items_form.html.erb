@@ -1,0 +1,55 @@
+<% if current_user_admin? %>
+  <div class="row">
+    <div class="col-sm-4 col-xs-12">
+      <%= f.field_for :new_items_valid_from,
+                      as_type: :select,
+                      value: options_for_subscription_delivery_days(@subscription),
+                      include_blank: false %>
+    </div>
+  </div>
+<% else %>
+  <div class="section-title">
+    <%= t ".section_title.items_form_html",
+          localized_validity_of_current_items(@subscription) %>
+  </div>
+<% end %>
+
+
+<div class="table-responsive product-options-table">
+  <table class="table table-hover table-condensed">
+    <thead>
+      <tr>
+        <th class="col-xs-3"><%= t 'table_headers.name' %></th>
+        <th class="col-xs-2"><%= t 'table_headers.unit' %></th>
+        <th class="col-xs-3 text-right"><%= t 'table_headers.equivalence_per_unit' %></th>
+        <th class="col-xs-1 text-right"><%= t 'table_headers.quantity' %></th>
+        <th class="col-xs-3 text-right"><%= t 'table_headers.equivalence' %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% total_current_quantity = 0 %>
+      <% if ProductOption.not_canceled.each do |product_option| %>
+        <% product_option_current_quantity = subscription_current_quantity(@subscription, product_option) %>
+        <tr>
+          <td><%= product_option.name %></td>
+          <td><%= localized_product_size product_option %></td>
+          <%= product_option_equivalence_td_tag product_option %>
+          <td class="text-right"><%= select "subscription[item_ids_and_quantities]", product_option.id, options_for_select(SubscriptionItem::ALLOWED_QUANTITIES, product_option_current_quantity) %></td>
+          <td class="text-right item-milk-equivalence"><%= localized_product_equivalent product_option, quantity: (product_option_current_quantity || 0) %></td>
+        </tr>
+      <% end.empty? %>
+        <tr>
+          <td colspan="5" class="text-center"><%= t '.no_current_available_product_options' %></td>
+        </tr>
+      <% else %>
+        <tr class="total new-subscription-items">
+          <td colspan="4" class="text-right total-label"><%= t('.total_equivalence_label',
+                target: @subscription.flexible_milk_liters.to_s_significant ) %>:</td>
+          <td class="text-right total" data-expected-total="<%= @subscription.flexible_milk_liters.to_s_significant %>"><%= t 'product_options.equivalent_in_milk_liters_msg',
+    liters: total_current_quantity.to_s_significant
+%></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

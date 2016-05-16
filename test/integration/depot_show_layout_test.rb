@@ -3,7 +3,7 @@ require 'test_helper'
 class DepotShowLayoutTest < ActionDispatch::IntegrationTest
 
   setup do
-    @admin_user = users(:one)
+    @admin_user = users(:admin)
     @user       = users(:two)
     @depot      = depots(:valid)
 

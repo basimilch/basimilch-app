@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160429175436) do
+ActiveRecord::Schema.define(version: 20160502052411) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -164,6 +164,55 @@ ActiveRecord::Schema.define(version: 20160429175436) do
 
   add_index "share_certificates", ["user_id"], name: "index_share_certificates_on_user_id", using: :btree
 
+  create_table "subscriberships", force: :cascade do |t|
+    t.integer  "subscription_id"
+    t.integer  "user_id"
+    t.datetime "canceled_at"
+    t.string   "canceled_reason"
+    t.integer  "canceled_by_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "subscriberships", ["canceled_by_id"], name: "index_subscriberships_on_canceled_by_id", using: :btree
+  add_index "subscriberships", ["subscription_id"], name: "index_subscriberships_on_subscription_id", using: :btree
+  add_index "subscriberships", ["user_id"], name: "index_subscriberships_on_user_id", using: :btree
+
+  create_table "subscription_items", force: :cascade do |t|
+    t.integer  "subscription_id"
+    t.integer  "product_option_id"
+    t.integer  "quantity",          default: 0, null: false
+    t.date     "valid_since",                   null: false
+    t.date     "valid_until"
+    t.datetime "canceled_at"
+    t.string   "canceled_reason"
+    t.integer  "canceled_by_id"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+  end
+
+  add_index "subscription_items", ["canceled_by_id"], name: "index_subscription_items_on_canceled_by_id", using: :btree
+  add_index "subscription_items", ["product_option_id"], name: "index_subscription_items_on_product_option_id", using: :btree
+  add_index "subscription_items", ["subscription_id"], name: "index_subscription_items_on_subscription_id", using: :btree
+
+  create_table "subscriptions", force: :cascade do |t|
+    t.string   "name",                          limit: 100
+    t.integer  "basic_units",                               default: 1, null: false
+    t.integer  "supplement_units",                          default: 0, null: false
+    t.integer  "depot_id"
+    t.string   "denormalized_items_list"
+    t.string   "denormalized_subscribers_list"
+    t.text     "notes"
+    t.datetime "canceled_at"
+    t.string   "canceled_reason"
+    t.integer  "canceled_by_id"
+    t.datetime "created_at",                                            null: false
+    t.datetime "updated_at",                                            null: false
+  end
+
+  add_index "subscriptions", ["canceled_by_id"], name: "index_subscriptions_on_canceled_by_id", using: :btree
+  add_index "subscriptions", ["depot_id"], name: "index_subscriptions_on_depot_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "email"
     t.boolean  "admin",                     default: false, null: false
@@ -225,4 +274,12 @@ ActiveRecord::Schema.define(version: 20160429175436) do
   add_foreign_key "jobs", "users", column: "canceled_by_id"
   add_foreign_key "product_options", "users", column: "canceled_by_id"
   add_foreign_key "share_certificates", "users"
+  add_foreign_key "subscriberships", "subscriptions"
+  add_foreign_key "subscriberships", "users"
+  add_foreign_key "subscriberships", "users", column: "canceled_by_id"
+  add_foreign_key "subscription_items", "product_options"
+  add_foreign_key "subscription_items", "subscriptions"
+  add_foreign_key "subscription_items", "users", column: "canceled_by_id"
+  add_foreign_key "subscriptions", "depots"
+  add_foreign_key "subscriptions", "users", column: "canceled_by_id"
 end

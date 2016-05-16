@@ -2,9 +2,10 @@ class DepotsController < ApplicationController
 
   # All actions require a logged in user.
   before_action :require_logged_in_user
-  before_action :admin_user#,  except: [:show]
+  before_action :admin_user,  except: [:depot]
   before_action :set_depot,   only:   [:show, :edit, :update, :destroy,
                                        :cancel, :cancel_coordinator]
+  before_action :set_current_user_depot, only:  [:depot]
 
   # GET /depots
   # GET /depots.json
@@ -16,6 +17,11 @@ class DepotsController < ApplicationController
   # GET /depots/1.json
   def show
     cancelation_flash @depot
+  end
+
+  # GET /depot
+  def depot
+    render 'show'
   end
 
   # GET /depots/new
@@ -97,6 +103,11 @@ class DepotsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_depot
       @depot = Depot.find(params[:id])
+    end
+
+    def set_current_user_depot
+      @depot = current_user.depot
+      flash_t :warning, :no_current_user_depot unless @depot
     end
 
     PERMITTED_ATTRIBUTES = [:name,

@@ -12,10 +12,14 @@ class User < ActiveRecord::Base
 
   has_many :share_certificates
   has_many :job_signups
-  has_many :jobs, -> { distinct.remove_order_by }, through: :job_signups
+  has_many :jobs, -> { distinct.remove_order }, through: :job_signups
+
+  has_one  :subscribership, -> { not_canceled }
+  has_one  :subscription, through: :subscribership
+  has_one  :depot, through: :subscription
 
   scope :by_id, -> { order(id: :asc) }
-  scope :by_name, -> { order(last_name: :asc).by_id }
+  scope :by_name, -> { order(last_name: :asc).order(first_name: :asc).by_id }
   scope :by_last_seen_online, -> { order(last_seen_at: :desc) }
   scope :admins, -> { by_name.where(admin: true) }
   scope :with_intern_email, -> { by_name.where('email ILIKE ?',
@@ -44,6 +48,10 @@ class User < ActiveRecord::Base
                       .by_name.where(User.arel_table[:activation_sent_at].not_eq(nil)) }
   scope :active, -> { by_last_seen_online.where(activated: true) }
   scope :stale, -> { by_name.where(User.arel_table[:last_seen_at].lt(STALE_THRESHOLD)) }
+
+  scope :with_subscription, -> { by_name.joins(:subscribership) }
+  scope :without_subscription, -> { by_name.where.not(
+                                      id: Subscribership.subscribed_user_ids) }
 
   # Identify users with missing info:
   scope :without_tel, -> { by_name.where(User.arel_table[:tel_mobile]
@@ -307,8 +315,13 @@ class User < ActiveRecord::Base
     job_signups.in_current_year.past.not_canceled.count
   end
 
+  def number_of_valid_share_certificates
+    share_certificates.count
+  end
+
   def to_s
-    "User #{id.inspect}: #{full_name.inspect} <#{email}>"
+    "User #{id.inspect}: #{full_name.inspect} <#{email}>" +
+      "#{admin? ? ' (ADMIN)': ''}"
   end
 
   def to_html
@@ -322,7 +335,6 @@ class User < ActiveRecord::Base
       wanted_subscription: wanted_subscription
     } : {})
   end
-
 
   # Class methods
 

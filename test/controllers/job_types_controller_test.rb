@@ -2,7 +2,7 @@ require 'test_helper'
 
 class JobTypesControllerTest < ActionController::TestCase
   setup do
-    @admin_user = users(:one)
+    @admin_user = users(:admin)
     @user = users(:two)
     @job_type = job_types(:one)
   end

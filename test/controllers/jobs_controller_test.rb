@@ -3,7 +3,7 @@ require 'test_helper'
 class JobsControllerTest < ActionController::TestCase
 
   setup do
-    @admin_user = users(:one)
+    @admin_user = users(:admin)
     @user       = users(:two)
     @job        = jobs(:one)
     @full_job   = jobs(:full_job)

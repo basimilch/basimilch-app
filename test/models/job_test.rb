@@ -199,7 +199,7 @@ class JobTest < ActiveSupport::TestCase
     not_canceled_counts = ['Job.not_canceled.count','Job.canceled(false).count']
     assert_difference canceled_counts, 1 do
       assert_difference not_canceled_counts, -1 do
-        assert_equal true,  @job.cancel(author: users(:one))
+        assert_equal true,  @job.cancel(author: users(:admin))
       end
     end
     assert_equal true,  @job.canceled?
@@ -208,18 +208,18 @@ class JobTest < ActiveSupport::TestCase
   test "saved job cannot be canceled twice" do
     assert_equal false, @job.canceled?
     assert_equal true,  @job.save
-    assert_equal true,  @job.cancel(author: users(:one))
+    assert_equal true,  @job.cancel(author: users(:admin))
     assert_equal true,  @job.canceled?
-    assert_equal false, @job.cancel(author: users(:one))
+    assert_equal false, @job.cancel(author: users(:admin))
     assert_equal true,  @job.canceled?
   end
 
   test "canceled job must have an author" do
     assert_equal false,       @job.canceled?
     assert_equal true,        @job.save
-    assert_equal true,        @job.cancel(author: users(:one))
+    assert_equal true,        @job.cancel(author: users(:admin))
     assert_equal true,        @job.canceled?
-    assert_equal users(:one), @job.canceled_by
+    assert_equal users(:admin), @job.canceled_by
   end
 
   test "canceled job cannot be edited" do
@@ -228,7 +228,7 @@ class JobTest < ActiveSupport::TestCase
     @job.title = "new title 1"
     assert_equal true,          @job.save
     assert_equal "new title 1", @job.reload.title
-    assert_equal true,          @job.cancel(author: users(:one))
+    assert_equal true,          @job.cancel(author: users(:admin))
     assert_equal true,          @job.canceled?
     @job.title = "new title 2"
     assert_equal false,         @job.save
