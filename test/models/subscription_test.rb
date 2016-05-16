@@ -95,7 +95,7 @@ class SubscriptionTest < ActiveSupport::TestCase
   end
 
   test "it should be possible to update the subscription at the correct date" do
-    assert_equal 21, Subscription::NEXT_UPDATE_WEEK_NUMBER # See .env.test file
+    assert_equal 52, Subscription::NEXT_UPDATE_WEEK_NUMBER # See .env.test file
     admin = users(:admin)
     user = users(:two)
     assert @subscription.current_items.blank?
@@ -112,30 +112,33 @@ class SubscriptionTest < ActiveSupport::TestCase
     #       when there are only planned_items, but no current_items.
     #       See: app/models/subscription.rb#can_be_updated_by?(user)
 
-    # A couple of weeks before, it should be possible to update.
-    travel_to Date.commercial(2016, 18) do
-      assert_equal true,  @subscription.can_be_updated_by?(admin)
-      assert_equal true,  @subscription.can_be_updated_by?(user)
-      assert_equal true,  @subscription_with_items.can_be_updated_by?(user)
+    with_redefined_const 'Subscription::NEXT_UPDATE_WEEK_NUMBER', 21 do
+      # A couple of weeks before, it should be possible to update.
+      travel_to Date.commercial(2016, 18) do
+        assert_equal true,  @subscription.can_be_updated_by?(admin)
+        assert_equal true,  @subscription.can_be_updated_by?(user)
+        assert_equal true,  @subscription_with_items.can_be_updated_by?(user)
+      end
+      # The same week, it should be possible to update until Tuesday.
+      travel_to Date.commercial(2016, 21, 2) do
+        assert_equal true,  @subscription.can_be_updated_by?(admin)
+        assert_equal true,  @subscription.can_be_updated_by?(user)
+        assert_equal true,  @subscription_with_items.can_be_updated_by?(user)
+      end
+      # The same week, it should not be possible to update from Wednesday on.
+      travel_to Date.commercial(2016, 21, 3) do
+        assert_equal true,  @subscription.can_be_updated_by?(admin)
+        assert_equal false, @subscription.can_be_updated_by?(user)
+        assert_equal false, @subscription_with_items.can_be_updated_by?(user)
+      end
+      # The week after, it should not be possible to update anymore.
+      travel_to Date.commercial(2016, 22) do
+        assert_equal true,  @subscription.can_be_updated_by?(admin)
+        assert_equal false, @subscription.can_be_updated_by?(user)
+        assert_equal false, @subscription_with_items.can_be_updated_by?(user)
+      end
     end
-    # The same week, it should be possible to update until Tuesday.
-    travel_to Date.commercial(2016, 21, 2) do
-      assert_equal true,  @subscription.can_be_updated_by?(admin)
-      assert_equal true,  @subscription.can_be_updated_by?(user)
-      assert_equal true,  @subscription_with_items.can_be_updated_by?(user)
-    end
-    # The same week, it should not be possible to update from Wednesday on.
-    travel_to Date.commercial(2016, 21, 3) do
-      assert_equal true,  @subscription.can_be_updated_by?(admin)
-      assert_equal false, @subscription.can_be_updated_by?(user)
-      assert_equal false, @subscription_with_items.can_be_updated_by?(user)
-    end
-    # The week after, it should not be possible to update anymore.
-    travel_to Date.commercial(2016, 22) do
-      assert_equal true,  @subscription.can_be_updated_by?(admin)
-      assert_equal false, @subscription.can_be_updated_by?(user)
-      assert_equal false, @subscription_with_items.can_be_updated_by?(user)
-    end
+
     # If Subscription::NEXT_UPDATE_WEEK_NUMBER is not setup (i.e. is nil),
     # it should not be possible to update the subscription.
     with_redefined_const 'Subscription::NEXT_UPDATE_WEEK_NUMBER', nil do
