@@ -913,7 +913,6 @@ de-CH:
         Produkte hinzufügen.
     items_list:
       no_current_subscription_items: Das Abo hat noch keine Produkte.
-      no_current_available_product_options: Es gibt zurzeit keine Produktoptionen verfügbar.
       total: "Gesamt"
       equivalent_in_milk_liters_msg: "%{liters} Liter Frischmilch"
       by:
@@ -934,6 +933,7 @@ de-CH:
             eingetragen %{by_author} am %{date_tag}
     items_form:
       total_equivalence_label: "Gesamt (muss %{target}  Liter Frischmilch entsprechen)"
+      no_current_available_product_options: Es gibt zurzeit keine Produktoptionen verfügbar.
       section_title:
         items_form_html: >
           Vorgesehene Zusammensetzung (gültig ab %{non_admin_planned_items_valid_since_tag})

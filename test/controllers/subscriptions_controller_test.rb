@@ -128,6 +128,32 @@ class SubscriptionsControllerTest < ActionController::TestCase
       # users and items.
       assert_redirected_to edit_subscription_path(assigns(:subscription))
     end
+
+    get :edit, id: assigns(:subscription)
+    assert_response :success
+  end
+
+  test "admin should create subscription without product options available" do
+    assert_equal 4, ProductOption.not_canceled.count
+    ProductOption.not_canceled.each { |po| po.cancel author: @admin_user }
+    assert_equal 0, ProductOption.not_canceled.count
+
+    assert_difference 'Subscription.count', 1 do
+      assert_admin_protected login_as: @admin_user do
+        post :create, subscription: {
+          basic_units: 1,
+          supplement_units: 0,
+          depot_id: @subscription.depot.id
+        }
+      end
+      assert_response :redirect
+      # After the creation we get redirected to the edit page again, to add
+      # users and items.
+      assert_redirected_to edit_subscription_path(assigns(:subscription))
+
+      get :edit, id: assigns(:subscription)
+      assert_response :success
+    end
   end
 
   # put :update, id: @subscription
