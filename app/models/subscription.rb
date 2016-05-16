@@ -232,8 +232,13 @@ class Subscription < ActiveRecord::Base
   end
 
   def open_update_window?
-    NEXT_UPDATE_WEEK_NUMBER.present? &&
+    self.class.open_update_window? &&
       next_modifiable_delivery_day.cweek <= NEXT_UPDATE_WEEK_NUMBER
+  end
+
+  def self.open_update_window?
+    NEXT_UPDATE_WEEK_NUMBER.present? &&
+      Date.current.cweek <= NEXT_UPDATE_WEEK_NUMBER
   end
 
   def next_update_day_for_non_admins

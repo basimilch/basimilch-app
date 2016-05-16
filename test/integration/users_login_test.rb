@@ -25,11 +25,13 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     # Verify that the new sessions form gets re-rendered,
     assert_template 'sessions/new'
     # ...and that a flash message appears.
-    assert_not flash.empty?
+    log_flash
+    assert flash[:danger].present?
     # Reload the (login) page.
     get login_path
     # Verify that the flash message doesn’t appear on the new page.
-    assert flash.empty?
+    log_flash
+    assert flash[:danger].blank?
   end
 
   # Inspired from: https://www.railstutorial.org/book/_single-page

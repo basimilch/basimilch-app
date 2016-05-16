@@ -23,6 +23,7 @@
     </div>
     <%= render 'layouts/header' %>
     <div class="container">
+      <% display_next_update_flash_if_needed %>
       <%= render 'shared/flash_messages' %>
       <h1 class="title <%= yield(:title_class) %>">
         <%= yield(:title) %>

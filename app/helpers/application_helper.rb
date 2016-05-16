@@ -81,7 +81,7 @@ module ApplicationHelper
     I18n.t("#{controller_name}.#{action_name}.#{k}")
   end
 
-  # Adds a localised flash message with the given key and value. If the value is
+  # Adds a localized flash message with the given key and value. If the value is
   # a string, it's directly used. If it's a symbol, it's considered a key for a
   # localized string, see 't(k)' above.
   # E.g. instead of using
@@ -210,6 +210,21 @@ module ApplicationHelper
   def t_abbr(t_key)
     content_tag :span, title: t(t_key), data: {toggle: "tooltip"} do
       t t_key + "_abbr"
+    end
+  end
+
+  def display_next_update_flash_if_needed
+    if Subscription.open_update_window?
+      delivery_date = Date.commercial Date.current.year,
+                                      Subscription::NEXT_UPDATE_WEEK_NUMBER,
+                                      # TODO: Remove the hardcoded day.
+                                      6 # Saturday
+      deadline_date = delivery_date - 1.day -
+                              Subscription::UPDATE_DEADLINE_BEFORE_DELIVERY_DAY
+      flash_now_t :info_subscription_updatable,
+                  t('flash.subscription_can_be_updated_html',
+                     delivery_date_tag: localized_date_tag(delivery_date),
+                     deadline_date_tag: localized_date_tag(deadline_date))
     end
   end
 

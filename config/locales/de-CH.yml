@@ -230,7 +230,11 @@ de-CH:
 
   flash:
     please_log_in: "Bitte einloggen."
-
+    subscription_can_be_updated_html: >
+      <strong>Die Abos können ab jetzt und bis einschliesslich %{deadline_date_tag}
+      auf der <a href="/subscription">Abo-Seite</a> verändert werden.</strong>
+      Veränderungen werden ab der Lieferung vom <strong>%{delivery_date_tag}</strong>
+      in Kraft treten.
 
   # Error messages
 
