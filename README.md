@@ -424,6 +424,33 @@ documentation].
 [be updated]: https://github.com/basimilch/basimilch-app/compare/f7312c45ae9e3bdec66cd8f22a449e078d6817a7...8019bb1fcb8dce7b1f10023f8140cb06cac808be
 [Travis documentation]: https://docs.travis-ci.com/user/database-setup/#PostgreSQL
 
+### Error with DB
+
+I recently had a problem with the PostgresSql DB on my computer (Mac
+OS X 10.10.5), which suddenly stopped working without supposedly
+having changed anything in the system. After a computer restart, the
+tests refused to start with following error:
+
+```
+$ bundle exec rake test
+rake aborted!
+PG::ConnectionBad: could not connect to server: No such file or directory
+        Is the server running locally and accepting
+        connections on Unix domain socket "/tmp/.s.PGSQL.5432"?
+.../.rvm/gems/ruby-2.2.4/gems/activerecord-4.2.5.2/lib/active_record/connection_adapters/postgresql_adapter.rb:651:in `initialize'
+```
+
+I was not able to restart the DB and ended up creating a new one (not
+an issue since I had only test data that can be quickly re-seeded)
+following the steps from above, in summary:
+
+```
+mv /usr/local/var/postgres{,_bak}       # to be able to start a new DB
+initdb /usr/local/var/postgres -E utf8  # create a database
+createuser --superuser basimilchdbuser  # create a db user
+bundle exec rake db:setup               # bootstrap DB
+```
+
 ## Release
 
 The CI workflow is managed by [`travis-ci.org`]. The file
