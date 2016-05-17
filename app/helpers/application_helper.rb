@@ -214,7 +214,7 @@ module ApplicationHelper
   end
 
   def display_next_update_flash_if_needed
-    if Subscription.open_update_window?
+    if logged_in? && Subscription.open_update_window?
       delivery_date = Date.commercial Date.current.year,
                                       Subscription::NEXT_UPDATE_WEEK_NUMBER,
                                       # TODO: Remove the hardcoded day.

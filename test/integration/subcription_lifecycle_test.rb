@@ -4,6 +4,7 @@ class SubscriptionLifecycleTest < ActionDispatch::IntegrationTest
 
   def setup
     @admin_user = users(:admin)
+    @other_user = users(:two)
     @valid_subscription_basic_info = {
       name:               '',
       depot_id:           depots(:valid).id.to_s,
@@ -12,8 +13,20 @@ class SubscriptionLifecycleTest < ActionDispatch::IntegrationTest
     }
   end
 
-  # Inspired from:
-  # https://www.railstutorial.org/book/_single-page#sec-a_test_for_valid_submission
+  test "a global notification should appear when change is possible" do
+    with_redefined_const 'Subscription::NEXT_UPDATE_WEEK_NUMBER', 52 do
+      assert_info_visible_in_some_pages visible_not_logged_in:  false,
+                                        visible_logged_in:      true
+    end
+  end
+
+  test "a global notification should not appear when change is not possible" do
+    with_redefined_const 'Subscription::NEXT_UPDATE_WEEK_NUMBER', nil do
+      assert_info_visible_in_some_pages visible_not_logged_in:  false,
+                                        visible_logged_in:      false
+    end
+  end
+
   test "subscription items lifecycle" do
     assert_protected_get subscriptions_path, login_as: @admin_user
     assert_template 'subscriptions/index'
@@ -312,6 +325,37 @@ class SubscriptionLifecycleTest < ActionDispatch::IntegrationTest
   end
 
   private
+
+    def assert_info_visible_in_some_pages(visible_not_logged_in:  false,
+                                          visible_logged_in:      false)
+      # Go to the login page without being logged in
+      get root_path
+      assert_response :success
+      assert_template 'sessions/new'
+      # Should we see the global flash message when not logged in?
+      assert_info_subscription_updatable present: visible_not_logged_in
+
+      # Then log in...
+      assert_protected_get subscriptions_path, login_as: @other_user
+      # Should we see the global flash notification?
+      assert_info_subscription_updatable present: visible_logged_in
+
+      # Now going to the root path again...
+      get root_path
+      # ... should redirect to the jobs page since we are logged in
+      assert_response :redirect
+      assert_redirected_to jobs_path
+      follow_redirect!
+      assert_template 'jobs/index'
+      # Should we see the global flash notification?
+      assert_info_subscription_updatable present: visible_logged_in
+    end
+
+    def assert_info_subscription_updatable(present: true)
+      log_flash
+      assert_equal present, flash[:info_subscription_updatable].present?
+      assert_select ".flash-messages .alert-info", count: (present ? 1 : 0)
+    end
 
     def create_new_subscription(count: 1)
       assert_difference 'Subscription.count', count do
