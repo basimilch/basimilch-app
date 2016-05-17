@@ -309,7 +309,7 @@ de-CH:
         <<: *attributes
         # attribute_name: "translation to override the one in *attributes"
         basic_units: Aboeinheiten
-        supplement_units: Zusatsabos
+        supplement_units: Zusatzabos
     errors:
       models:
         user:
@@ -868,9 +868,9 @@ de-CH:
         one: Eine Abo-Einheit
         other: "%{count} Abo-Einheiten"
       supplement:
-        zero: und kein Zusatsabo
-        one: und ein Zusatsabo
-        other: " und %{count} Zusatsabos"
+        zero: und kein Zusatzabo
+        one: und ein Zusatzabo
+        other: " und %{count} Zusatzabos"
     index_table:
       units: *subscription_units
       equivalent_in_milk_liters_msg: "%{liters} l Frischmilch"
@@ -904,9 +904,9 @@ de-CH:
       units:
         <<: *subscription_units
         supplement:
-          zero: kein Zusatsabo
-          one: ein Zusatsabo
-          other: "%{count} Zusatsabos"
+          zero: kein Zusatzabo
+          one: ein Zusatzabo
+          other: "%{count} Zusatzabos"
       create_new_subscription: Abo erstellen
       update_subscription: Abo aktualisieren
       name: z.B. Vereinsname (optional)
