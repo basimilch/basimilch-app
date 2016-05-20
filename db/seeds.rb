@@ -40,6 +40,15 @@ def log_record(record)
   @logged_class = record.class
 end
 
+def save!(record)
+  unless record.valid?
+    puts ">>>> INVALID RECORD #{record.inspect}"
+    puts "     #{record.errors.messages}"
+  end
+  record.save!
+  log_record record
+end
+
 puts
 puts "******** Seeding Data Start ************"
 puts
@@ -133,8 +142,7 @@ user_ids = User.pluck(:id)
     slots:        rand(2..10),                            # t.integer
     user_id:      user_ids.take(5).sample                 # t.integer
   )
-  job_type.save!
-  log_record job_type
+  save! job_type
 end
 job_type_ids = JobType.pluck(:id)
 
@@ -157,26 +165,26 @@ number_of_jobs  = (365 * AVERAGE_NUMBER_OF_JOBS_PER_DAY * years).to_i
     user_id:      user_ids.take(5).sample,                # t.integer
     job_type_id:  (job_type_ids + [nil]).sample
   )
-  job.save!
-  log_record job
+  save! job
 end
 job_ids = Job.pluck(:id)
 
 
 # Simulate that in average each user signs up the requested numbers of times
 signups_trials = NUMBER_OF_USERS * JobSignup::MIN_NUMBER_PER_USER_PER_YEAR
-# signups_trials = 0
-# => "_trials" because signups might fail if the jobs is not available anymore.
+# => "_trials" because some might not be possible if the jobs is full.
 
 signups_trials.times do |n|
-  # Dont' validate job signup. If not valid, the user will not signup.
-  # Maybe the job is full or so.
-  job_signup = JobSignup.new(
-    user_id: user_ids.sample,
-    job_id:  job_ids.sample
-  )
-  job_signup.save
-  log_record job_signup
+  job = Job.not_canceled.sample
+  unless job.full?
+    user_id = user_ids.sample
+    job_signup = job.job_signups.build(
+      user_id:    user_id,
+      # User 1 is admin and thus allowed to sign up other users for past jobs.
+      author_id:  job.past? ? 1 : [1, user_id].sample
+    )
+    save! job_signup
+  end
 end
 
 
@@ -211,8 +219,7 @@ depot_ids = Depot.pluck(:id)
         equivalent_in_milk_liters:  [0.5, 1.0, 2.0].sample,
         notes:                      maybe(Faker::Lorem.sentence)
       )
-    product_option.save!
-    log_record product_option
+  save! product_option
 end
 product_option_ids = ProductOption.pluck(:id)
 
@@ -225,8 +232,7 @@ product_option_ids = ProductOption.pluck(:id)
         depot_id:         depot_ids.sample,
         notes:            maybe(Faker::Lorem.sentence)
       )
-  subscription.save!
-  log_record subscription
+  save! subscription
 
   rand(NUMBER_OF_USERS_PER_SUBSCRIPTION).times do
     s = subscription.subscriberships.create!(user_id: user_ids.sample)

@@ -231,9 +231,7 @@ class JobsController < ApplicationController
                                             current_user
                                           )
       end
-      signup = @job.job_signups.build(user:       user,
-                                      author:     current_user,
-                                      allow_past: current_user_admin?)
+      signup = @job.job_signups.build(user: user, author: current_user)
       if signup.save
         record_activity activity_key, @job, data: activity_data
         confirmation_email.deliver_later

@@ -23,13 +23,13 @@ class JobSignup < ActiveRecord::Base
   #                                       /ClassMethods.html#method-i-belongs_to
   belongs_to :author, class_name: "User"
 
-  validates :user_id, presence: true, numericality: { greater_than: 0 }
-  validates :job_id,  presence: true, numericality: { greater_than: 0 }
+  validates :user_id, presence: true
+  validate_id_for :user
+  validates :job_id,  presence: true
+  validate_id_for :job
   validate  :job_is_available,  unless: Proc.new {|j| j.job.nil?}
   validates :author_id, presence: true, numericality: { greater_than: 0 }
   validate  :author_is_entitled, unless: Proc.new {|j| j.author.nil?}
-
-  attr_accessor :allow_past
 
   def to_s
     "JobSignup #{id.inspect}: User #{user_id.inspect} " +
@@ -46,7 +46,7 @@ class JobSignup < ActiveRecord::Base
   private
 
     def job_is_available
-      unless job.available? allow_past: allow_past
+      unless job.available? allow_past: author.try(:admin?)
         errors.add :base, I18n.t("errors.messages.job_does_not_accept_signups")
       end
     end
