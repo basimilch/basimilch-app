@@ -274,7 +274,10 @@ de-CH:
       product_option_unexpeted_quantity: >
         Oups! Unerwarteter Fehler bei dem Wert für die Menge eines Produkts.
         Melde es bitte uns auf meine@basimil.ch.
-      wrong_total_quantity_of_subscription_items: >
+      wrong_total_quantity_of_current_subscription_items: >
+        Die bestehende Zusammensetzung muss %{expected_total} Liter Frischmilch
+        entsprechen. Die jetzige Auswahl macht %{actual_total} Liter aus.
+      wrong_total_quantity_of_new_subscription_items: >
         Die ausgewählte Productoptionen müssen %{expected_total} Liter Frischmilch
         entsprechen. Die jetzige Auswahl macht %{actual_total} Liter aus.
       not_found:

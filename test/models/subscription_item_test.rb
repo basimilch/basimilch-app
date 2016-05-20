@@ -15,10 +15,11 @@ class SubscriptionItemTest < ActiveSupport::TestCase
   end
 
   test "fixture subscription should be valid" do
-    assert_valid @item,
-                 "Initial fixture subscription item should be valid."
-    assert_valid subscription_items(:one),
-                 "Fixtures subscription item should be valid."
+    assert_valid @item,                       "Initial fixture should be valid."
+    assert_valid subscription_items(:one),    "Fixtures should be valid."
+    assert_valid subscription_items(:two),    "Fixtures should be valid."
+    assert_valid subscription_items(:three),  "Fixtures should be valid."
+    assert_valid subscription_items(:four),   "Fixtures should be valid."
   end
 
   test "it should be possible to save the fixture subscription" do

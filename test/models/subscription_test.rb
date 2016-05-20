@@ -154,4 +154,13 @@ class SubscriptionTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test "current_items checks" do
+    assert_equal 0,     @subscription.current_items_liters
+    assert_equal false, @subscription.valid_current_items?
+    assert_equal 19.98, subscriptions(:one).current_items_liters
+    assert_equal false, subscriptions(:one).valid_current_items?
+    assert_equal 4,     subscriptions(:three).current_items_liters
+    assert_equal true,  subscriptions(:three).valid_current_items?
+  end
 end

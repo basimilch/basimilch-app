@@ -69,6 +69,41 @@ class SubscriptionsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "show should display a warning if incorrect amount of liters" do
+    assert_admin_protected login_as: @admin_user do
+      get :show, id: subscriptions(:one)
+    end
+    assert_response :success
+    log_flash
+    assert_equal true, flash[:warning_wrong_total_quantity].present?
+  end
+
+  test "show not should display a warning if correct amount of liters" do
+    assert_admin_protected login_as: @admin_user do
+      get :show, id: subscriptions(:three)
+    end
+    assert_response :success
+    log_flash
+    assert_equal false, flash[:warning_wrong_total_quantity].present?
+  end
+
+  test "show should display a warning if subscription has no users" do
+    subscription_without_users = subscriptions(:three)
+    assert_admin_protected login_as: @admin_user do
+      get :show, id: subscription_without_users
+    end
+    assert_response :success
+    log_flash
+    # This subscription has not users.
+    assert_equal true,  flash[:warning_without_users].present?
+    # Add some users.
+    subscription_without_users.subscriberships.create(user: User.sample)
+    # Get the subscription page again
+    get :show, id: subscription_without_users
+    # The warning shouldn't appear now since the subscription has some users.
+    assert_equal false,  flash[:warning_without_users].present?
+  end
+
   # get :edit
 
   test "non-logged-in users should not get edit" do

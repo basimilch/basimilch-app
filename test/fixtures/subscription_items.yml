@@ -2,13 +2,25 @@
 
 one:
   # SOURCE http://stackoverflow.com/a/22961568
-  subscription_id: <%= ActiveRecord::FixtureSet.identify(:one) %>
-  product_option_id: <%= ActiveRecord::FixtureSet.identify(:one) %>
-  valid_since: <%= '2016-01-01'.to_date %>
-  quantity: 1
+  subscription_id:    <%= ActiveRecord::FixtureSet.identify(:one) %>
+  product_option_id:  <%= ActiveRecord::FixtureSet.identify(:one) %>
+  valid_since:        <%= '2016-01-01'.to_date %>
+  quantity:           1
 
 two:
-  subscription_id: <%= ActiveRecord::FixtureSet.identify(:one) %>
-  product_option_id: <%= ActiveRecord::FixtureSet.identify(:one) %>
-  valid_since: <%= '2016-01-01'.to_date %>
-  quantity: 1
+  subscription_id:    <%= ActiveRecord::FixtureSet.identify(:one) %>
+  product_option_id:  <%= ActiveRecord::FixtureSet.identify(:one) %>
+  valid_since:        <%= '2016-01-01'.to_date %>
+  quantity:           1
+
+three:
+  subscription_id:    <%= ActiveRecord::FixtureSet.identify(:three) %>
+  product_option_id:  <%= ActiveRecord::FixtureSet.identify(:milk) %>
+  valid_since:        <%= '2016-01-01'.to_date %>
+  quantity:           2
+
+four:
+  subscription_id:    <%= ActiveRecord::FixtureSet.identify(:three) %>
+  product_option_id:  <%= ActiveRecord::FixtureSet.identify(:yogurt) %>
+  valid_since:        <%= '2016-01-01'.to_date %>
+  quantity:           4

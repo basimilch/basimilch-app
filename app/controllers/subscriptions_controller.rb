@@ -23,7 +23,15 @@ class SubscriptionsController < ApplicationController
   # GET /subscriptions/1
   # GET /subscriptions/1.json
   def show
-    flash_now_t :warning, :no_subscriber_alert if @subscription.without_users?
+    unless @subscription.valid_current_items?
+      flash_now_t :warning_wrong_total_quantity, I18n.t(
+          "errors.messages.wrong_total_quantity_of_current_subscription_items",
+          actual_total:   @subscription.current_items_liters.to_s_significant,
+          expected_total: @subscription.flexible_milk_liters.to_s_significant)
+    end
+    if @subscription.without_users?
+      flash_now_t :warning_without_users, :no_subscriber_alert
+    end
   end
 
   # GET /subscriptions/new

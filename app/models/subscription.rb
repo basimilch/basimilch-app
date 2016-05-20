@@ -82,7 +82,7 @@ class Subscription < ActiveRecord::Base
   before_save :capture_denormalized_subscribers_list, unless: :new_record?
 
   attr_accessor :item_ids_and_quantities
-  validate    :validate_items,                        unless: :new_record?
+  validate    :validate_new_items,                    unless: :new_record?
   before_save :create_items,                          unless: :new_record?
   before_save :capture_denormalized_items_list,       unless: :new_record?
 
@@ -245,7 +245,7 @@ class Subscription < ActiveRecord::Base
     if open_update_window?
       Date.commercial Date.current.year,
                       NEXT_UPDATE_WEEK_NUMBER,
-                      depot.delivery_day
+                      depot.delivery_day # FIXME: 0..6 into 1..7
     elsif without_items?
       next_modifiable_delivery_day
     end
@@ -259,6 +259,14 @@ class Subscription < ActiveRecord::Base
     #       See: test/models/subscription_test.rb
     # user.admin? || without_items? || open_update_window?
     user.admin? || open_update_window?
+  end
+
+  def current_items_liters
+    current_items.reduce(0) { |acc, item| acc += item.liter_amount }
+  end
+
+  def valid_current_items?
+    current_items_liters == flexible_milk_liters
   end
 
   private
@@ -309,10 +317,9 @@ class Subscription < ActiveRecord::Base
       self.denormalized_subscribers_list = users.map(&:to_s).sort
     end
 
-    def validate_items
+    def validate_new_items
       item_ids_and_quantities or return
-      total_size = 0
-      item_ids_and_quantities.each do |id, quantity|
+      total_size = item_ids_and_quantities.reduce(0) do |acc, (id, quantity)|
         # NOTE: There is no need to validate the id, because only ids of
         #       not_canceled ProductOptions are permitted in the
         #       SubscriptionController
@@ -321,12 +328,12 @@ class Subscription < ActiveRecord::Base
           errors.add :base,
                      I18n.t("errors.messages.product_option_unexpeted_quantity")
         end
-        total_size += ProductOption.find(id).equivalent_in_milk_liters * quantity.to_i
+        acc += ProductOption.find(id).equivalent_in_milk_liters * quantity.to_i
       end
       unless total_size == flexible_milk_liters
         errors.add :base, I18n.t(
-          "errors.messages.wrong_total_quantity_of_subscription_items",
-          actual_total: total_size.to_s_significant,
+          "errors.messages.wrong_total_quantity_of_new_subscription_items",
+          actual_total:   total_size.to_s_significant,
           expected_total: flexible_milk_liters.to_s_significant)
       end
     end

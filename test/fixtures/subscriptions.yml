@@ -11,6 +11,13 @@ one:
 two:
   name: MyString
   basic_units: 1
-  supplement_units: 1
-  depot_id:
+  supplement_units: 0
+  depot_id: <%= ActiveRecord::FixtureSet.identify(:valid) %>
+  notes: MyText
+
+three:
+  name: MyString
+  basic_units: 1
+  supplement_units: 0
+  depot_id: <%= ActiveRecord::FixtureSet.identify(:valid) %>
   notes: MyText
