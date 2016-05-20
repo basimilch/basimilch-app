@@ -438,6 +438,26 @@ class ActiveRecord::Base
       end
     end
   end
+
+  # Returns a random record in a DB independent way. Note that prepended scopes
+  # are also taken into account for the selection of the ID, e.g. if all
+  # JobTypes were :canceled, requesting JobType.not_canceled.sample would give:
+  # >> JobType.not_canceled.sample
+  #   (0.4ms)  SELECT "job_types"."id" FROM "job_types"
+  #              WHERE "job_types"."canceled_at" IS NULL
+  #              ORDER BY "job_types"."title" ASC,
+  #                       "job_types"."id" ASC
+  #   JobType Load (0.3ms)  SELECT  "job_types".* FROM "job_types"
+  #                           WHERE "job_types"."canceled_at" IS NULL
+  #                             AND "job_types"."id" IS NULL
+  #                           ORDER BY "job_types"."title" ASC,
+  #                                    "job_types"."id" ASC LIMIT 1
+  # => nil
+  # Note that using :find instead of :where would make this case fail with:
+  #    ActiveRecord::RecordNotFound: Couldn't find JobType without an ID
+  def self.sample
+    where(id: self.pluck(:id).sample).first
+  end
 end
 
 class ActiveRecord::Relation
