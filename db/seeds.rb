@@ -7,16 +7,16 @@
 # SOURCE: http://cobwwweb.com/4-ways-to-pass-arguments-to-a-rake-task
 STRESS_TEST = ENV['STRESS'].to_b
 
-NUMBER_OF_USERS                  =  STRESS_TEST ? 2000         : 200
-NUMBER_OF_SHARE_CERTS_PER_USER   =  STRESS_TEST ? (0..10)      : (0..3)
-NUMBER_OF_JOBS_TYPES             =  STRESS_TEST ? 50           : 4
+NUMBER_OF_USERS                  =  STRESS_TEST ? 2000    : 100
+NUMBER_OF_SHARE_CERTS_PER_USER   =  STRESS_TEST ? (0..10) : (0..3)
+NUMBER_OF_JOBS_TYPES             =  STRESS_TEST ? 50      : 4
 NUMBER_OF_SUBSCRIPTIONS          =  (0.3 * NUMBER_OF_USERS).round(0)
-NUMBER_OF_USERS_PER_SUBSCRIPTION =  STRESS_TEST ? (1..10)      : (1..5)
-NUMBER_OF_DEPOTS                 =  STRESS_TEST ? 50           : 10
-NUMBER_OF_PRODUCT_OPTIONS        =  STRESS_TEST ? 20           : 5
-CREATE_JOBS_SINCE                =  STRESS_TEST ? 5.years.ago  : 6.months.ago
-CREATE_JOBS_UNTIL                =  1.year.from_now
-AVERAGE_NUMBER_OF_JOBS_PER_DAY   =  STRESS_TEST ? 3            : 0.5
+NUMBER_OF_USERS_PER_SUBSCRIPTION =  STRESS_TEST ? (1..10) : (1..3)
+NUMBER_OF_DEPOTS                 =  STRESS_TEST ? 50      : 8
+NUMBER_OF_PRODUCT_OPTIONS        =  STRESS_TEST ? 20      : 5
+CREATE_JOBS_SINCE                = (STRESS_TEST ? 5.years : 3.months).ago
+CREATE_JOBS_UNTIL                = (STRESS_TEST ? 1.year  : 3.months).from_now
+AVERAGE_NUMBER_OF_JOBS_PER_DAY   =  STRESS_TEST ? 3       : 0.5
 
 SEPARATORS  = [".", "-", "_", ""]
 LOCALES     = ['de-CH', 'fr-CH', 'it-CH']
@@ -238,7 +238,7 @@ product_option_ids = ProductOption.pluck(:id)
     s = subscription.subscriberships.create!(user_id: user_ids.sample)
     puts " - #{s}" unless STRESS_TEST
   end
-  target_size = subscription.equivalent_in_milk_liters
+  target_size = subscription.flexible_milk_liters
   trial_count = items_size = 0
   max_trials  = 500
   items_trial = {}
