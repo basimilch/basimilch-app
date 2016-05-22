@@ -13,6 +13,7 @@ NUMBER_OF_JOBS_TYPES             =  STRESS_TEST ? 50      : 4
 NUMBER_OF_SUBSCRIPTIONS          =  (0.3 * NUMBER_OF_USERS).round(0)
 NUMBER_OF_USERS_PER_SUBSCRIPTION =  STRESS_TEST ? (1..10) : (1..3)
 NUMBER_OF_DEPOTS                 =  STRESS_TEST ? 50      : 8
+NUMBER_OF_COORDINATORS_PER_DEPOT =  STRESS_TEST ? (2..5)  : (0..2)
 NUMBER_OF_PRODUCT_OPTIONS        =  STRESS_TEST ? 20      : 5
 CREATE_JOBS_SINCE                = (STRESS_TEST ? 5.years : 3.months).ago
 CREATE_JOBS_UNTIL                = (STRESS_TEST ? 1.year  : 3.months).from_now
@@ -207,6 +208,11 @@ end
     # Don't validate because the address won't be correct.
     depot.save(validate: false)
     log_record depot
+
+    rand(NUMBER_OF_COORDINATORS_PER_DEPOT).times do
+      coordinator = depot.coordinators.create!(user_id: user_ids.sample)
+      puts "  - #{coordinator}" unless STRESS_TEST
+    end
 end
 depot_ids = Depot.pluck(:id)
 
