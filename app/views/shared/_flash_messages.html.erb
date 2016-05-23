@@ -5,7 +5,7 @@
               danger:   'exclamation-sign'} %>
   <%= content_tag :div, class: "flash-messages" do %>
     <%
-      if info_global_announcement = ENV['INFO_GLOBAL_ANNOUNCEMENT']
+      if info_global_announcement = ENV['INFO_GLOBAL_ANNOUNCEMENT'].not_blank
         flash[:info_global_announcement] = info_global_announcement
       end
       %>

@@ -32,6 +32,15 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "info global announcement should not be present if ENV var is blank" do
+    with_env_variable 'INFO_GLOBAL_ANNOUNCEMENT', '' do
+      assert_protected_get jobs_path, login_as: @other_user
+      assert_response :success
+      log_flash
+      assert_select '#flash-info-global-announcement', count: 0
+    end
+  end
+
   # test "user index layout links" do
   #   get users_path
   #   assert_template 'users/index'
