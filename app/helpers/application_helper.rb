@@ -58,7 +58,7 @@ module ApplicationHelper
   # Adds a label to be displayed below the page title.
   def title_label(arg, options = {type: :default})
     (@title_labels ||= []) << options.merge(text: Symbol === arg ?
-                                            I18n.t("title_labels.#{arg}") : arg.to_s)
+                                      I18n.t("title_labels.#{arg}") : arg.to_s)
   end
 
 
@@ -232,17 +232,17 @@ module ApplicationHelper
 
     def flash_k_to_logger_level(k)
       case k
-      when :warning then :warn
-      when :danger  then :warn
+      when /warning/ then :warn
+      when /danger/  then :warn
       else :info
       end
     end
 
     def log_flash(k, v)
-      flash_t_method = caller[0][/.+`(?<method>\w+)'/, 'method']
+      flash_t_method = caller_method # NOTE: Cannot be inlined in the string
       caller_info = caller[1].sub(/.+\//,'')
       logger.send flash_k_to_logger_level(k),
-                  "#{flash_t_method} in #{caller_info}: #{v.inspect}"
+            "#{flash_t_method} in #{caller_info}: #{k.inspect} => #{v.inspect}"
     end
 
     def icon_to_html_options(type, published = true)

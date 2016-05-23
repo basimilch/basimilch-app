@@ -721,6 +721,13 @@ module Kernel
   end
 
   alias debugger byebug
+
+  # Returns the name of the method calling the current one.
+  # NOTE: Cannot be inlined as string interpolation directly: i.e.
+  #       'logger.debug "The calling method is #{caller_method}"' does not work.
+  def caller_method(level = 1)
+    caller[level][/.+`(?<method>\w+)'/, 'method']
+  end
 end
 
 # Very lightweight TimelinessValidator inspired from gem 'validates_timeliness'.

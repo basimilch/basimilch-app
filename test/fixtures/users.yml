@@ -11,6 +11,8 @@ admin:
   postal_code: 8953
   city: Dietikon
   country: Switzerland
+  latitude: 47.3971058
+  longitude: 8.392147
   tel_mobile: +41 76 123 45 67
   tel_home: +41 44 123 45 67
   tel_office: +41 44 123 45 67

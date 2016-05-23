@@ -8,6 +8,8 @@ valid:
   city: Dietikon
   country: Schweiz
   exact_map_coordinates: 1.2,3.4
+  latitude: 47.3971058
+  longitude: 8.392147
   picture: MyString
   directions: MyText
   delivery_day: 6
