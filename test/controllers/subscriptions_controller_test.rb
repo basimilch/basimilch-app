@@ -31,6 +31,32 @@ class SubscriptionsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "show should get subscriptions with planned items" do
+    assert_equal 3, Subscription.not_canceled.count
+    assert_admin_protected_get :index, login_as: @admin_user
+    assert_response :success
+    assert_select "tr.subscription_info", 3
+
+    get :index, view: :with_planned_items
+    assert_response :success
+    assert_select "tr.subscription_info", 0
+
+    assert_difference 'SubscriptionItem.count', 2 do
+      put :update, id: @subscription.id, subscription: {
+          new_items_valid_from:    @subscription.next_modifiable_delivery_day,
+          item_ids_and_quantities: {
+            ActiveRecord::FixtureSet.identify(:milk).to_s   => 4,
+            ActiveRecord::FixtureSet.identify(:yogurt).to_s => 4
+          }
+        }
+      assert_response :redirect
+      log_flash
+    end
+    get :index, view: :with_planned_items
+    assert_response :success
+    assert_select "tr.subscription_info", 1
+  end
+
   # get :new
 
   test "non-logged-in users should not get new" do

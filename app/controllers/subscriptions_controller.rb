@@ -17,7 +17,13 @@ class SubscriptionsController < ApplicationController
   # GET /subscriptions
   # GET /subscriptions.json
   def index
-    @subscriptions = Subscription.all
+    if @view = params[:view]
+      unless @subscriptions = Subscription.try(@view)
+        raise_404
+      end
+    else
+      @subscriptions = Subscription.all
+    end
   end
 
   # GET /subscriptions/1

@@ -52,6 +52,8 @@ class Subscription < ActiveRecord::Base
   has_many :subscription_items
 
   default_scope -> { order(id: :asc) }
+  scope :with_planned_items,
+        -> { where(id: SubscriptionItem.with_planned_items_subscription_ids) }
 
   ALLOWED_NUMBER_OF_BASIC_UNITS = (1..4) # The upper limit is arbitrary
   ALLOWED_NUMBER_OF_SUPPLEMENT_UNITS = (0..3) # 4 supplements are like a basic

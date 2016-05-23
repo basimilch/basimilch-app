@@ -380,7 +380,9 @@ de-CH:
         subscriptions_menu:
           subscriptions: "Abos"
           subscription:
-            show_all: Abos
+            show:
+              all: Abos
+              with_planned_items: Abos mit vorgesehenen Änderungen
             new: Neues Abo
           product_option:
             show_all: Produktoptionen
@@ -891,7 +893,9 @@ de-CH:
 
     index:
       # units: *subscription_units
-      title: Abos
+      title:
+        showing_all: Abos
+        showing_with_planned_items: Abos mit vorgesehenen Änderungen
     show:
       title:
         current_user_subscription: Dein Abo

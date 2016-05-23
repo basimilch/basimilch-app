@@ -61,6 +61,14 @@ class SubscriptionItem < ActiveRecord::Base
     valid_since_on_or_after(date).each { |item| item.cancel author: author }
   end
 
+  def self.with_planned_items_subscription_ids
+    SubscriptionItem
+      .distinct
+      .remove_order
+      .where('valid_since >= ?', Date.current)
+      .pluck(:subscription_id)
+  end
+
   belongs_to :subscription
   belongs_to :product_option
 
