@@ -384,6 +384,9 @@ de-CH:
               all: Abos
               with_planned_items: Abos mit vorgesehenen Änderungen
             new: Neues Abo
+          product_lists:
+            production: Productionsliste
+            depots: Depotlisten
           product_option:
             show_all: Produktoptionen
             new: Neue Produktoption
