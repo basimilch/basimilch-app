@@ -1,14 +1,14 @@
+<%
+  if logged_in? && announcement = ENV['INFO_GLOBAL_ANNOUNCEMENT'].not_blank
+    flash[:info_global_announcement] = announcement
+  end
+%>
 <% unless flash.empty? %>
   <% icons = {success:  'ok',
               info:     'info-sign',
               warning:  'alert',
               danger:   'exclamation-sign'} %>
   <%= content_tag :div, class: "flash-messages" do %>
-    <%
-      if info_global_announcement = ENV['INFO_GLOBAL_ANNOUNCEMENT'].not_blank
-        flash[:info_global_announcement] = info_global_announcement
-      end
-      %>
     <% flash.each do |message_key, message| %>
       <% message_type = message_key[/[a-z]+/]
          flash_id     = "flash-#{message_key.dasherize.downcase}"

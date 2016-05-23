@@ -41,6 +41,35 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "info global announcement should not be present if unlogged" do
+    get root_path
+    assert_response :success
+    log_flash
+    assert_equal 0, flash.count
+    assert_select '#flash-info-global-announcement', count: 0
+    get_via_redirect jobs_path
+    assert_response :success
+    log_flash
+    assert_equal 1, flash.count # "Please login" message
+    assert_select '#flash-info-global-announcement', count: 0
+    with_env_variable 'INFO_GLOBAL_ANNOUNCEMENT', 'some announcement to all' do
+      get root_path
+      assert_response :success
+      log_flash
+      assert_equal 0, flash.count
+      assert_select '#flash-info-global-announcement', count: 0
+      get_via_redirect jobs_path
+      assert_response :success
+      log_flash
+      assert_equal 1, flash.count # "Please login" message
+      assert_select '#flash-info-global-announcement', count: 0
+      assert_protected_get jobs_path, login_as: @other_user
+      assert_response :success
+      log_flash
+      assert_select '#flash-info-global-announcement', count: 1
+    end
+  end
+
   # test "user index layout links" do
   #   get users_path
   #   assert_template 'users/index'
