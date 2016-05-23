@@ -253,6 +253,24 @@ class ActiveSupport::TestCase
     end
   end
 
+  def with_env_variable(var_name, new_val)
+    raise "ENV var var_name must be a String" unless var_name.is_a? String
+    raise "ENV var new_val must be a String"  unless new_val.is_a? String
+    if _is_originally_present = ENV.include?(var_name)
+      _orig_val = ENV[var_name]
+    end
+    begin
+      ENV[var_name] = new_val
+      yield
+    ensure
+      if _is_originally_present
+        ENV[var_name] = _orig_val
+      else
+        ENV.delete var_name
+      end
+    end
+  end
+
   private
 
     # Returns true inside an integration test, and false inside other

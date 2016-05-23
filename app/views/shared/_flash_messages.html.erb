@@ -4,14 +4,20 @@
               warning:  'alert',
               danger:   'exclamation-sign'} %>
   <%= content_tag :div, class: "flash-messages" do %>
+    <%
+      if info_global_announcement = ENV['INFO_GLOBAL_ANNOUNCEMENT']
+        flash[:info_global_announcement] = info_global_announcement
+      end
+      %>
     <% flash.each do |message_key, message| %>
       <% message_type = message_key[/[a-z]+/]
+         flash_id     = "flash-#{message_key.dasherize.downcase}"
         # NOTE: this allows to store more than message per type, since only the
         #       part up to the first non letter char will be taken into account.
         #       E.g. flash_t :info, :welcome, and flash_t :info_2, :hello_world
         #       will appear simultaneously.
         %>
-      <%= content_tag :div, class: "alert alert-#{message_type}" do %>
+      <%= content_tag :div, class: "alert alert-#{message_type}", id: flash_id do %>
         <%= content_tag :span, nil, escape: false,
             class: "glyphicon glyphicon-#{icons[message_type.to_sym]}" %>
         <%= message.html_safe unless message.blank? %>
