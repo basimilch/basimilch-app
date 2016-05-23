@@ -18,7 +18,7 @@ class Subscription < ActiveRecord::Base
         logger.warn ("Invalid SUBSCRIPTION_NEXT_UPDATE_WEEK_NUMBER." +
                       " Must be an integer between 1 and 52.").red
         nil
-      elsif next_week_number <= Date.current.cweek
+      elsif next_week_number < Date.current.cweek
         logger.warn ("SUBSCRIPTION_NEXT_UPDATE_WEEK_NUMBER must be in" +
               " future. Current week number is #{Date.current.cweek}.").red
         nil
