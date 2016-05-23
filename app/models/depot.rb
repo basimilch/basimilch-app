@@ -127,7 +127,7 @@ class Depot < ActiveRecord::Base
     today = Date.current
     # NOTE: Sunday is 7 for Date.commercial method, but is zero in delivery_day.
     # DOC: http://ruby-doc.org/stdlib-2.2.4/libdoc/date/rdoc/Date.html#method-c-commercial
-    Date.commercial(today.year, today.cweek, [7,1,2,3,4,5,6][delivery_day])
+    Date.commercial(today.year, today.cweek, to_day_1_7(delivery_day))
   end
 
   def today_is_delivery_day?

@@ -102,4 +102,9 @@ module SubscriptionsHelper
       subscription.current_items.quantity(product_option)
     end.to_i
   end
+
+  # Sunday is normally 0 but in Date.commercial is 7.
+  def to_day_1_7(day_0_6)
+    [7,1,2,3,4,5,6,7][day_0_6.to_i] if [0,1,2,3,4,5,6,7].include? day_0_6
+  end
 end

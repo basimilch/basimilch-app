@@ -1,6 +1,7 @@
 class Subscription < ActiveRecord::Base
 
   include Cancelable
+  include SubscriptionsHelper
 
   # DOC: https://github.com/airblade/paper_trail/tree/v4.1.0#basic-usage
   has_paper_trail ignore: [:updated_at]
@@ -245,7 +246,7 @@ class Subscription < ActiveRecord::Base
     if open_update_window?
       Date.commercial Date.current.year,
                       NEXT_UPDATE_WEEK_NUMBER,
-                      depot.delivery_day # FIXME: 0..6 into 1..7
+                      to_day_1_7(depot.delivery_day)
     elsif without_items?
       next_modifiable_delivery_day
     end

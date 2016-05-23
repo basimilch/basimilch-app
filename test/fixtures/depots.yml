@@ -31,3 +31,20 @@ not_valid:
   delivery_time: 17
   opening_hours: MyText
   notes: MyText
+
+sunday_delivered:
+  name: MyString
+  postal_address: Alte Kindhauserstrasse 3
+  postal_address_supplement: MyString
+  postal_code: 8953
+  city: Dietikon
+  country: Schweiz
+  exact_map_coordinates: 1.2,3.4
+  latitude: 47.3971058
+  longitude: 8.392147
+  picture: MyString
+  directions: MyText
+  delivery_day: 0
+  delivery_time: 17
+  opening_hours: MyText
+  notes: MyText

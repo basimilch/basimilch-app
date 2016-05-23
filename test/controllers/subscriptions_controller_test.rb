@@ -104,6 +104,32 @@ class SubscriptionsControllerTest < ActionController::TestCase
     assert_equal false,  flash[:warning_without_users].present?
   end
 
+  # Because Sunday is normally 0 but in Date.commercial is 7, some errors used
+  # to happed for subscriptions assigned to a depot with Sunday delivery day.
+  test "show should properly display a subscription with Sunday delivery day" do
+    assert_equal 6, @subscription.depot.delivery_day
+    assert_admin_protected login_as: @admin_user do
+      get :show, id: @subscription
+    end
+    assert_response :success
+    put :update, id: @subscription.id, subscription: {
+      depot_id: depots(:sunday_delivered).id
+    }
+    assert_response :redirect
+    assert_redirected_to subscription_path(@subscription)
+    @subscription.reload # Take into account the new depot
+    assert_equal depots(:sunday_delivered), @subscription.depot
+    assert_equal 0, @subscription.depot.delivery_day
+    with_redefined_const 'Subscription::NEXT_UPDATE_WEEK_NUMBER', nil do
+      get :show, id: @subscription
+      assert_response :success
+    end
+    with_redefined_const 'Subscription::NEXT_UPDATE_WEEK_NUMBER', 52 do
+      get :show, id: @subscription
+      assert_response :success
+    end
+  end
+
   # get :edit
 
   test "non-logged-in users should not get edit" do

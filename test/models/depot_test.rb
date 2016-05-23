@@ -24,6 +24,9 @@ class DepotTest < ActiveSupport::TestCase
     assert_valid @depot, "Initial fixture depot should be valid."
     assert_valid depots(:valid), "Fixtures depot should be valid."
     assert_not_valid depots(:not_valid), "Fixtures depot should be valid."
+    assert_valid depots(:sunday_delivered), "Fixtures depot should be valid."
+    assert_equal 6, depots(:valid).delivery_day
+    assert_equal 0, depots(:sunday_delivered).delivery_day
   end
 
   def self.test_attribute_present_and_not_too_long(attribute, max_length: 255)
