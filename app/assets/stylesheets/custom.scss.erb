@@ -11,7 +11,17 @@
 // them with a dollar sign $ instead of the 'at' sign @.
 // Source: https://www.railstutorial.org/book/_single-page#uid455
 
-$basiblau: #51A1D9;
+// Customize the color depending on the enviroment to make evident at which
+// platform we are looking and prevent errors, e.g. thinking production is a
+// test platform and deleting some users.
+<% if Rails.env.development? %>
+  $basiblau: #F2AE43; // yellowish warning, see http://colorrrs.com/#F2AE43
+<% elsif ENV['HEROKU_APP_NAME'] == "basimilch-dev" %>
+  $basiblau: #D82689; // pinkish, see http://colorrrs.com/#D82689
+<% else %>
+  $basiblau: #51A1D9; // normal basiblau, see http://colorrrs.com/#51A1D9
+<% end %>
+
 $basiblau_slightly_darker: darken( $basiblau, 10% );
 $basiblau_darker: darken( $basiblau, 15% );
 $basiblau_light: lighten( $basiblau, 25% );
