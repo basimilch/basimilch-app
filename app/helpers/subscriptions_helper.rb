@@ -42,8 +42,11 @@ module SubscriptionsHelper
   def localized_modification_details(subscription)
     author, date = subscription.planned_items_author_and_date
     {
-      by_author:  (current_user?(author) ? t('.by.you') :
-                                        t('.by.user', user: author.first_name)),
+      by_author:  if current_user?(author)
+                    t('.by.you')
+                  else
+                    t('.by.user_html', user: user_label_html(author))
+                  end,
       date_tag:   localized_time_tag(date, :short_only_date)
     }
   end

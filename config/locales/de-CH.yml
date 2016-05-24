@@ -930,8 +930,8 @@ de-CH:
       total: "Gesamt"
       equivalent_in_milk_liters_msg: "%{liters} Liter Frischmilch"
       by:
-        you:  "von dir"
-        user: "von %{user}"
+        you: "von dir"
+        user_html: "von %{user}"
       section_title:
         current_items:
           empty_html: >

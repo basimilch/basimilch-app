@@ -2,6 +2,11 @@ module ApplicationHelper
 
   APP_NAME = "meine.basimil.ch"
 
+  STANDARD_TOOLTIP_OPTIONS = { toggle:    'tooltip',
+                               placement: 'bottom',
+                               delay: { show: 500,
+                                        hide: 0 }}
+
   # Returns the full title of the page
   def full_title(page_title = '')
     if page_title.empty?
@@ -200,10 +205,7 @@ module ApplicationHelper
                                     time.to_localized_s(format).strip
     tooltip = format == :long ?     time.relative_in_words.strip :
                                     time.to_localized_s(:long).strip
-    time_tag time, label, title: tooltip, data: { toggle:    'tooltip',
-                                                  placement: 'bottom',
-                                                  delay: { show: 500,
-                                                           hide: 0}}
+    time_tag time, label, title: tooltip, data: STANDARD_TOOLTIP_OPTIONS
   end
 
   def localized_date_tag(date, format = :long)
@@ -214,6 +216,18 @@ module ApplicationHelper
   def t_abbr(t_key)
     content_tag :span, title: t(t_key), data: {toggle: 'tooltip'} do
       t t_key + "_abbr"
+    end
+  end
+
+  def text_with_tooltip(text, tooltip)
+    content_tag :span, text, title: tooltip, data: STANDARD_TOOLTIP_OPTIONS
+  end
+
+  def user_label_html(user)
+    if current_user_admin?
+      link_to text_with_tooltip(user.first_name, user.to_s), user
+    else
+      text_with_tooltip(user.first_name, user.full_name)
     end
   end
 
