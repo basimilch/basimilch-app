@@ -53,14 +53,19 @@ do ( $$ = window.Basimilch ||= {}, $=jQuery ) ->
   $.fn.extend
     # Like normal 'data(key, value)' but triggers 'datachange' event.
     # SOURCE: http://stackoverflow.com/a/16781831
-    setData: (key, value) ->
-      $(this).data(key, value).trigger('datachange')
+    setData: (key, value) -> $(this).data(key, value).trigger('datachange')
     # Updates the text of the matching element by applying the function f to the
     # current text.
     updateText: (f) -> this.text(f(this.text()))
     # Updates the value of the matching element by applying the function f to the
     # current value.
     updateVal: (f) -> this.val(f(this.val()))
+    # Returns true if the current selection contains at least one element.
+    some: -> this.length > 0
+    # Returns true if the current selection does not contain any elements.
+    none: -> this.length = 0
+    # Returns true if the current element or any parent matches the selector 'sel'.
+    containedIn: (sel) -> this.closest(sel).some()
 
 
 
@@ -77,4 +82,4 @@ $(document).on 'page:change', ->
     # SOURCE: http://getbootstrap.com/javascript/#popovers
     $('[data-toggle=popover]').popover()
     $('[data-href]').click (e) ->
-      document.location = $(this).data('href') unless $(e.target).is('a')
+      document.location = $(this).data('href') unless $(e.target).containedIn('a')

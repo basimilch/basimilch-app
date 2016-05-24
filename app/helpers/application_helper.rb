@@ -223,9 +223,9 @@ module ApplicationHelper
     content_tag :span, text, title: tooltip, data: STANDARD_TOOLTIP_OPTIONS
   end
 
-  def user_label_html(user)
+  def user_label_html(user, admin_display_attr = :first_name)
     if current_user_admin?
-      link_to text_with_tooltip(user.first_name, user.to_s), user
+      link_to text_with_tooltip(user.send(admin_display_attr), user.to_s), user
     else
       text_with_tooltip(user.first_name, user.full_name)
     end

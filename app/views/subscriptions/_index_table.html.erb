@@ -27,11 +27,9 @@
               <td><%= link_to subscription.depot.name, subscription.depot %></td>
               <td><%= localized_subscription_delivery_day subscription %></td>
               <td>
-                <% unless subscription.users.empty? %>
-                  <% subscription.users.each do |user| %>
-                    <%= link_to user.full_name, user %><br/>
-                  <% end %>
-                <% else %>
+                <% if subscription.users.each do |user| %>
+                  <%= user_label_html user, :full_name %><br/>
+                <% end.empty? %>
                   <%= t '.no_members' %>
                 <% end %>
               </td>
