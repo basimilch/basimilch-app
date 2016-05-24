@@ -196,10 +196,14 @@ module ApplicationHelper
 
   def localized_time_tag(time, format = :long)
     return if time.blank?
-    label = format == :relative ?   time.relative_in_words.strip :
+    label   = format == :relative ? time.relative_in_words.strip :
                                     time.to_localized_s(format).strip
-    tooltip = format == :long ? nil : time.to_localized_s(:long).strip
-    time_tag time, label, title: tooltip
+    tooltip = format == :long ?     time.relative_in_words.strip :
+                                    time.to_localized_s(:long).strip
+    time_tag time, label, title: tooltip, data: { toggle:    'tooltip',
+                                                  placement: 'bottom',
+                                                  delay: { show: 500,
+                                                           hide: 0}}
   end
 
   def localized_date_tag(date, format = :long)
@@ -208,7 +212,7 @@ module ApplicationHelper
   end
 
   def t_abbr(t_key)
-    content_tag :span, title: t(t_key), data: {toggle: "tooltip"} do
+    content_tag :span, title: t(t_key), data: {toggle: 'tooltip'} do
       t t_key + "_abbr"
     end
   end
