@@ -13,7 +13,7 @@
     <%= csrf_meta_tags %>
     <%= render 'layouts/shim' %>
   </head>
-  <body class="<%= controller_name %> <%= action_name %> <%= current_user_admin? ? "admin" : "non-admin" %> ">
+  <body class="<%= controller_name %> <%= action_name %> <%= current_user_admin? ? "admin" : "non-admin" %> <%= request.domain.downcase.dasherize %>">
     <%# SOURCE: https://github.com/slipstream/SlipStreamUI/blob/fdcf44aa/clj/src/slipstream/ui/views/html/base.html#L64-L70 %>
     <div id="loading-screen" class="hidden">
       <div class="backdrop"></div>
