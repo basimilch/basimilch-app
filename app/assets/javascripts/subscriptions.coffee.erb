@@ -5,10 +5,10 @@
 # SOURCE: http://brandonhilkert.com/blog/organizing-javascript-in-rails-application-with-turbolinks/
 $(document).on 'page:change', ->
   do ( $$ = window.Basimilch, $ = jQuery ) ->
-    equivalentInMilkLitersBasicUnit = 8
-    equivalentInMilkLitersSupplementUnit = 2
-    flexibleLitersBasicUnit = 4
-    flexibleLitersSupplementUnit = 2
+    equivalentInMilkLitersBasicUnit = <%= Subscription::EQUIVALENT_IN_MILK_LITERS_BASIC_UNIT %>
+    equivalentInMilkLitersSupplementUnit = <%= Subscription::EQUIVALENT_IN_MILK_LITERS_SUPPLEMENT_UNIT %>
+    flexibleLitersBasicUnit = <%= Subscription::FLEXIBLE_LITERS_BASIC_UNIT %>
+    flexibleLitersSupplementUnit = <%= Subscription::FLEXIBLE_LITERS_SUPPLEMENT_UNIT %>
     $subscriptionTotalEquivalence = $('#subscription_total_equivalence')
     $equivalenceRow   = $('tr.total.new-subscription-items')
     $equivalenceLabel = $equivalenceRow.find('td.total-label')
