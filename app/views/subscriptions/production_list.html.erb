@@ -28,7 +28,7 @@
             <% @product_options.each do |product_option| %>
               <td class="number"><%= order_summary[product_option.id] || 0 %></td>
             <% end %>
-            <td class="total number"><%= order_summary[:equivalent_in_milk_liters] || 0 %></td>
+            <td class="total number"><%= order_summary[:flexible_milk_liters] || 0 %></td>
           </tr>
         <% total = total.merge_by_add order_summary %>
         <% end %>
@@ -37,7 +37,7 @@
           <% @product_options.each do |product_option| %>
             <td class="number"><%= total[product_option.id] || 0 %></td>
           <% end %>
-          <td class="number"><%= total[:equivalent_in_milk_liters] || 0 %></td>
+          <td class="number"><%= total[:flexible_milk_liters] || 0 %></td>
         </tr>
       </tbody>
     </table>

@@ -138,7 +138,7 @@ class Subscription < ActiveRecord::Base
     #       .includes(:current_items).
     Hash[current_items.map(&:product_and_quantity)].merge({
       depot: depot,
-      equivalent_in_milk_liters: equivalent_in_milk_liters
+      flexible_milk_liters: flexible_milk_liters
     })
   end
 
