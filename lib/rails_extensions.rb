@@ -425,6 +425,9 @@ end
 
 class  Date
   include DateHelpers
+  def self.next_wday(wday)
+    (current + 1.day).upto(current + 8.days).find { |d| d.wday == wday }
+  end
 end
 
 class  DateTime

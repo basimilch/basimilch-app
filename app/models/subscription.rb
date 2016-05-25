@@ -53,6 +53,13 @@ class Subscription < ActiveRecord::Base
   has_many :current_items,  -> { merge SubscriptionItem.currently_valid },
                             foreign_key:  "subscription_id",
                             class_name:   "SubscriptionItem"
+  # TODO: This is hardcorded to next Saturday to allow preloading of the
+  #       relation. However it will have to be updated to be dependent on the
+  #       delivery of the subscription.
+  has_many :subscription_items_next_saturday,
+            -> { merge(SubscriptionItem.valid_on_date(Date.next_wday(6)))},
+                                  foreign_key:  "subscription_id",
+                                  class_name:   "SubscriptionItem"
 
   default_scope -> { order(id: :asc) }
   scope :with_planned_items,
@@ -132,11 +139,11 @@ class Subscription < ActiveRecord::Base
     @items_version_dates ||= subscription_items.valid_since_dates
   end
 
-  def order_details
+  def upcomming_order_details
     # NOTE: Doing :pluck(:product_id, :quantity) instead of :map{} prevents
     #       rails from optimizing the DB request even using
     #       .includes(:current_items).
-    Hash[current_items.map(&:product_and_quantity)].merge({
+    Hash[subscription_items_next_saturday.map(&:product_and_quantity)].merge({
       depot: depot,
       flexible_milk_liters: flexible_milk_liters
     })
@@ -144,9 +151,9 @@ class Subscription < ActiveRecord::Base
 
   def self.order_summary_by_depot
     Subscription.not_canceled
-      .includes(:current_items)
+      .includes(:subscription_items_next_saturday)
       .includes(:depot)
-      .map(&:order_details)
+      .map(&:upcomming_order_details)
       .group_by_key(:depot, pop_key: true)
       .update_vals(&:reduce_by_add)
   end
