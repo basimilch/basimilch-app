@@ -15,7 +15,7 @@
         <tr>
           <th><%= t 'table_headers.depot' %></th>
           <% @product_options.each do |product_option| %>
-            <th><%= product_option.name %></th>
+            <th class="text-center"><%= product_option.name %></th>
           <% end %>
           <th><%= t_abbr 'table_headers.total_equivalent_in_milk_liters' %></th>
         </tr>
