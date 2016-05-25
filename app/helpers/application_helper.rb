@@ -219,8 +219,9 @@ module ApplicationHelper
     end
   end
 
-  def text_with_tooltip(text, tooltip)
-    content_tag :span, text, title: tooltip, data: STANDARD_TOOLTIP_OPTIONS
+  def text_with_tooltip(text, tooltip, tooltip_options = {})
+    content_tag :span, text, title: tooltip,
+                data: STANDARD_TOOLTIP_OPTIONS.merge(tooltip_options)
   end
 
   def user_label_html(user, admin_display_attr = :first_name)
