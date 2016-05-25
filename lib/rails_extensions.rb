@@ -22,11 +22,10 @@ class Hash
 
   # Returns the value in the map for the given key and removes the key/values
   # pair from the original map in place. Like :pop for arrays.
-  def pop(k)
-    res = self[k]
-    except! k
-    res
-  end
+  alias_method :pop, :delete
+  # NOTE: I first implemented :pop because I ignored the existence and exact
+  #       behavior of :delete. But I just learned that the default :delete does
+  #       exactly what my :pop did. So, I'm aliasing directly the original one.
 
   def +(other_hash)
     other_hash ||= {}
