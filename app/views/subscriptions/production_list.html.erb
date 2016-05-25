@@ -14,6 +14,7 @@
       <thead>
         <tr>
           <th><%= t 'table_headers.depot' %></th>
+          <th><%= t 'table_headers.subscriptions' %></th>
           <% @product_options.each do |product_option| %>
             <th class="text-center"><%= text_with_tooltip product_option.name, product_option.description, placement: 'top', delay: nil %></th>
           <% end %>
@@ -23,10 +24,11 @@
       <tbody>
         <% total = {} %>
         <% @order_summary_by_depot
-              .sort_by { |depot, order| depot.id }
+              .sort_by { |depot, _| depot.id }
               .each do |depot, order_summary| %>
           <tr class="depot-orders-info">
             <td><%= link_to depot.name, depot, class: 'no-href-print' %></td>
+            <td class="number"><%= order_summary[:subscription_count] %></td>
             <% @product_options.each do |product_option| %>
               <td class="number"><%= order_summary[product_option.id] || 0 %></td>
             <% end %>
@@ -36,6 +38,7 @@
         <% end %>
         <tr class="depot-orders-info total">
           <td><%= t 'table_headers.total' %></td>
+          <td class="number"><%= total[:subscription_count] %></td>
           <% @product_options.each do |product_option| %>
             <td class="number"><%= total[product_option.id] || 0 %></td>
           <% end %>

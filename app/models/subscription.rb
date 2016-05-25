@@ -53,7 +53,7 @@ class Subscription < ActiveRecord::Base
   has_many :current_items,  -> { merge SubscriptionItem.currently_valid },
                             foreign_key:  "subscription_id",
                             class_name:   "SubscriptionItem"
-  # TODO: This is hardcorded to next Saturday to allow preloading of the
+  # TODO: This is hard-coded to next Saturday to allow preloading of the
   #       relation. However it will have to be updated to be dependent on the
   #       delivery of the subscription.
   has_many :subscription_items_next_saturday,
@@ -144,6 +144,8 @@ class Subscription < ActiveRecord::Base
     #       rails from optimizing the DB request even using
     #       .includes(:current_items).
     Hash[subscription_items_next_saturday.map(&:product_and_quantity)].merge({
+      subscription_count: 1,  # NOTE: This is an easy way to have a subscription
+                              #       counter because it will end up added up.
       depot: depot,
       flexible_milk_liters: flexible_milk_liters
     })
