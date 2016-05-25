@@ -14,7 +14,8 @@
       <thead>
         <tr>
           <th><%= t 'table_headers.depot' %></th>
-          <th class="text-center"><%= t 'table_headers.subscriptions' %></th>
+          <th class="text-center basic-units"><%= t_abbr 'table_headers.basic_units' %></th>
+          <th class="text-center supplement-units"><%= t_abbr 'table_headers.supplement_units' %></th>
           <% @product_options.each do |product_option| %>
             <th class="text-center"><%= text_with_tooltip product_option.name, product_option.description, placement: 'top', delay: nil %></th>
           <% end %>
@@ -28,7 +29,8 @@
               .each do |depot, order_summary| %>
           <tr class="depot-orders-info">
             <td><%= link_to depot.name, depot, class: 'no-href-print' %></td>
-            <td class="number"><%= order_summary[:subscription_count] %></td>
+            <td class="number basic-units"><%= order_summary[:basic_units] %></td>
+            <td class="number supplement-units"><%= order_summary[:supplement_units] %></td>
             <% @product_options.each do |product_option| %>
               <td class="number"><%= order_summary[product_option.id] || 0 %></td>
             <% end %>
@@ -38,7 +40,8 @@
         <% end %>
         <tr class="depot-orders-info total">
           <td><%= t 'table_headers.total' %></td>
-          <td class="number"><%= total[:subscription_count] %></td>
+          <td class="number basic-units"><%= total[:basic_units] %></td>
+          <td class="number supplement-units"><%= total[:supplement_units] %></td>
           <% @product_options.each do |product_option| %>
             <td class="number"><%= total[product_option.id] || 0 %></td>
           <% end %>

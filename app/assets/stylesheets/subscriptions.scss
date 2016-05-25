@@ -20,12 +20,21 @@ body.subscriptions {
       margin: 0;
     }
   }
-  td.number {
-    text-align: center;
-  }
-  td.total {
-    font-weight: bold;
-    background: $background-grey;
+  td {
+    &.basic-units {
+      font-weight: bold;
+      background: $background-grey;
+    }
+    &.supplement-units {
+      background: $background-grey;
+    }
+    &.number {
+      text-align: center;
+    }
+    &.total {
+      font-weight: bold;
+      background: $background-grey;
+    }
   }
   tr.total {
     @extend td.total;

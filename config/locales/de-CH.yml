@@ -74,6 +74,10 @@ de-CH:
       subscriber:     Abomitglied
       share_certificates: Anteilscheine
       share_certificates_abbr: AS
+      basic_units:      Abo-Einheiten
+      basic_units_abbr: AE
+      supplement_units:      Zusatzabos
+      supplement_units_abbr: ZA
       total: Gesamt
       equivalence:    Entsprechung
       total_equivalence:    Gesamtentsprechung

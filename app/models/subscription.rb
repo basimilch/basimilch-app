@@ -144,9 +144,9 @@ class Subscription < ActiveRecord::Base
     #       rails from optimizing the DB request even using
     #       .includes(:current_items).
     Hash[subscription_items_next_saturday.map(&:product_and_quantity)].merge({
-      subscription_count: 1,  # NOTE: This is an easy way to have a subscription
-                              #       counter because it will end up added up.
-      depot: depot,
+      basic_units:          basic_units,
+      supplement_units:     supplement_units,
+      depot:                depot,
       flexible_milk_liters: flexible_milk_liters
     })
   end
