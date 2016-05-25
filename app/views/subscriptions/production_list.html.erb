@@ -17,7 +17,7 @@
           <% @product_options.each do |product_option| %>
             <th class="text-center"><%= text_with_tooltip product_option.name, product_option.description, placement: 'top', delay: nil %></th>
           <% end %>
-          <th><%= t_abbr 'table_headers.total_equivalent_in_milk_liters' %></th>
+          <th class="text-center"><%= t_abbr 'table_headers.total_equivalent_in_milk_liters' %></th>
         </tr>
       </thead>
       <tbody>
