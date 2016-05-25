@@ -56,6 +56,11 @@ Rails.application.routes.draw do
 
   get   'depot'              => 'depots#depot', as: :current_user_depot
 
+  get   'subscriptions/lists/production'  => 'subscriptions#production_list',
+                                          as: :subscription_production_list
+
+  get   'subscriptions/lists/depot/:depot_id'   => 'subscriptions#depot_list',
+                                                as: :subscription_depot_list
 
 
   # DOC: http://stackoverflow.com/a/26286472/5764181

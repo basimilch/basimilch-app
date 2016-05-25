@@ -1,0 +1,45 @@
+<% provide(:title, t('.title')) %>
+
+<div class="visible-print-block">
+  <%= localized_date_tag Date.current %>
+</div>
+
+<br>
+
+<% if  @order_summary_by_depot.empty? %>
+  <%= t '.no_order_summary_by_depot' %>
+<% else %>
+  <div class="table-responsive subscriptions_table">
+    <table class="table table-hover table-condensed table-striped ">
+      <thead>
+        <tr>
+          <th><%= t 'table_headers.depot' %></th>
+          <% @product_options.each do |product_option| %>
+            <th><%= product_option.name %></th>
+          <% end %>
+          <th><%= t_abbr 'table_headers.total_equivalent_in_milk_liters' %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% total = {} %>
+        <% @order_summary_by_depot.each do |depot, order_summary| %>
+          <tr class="depot-orders-info">
+            <td><%= link_to depot.name, depot, class: 'no-href-print' %></td>
+            <% @product_options.each do |product_option| %>
+              <td class="number"><%= order_summary[product_option.id] || 0 %></td>
+            <% end %>
+            <td class="total number"><%= order_summary[:equivalent_in_milk_liters] || 0 %></td>
+          </tr>
+        <% total = total.merge_by_add order_summary %>
+        <% end %>
+        <tr class="depot-orders-info total">
+          <td><%= t 'table_headers.total' %></td>
+          <% @product_options.each do |product_option| %>
+            <td class="number"><%= total[product_option.id] || 0 %></td>
+          <% end %>
+          <td class="number"><%= total[:equivalent_in_milk_liters] || 0 %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+<% end %>

@@ -74,8 +74,11 @@ de-CH:
       subscriber:     Abomitglied
       share_certificates: Anteilscheine
       share_certificates_abbr: AS
+      total: Gesamt
       equivalence:    Entsprechung
       total_equivalence:    Gesamtentsprechung
+      total_equivalent_in_milk_liters: Gesamt in Liter Frischmilch
+      total_equivalent_in_milk_liters_abbr: Gesamt (l)
       total_share_certificates: Anteilscheineanzahl
       equivalence_per_unit: Entsprechung / Einheit
       since: Seit
@@ -893,7 +896,8 @@ de-CH:
         <code><a href="mailto:meine@basimil.ch">meine@basimil.ch</a></code>
         damit wir es reparieren.
         </span>
-
+    production_list:
+      title: Produktionsliste
     index:
       # units: *subscription_units
       title:

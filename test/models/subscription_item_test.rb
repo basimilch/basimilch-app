@@ -112,4 +112,9 @@ class SubscriptionItemTest < ActiveSupport::TestCase
     @item.valid_until = "2016-01-01"; assert_valid  @item
     assert_equal Date.new(2016, 1, 1), @item.valid_until
   end
+
+  test "product_and_quantity should return an array" do
+    assert_equal  [ActiveRecord::FixtureSet.identify(:one), 1],
+                  subscription_items(:one).product_and_quantity
+  end
 end

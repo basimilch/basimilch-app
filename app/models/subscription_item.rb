@@ -98,6 +98,10 @@ class SubscriptionItem < ActiveRecord::Base
     product_option.equivalent_in_milk_liters * quantity
   end
 
+  def product_and_quantity
+    [product_option_id, quantity]
+  end
+
   def closed?
     valid_until.present?
   end

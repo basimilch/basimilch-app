@@ -47,6 +47,36 @@ class RailsExtentionsTest < ActionController::TestCase
     end
   end
 
+  test "should be able to update hash values" do
+    assert_equal({:a=>2, :b=>1},    {a: 1, b: 0}.update_vals(:inc))
+    assert_equal({:a=>11, :b=>10},  {a: 1, b: 0}.update_vals { |v| v + 10} )
+  end
+
+  test "should be able to merge hashes by adding its values" do
+    assert_equal({a: 6, b: 0, c: 10},  {a: 1, b: 0}.merge_by_add({a: 5, c: 10}))
+    assert_equal({a: 5, c: 10},        {}.merge_by_add({a: 5, c: 10}))
+    assert_equal({a: 5, c: 10},        {a: 5, c: 10}.merge_by_add({}))
+  end
+
+  test "should be able to merge array of hash by adding its values" do
+    assert_equal({a: 6, b: 0, c: 10},
+                [{a: 1, b: 0}, {a: 5, c: 10}].reduce_by_add)
+    assert_equal({a: 5, c: 10},        [{}, {a: 5, c: 10}].reduce_by_add)
+    assert_equal({a: 5, c: 10},        [{a: 5, c: 10}, {}].reduce_by_add)
+  end
+
+  test "should be able to group array of hash by hash key" do
+    assert_equal({1=>[{a: 1, b: 2}, {a: 1}], 2=>[{a: 2}]},
+                     [{a: 1, b:2}, {a: 1}, {a: 2}].group_by_key(:a))
+    assert_equal({1=>[{:a => 1, :b => 2}, {:a=>1}, {:a=>1}]},
+                     [{a: 1, b:2}, {a: 1}, {a: 1}].group_by_key(:a))
+
+    assert_equal({1=> [{b: 2}, {}], 2=>[{}]},
+                 [{a: 1, b:2}, {a: 1}, {a: 2}].group_by_key(:a, pop_key: true))
+    assert_equal({1=> [{b: 2}, {}, {}]},
+                 [{a: 1, b:2}, {a: 1}, {a: 1}].group_by_key(:a, pop_key: true))
+  end
+
   test "should be able to get a non blank string" do
     assert_equal nil, ''.not_blank
     assert_equal nil, ' '.not_blank

@@ -140,6 +140,18 @@ class SubscriptionsController < ApplicationController
     end
   end
 
+  # GET /subscriptions/lists/production
+  def production_list
+    @order_summary_by_depot = Subscription.order_summary_by_depot
+    @product_options = ProductOption.not_canceled
+  end
+
+  # GET subscriptions/lists/depot/:depot_id
+  def depot_list
+    # TODO: Implement
+    raise_404
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_subscription

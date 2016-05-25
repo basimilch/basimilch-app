@@ -36,6 +36,37 @@ class Hash
     end
     self.merge(other_hash || {})
   end
+
+  # SOURCE: http://stackoverflow.com/a/5215838
+  def update_vals(method = nil, &block)
+    if block_given?
+      update(self) { |k,v| block.call(v)}
+    else
+      update(self) { |k,v| v.send(method)}
+    end
+  end
+
+  def merge_by(other_hash, method)
+    merge(other_hash) { |k, v1, v2| v1.send(method, v2) }
+  end
+
+  def merge_by_add(other_hash)
+    merge_by other_hash, :+
+  end
+end
+
+module Enumerable
+  def group_by_key(k, pop_key: false)
+    if pop_key
+      group_by { |i| i.pop(k) }
+    else
+      group_by { |i| i[k] }
+    end
+  end
+
+  def reduce_by_add
+    reduce { |acc, hash| acc.merge_by_add(hash) }
+  end
 end
 
 class Symbol

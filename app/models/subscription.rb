@@ -50,6 +50,9 @@ class Subscription < ActiveRecord::Base
   has_many :users, -> { merge(Subscribership.not_canceled.by_creation_date) },
                    through: :subscriberships
   has_many :subscription_items
+  has_many :current_items,  -> { merge SubscriptionItem.currently_valid },
+                            foreign_key:  "subscription_id",
+                            class_name:   "SubscriptionItem"
 
   default_scope -> { order(id: :asc) }
   scope :with_planned_items,
@@ -129,9 +132,23 @@ class Subscription < ActiveRecord::Base
     @items_version_dates ||= subscription_items.valid_since_dates
   end
 
-  def current_items(force_reload: false)
-    @current_items = nil if force_reload
-    @current_items ||= subscription_items.currently_valid
+  def order_details
+    # NOTE: Doing :pluck(:product_id, :quantity) instead of :map{} prevents
+    #       rails from optimizing the DB request even using
+    #       .includes(:current_items).
+    Hash[current_items.map(&:product_and_quantity)].merge({
+      depot: depot,
+      equivalent_in_milk_liters: equivalent_in_milk_liters
+    })
+  end
+
+  def self.order_summary_by_depot
+    Subscription.not_canceled
+      .includes(:current_items)
+      .includes(:depot)
+      .map(&:order_details)
+      .group_by_key(:depot, pop_key: true)
+      .update_vals(&:reduce_by_add)
   end
 
   def validity_of_current_items
@@ -370,7 +387,7 @@ class Subscription < ActiveRecord::Base
           :current_items_list_modified
         end
       record_activity activity_key, self, owner: @author, data: {
-        current_items:        current_items(force_reload: true),
+        current_items:        current_items,
         planned_items:        planned_items,
         owner_is_subscriber:  user_subscribed?(@author),
         new_items_valid_from: new_items_valid_from
@@ -406,7 +423,6 @@ class Subscription < ActiveRecord::Base
 
     # To be used as a 'before_save' callback.
     def capture_denormalized_items_list
-      self.denormalized_items_list = current_items(force_reload: true)
-                                        .map(&:to_s).sort
+      self.denormalized_items_list = current_items.map(&:to_s).sort
     end
 end

@@ -1,6 +1,7 @@
 // Place all the styles related to the Subscriptions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+$background-grey: #eee;
 body.subscriptions {
   .section-title {
     border-bottom: 1px solid #ddd;
@@ -19,8 +20,15 @@ body.subscriptions {
       margin: 0;
     }
   }
-  tr.total {
+  td.number {
+    text-align: center;
+  }
+  td.total {
     font-weight: bold;
+    background: $background-grey;
+  }
+  tr.total {
+    @extend td.total;
     td {
       padding: {
         top: 15px;
