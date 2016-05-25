@@ -22,7 +22,9 @@
       </thead>
       <tbody>
         <% total = {} %>
-        <% @order_summary_by_depot.each do |depot, order_summary| %>
+        <% @order_summary_by_depot
+              .sort_by { |depot, order| depot.id }
+              .each do |depot, order_summary| %>
           <tr class="depot-orders-info">
             <td><%= link_to depot.name, depot, class: 'no-href-print' %></td>
             <% @product_options.each do |product_option| %>
