@@ -78,6 +78,10 @@ ERROR_MSG
     [postal_address, postal_code, city, country].compact.join(separator)
   end
 
+  def city_postal_address
+    "#{postal_address}, #{postal_code} #{city}"
+  end
+
   def coordinates_map_url
     "http://maps.google.com/maps?q=#{latitude},#{longitude}" if geocoded?
   end

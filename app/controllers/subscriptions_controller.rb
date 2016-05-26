@@ -146,10 +146,10 @@ class SubscriptionsController < ApplicationController
     @product_options = ProductOption.not_canceled
   end
 
-  # GET subscriptions/lists/depot/:depot_id
-  def depot_list
-    # TODO: Implement
-    raise_404
+  # GET subscriptions/lists/depots
+  def depot_lists
+    @depots = Depot.not_canceled.by_delivery_time.includes(:active_coordinators)
+    @product_options = ProductOption.not_canceled
   end
 
   private

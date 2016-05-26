@@ -50,7 +50,8 @@ module DepotCoordinatorsHelper
                            class: css_class)
       end
       if coordinator.not_canceled?
-        if coordinator.publish_tel_mobile || current_user_admin? || form
+        if coordinator.publish_tel_mobile ||
+          (action_name != "depot_lists") && (current_user_admin? || form)
           if tel        = coordinator.user.tel_mobile
             tel_display = coordinator.user.tel_mobile_formatted_national
             concat icon_tel_to(tel, tel_display,
@@ -61,13 +62,14 @@ module DepotCoordinatorsHelper
                                class: 'no-mobile-phone-available')
           end
         end
-        if coordinator.publish_email || current_user_admin? || form
+        if coordinator.publish_email ||
+          (action_name != "depot_lists") && (current_user_admin? || form)
           concat icon_mail_to(coordinator.user.email,
                       published: coordinator.publish_email )
           concat publish_info_checkbox(coordinator, form, :email)
         end
       end
-      if current_user_admin? && !form
+      if current_user_admin? && !form && (action_name != "depot_lists")
         if coordinator.not_canceled?
           concat link_to(
             t('.cancel_coordinator'),

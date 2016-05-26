@@ -59,8 +59,8 @@ Rails.application.routes.draw do
   get   'subscriptions/lists/production'  => 'subscriptions#production_list',
                                           as: :subscription_production_list
 
-  get   'subscriptions/lists/depot/:depot_id'   => 'subscriptions#depot_list',
-                                                as: :subscription_depot_list
+  get   'subscriptions/lists/depots'   => 'subscriptions#depot_lists',
+                                             as: :subscription_depot_lists
 
 
   # DOC: http://stackoverflow.com/a/26286472/5764181

@@ -139,11 +139,15 @@ class Subscription < ActiveRecord::Base
     @items_version_dates ||= subscription_items.valid_since_dates
   end
 
-  def upcomming_order_details
+  def upcoming_products_and_quantities
     # NOTE: Doing :pluck(:product_id, :quantity) instead of :map{} prevents
     #       rails from optimizing the DB request even using
     #       .includes(:current_items).
-    Hash[subscription_items_next_saturday.map(&:product_and_quantity)].merge({
+    Hash[subscription_items_next_saturday.map(&:product_and_quantity)]
+  end
+
+  def upcoming_order_details
+    upcoming_products_and_quantities.merge({
       basic_units:          basic_units,
       supplement_units:     supplement_units,
       depot:                depot,
@@ -155,7 +159,7 @@ class Subscription < ActiveRecord::Base
     Subscription.not_canceled
       .includes(:subscription_items_next_saturday)
       .includes(:depot)
-      .map(&:upcomming_order_details)
+      .map(&:upcoming_order_details)
       .group_by_key(:depot, pop_key: true)
       .update_vals(&:reduce_by_add)
   end

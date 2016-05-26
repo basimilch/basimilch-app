@@ -23,4 +23,10 @@ module DepotsHelper
       selected_date.try(:to_date)
     )
   end
+
+  # Returns a string to be used as the HTML id of a depot element and used in
+  # a URL as anchor (aka hash) to scroll to the element with this HTML id.
+  def depot_anchor(depot)
+    "depot-#{depot.id}"
+  end
 end

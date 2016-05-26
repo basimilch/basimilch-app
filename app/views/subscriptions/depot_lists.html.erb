@@ -1,0 +1,96 @@
+<% provide(:title, t('.title')) %>
+
+<% depot_counter = 0 %>
+<% @depots.each do | depot | %>
+  <% subscriptions = depot.upcoming_subscriptions %>
+  <div id="<%= depot_anchor(depot) %>" class="depot-list no-href-print">
+    <div class="print-date">
+      <%= t '.print_date_html', date_tag: localized_date_tag(Date.current, :short_with_year) %>
+    </div>
+    <div class="row">
+      <div class="logo col-sm-4 col-sm-offset-4 col-xs-10 col-xs-offset-1">
+        <%= render 'shared/logo.svg' %>
+      </div>
+    </div>
+    <h1 data-href="<%= depot_path(depot) %>">
+      <div class="row">
+        <div class="col-sm-7">
+          <%= depot_counter += 1 %>. <%= depot.name %>
+        </div>
+        <div class="col-sm-5 text-right">
+          <%= localized_date_tag depot.next_delivery_day %>
+        </div>
+      </div>
+    </h1>
+    <div class="row depot-details">
+      <div class="col-sm-9 coorditanor-details">
+        <%= t '.coordinators' %>
+        <ul>
+          <%= render depot.active_coordinators || t('.no_coordinators') %>
+        </ul>
+      </div>
+      <div class="col-sm-3 address text-right">
+        <%= depot.city_postal_address %>
+      </div>
+    </div>
+    <% if notice = ENV['DEPOT_LIST_NOTICE'] %>
+      <div class="alert alert-warning notice text-center" role="alert">
+        <strong><%= notice %></strong>
+      </div>
+    <% end %>
+    <div class="section-title">
+      <%= t '.flexible_part_table' %>
+    </div>
+    <% if  subscriptions.empty? %>
+      <%= t '.no_subscriptions' %>
+    <% else %>
+      <div class="table-responsive depot-list-table">
+        <table class="table table-hover table-condensed table-striped ">
+          <thead>
+            <tr>
+              <th class="id"></th>
+              <th><%= t 'table_headers.name' %></th>
+              <th class="subscription-units basic-units"><div><%= t 'table_headers.basic_units' %></div></th>
+              <th class="subscription-units supplement-units"><div><%= t 'table_headers.supplement_units' %></div></th>
+              <% @product_options.each do |product_option| %>
+                <th class="product-option"><%= product_option.description %></th>
+              <% end %>
+              <th class="as-checkbox"><div><%= t 'table_headers.picked_up' %></div></th>
+              <th class="as-checkbox"><div><%= t 'table_headers.glass_returned' %></div></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% counter = 0 %>
+            <% total = {} %>
+            <% subscriptions.sort_by(&:id).each do |subscription| %>
+              <% order_summary = subscription.upcoming_order_details.except(:depot) %>
+              <tr class="depot-orders-info" data-href="<%= subscription_path subscription %>">
+                <td class="id"><%= counter += 1 %></td>
+                <td><%= subscription.name || '-' %></td>
+                <td class="subscription-units basic-units"><%= subscription.basic_units %></td>
+                <td class="subscription-units supplement-units"><%= subscription.supplement_units %></td>
+                <% @product_options.each do |product_option| %>
+                  <% q = order_summary[product_option.id] || 0 %>
+                  <td class="product-option <%= q.zero? ? ' zero' : '' %>"><%= q %></td>
+                <% end %>
+                <td class="as-checkbox"><span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span></td>
+                <td class="as-checkbox"><span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span></td>
+              </tr>
+            <% total = total.merge_by_add order_summary %>
+            <% end %>
+            <tr class="depot-orders-info total">
+              <td></td>
+              <td><%= t 'table_headers.total' %></td>
+              <td class="subscription-units basic-units"><%= total[:basic_units] %></td>
+              <td class="subscription-units supplement-units"><%= total[:supplement_units] %></td>
+              <% @product_options.each do |product_option| %>
+                <td class="product-option"><%= total[product_option.id] || 0 %></td>
+              <% end %>
+              <td class="as-checkbox" colspan="2"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+  </div>
+<% end %>

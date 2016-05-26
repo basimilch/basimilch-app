@@ -1,15 +1,58 @@
 // Place all the styles related to the Subscriptions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
 $background-grey: #eee;
+$text-grayed-out: #ddd;
+$section-title-ruler: #ddd;
 body.subscriptions {
-  .section-title {
-    border-bottom: 1px solid #ddd;
-    // margin: 1em 0;
-    // padding: 0;
+  .depot-list{
     padding: {
-      top: 35px;
-      bottom: 5px;
+      top: 50px;
+      bottom: 100px;
+    }
+    page-break-before: always;
+    page-break-after: always;
+    .print-date {
+      font-size: 0.8em;
+      font-style: italic;
+    }
+    h1 {
+      border: {
+        bottom: 1px solid #ccc;
+      }
+      time {
+        font-size: 0.7em;
+        opacity: 0.8;
+      }
+    }
+    .depot-details {
+      margin: {
+        bottom: 20px;
+      }
+      .coorditanor-details {
+        code {
+          background: none;
+          font-size: 0.8em;
+        }
+      }
+    }
+    .notice {
+      margin: {
+        bottom: 50px;
+      }
+    }
+    .section-title {
+      font-size: 1.4em;
+      border-bottom: 1px solid $section-title-ruler;
+      width: 100%;
+      padding: {
+        top: 35px;
+        bottom: 5px;
+      }
+      margin: {
+        bottom: 25px;
+      }
     }
   }
   .product-options-table {
@@ -20,28 +63,78 @@ body.subscriptions {
       margin: 0;
     }
   }
-  td {
-    &.basic-units {
-      font-weight: bold;
-      background: $background-grey;
-    }
-    &.supplement-units {
-      background: $background-grey;
-    }
-    &.number {
-      text-align: center;
-    }
-    &.total {
-      font-weight: bold;
-      background: $background-grey;
-    }
+  .number {
+    text-align: center;
+  }
+  .production-list-table {
+  }
+  .subscription-units {
+    @extend .number;
+    background: $background-grey;
+  }
+  .basic-units {
+    font-weight: bold;
+  }
+  td.total {
+    font-weight: bold;
+    background: $background-grey;
   }
   tr.total {
     @extend td.total;
+    padding: {
+      top: 15px;
+      bottom: 15px;
+    }
+  }
+  .depot-list-table {
+    table {
+      table-layout: fixed;
+      width: 100%;
+    }
+    .number {
+      width: 50px;
+    }
+    .id {
+      @extend .number;
+    }
+    @media print {
+      .supplement-units {
+        display: none;
+      }
+    }
+    .product-option {
+      @extend .number;
+      width: 10%;
+    }
+    @media screen {
+      .as-checkbox {
+        display: none;
+      }
+    }
+    .vertical {
+      height: 150px; // Enough vertical space for the text
+      > div {
+        white-space: nowrap;
+        transform: translate(-1px, -10px) rotate(270deg); // 90 must be written as 360 - 90
+      }
+    }
+    th {
+      @extend .vertical;
+      &.product-option {
+        font-size: small;
+      }
+      &.as-checkbox {
+        @extend .vertical;
+        width: 50px;
+      }
+    }
     td {
-      padding: {
-        top: 15px;
-        bottom: 15px;
+      vertical-align: middle;
+      &.zero {
+        color: $text-grayed-out;
+      }
+      &.as-checkbox {
+        text-align: center;
       }
     }
   }

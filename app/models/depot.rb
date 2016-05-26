@@ -23,6 +23,10 @@ class Depot < ActiveRecord::Base
               -> { includes :user },
               foreign_key: "depot_id", class_name: "DepotCoordinator",
               dependent: :destroy
+  has_many :active_coordinators,  -> { merge(DepotCoordinator.not_canceled)
+                                       .includes(:user) },
+                                  foreign_key:  "depot_id",
+                                  class_name:   "DepotCoordinator"
 
   has_many :subscriptions
   has_many :users, through: :subscriptions
@@ -89,8 +93,16 @@ class Depot < ActiveRecord::Base
     end
   end
 
-  def active_coordinators
-    coordinators.not_canceled
+  def active_subscriptions
+    subscriptions.not_canceled
+  end
+
+  # Returns the upcoming subscriptions with users and order details preloaded.
+  # SOURCE: http://blog.arkency.com/2013/12/rails4-preloading/
+  def upcoming_subscriptions
+    active_subscriptions
+      .includes(:subscription_items_next_saturday)
+      .includes(:users).references(:subscripberships)
   end
 
   # Returns the coordinator of the current depot with the given *user* id (i.e.

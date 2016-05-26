@@ -88,6 +88,8 @@ de-CH:
       since: Seit
       from: Von
       until: Bis
+      picked_up: Abgeholt
+      glass_returned: Leergut zurück
     attributes: &attributes
       <<: *global
       activated_at:               "Aktiviert am"
@@ -777,7 +779,7 @@ de-CH:
       <<: *global
       title:
         admin: Depot
-        current_user: Dein depot
+        current_user: Dein Depot
       notes: Sonstiges
       directions_map: Deine Wegbeschreibung
       delivery_time_message: "%{day}, ab ca. %{time}h (Uhrzeit nur indikativ)"
@@ -902,6 +904,12 @@ de-CH:
         </span>
     production_list:
       title: Produktionsliste
+    depot_lists:
+      title: Depotlisten
+      print_date_html: "Stand: %{date_tag}"
+      coordinators: Depotverantworliche_r
+      no_coordinators: Keine Depotverantworliche angemeldet
+      flexible_part_table: Individuelle Abo-Anteile
     index:
       # units: *subscription_units
       title:

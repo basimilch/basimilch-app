@@ -720,7 +720,10 @@ form {
 // Don't print link hrefs
 // SOURCE: http://makandracards.com/makandra/29149-bootstrap-how-to-avoid-printing-link-urls
 @media print {
-  a[href].no-href-print:after {
-    content: none
+  .no-href-print {
+    & a[href]::after,
+    &.a[href]::after {
+      content: none
+    }
   }
 }
