@@ -446,10 +446,16 @@ following the steps from above, in summary:
 
 ```
 mv /usr/local/var/postgres{,_bak}       # to be able to start a new DB
+sudo chown -R $(whoami) /usr/local      # ensure you own /usr/local
 initdb /usr/local/var/postgres -E utf8  # create a database
+sleep 5                                 # wait a bit until DB is up
 createuser --superuser basimilchdbuser  # create a db user
 bundle exec rake db:setup               # bootstrap DB
+bundle exec rake test                   # test everything
 ```
+
+Note: I got the DB screwed up a couple of times after updating the
+ownership of `/usr/local` to fix a multi-user `brew` setting.
 
 ## Release
 
