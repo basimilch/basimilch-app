@@ -4,12 +4,16 @@
 <% @depots.each do | depot | %>
   <% subscriptions = depot.upcoming_subscriptions %>
   <div id="<%= depot_anchor(depot) %>" class="depot-list no-href-print">
-    <div class="print-date">
-      <%= t '.print_date_html', date_tag: localized_date_tag(Date.current, :short_with_year) %>
-    </div>
-    <div class="row">
-      <div class="logo col-sm-4 col-sm-offset-4 col-xs-10 col-xs-offset-1">
+    <div class="row depot-list-header">
+      <div class="print-date col-sm-3">
+        <%= t '.print_date_html', date_tag: localized_date_tag(Date.current, :short_with_year) %>
+      </div>
+      <div class="logo col-sm-6">
         <%= render 'shared/logo.svg' %>
+      </div>
+      <div class="temperature-info-field text-right col-sm-3">
+        <%= t '.temperature_the_week_after_html', date_tag: localized_date_tag(depot.next_delivery_day + 1.week, :short_with_year) %>
+        <div class="blank-manual-input-field"></div>
       </div>
     </div>
     <h1 data-href="<%= depot_path(depot) %>">
@@ -26,7 +30,7 @@
       <div class="col-sm-9 coorditanor-details">
         <%= t '.coordinators' %>
         <ul>
-          <%= render depot.active_coordinators || t('.no_coordinators') %>
+          <%= render(depot.active_coordinators) || t('.no_coordinators') %>
         </ul>
       </div>
       <div class="col-sm-3 address text-right">
