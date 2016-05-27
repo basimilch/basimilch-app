@@ -53,7 +53,7 @@
               <th class="subscription-units basic-units"><div><%= t 'table_headers.basic_units' %></div></th>
               <th class="subscription-units supplement-units"><div><%= t 'table_headers.supplement_units' %></div></th>
               <% @product_options.each do |product_option| %>
-                <th class="product-option"><%= product_option.description %></th>
+                <th class="product-option"><%= "#{localized_product_size product_option} #{product_option.name}" %></th>
               <% end %>
               <th class="as-checkbox"><div><%= t 'table_headers.picked_up' %></div></th>
               <th class="as-checkbox"><div><%= t 'table_headers.glass_returned' %></div></th>
