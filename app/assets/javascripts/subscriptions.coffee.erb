@@ -5,6 +5,7 @@
 # SOURCE: http://brandonhilkert.com/blog/organizing-javascript-in-rails-application-with-turbolinks/
 $(document).on 'page:change', ->
   do ( $$ = window.Basimilch, $ = jQuery ) ->
+
     equivalentInMilkLitersBasicUnit = <%= Subscription::EQUIVALENT_IN_MILK_LITERS_BASIC_UNIT %>
     equivalentInMilkLitersSupplementUnit = <%= Subscription::EQUIVALENT_IN_MILK_LITERS_SUPPLEMENT_UNIT %>
     flexibleLitersBasicUnit = <%= Subscription::FLEXIBLE_LITERS_BASIC_UNIT %>
@@ -13,6 +14,7 @@ $(document).on 'page:change', ->
     $equivalenceRow   = $('tr.total.new-subscription-items')
     $equivalenceLabel = $equivalenceRow.find('td.total-label')
     $equivalenceTotal = $equivalenceRow.find('td.total')
+
     $('#subscription_basic_units, #subscription_supplement_units').change ->
       basicUnits      = $('#subscription_basic_units').val()
       supplementUnits = $('#subscription_supplement_units').val()
@@ -22,10 +24,12 @@ $(document).on 'page:change', ->
                         flexibleLitersSupplementUnit * supplementUnits
       $subscriptionTotalEquivalence.updateVal (val) -> val.updateNumber(totalLiters, flexibleLiters)
       $equivalenceTotal.setData 'expected-total', flexibleLiters
+
     $equivalenceTotal.on 'datachange', ->
       $this = $(this)
       $equivalenceLabel.updateText (text) -> text.updateNumber $this.data('expected-total')
       $this.trigger 'recalculate-total'
+
     $equivalenceTotal.on 'recalculate-total', ->
       newTotal = $('td.item-milk-equivalence')
         .map -> $(this).data('item-equivalent-in-milk-liters')
@@ -36,11 +40,13 @@ $(document).on 'page:change', ->
       $equivalenceRow.toggleClass('success', correctTotal)
       $equivalenceRow.toggleClass('danger', !correctTotal)
       $('.form-buttons [type=submit]').attr('disabled', !correctTotal)
+
     $('td.item-milk-equivalence').on 'datachange', ->
       $this = $(this)
       newEquivalence = $this.text().updateNumber($this.data('item-equivalent-in-milk-liters'))
       $this.text(newEquivalence)
       $equivalenceTotal.trigger('recalculate-total')
+
     $('[id^=subscription_item_ids_and_quantities_]').change ->
       $this = $(this)
       $tr = $this.closest('tr')
@@ -48,3 +54,9 @@ $(document).on 'page:change', ->
       totalLiters = litersPerUnit * $this.val()
       $tr.find('td.item-milk-equivalence').setData('item-equivalent-in-milk-liters', totalLiters)
     .change() # Trigger change on page load to refresh counters.
+
+    $commonPartInputs = $('.common-part .content')
+    $('#common-part-input').on 'input', (e)->
+      $commonPartInputs.html $.map e.target.value.split('\n'), (line)->
+        [product, description] = line.split(/\s*:\s*/)
+        $('<li/>').text(description).prepend $('<strong/>').text(product)

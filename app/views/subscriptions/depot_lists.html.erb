@@ -1,5 +1,16 @@
 <% provide(:title, t('.title')) %>
 
+<div class="common-part-input-container">
+  <div class="section-title">
+    <%= t '.common_part_input' %>
+  </div>
+  <textarea id="common-part-input"
+            class="form-control"
+            rows="3"
+            maxlength="500"
+            placeholder="<%= t '.common_part_input_placeholder' %>"></textarea>
+</div>
+
 <% depot_counter = 0 %>
 <% @depots.each do | depot | %>
   <% subscriptions = depot.upcoming_subscriptions %>
@@ -42,6 +53,13 @@
         <strong><%= notice %></strong>
       </div>
     <% end %>
+    <div class="section-title">
+      <%= t '.common_part_table' %>
+    </div>
+    <div class="common-part">
+      <ul class="content">
+      </ul>
+    </div>
     <div class="section-title">
       <%= t '.flexible_part_table' %>
     </div>

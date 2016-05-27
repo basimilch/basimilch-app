@@ -906,10 +906,13 @@ de-CH:
       title: Produktionsliste
     depot_lists:
       title: Depotlisten
+      common_part_input: Eingabe für die Auswahl aus der Käserei
+      common_part_input_placeholder: "Produktname: Beschreibung"
       print_date_html: "Stand: %{date_tag}"
       temperature_the_week_after_html: "Kühlschranktemperatur beim Abholen am %{date_tag}"
       coordinators: Depotverantworliche_r
       no_coordinators: Keine Depotverantworliche angemeldet
+      common_part_table: Auswahl aus der Käserei (für alle gleich)
       flexible_part_table: Individuelle Abo-Anteile
     index:
       # units: *subscription_units

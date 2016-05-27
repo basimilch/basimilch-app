@@ -11,6 +11,23 @@ body.subscriptions {
       width: 1000px;
     }
   }
+  .section-title {
+    font-size: 1.4em;
+    border-bottom: 1px solid $section-title-ruler;
+    width: 100%;
+    padding: {
+      top: 35px;
+      bottom: 5px;
+    }
+    margin: {
+      bottom: 25px;
+    }
+  }
+  .common-part-input-container {
+    @media print {
+      display: none;
+    }
+  }
   .depot-list{
     padding: {
       top: 50px;
@@ -70,16 +87,15 @@ body.subscriptions {
         bottom: 50px;
       }
     }
-    .section-title {
-      font-size: 1.4em;
-      border-bottom: 1px solid $section-title-ruler;
-      width: 100%;
-      padding: {
-        top: 35px;
-        bottom: 5px;
-      }
-      margin: {
-        bottom: 25px;
+    .common-part {
+      .content {
+        li {
+          strong {
+            padding: {
+              right: 10px;
+            }
+          }
+        }
       }
     }
   }
@@ -160,6 +176,10 @@ body.subscriptions {
       vertical-align: middle;
       &.zero {
         color: $text-grayed-out;
+        @media print {
+          // bootstrap's print classes are very strong
+          color: $text-grayed-out !important;
+        }
       }
       &.as-checkbox {
         text-align: center;
