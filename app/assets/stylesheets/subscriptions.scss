@@ -4,8 +4,13 @@
 
 $background-grey: #eee;
 $text-grayed-out: #ddd;
-$section-title-ruler: #ddd;
+$section-title-ruler: #ccc;
 body.subscriptions {
+  @media print {
+    .container {
+      width: 1000px;
+    }
+  }
   .depot-list{
     padding: {
       top: 50px;
