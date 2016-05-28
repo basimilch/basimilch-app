@@ -34,6 +34,21 @@ do ( $$ = window.Basimilch ||= {}, $=jQuery ) ->
         $('#loading-screen:not(.hidden) .backdrop').stop().animate {opacity: 0}, 200, 'swing', ->
             $('#loading-screen').addClass('hidden')
 
+    # SOURCE: https://github.com/slipstream/SlipStreamUI/blob/0d90d07cc/clj/resources/static_content/js/util.js#L2697-L2738
+    cookie:
+      set: (cname, cvalue, ttl_in_days) ->
+        # TTL defaults to 1 year
+        d = new Date()
+        d.setTime(d.getTime() + ((ttl_in_days || 365)*24*60*60*1000))
+        expires = "expires="+d.toUTCString()
+        document.cookie = cname + "=" + encodeURIComponent(cvalue) + "; " + expires + ";path=/"
+      get: (cname) ->
+        name = cname + "="
+        $.map(document.cookie.split(';'), (c) ->
+          decodeURIComponent c.split(name)[1] if c.trim().indexOf(name) == 0)[0]
+      delete: (cname) ->
+        document.cookie = cname + "=;path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT;"
+
   # Array prototype extensions
   $.extend Array.prototype,
     contains: (thing) -> ($.inArray(thing, @) == -1) ? false : true
