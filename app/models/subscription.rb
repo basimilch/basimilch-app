@@ -249,7 +249,7 @@ class Subscription < ActiveRecord::Base
 
   # Returns a string with the last names of all members, useful e.g. as label.
   def user_last_names
-    users.map(&:last_name).sort.join(DEFAULT_SEPARATOR).not_blank
+    users.map(&:last_name).uniq.sort.join(DEFAULT_SEPARATOR).not_blank
   end
 
   # Returns the name of the subscription if set and a list of the user last
