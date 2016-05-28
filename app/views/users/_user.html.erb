@@ -51,9 +51,7 @@
     <% elsif user.recently_online? %>
       <%= t "time.now" %>
     <% elsif user.last_seen_at %>
-      <%= time_tag user.last_seen_at, title: user.last_seen_at.to_s(:long) do %>
-        <%= user.last_seen_at.relative_in_words %>
-      <% end %>
+      <%= localized_time_tag user.last_seen_at, :relative %>
     <% else %>
       <%= t ".never_logged_in_yet", class: "user-never-logged-in-yet-label" %>
     <% end %>
