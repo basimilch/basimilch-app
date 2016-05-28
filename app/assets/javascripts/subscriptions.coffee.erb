@@ -56,7 +56,14 @@ $(document).on 'page:change', ->
     .change() # Trigger change on page load to refresh counters.
 
     $commonPartInputs = $('.common-part .content')
-    $('#common-part-input').on 'input', (e)->
-      $commonPartInputs.html $.map e.target.value.split('\n'), (line)->
-        [product, description] = line.split(/\s*:\s*/)
-        $('<li/>').text(description).prepend $('<strong/>').text(product)
+    commonPartInputCookieName = 'commonPartInput'
+    $('#common-part-input')
+      .val $$.cookie.get(commonPartInputCookieName)
+      .change (e) ->
+        $$.cookie.delete commonPartInputCookieName
+        $$.cookie.set commonPartInputCookieName, e.target.value
+      .on 'input', (e)->
+        $commonPartInputs.html $.map e.target.value.split('\n'), (line)->
+          [product, description] = line.split(/\s*:\s*/)
+          $('<li/>').text(description).prepend $('<strong/>').text(product)
+      .trigger 'input'
