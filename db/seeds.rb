@@ -150,7 +150,7 @@ user_ids = User.pluck(:id)
   )
   save! job_type
 end
-job_type_ids = JobType.pluck(:id)
+job_type_ids = JobType.not_canceled.pluck(:id)
 
 years = (CREATE_JOBS_UNTIL - CREATE_JOBS_SINCE) / 1.year.in_milliseconds * 1000
 number_of_jobs  = (365 * AVERAGE_NUMBER_OF_JOBS_PER_DAY * years).to_i
@@ -173,7 +173,7 @@ number_of_jobs  = (365 * AVERAGE_NUMBER_OF_JOBS_PER_DAY * years).to_i
   )
   save! job
 end
-job_ids = Job.pluck(:id)
+job_ids = Job.not_canceled.pluck(:id)
 
 
 # Simulate that in average each user signs up the requested numbers of times
@@ -219,7 +219,7 @@ end
       puts "  - #{coordinator}" unless STRESS_TEST
     end
 end
-depot_ids = Depot.pluck(:id)
+depot_ids = Depot.not_canceled.pluck(:id)
 
 (NUMBER_OF_PRODUCT_OPTIONS - ProductOption.count).times do
   product_option = ProductOption.new(
@@ -232,7 +232,7 @@ depot_ids = Depot.pluck(:id)
       )
   save! product_option
 end
-product_option_ids = ProductOption.pluck(:id)
+product_option_ids = ProductOption.not_canceled.pluck(:id)
 
 
 (NUMBER_OF_SUBSCRIPTIONS - Subscription.count).times do
