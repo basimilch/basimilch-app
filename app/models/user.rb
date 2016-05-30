@@ -12,6 +12,11 @@ class User < ActiveRecord::Base
 
   has_many :share_certificates
   has_many :job_signups
+  has_many :job_signups_done_in_current_year,
+            -> { merge(JobSignup.in_current_year.past.not_canceled)},
+            foreign_key:  "user_id",
+            class_name:   "JobSignup"
+
   has_many :jobs, -> { distinct.remove_order }, through: :job_signups
 
   has_one  :subscribership, -> { not_canceled }
@@ -312,7 +317,10 @@ class User < ActiveRecord::Base
   end
 
   def count_of_jobs_done_this_year
-    job_signups.in_current_year.past.not_canceled.count
+    # NOTE: Using .to_a.count instead of .count directly on the collection
+    #       allows to benefit from the preloading if
+    #       .includes(:job_signups_done_in_current_year) is used.
+    job_signups_done_in_current_year.to_a.count
   end
 
   def number_of_valid_share_certificates

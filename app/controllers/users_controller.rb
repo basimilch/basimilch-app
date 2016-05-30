@@ -6,16 +6,17 @@ class UsersController < ApplicationController
   before_action :admin_user,   only: [:new, :show, :index, :destroy, :activate]
 
   def index
+    users_with_job_signups = User.includes(:job_signups_done_in_current_year)
     if filter = params[:filter]
       # NOTE: .find_by(...) is like .where(...).first
       # SOURCE: http://stackoverflow.com/a/22833860
-      @users = User.where(filter.permit(PERMITTED_ATTRIBUTES))
+      @users = users_with_job_signups.where(filter.permit(PERMITTED_ATTRIBUTES))
     elsif @view = params[:view]
-      unless @users = User.search(params[:q]).try(@view)
+      unless @users = users_with_job_signups.search(params[:q]).try(@view)
         raise_404
       end
     else
-      @users = User.search(params[:q]).by_name
+      @users = users_with_job_signups.search(params[:q]).by_name
     end
     respond_to do |format|
       format.html
