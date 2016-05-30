@@ -3,7 +3,7 @@
 #   bundle exec rake db:reset => applies the db schema and runs this seeds script
 #   bundle exec rake db:seed  => re-seeds the DB, i.e. add more items.
 
-if Rails.env.production?
+if ENV['HEROKU_APP_NAME'] == "basimilch"
   puts "I'll not seed the DB in production!".red
   exit 1
 end
