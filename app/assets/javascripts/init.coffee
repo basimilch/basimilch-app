@@ -97,4 +97,12 @@ $(document).on 'page:change', ->
     # SOURCE: http://getbootstrap.com/javascript/#popovers
     $('[data-toggle=popover]').popover()
     $('[data-href]').click (e) ->
-      document.location = $(this).data('href') unless $(e.target).containedIn('a')
+      if $(e.target).containedIn('a')
+        # Let the a tag handle the link instead.
+      else if e.metaKey # SOURCE: http://stackoverflow.com/a/12852471
+        # Open in new tab
+        # SOURCE: http://stackoverflow.com/a/28374344
+        $("<a target='_blank'>").attr("href", $(this).data('href'))[0].click()
+      else
+        document.location = $(this).data('href')
+
