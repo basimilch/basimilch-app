@@ -91,7 +91,7 @@ module SubscriptionsHelper
     elsif subscription.planned_items?
       { selected_date: subscription.planned_items_valid_since }
     else
-      { selected_date: subscription.validity_of_current_items.first }
+      { selected_date: subscription.next_modifiable_delivery_day }
     end
     options_for_depot_delivery_days depot, options
   end
