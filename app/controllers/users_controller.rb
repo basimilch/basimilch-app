@@ -6,20 +6,21 @@ class UsersController < ApplicationController
   before_action :admin_user,   only: [:new, :show, :index, :destroy, :activate]
 
   def index
-    users_with_job_signups = User.includes(:job_signups_done_in_current_year)
     if filter = params[:filter]
       # NOTE: .find_by(...) is like .where(...).first
       # SOURCE: http://stackoverflow.com/a/22833860
-      @users = users_with_job_signups.where(filter.permit(PERMITTED_ATTRIBUTES))
+      @users = User.where(filter.permit(PERMITTED_ATTRIBUTES))
     elsif @view = params[:view]
-      unless @users = users_with_job_signups.search(params[:q]).try(@view)
+      unless @users = User.search(params[:q]).try(@view)
         raise_404
       end
     else
-      @users = users_with_job_signups.search(params[:q]).by_name
+      @users = User.search(params[:q]).by_name
     end
     respond_to do |format|
-      format.html
+      format.html do
+        @users = @users.includes(:job_signups_done_in_current_year)
+      end
       format.json do
         # SOURCE: http://www.daveperrett.com/articles/2010/10/03/
         #                       excluding-fields-from-rails-json-and-xml-output/
