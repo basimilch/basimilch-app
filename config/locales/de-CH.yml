@@ -908,6 +908,8 @@ de-CH:
       title: Depotlisten
       common_part_input: Eingabe für die Auswahl aus der Käserei
       common_part_input_placeholder: "Produktname: Beschreibung"
+      no_coordinators: Kein_e Depotverantworliche_r
+      no_subscriptions: Keine Abos
       notice_input: Eingabe für die Nachricht
       notice_input_placeholder: "Kleine Nachricht (max. 200 Zeichen)"
       print_date_html: "Stand: %{date_tag}"
