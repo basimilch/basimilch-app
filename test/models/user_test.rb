@@ -342,4 +342,10 @@ class UserTest < ActiveSupport::TestCase
     assert_valid @user
     assert @user.destroy
   end
+
+  test "count of jobs done this year should work" do
+    assert_equal 0, users(:admin).count_of_jobs_done_this_year
+    assert_equal 2, users(:two).count_of_jobs_done_this_year
+    assert_equal 1, users(:three).count_of_jobs_done_this_year
+  end
 end

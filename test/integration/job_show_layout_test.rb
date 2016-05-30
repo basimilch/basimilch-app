@@ -15,6 +15,7 @@ class JobShowLayoutTest < ActionDispatch::IntegrationTest
 
     assert_equal false, @past_job.full?
     assert_equal true,  @past_job.past?
+    assert_equal 3,     @past_job.current_job_signups.count
 
     assert_equal false, @future_job.full?
     assert_equal false, @future_job.past?
@@ -39,6 +40,7 @@ class JobShowLayoutTest < ActionDispatch::IntegrationTest
 
   test "job page layout for a past job logged in as admin user" do
     assert_layout job: @past_job, logged_in_as: @admin_user,
+                  unregister_others_button_shown: true,
                   signup_others_button_shown:     true,
                   notes_shown:                    true,
                   past_job_alert_shown:           true
