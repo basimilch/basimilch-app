@@ -1,7 +1,7 @@
 # SOURCE: http://brandonhilkert.com/blog/organizing-javascript-in-rails-application-with-turbolinks/
 $(document).on 'page:change', ->
   do ( $$ = window.Basimilch, $ = jQuery ) ->
-   if $$.isAdminPage()
+   if $$.isAdminPage() and $('.users-typeahead').some()
       # DOC: https://github.com/twitter/typeahead.js/tree/v0.11.1
       # DOC: https://twitter.github.io/typeahead.js/examples/
       users = new Bloodhound
