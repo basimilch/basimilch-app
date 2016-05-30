@@ -3,6 +3,11 @@
 #   bundle exec rake db:reset => applies the db schema and runs this seeds script
 #   bundle exec rake db:seed  => re-seeds the DB, i.e. add more items.
 
+if Rails.env.production?
+  puts "I'll not seed the DB in production!".red
+  exit 1
+end
+
 # SOURCE: http://stackoverflow.com/a/14450473
 # SOURCE: http://cobwwweb.com/4-ways-to-pass-arguments-to-a-rake-task
 STRESS_TEST = ENV['STRESS'].to_b
