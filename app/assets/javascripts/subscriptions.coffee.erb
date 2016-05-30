@@ -55,7 +55,7 @@ $(document).on 'page:change', ->
       $tr.find('td.item-milk-equivalence').setData('item-equivalent-in-milk-liters', totalLiters)
     .change() # Trigger change on page load to refresh counters.
 
-    $commonPartInputs = $('.common-part .content')
+    $commonPartLists = $('.common-part .content')
     commonPartInputCookieName = 'commonPartInput'
     $('#common-part-input')
       .val $$.cookie.get(commonPartInputCookieName)
@@ -63,7 +63,20 @@ $(document).on 'page:change', ->
         $$.cookie.delete commonPartInputCookieName
         $$.cookie.set commonPartInputCookieName, e.target.value
       .on 'input', (e)->
-        $commonPartInputs.html $.map e.target.value.split('\n'), (line)->
+        $commonPartLists.html $.map e.target.value.split('\n'), (line)->
           [product, description] = line.split(/\s*:\s*/)
           $('<li/>').text(description).prepend $('<strong/>').text(product)
+      .trigger 'input'
+
+    $noticeAlerts = $('.alert.notice')
+    noticeInputCookieName = 'noticeInput'
+    $('#notice-input')
+      .val $$.cookie.get(noticeInputCookieName)
+      .change (e) ->
+        $$.cookie.delete noticeInputCookieName
+        $$.cookie.set noticeInputCookieName, e.target.value
+      .on 'input', (e)->
+        $noticeAlerts
+          .toggleClass 'hidden', e.target.value.length == 0
+          .text e.target.value
       .trigger 'input'

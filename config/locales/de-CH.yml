@@ -908,6 +908,8 @@ de-CH:
       title: Depotlisten
       common_part_input: Eingabe für die Auswahl aus der Käserei
       common_part_input_placeholder: "Produktname: Beschreibung"
+      notice_input: Eingabe für die Nachricht
+      notice_input_placeholder: "Kleine Nachricht (max. 200 Zeichen)"
       print_date_html: "Stand: %{date_tag}"
       temperature_the_week_after_html: "Kühlschranktemperatur beim Abholen am %{date_tag}"
       coordinators: Depotverantworliche_r

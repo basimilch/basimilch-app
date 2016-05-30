@@ -1,14 +1,26 @@
 <% provide(:title, t('.title')) %>
 
-<div class="common-part-input-container">
-  <div class="section-title">
-    <%= t '.common_part_input' %>
+<div class="manual-input-section">
+  <div class="common-part-input-container">
+    <div class="section-title">
+      <%= t '.common_part_input' %>
+    </div>
+    <textarea id="common-part-input"
+              class="form-control"
+              rows="3"
+              maxlength="500"
+              placeholder="<%= t '.common_part_input_placeholder' %>"></textarea>
   </div>
-  <textarea id="common-part-input"
-            class="form-control"
-            rows="3"
-            maxlength="500"
-            placeholder="<%= t '.common_part_input_placeholder' %>"></textarea>
+  <div class="notice-input-container">
+    <div class="section-title">
+      <%= t '.notice_input' %>
+    </div>
+    <textarea id="notice-input"
+              class="form-control"
+              rows="3"
+              maxlength="200"
+              placeholder="<%= t '.notice_input_placeholder' %>"></textarea>
+  </div>
 </div>
 
 <% depot_counter = 0 %>
@@ -48,11 +60,10 @@
         <%= depot.city_postal_address %>
       </div>
     </div>
-    <% if notice = ENV['DEPOT_LIST_NOTICE'] %>
-      <div class="alert alert-warning notice text-center" role="alert">
-        <strong><%= notice %></strong>
+    <strong>
+      <div class="alert alert-warning notice text-center hidden" role="alert">
       </div>
-    <% end %>
+    </strong>
     <div class="section-title">
       <%= t '.common_part_table' %>
     </div>
