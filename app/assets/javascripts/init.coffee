@@ -102,7 +102,15 @@ $(document).on 'page:change', ->
       else if e.metaKey # SOURCE: http://stackoverflow.com/a/12852471
         # Open in new tab
         # SOURCE: http://stackoverflow.com/a/28374344
-        $("<a target='_blank'>").attr("href", $(this).data('href'))[0].click()
+        # NOTE: From a comment in http://stackoverflow.com/a/28374344:
+        #       "Any action like this - if not triggered by user action
+        #       like mouse click will turn popup-blocker. Imagine that
+        #       you can just open any url with Javascript without user
+        #       action - that would be quite dangerous. If you put
+        #       this code inside event like click function - it will
+        #       work fine - it's the same with all proposed solutions
+        #       here"
+        window.open($(this).data('href'), '_blank');
       else
         document.location = $(this).data('href')
 
