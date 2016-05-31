@@ -26,7 +26,7 @@ gem 'turbolinks',               '2.5.3' # https://github.com/turbolinks/turbolin
 gem 'jbuilder',                 '2.4.1' # https://github.com/rails/jbuilder/releases
 gem 'sdoc',                     '0.4.1', group: :doc # https://github.com/voloko/sdoc/releases
 # For Heroku API
-gem 'platform-api',             '0.5.0' # https://github.com/heroku/platform-api/releases
+gem 'platform-api',             '0.7.0' # https://github.com/heroku/platform-api/releases
 gem 'rails-i18n',               '4.0.8' # https://github.com/svenfuchs/rails-i18n/blob/master/CHANGELOG.md
 gem 'phony_rails',              '0.12.13' # https://github.com/joost/phony_rails/releases
 gem 'geocoder',                 '1.3.3' # https://github.com/alexreisner/geocoder/releases
