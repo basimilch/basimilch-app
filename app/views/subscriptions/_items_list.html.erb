@@ -1,12 +1,17 @@
-<% return if list_type == :planned_items && !@subscription.planned_items? %>
-<% items = @subscription.send(list_type) %>
+<% _list_type = (defined?(list_type) ? list_type : nil) %>
+<% return if _list_type == :planned_items && !@subscription.planned_items? %>
+<% _items = (defined?(items) ? items : @subscription.send(_list_type)) %>
 
 <div class="section-title">
-  <%= t ".section_title.#{list_type}.#{@subscription.current_items_status}_html",
-        localized_validity_of_current_items(@subscription) %>
-  <% if list_type == :planned_items %>
-    <%= t ".section_title.planned_items.details_html",
-          localized_modification_details(@subscription) %>
+  <% if defined?(title) %>
+    <%= title %>
+  <% else %>
+    <%= t ".section_title.#{_list_type}.#{@subscription.current_items_status}_html",
+          localized_validity_of_current_items(@subscription) %>
+    <% if _list_type == :planned_items %>
+      <%= t ".section_title.planned_items.details_html",
+            localized_modification_details(@subscription) %>
+    <% end %>
   <% end %>
 </div>
 
@@ -23,7 +28,7 @@
     </thead>
     <tbody>
       <% current_total_equivalent = 0 %>
-      <% if items.each do |item| %>
+      <% if _items.each do |item| %>
         <% product_option = item.product_option %>
         <tr>
           <td class="col-xs-1"><%= product_option.name %></td>

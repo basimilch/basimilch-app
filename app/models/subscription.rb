@@ -49,7 +49,7 @@ class Subscription < ActiveRecord::Base
   has_many :subscriberships, -> { by_creation_date }
   has_many :users, -> { merge(Subscribership.not_canceled.by_creation_date) },
                    through: :subscriberships
-  has_many :subscription_items
+  has_many :subscription_items, -> { includes(:product_option) }
   has_many :current_items,  -> { merge SubscriptionItem.currently_valid },
                             foreign_key:  "subscription_id",
                             class_name:   "SubscriptionItem"

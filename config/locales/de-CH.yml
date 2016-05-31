@@ -949,6 +949,10 @@ de-CH:
       abo_creation_hint: >
         Nach dem Erstellen des Abos, kannst du Genossenschafter_innen und
         Produkte hinzufügen.
+      product_options_history: >
+        Alle Produkte anzeigen (inklusiv vergangene und gestrichene)
+      product_options_history_is_empty: >
+        Dieses Abo hat noch keine Produkte...
     items_list:
       no_current_subscription_items: Das Abo hat noch keine Produkte.
       total: "Gesamt"

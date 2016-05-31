@@ -118,6 +118,7 @@
                           value: @subscription.total_number_of_share_certificates %>
         </div>
       </div>
+
       <%= render 'items_list', list_type: :current_items %>
       <% if f.options[:view_mode] %>
         <%= render 'items_list', list_type: :planned_items %>
@@ -127,23 +128,42 @@
       <% unless current_user_admin? %>
         <%= form_buttons %>
       <% end %>
+      <% if current_user_admin? %>
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingOne">
+              <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  <%= t '.product_options_history' %>
+                </a>
+              </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+              <div class="panel-body">
+                <% if @subscription
+                  .subscription_items
+                  .group_by { |i| [ i.valid_since,
+                                    i.valid_until || :open,
+                                    i.canceled? ?
+                                    "Canceled by #{i.canceled_by}" : nil] }
+                  .each do | validity, items| %>
+                  <%= render 'items_list', title: validity.compact.join(' - '),
+                                           items: items %>
+                <% end.empty? %>
+                  <%= t '.product_options_history_is_empty' %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
       <%= render 'subscriber_list', view_mode: f.options[:view_mode] %>
     <% else %>
       <%= t '.abo_creation_hint' %>
     <% end %>
 
-    <%= form_buttons if current_user_admin? %>
 
-    <% if Rails.env.development? %>
-      <h1>Product options details:</h1>
-      <ul>
-        <% if @subscription.subscription_items.each do |item| %>
-          <li><%= item %></li>
-        <% end.empty? %>
-          This subscription has no items (canceled, past or whatever).
-        <% end %>
-      </ul>
-    <% end %>
+    <%= form_buttons if current_user_admin? %>
 
   <% end # of form_for %>
 
