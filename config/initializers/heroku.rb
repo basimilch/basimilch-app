@@ -25,7 +25,7 @@ unless (app_name = ENV["HEROKU_APP_NAME"]).nil?
   #  - http://stackoverflow.com/a/15367505
 
   heroku            = PlatformAPI.connect_oauth(ENV["HEROKU_API_OAUTH_TOKEN"])
-  release_list      = heroku.release.list(app_name)
+  release_list      = heroku.release.list(app_name).to_a
 
   last_release        = release_list[-1] || {}
   released_slug       = {}
