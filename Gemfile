@@ -43,6 +43,7 @@ group :development do
   # FIXME: Does not work from within tmux.
   # DOC: https://github.com/Codaisseur/terminal-notifier-guard#caveats
   # gem 'terminal-notifier-guard','1.7.0' # https://github.com/Codaisseur/terminal-notifier-guard/releases
+  gem 'rack-mini-profiler',     '0.10.1' # https://github.com/MiniProfiler/rack-mini-profiler/releases
 end
 
 group :development, :test do
