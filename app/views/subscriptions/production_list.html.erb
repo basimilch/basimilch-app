@@ -13,6 +13,7 @@
     <table class="table table-hover table-condensed table-striped ">
       <thead>
         <tr>
+          <th></th>
           <th><%= t 'table_headers.depot' %></th>
           <th class="text-center subscription-units basic-units"><%= t_abbr 'table_headers.basic_units' %></th>
           <th class="text-center subscription-units supplement-units"><%= t_abbr 'table_headers.supplement_units' %></th>
@@ -23,11 +24,13 @@
         </tr>
       </thead>
       <tbody>
+        <% depot_counter = 0 %>
         <% total = {} %>
         <% @order_summary_by_depot
-              .sort_by { |depot, _| depot.id }
+              .sort_by { |depot, _| depot.order }
               .each do |depot, order_summary| %>
           <tr class="depot-orders-info" data-href="<%= subscription_depot_lists_path(anchor: depot_anchor(depot)) %>">
+            <td><strong><%= depot_counter += 1 %></strong></td>
             <td><%= link_to depot.name, depot, class: 'no-href-print' %></td>
             <td class="subscription-units basic-units"><%= order_summary[:basic_units] %></td>
             <td class="subscription-units supplement-units"><%= order_summary[:supplement_units] %></td>
@@ -39,6 +42,7 @@
         <% total = total.merge_by_add order_summary %>
         <% end %>
         <tr class="total">
+          <td></td>
           <td><%= t 'table_headers.total' %></td>
           <td class="number basic-units"><%= total[:basic_units] %></td>
           <td class="number supplement-units"><%= total[:supplement_units] %></td>

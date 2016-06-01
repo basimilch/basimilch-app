@@ -26,6 +26,7 @@
 <% depot_counter = 0 %>
 <% @depots.each do | depot | %>
   <% subscriptions = depot.upcoming_subscriptions %>
+  <% next if subscriptions.blank? %>
   <div id="<%= depot_anchor(depot) %>" class="depot-list no-href-print">
     <div class="row depot-list-header">
       <div class="print-date col-sm-3">

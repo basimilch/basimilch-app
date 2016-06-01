@@ -31,6 +31,7 @@ class Depot < ActiveRecord::Base
   has_many :subscriptions
   has_many :users, through: :subscriptions
 
+  default_scope -> { by_delivery_time }
   scope :by_delivery_time, -> { order(delivery_day: :asc)
                                 .order(delivery_time: :asc)
                                 .order(id: :asc) }
@@ -63,6 +64,12 @@ class Depot < ActiveRecord::Base
 
   def to_s
     "Depot #{id.inspect}: #{name.inspect} - #{full_postal_address.inspect}"
+  end
+
+  # Returns an array used to sort depots equivalent to the scope
+  # by_delivery_time.
+  def order
+    [delivery_day, delivery_time, id]
   end
 
   def sanitize_exact_map_coordinates
