@@ -58,11 +58,11 @@ class SubscriptionLifecycleTest < ActionDispatch::IntegrationTest
                           count_difference: 2,
                           canceled_count_difference: 0,
                           subscription_items_expected:
-                            ["2 x Milk, 2016-01-07 - OPEN",
-                             "4 x Yogurt, 2016-01-07 - OPEN"],
+                            ["4 x Yogurt, 2016-01-07 - OPEN",
+                             "2 x Milk, 2016-01-07 - OPEN"],
                           current_items_expected:
-                            ["2 x Milk, 2016-01-07 - OPEN",
-                             "4 x Yogurt, 2016-01-07 - OPEN"],
+                            ["4 x Yogurt, 2016-01-07 - OPEN",
+                             "2 x Milk, 2016-01-07 - OPEN"],
                           expected_list_type: :current_items)
 
       # Change the composition of the same day.
@@ -71,13 +71,13 @@ class SubscriptionLifecycleTest < ActionDispatch::IntegrationTest
                           count_difference: 2,
                           canceled_count_difference: 2,
                           subscription_items_expected:
-                            ["2 x Milk, 2016-01-07 - OPEN (CANCELED)",
-                             "4 x Yogurt, 2016-01-07 - OPEN (CANCELED)",
-                             "3 x Milk, 2016-01-07 - OPEN",
-                             "2 x Yogurt, 2016-01-07 - OPEN"],
+                            ["4 x Yogurt, 2016-01-07 - OPEN (CANCELED)",
+                             "2 x Milk, 2016-01-07 - OPEN (CANCELED)",
+                             "2 x Yogurt, 2016-01-07 - OPEN",
+                             "3 x Milk, 2016-01-07 - OPEN"],
                           current_items_expected:
-                            ["3 x Milk, 2016-01-07 - OPEN",
-                             "2 x Yogurt, 2016-01-07 - OPEN"],
+                            ["2 x Yogurt, 2016-01-07 - OPEN",
+                             "3 x Milk, 2016-01-07 - OPEN"],
                           expected_list_type: :current_items)
 
       # Change the composition for a day after the same day,
@@ -87,10 +87,10 @@ class SubscriptionLifecycleTest < ActionDispatch::IntegrationTest
                           count_difference: 1,
                           canceled_count_difference: 0,
                           subscription_items_expected:
-                            ["2 x Milk, 2016-01-07 - OPEN (CANCELED)",
-                             "4 x Yogurt, 2016-01-07 - OPEN (CANCELED)",
-                             "3 x Milk, 2016-01-07 - 2016-01-20",
+                            ["4 x Yogurt, 2016-01-07 - OPEN (CANCELED)",
+                             "2 x Milk, 2016-01-07 - OPEN (CANCELED)",
                              "2 x Yogurt, 2016-01-07 - 2016-01-20",
+                             "3 x Milk, 2016-01-07 - 2016-01-20",
                              "4 x Milk, 2016-01-21 - OPEN"],
                           current_items_expected:
                             ["4 x Milk, 2016-01-21 - OPEN"],
@@ -102,10 +102,10 @@ class SubscriptionLifecycleTest < ActionDispatch::IntegrationTest
                           count_difference: 1,
                           canceled_count_difference: 0,
                           subscription_items_expected:
-                            ["2 x Milk, 2016-01-07 - OPEN (CANCELED)",
-                             "4 x Yogurt, 2016-01-07 - OPEN (CANCELED)",
-                             "3 x Milk, 2016-01-07 - 2016-01-20",
+                            ["4 x Yogurt, 2016-01-07 - OPEN (CANCELED)",
+                             "2 x Milk, 2016-01-07 - OPEN (CANCELED)",
                              "2 x Yogurt, 2016-01-07 - 2016-01-20",
+                             "3 x Milk, 2016-01-07 - 2016-01-20",
                              "4 x Milk, 2016-01-21 - 2016-03-09",
                              "8 x Yogurt, 2016-03-10 - OPEN"],
                           current_items_expected:
@@ -118,14 +118,14 @@ class SubscriptionLifecycleTest < ActionDispatch::IntegrationTest
                           count_difference: 2,
                           canceled_count_difference: 1,
                           subscription_items_expected:
-                            ["2 x Milk, 2016-01-07 - OPEN (CANCELED)",
-                             "4 x Yogurt, 2016-01-07 - OPEN (CANCELED)",
-                             "3 x Milk, 2016-01-07 - 2016-01-20",
+                            ["4 x Yogurt, 2016-01-07 - OPEN (CANCELED)",
+                             "2 x Milk, 2016-01-07 - OPEN (CANCELED)",
                              "2 x Yogurt, 2016-01-07 - 2016-01-20",
+                             "3 x Milk, 2016-01-07 - 2016-01-20",
                              "4 x Milk, 2016-01-21 - 2016-03-09",
                              "8 x Yogurt, 2016-03-10 - OPEN (CANCELED)",
-                             "1 x Milk, 2016-03-10 - OPEN",
-                             "6 x Yogurt, 2016-03-10 - OPEN"],
+                             "6 x Yogurt, 2016-03-10 - OPEN",
+                             "1 x Milk, 2016-03-10 - OPEN"],
                           current_items_expected:
                             ["4 x Milk, 2016-01-21 - 2016-03-09"],
                           expected_list_type: :planned_items)
@@ -136,14 +136,14 @@ class SubscriptionLifecycleTest < ActionDispatch::IntegrationTest
                           count_difference: 1,
                           canceled_count_difference: 5,
                           subscription_items_expected:
-                            ["2 x Milk, 2016-01-07 - OPEN (CANCELED)",
-                             "4 x Yogurt, 2016-01-07 - OPEN (CANCELED)",
-                             "3 x Milk, 2016-01-07 - 2016-01-20 (CANCELED)",
+                            ["4 x Yogurt, 2016-01-07 - OPEN (CANCELED)",
+                             "2 x Milk, 2016-01-07 - OPEN (CANCELED)",
                              "2 x Yogurt, 2016-01-07 - 2016-01-20 (CANCELED)",
+                             "3 x Milk, 2016-01-07 - 2016-01-20 (CANCELED)",
                              "4 x Milk, 2016-01-21 - 2016-03-09 (CANCELED)",
                              "8 x Yogurt, 2016-03-10 - OPEN (CANCELED)",
-                             "1 x Milk, 2016-03-10 - OPEN (CANCELED)",
                              "6 x Yogurt, 2016-03-10 - OPEN (CANCELED)",
+                             "1 x Milk, 2016-03-10 - OPEN (CANCELED)",
                              "2 x Cheese, 2016-01-07 - OPEN"],
                           current_items_expected:
                             ["2 x Cheese, 2016-01-07 - OPEN"],
@@ -155,17 +155,17 @@ class SubscriptionLifecycleTest < ActionDispatch::IntegrationTest
                           count_difference: 2,
                           canceled_count_difference: 0,
                           subscription_items_expected:
-                            ["2 x Milk, 2016-01-07 - OPEN (CANCELED)",
-                             "4 x Yogurt, 2016-01-07 - OPEN (CANCELED)",
-                             "3 x Milk, 2016-01-07 - 2016-01-20 (CANCELED)",
+                            ["4 x Yogurt, 2016-01-07 - OPEN (CANCELED)",
+                             "2 x Milk, 2016-01-07 - OPEN (CANCELED)",
                              "2 x Yogurt, 2016-01-07 - 2016-01-20 (CANCELED)",
+                             "3 x Milk, 2016-01-07 - 2016-01-20 (CANCELED)",
                              "4 x Milk, 2016-01-21 - 2016-03-09 (CANCELED)",
                              "8 x Yogurt, 2016-03-10 - OPEN (CANCELED)",
-                             "1 x Milk, 2016-03-10 - OPEN (CANCELED)",
                              "6 x Yogurt, 2016-03-10 - OPEN (CANCELED)",
+                             "1 x Milk, 2016-03-10 - OPEN (CANCELED)",
                              "2 x Cheese, 2016-01-07 - 2016-03-23",
-                             "2 x Milk, 2016-03-24 - OPEN",
-                             "1 x Cheese, 2016-03-24 - OPEN"],
+                             "1 x Cheese, 2016-03-24 - OPEN",
+                             "2 x Milk, 2016-03-24 - OPEN"],
                           current_items_expected:
                             ["2 x Cheese, 2016-01-07 - 2016-03-23"],
                           expected_list_type: :planned_items)
@@ -173,19 +173,19 @@ class SubscriptionLifecycleTest < ActionDispatch::IntegrationTest
       last_item_list_date = '2016-03-17'
       last_item_list = {milk: 2, yogurt: 4}
       last_subscription_items_expected = [
+        "4 x Yogurt, 2016-01-07 - OPEN (CANCELED)",
         "2 x Milk, 2016-01-07 - OPEN (CANCELED)",
-         "4 x Yogurt, 2016-01-07 - OPEN (CANCELED)",
-         "3 x Milk, 2016-01-07 - 2016-01-20 (CANCELED)",
-         "2 x Yogurt, 2016-01-07 - 2016-01-20 (CANCELED)",
-         "4 x Milk, 2016-01-21 - 2016-03-09 (CANCELED)",
-         "8 x Yogurt, 2016-03-10 - OPEN (CANCELED)",
-         "1 x Milk, 2016-03-10 - OPEN (CANCELED)",
-         "6 x Yogurt, 2016-03-10 - OPEN (CANCELED)",
-         "2 x Cheese, 2016-01-07 - 2016-03-16",
-         "2 x Milk, 2016-03-24 - OPEN (CANCELED)",
-         "1 x Cheese, 2016-03-24 - OPEN (CANCELED)",
-         "2 x Milk, 2016-03-17 - OPEN",
-         "4 x Yogurt, 2016-03-17 - OPEN"
+        "2 x Yogurt, 2016-01-07 - 2016-01-20 (CANCELED)",
+        "3 x Milk, 2016-01-07 - 2016-01-20 (CANCELED)",
+        "4 x Milk, 2016-01-21 - 2016-03-09 (CANCELED)",
+        "8 x Yogurt, 2016-03-10 - OPEN (CANCELED)",
+        "6 x Yogurt, 2016-03-10 - OPEN (CANCELED)",
+        "1 x Milk, 2016-03-10 - OPEN (CANCELED)",
+        "2 x Cheese, 2016-01-07 - 2016-03-16",
+        "1 x Cheese, 2016-03-24 - OPEN (CANCELED)",
+        "2 x Milk, 2016-03-24 - OPEN (CANCELED)",
+        "4 x Yogurt, 2016-03-17 - OPEN",
+        "2 x Milk, 2016-03-17 - OPEN"
        ]
        last_current_items_expected = ["2 x Cheese, 2016-01-07 - 2016-03-16"]
 
@@ -215,8 +215,8 @@ class SubscriptionLifecycleTest < ActionDispatch::IntegrationTest
     end
 
     travel_to the_27th_of_february + 3.months do
-      assert_items ["2 x Milk, 2016-03-17 - OPEN",
-                    "4 x Yogurt, 2016-03-17 - OPEN"],
+      assert_items ["4 x Yogurt, 2016-03-17 - OPEN",
+                    "2 x Milk, 2016-03-17 - OPEN"],
                    Subscription.find(created_subscription.id).current_items
     end
   end

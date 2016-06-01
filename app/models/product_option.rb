@@ -10,6 +10,7 @@ class ProductOption < ActiveRecord::Base
   # DOC: https://github.com/airblade/paper_trail/tree/v4.1.0#basic-usage
   has_paper_trail ignore: [:updated_at]
 
+  default_scope -> { by_id }
   scope :by_id, -> { order(id: :asc) }
   scope :by_name, -> { order(name: :asc).by_id }
 

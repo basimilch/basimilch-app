@@ -8,7 +8,7 @@ class ProductOptionsController < ApplicationController
   # GET /product_options
   # GET /product_options.json
   def index
-    @product_options = ProductOption.all.by_name
+    @product_options = ProductOption.all
   end
 
   # GET /product_options/1
