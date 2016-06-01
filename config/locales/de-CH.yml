@@ -904,6 +904,8 @@ de-CH:
         </span>
     production_list:
       title: Produktionsliste
+      print_date_html: "Stand: %{date_tag}"
+      author: "Ausgedruckt von %{author}"
     depot_lists:
       title: Depotlisten
       common_part_input: Eingabe für die Auswahl aus der Käserei

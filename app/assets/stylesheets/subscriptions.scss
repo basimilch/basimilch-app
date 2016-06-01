@@ -28,6 +28,30 @@ body.subscriptions {
       display: none;
     }
   }
+  .production-list-header {
+    margin: {
+      bottom: 25px;
+    }
+    @media screen {
+      display: none;
+    }
+    .print-date {
+      font-size: 0.8em;
+      font-style: italic;
+    }
+    .logo {
+      margin: {
+        top: -65px;
+      }
+      svg {
+        max-height: 80px;
+      }
+    }
+    .author {
+      @extend .print-date;
+      text-align: right;
+    }
+  }
   .depot-list{
     padding: {
       top: 50px;

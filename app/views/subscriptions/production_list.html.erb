@@ -1,10 +1,16 @@
 <% provide(:title, t('.title')) %>
 
-<div class="visible-print-block">
-  <%= localized_date_tag Date.current %>
+<div class="row production-list-header">
+  <div class="print-date col-sm-4">
+    <%= t '.print_date_html', date_tag: localized_date_tag(Date.current, :short_with_year) %>
+  </div>
+  <div class="logo col-sm-4">
+    <%= render 'shared/logo.svg' %>
+  </div>
+  <div class="author col-sm-4">
+    <%= t '.author', author: current_user.full_name %>
+  </div>
 </div>
-
-<br>
 
 <% if  @order_summary_by_depot.empty? %>
   <%= t '.no_order_summary_by_depot' %>

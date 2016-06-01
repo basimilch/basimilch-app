@@ -54,6 +54,9 @@ $state-danger-bg-light:   lighten($state-danger-bg, 7%);
 
 body {
   padding-top: 80px;
+  @media print {
+    padding-top: 5px;
+  }
 }
 
 html.turbolinks-progress-bar::before {
