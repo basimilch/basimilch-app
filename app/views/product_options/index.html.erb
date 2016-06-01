@@ -7,6 +7,7 @@
     <table class="table table-hover table-condensed">
       <thead>
         <tr>
+          <th></th>
           <th><%= t 'table_headers.name' %></th>
           <th><%= t 'table_headers.size' %></th>
           <th><%= t 'table_headers.equivalence' %></th>
@@ -16,6 +17,7 @@
       <tbody>
         <% @product_options.each do |product_option| %>
           <tr class="product_option_info<%= " canceled" if product_option.canceled? %>" data-href="<%= product_option_path(product_option.id) %>"=>
+            <td><%= product_option.id %></td>
             <td><%= product_option.name %></td>
             <td><%= localized_product_size product_option %></td>
             <td><%= localized_product_equivalent product_option %></td>
