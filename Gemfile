@@ -25,7 +25,11 @@ gem 'bootstrap-sass',           '3.3.6' # https://github.com/twbs/bootstrap-sass
 gem 'sass-rails',               '5.0.4' # https://github.com/rails/sass-rails/releases
 gem 'uglifier',                 '2.7.2' # https://github.com/lautis/uglifier/releases
 gem 'coffee-rails',             '4.1.1' # https://github.com/rails/coffee-rails/releases
-gem 'jquery-rails',             '4.1.0' # https://github.com/rails/jquery-rails/releases
+
+gem 'jquery-rails',             '4.1.1'   # https://github.com/rails/jquery-rails/releases
+                                          # https://github.com/rails/jquery-rails/blob/master/CHANGELOG.md
+                                          # https://rubygems.org/gems/jquery-rails
+
 gem 'turbolinks',               '2.5.3' # https://github.com/turbolinks/turbolinks-classic/releases
 gem 'jbuilder',                 '2.4.1' # https://github.com/rails/jbuilder/releases
 gem 'sdoc',                     '0.4.1', group: :doc # https://github.com/voloko/sdoc/releases
