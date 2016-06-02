@@ -12,7 +12,11 @@ gem 'rails', '4.2.5.2'
 
 gem 'bcrypt',                   '3.1.11'
 gem 'faker',                    '1.6.3' # https://github.com/stympy/faker/releases
-gem 'carrierwave',              '0.11.0' # https://github.com/carrierwaveuploader/carrierwave/releases
+
+gem 'carrierwave',              '0.11.2'  # https://github.com/carrierwaveuploader/carrierwave/releases
+                                          # https://github.com/carrierwaveuploader/carrierwave/blob/master/CHANGELOG.md
+                                          # https://rubygems.org/gems/carrierwave
+
 gem 'mini_magick',              '4.5.1' # https://github.com/minimagick/minimagick/releases
 gem 'fog',                      '1.38.0' # https://github.com/fog/fog/releases
 gem 'will_paginate',            '3.1.0' # https://github.com/mislav/will_paginate/releases
