@@ -51,8 +51,11 @@ group :development do
 end
 
 group :development, :test do
+
   # Dropping a `byebug` (or `debugger`) call anywhere in your code, you get a debug prompt.
-  gem 'byebug',                 '8.2.2' # https://github.com/deivid-rodriguez/byebug/releases
+  gem 'byebug',                 '8.2.5'   # https://github.com/deivid-rodriguez/byebug/releases
+                                          # https://rubygems.org/gems/byebug
+
   gem 'spring',                 '1.6.4' # https://github.com/rails/spring/blob/master/CHANGELOG.md
   gem 'dotenv-rails',           '2.1.0' # https://github.com/bkeepers/dotenv/releases
 end
