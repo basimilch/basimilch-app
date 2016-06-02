@@ -594,11 +594,11 @@ computer and browser** where it has been requested.
 ## Geolocalization
 
 To validate the user postal addresses and IP addresses on singup we
-use the geolocalization library [Geocoder `v1.3.3`]. This library will
+use the geolocalization library [Geocoder `v1.3.6`]. This library will
 allow us also operations related to geographical relations between
 users, depots and other entities.
 
-[Geocoder `v1.3.3`]: https://github.com/alexreisner/geocoder/tree/v1.3.3
+[Geocoder `v1.3.6`]: https://github.com/alexreisner/geocoder/tree/v1.3.6
 
 ### Google Geocode API and Usage Limits
 

@@ -195,7 +195,7 @@ class ActiveSupport::TestCase
     end
   end
 
-  # SOURCE: https://github.com/alexreisner/geocoder/tree/v1.3.3
+  # SOURCE: https://github.com/alexreisner/geocoder/tree/v1.3.6
   #                                              #testing-apps-that-use-geocoder
   Geocoder.configure lookup: :test
   Geocoder::Lookup::Test.set_default_stub(

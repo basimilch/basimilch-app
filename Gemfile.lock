@@ -206,7 +206,7 @@ GEM
       fog-core
       nokogiri (~> 1.5, >= 1.5.11)
     formatador (0.2.5)
-    geocoder (1.3.3)
+    geocoder (1.3.6)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     guard (2.13.0)
@@ -404,7 +404,7 @@ DEPENDENCIES
   dotenv-rails (= 2.1.0)
   faker (= 1.6.3)
   fog (= 1.38.0)
-  geocoder (= 1.3.3)
+  geocoder (= 1.3.6)
   guard (= 2.13.0)
   guard-minitest (= 2.4.3)
   jbuilder (= 2.4.1)
