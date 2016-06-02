@@ -72,7 +72,11 @@ group :development, :test do
 end
 
 group :test do
-  gem 'minitest-reporters',     '1.1.8' # https://github.com/kern/minitest-reporters/releases
+
+  gem 'minitest-reporters',     '1.1.9'   # https://github.com/kern/minitest-reporters/releases
+                                          # https://github.com/kern/minitest-reporters/compare/v1.1.8...v1.1.9
+                                          # https://rubygems.org/gems/minitest-reporters
+
   gem 'mini_backtrace',         '0.1.3'
 
   gem 'guard',                  '2.14.0'  # https://github.com/guard/guard/releases
