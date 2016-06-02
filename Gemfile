@@ -70,8 +70,13 @@ end
 group :test do
   gem 'minitest-reporters',     '1.1.8' # https://github.com/kern/minitest-reporters/releases
   gem 'mini_backtrace',         '0.1.3'
-  gem 'guard',                  '2.13.0' # https://github.com/guard/guard/releases
-  gem 'guard-minitest',         '2.4.3' # https://github.com/guard/guard-minitest/releases
+
+  gem 'guard',                  '2.14.0'  # https://github.com/guard/guard/releases
+                                          # https://rubygems.org/gems/guard
+
+  gem 'guard-minitest',         '2.4.4'   # https://github.com/guard/guard-minitest/releases
+                                          # https://rubygems.org/gems/guard-minitest
+
   # Suggested by https://travis-ci.org/basimilch/basimilch-app
   gem 'codeclimate-test-reporter', '0.5.0', require: nil # https://github.com/codeclimate/ruby-test-reporter/releases
 end
