@@ -61,7 +61,10 @@ group :development, :test do
                                           # https://rubygems.org/gems/byebug
 
   gem 'spring',                 '1.6.4' # https://github.com/rails/spring/blob/master/CHANGELOG.md
-  gem 'dotenv-rails',           '2.1.0' # https://github.com/bkeepers/dotenv/releases
+
+  gem 'dotenv-rails',           '2.1.1'   # https://github.com/bkeepers/dotenv/releases
+                                          # https://github.com/bkeepers/dotenv/blob/master/Changelog.md
+                                          # https://rubygems.org/gems/dotenv-rails
 end
 
 group :test do
