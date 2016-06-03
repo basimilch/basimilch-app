@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/basimilch/basimilch-app.svg)](https://travis-ci.org/basimilch/basimilch-app)
 [![Code Climate](https://codeclimate.com/github/basimilch/basimilch-app/badges/gpa.svg)](https://codeclimate.com/github/basimilch/basimilch-app)
 [![Test Coverage](https://codeclimate.com/github/basimilch/basimilch-app/badges/coverage.svg)](https://codeclimate.com/github/basimilch/basimilch-app/coverage)
+[![Dependency Status](https://gemnasium.com/badges/github.com/basimilch/basimilch-app.svg)](https://gemnasium.com/github.com/basimilch/basimilch-app)
 [![Inline docs](http://inch-ci.org/github/basimilch/basimilch-app.svg?branch=master)](http://inch-ci.org/github/basimilch/basimilch-app)
 
 Web app of the [basimilch] cooperative.
