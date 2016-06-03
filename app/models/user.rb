@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   INTERN_EMAIL_DOMAIN = '@basimil.ch'
   INTERN_EMAIL_DOMAIN_REGEXP = Regexp.new("^.*#{INTERN_EMAIL_DOMAIN}$")
 
-  # DOC: https://github.com/airblade/paper_trail/tree/v4.1.0#basic-usage
+  # DOC: https://github.com/airblade/paper_trail/tree/v5.1.1#1c-basic-usage
   has_paper_trail ignore: [:updated_at, :last_seen_at, :seen_count]
 
   has_many :share_certificates

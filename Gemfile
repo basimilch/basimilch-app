@@ -52,8 +52,13 @@ gem 'geocoder',                 '1.3.6'   # https://github.com/alexreisner/geoco
                                           # https://github.com/alexreisner/geocoder/blob/master/CHANGELOG.md
                                           # https://rubygems.org/gems/geocoder
 
-# Track changes to models => allows undo
-gem 'paper_trail',              '4.1.0'   # https://github.com/airblade/paper_trail/releases
+# Track changes to your models' data. Good for auditing or versioning. (i.e. allows undo)
+gem 'paper_trail',              '5.1.1'   # https://github.com/airblade/paper_trail/tree/v5.1.1
+                                          # https://rubygems.org/gems/paper_trail/versions/5.1.1
+                                          # https://github.com/airblade/paper_trail/blob/master/CHANGELOG.md
+                                          # https://github.com/airblade/paper_trail/compare/v4.1.0...v5.1.1
+                                          # https://github.com/airblade/paper_trail/releases
+
 # Track activity => allows timeline
 gem 'public_activity',          '1.4.3'   # https://github.com/chaps-io/public_activity/releases
 gem 'time_diff',                '0.3.0'

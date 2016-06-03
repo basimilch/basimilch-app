@@ -3,7 +3,7 @@ class Subscription < ActiveRecord::Base
   include Cancelable
   include SubscriptionsHelper
 
-  # DOC: https://github.com/airblade/paper_trail/tree/v4.1.0#basic-usage
+  # DOC: https://github.com/airblade/paper_trail/tree/v5.1.1#1c-basic-usage
   has_paper_trail ignore: [:updated_at]
 
   def self.capture_week_number_env

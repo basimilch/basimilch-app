@@ -629,7 +629,7 @@ against the key instead of the IP address.
 
 ### `paper_trail`
 
-We use the gem [`paper_trail` (v4.1.0)] to audit changes on models.
+We use the gem [`paper_trail` (v5.1.1)] to audit changes on models.
 This gem creates versions each time a model item changes by simply
 adding `has_paper_trail` to the model. It allows to inspect, compare
 or revert to how things looked at a given point in time.
@@ -667,10 +667,10 @@ controllers] in order to track from where the change was originated.
 The population of this metadata is implemented in the file
 [`/app/controllers/application_controller.rb`].
 
-[`paper_trail` (v4.1.0)]: https://github.com/airblade/paper_trail/tree/v4.1.0
-[installation]: https://github.com/airblade/paper_trail/tree/v4.1.0#installation
-[diffing versions]: https://github.com/airblade/paper_trail/tree/v4.1.0#diffing-versions
-[metadata from controllers]: https://github.com/airblade/paper_trail/tree/v4.1.0#metadata-from-controllers
+[`paper_trail` (v5.1.1)]: https://github.com/airblade/paper_trail/tree/v5.1.1
+[installation]: https://github.com/airblade/paper_trail/tree/v5.1.1#1b-installation
+[diffing versions]: https://github.com/airblade/paper_trail/tree/v5.1.1#3c-diffing-versions
+[metadata from controllers]: https://github.com/airblade/paper_trail/tree/v5.1.1#metadata-from-controllers
 [`/app/controllers/application_controller.rb`]: /app/controllers/application_controller.rb
 
 ### `public_activity`
