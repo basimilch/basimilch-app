@@ -2,6 +2,31 @@
 
 # TODO: Refactor this file in several files.
 
+class Object
+  # Returns the object itself if either is equal to the argument or (if the
+  # argument is a collection) is contained in the argument. In all other cases
+  # it returns nil. Note that therefore this method will always return nil when
+  # called on nil itself (see NilClass#allow). If the argument is a collection,
+  # it can be anything Enumerable, but usually a constant Set is the most
+  # interesting for performance, e.g. ALLOWED_VIEWS = Set[:all, :admins].
+  # Similar to Rails' #permit but for all objects.
+  def allow(allowed_item_or_items)
+    if allowed_item_or_items.is_a? Enumerable
+      allowed_item_or_items.find { |item| item == self }
+    elsif self == allowed_item_or_items
+      self
+    end
+  end
+end
+
+class NilClass
+  # Since the default Object#allow method does always return nil when called on
+  # nil, we don't need to call it, and we can directly return nil.
+  def allow(_)
+    self
+  end
+end
+
 class Hash
 
   # Returns the value given a path of keys, without failing.

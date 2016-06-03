@@ -7,6 +7,25 @@ class RailsExtentionsTest < ActionController::TestCase
     @some_hash = {a: 1, some_str: "a string", inner_hash: { 'b' => 2, c: 3 } }
   end
 
+  test "any Object should respond to :allow" do
+    assert_equal nil,       nil.allow(nil)
+    assert_equal nil,       nil.allow(1)
+    assert_equal nil,       nil.allow(:a)
+    assert_equal nil,       nil.allow([])
+    assert_equal nil,       nil.allow([:a, :b])
+    assert_equal nil,       :c.allow(:a)
+    assert_equal :a,        :a.allow(:a)
+    assert_equal nil,       :c.allow([:a, :b])
+    assert_equal :a,        :a.allow([:a, :b])
+    assert_equal nil,       [:a, :b].allow([:a, :b])
+    assert_equal [:a, :b],  [:a, :b].allow([[:a, :b]])
+    assert_equal nil,       'a'.allow([:a, :b])
+    assert_equal 'a',       'a'.allow([:a, :b, 'a'])
+    assert_equal 'a',       'a'.allow(Set[:a, :b, 'a'])
+    assert_equal nil,       ['a'].allow(Set[:a, :b, 'a'])
+    assert_equal ['a'],     ['a'].allow(Set[:a, :b, 'a', ['a']])
+  end
+
   test "should get index" do
     assert_equal nil,                     {}.get(:a)
     assert_equal nil,                     @some_hash.get(:a, :b)
@@ -42,9 +61,7 @@ class RailsExtentionsTest < ActionController::TestCase
     assert_equal({ a: 1, b: 3 }, h + {b: 3})
     assert_equal({ a: 1, b: 2 }, h + {})
     assert_equal({ a: 1, b: 2 }, h + nil)
-    assert_raise do
-      h + 1
-    end
+    assert_raise { h + 1 }
   end
 
   test "should be able to update hash values" do
