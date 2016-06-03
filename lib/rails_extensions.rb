@@ -30,9 +30,15 @@ end
 class Hash
 
   # Returns the value given a path of keys, without failing.
-  # Inspired from: http://stackoverflow.com/a/10131410
-  # NOTE: In ruby v2.3 there is the equivalent method Hash#dig (we use v2.3.1)
-  # DOC: http://ruby-doc.org/core-2.3.0_preview1/Hash.html#method-i-dig
+  # NOTE: This method was initially written while on ruby v2.2, and the :dig
+  #       method was introduced in v2.3. However, there is a subtle difference
+  #       in the implementation: While :dig will safely return nil if any
+  #       intermediate step is nil, it will fail if any intermediate step is an
+  #       object other than a hash. The :get version will also safely return nil
+  #       in this case. Therefore this implementation is not yet removed. See
+  #       tests for comparison.
+  # DOC: http://ruby-doc.org/core-2.3.1/Hash.html#method-i-dig
+  # SOURCE: http://stackoverflow.com/a/10131410
   def get(*args)
     res = self
     args.each do |k|

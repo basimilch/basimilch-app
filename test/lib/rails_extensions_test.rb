@@ -4,7 +4,7 @@ require 'test_helper'
 class RailsExtentionsTest < ActionController::TestCase
 
   def setup
-    @some_hash = {a: 1, some_str: "a string", inner_hash: { 'b' => 2, c: 3 } }
+    @a_hash = {a: 1, some_str: "a string", inner_hash: { 'b' => 2, c: 3 } }
   end
 
   test "any Object should respond to :allow" do
@@ -27,26 +27,32 @@ class RailsExtentionsTest < ActionController::TestCase
   end
 
   test "should get index" do
-    assert_equal nil,                     {}.get(:a)
-    assert_equal nil,                     @some_hash.get(:a, :b)
-    assert_equal "a string",              @some_hash.get(:some_str)
-    assert_equal nil,                     @some_hash.get(:some_str, :not_found)
-    assert_equal nil,                     @some_hash.get(:a, :b, :c)
-    assert_equal 1,                       @some_hash.get(:a)
-    assert_equal @some_hash[:inner_hash], @some_hash.get(:inner_hash)
-    assert_equal 2,                       @some_hash.get(:inner_hash, 'b')
-    assert_equal 3,                       @some_hash.get(:inner_hash, :c)
-    assert_equal nil,                     @some_hash.get(:inner_hash, :d)
+    # NOTE: Please note the differences between ruby's :dig and our :get.
+    assert_equal nil,                       {}.get(:a)
+    assert_equal nil,                       @a_hash.get(:a, :b)
+    assert_raise                          { @a_hash.dig(:a, :b) }
+    assert_equal "a string",                @a_hash.get(:some_str)
+    assert_equal @a_hash.dig(:some_str),    @a_hash.get(:some_str)
+    assert_equal nil,                       @a_hash.get(:some_str, :not_found)
+    assert_raise                          { @a_hash.dig(:some_str, :not_found) }
+    assert_equal nil,                       @a_hash.get(:a, :b, :c)
+    assert_equal 1,                         @a_hash.get(:a)
+    assert_equal @a_hash[:inner_hash],      @a_hash.get(:inner_hash)
+    assert_equal 2,                         @a_hash.get(:inner_hash, 'b')
+    assert_equal @a_hash.dig(:inner_hash, 'b'),
+                                            @a_hash.get(:inner_hash, 'b')
+    assert_equal 3,                         @a_hash.get(:inner_hash, :c)
+    assert_equal nil,                       @a_hash.get(:inner_hash, :d)
   end
 
   test "should pop hash value" do
-    h = @some_hash.dup
+    h = @a_hash.dup
     # NOTE: If the hash is the first value, the parenthesis are needed.
     # SOURCE: http://stackoverflow.com/a/5657827
     assert_equal({ 'b' => 2, c: 3 },                      h.pop(:inner_hash))
     assert_equal({ a: 1, some_str: "a string" } ,         h)
     assert_equal({a: 1, some_str: "a string", inner_hash: { 'b' => 2, c: 3 } },
-                                                          @some_hash)
+                                                          @a_hash)
     assert_equal(nil,                                     h.pop(:inner_hash))
     assert_equal({ a: 1, some_str: "a string" } ,         h)
     assert_equal(nil,                                     h.pop(nil))
