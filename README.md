@@ -33,14 +33,16 @@ The corresponding [Rails Tutorial Book] can be read online for free.
 
 ### Ruby
 
-- [Ruby Code (v2.2.4)] _([`ruby` releases])_
-- [Ruby 2.2.4 Standard Library Documentation]
+- [Ruby Code (v2.3.1)] _([`ruby` releases])_
+- [Ruby 2.3.1 Core Documentation]
+- [Ruby 2.3.1 Standard Library Documentation]
 - [Ruby Style Guide]
 - [`rvm`] as the Ruby Version Manager _([`rvm` releases])_
 
-[Ruby Code (v2.2.4)]: https://github.com/ruby/ruby/tree/v2_2_4
+[Ruby Code (v2.3.1)]: https://github.com/ruby/ruby/tree/v2_3_1
 [`ruby` releases]: https://github.com/ruby/ruby/releases
-[Ruby 2.2.4 Standard Library Documentation]: http://ruby-doc.org/stdlib-2.2.4/
+[Ruby 2.3.1 Core Documentation]: http://ruby-doc.org/core-2.3.1/
+[Ruby 2.3.1 Standard Library Documentation]: http://ruby-doc.org/stdlib-2.3.1/
 [Ruby Style Guide]: https://github.com/bbatsov/ruby-style-guide
 [`rvm`]: https://rvm.io
 [`rvm` releases]: https://github.com/rvm/rvm/releases
@@ -68,10 +70,10 @@ Guide to Rails Helpers].
 curl -sSL https://get.rvm.io | bash -s stable
 ```
 
-- [Install `ruby` version 2.2.4]
+- [Install `ruby` version 2.3.1]
 
 ```bash
-rvm install 2.2.4
+rvm install 2.3.1
 ```
 
 - [Install `bundle`]
@@ -95,7 +97,7 @@ install `rails` instead: `gem install rails -v 4.2.6`)
 [heroku toolbelt].
 
 [Install `rvm`]: https://rvm.io/rvm/install
-[Install `ruby` version 2.2.4]: https://rvm.io/rubies/installing
+[Install `ruby` version 2.3.1]: https://rvm.io/rubies/installing
 [Install `bundle`]: https://rvm.io/integration/bundler
 [`Gemfile.lock`]: Gemfile.lock
 
@@ -438,7 +440,7 @@ rake aborted!
 PG::ConnectionBad: could not connect to server: No such file or directory
         Is the server running locally and accepting
         connections on Unix domain socket "/tmp/.s.PGSQL.5432"?
-.../.rvm/gems/ruby-2.2.4/gems/activerecord-4.2.6/lib/active_record/connection_adapters/postgresql_adapter.rb:651:in `initialize'
+.../.rvm/gems/ruby-2.3.1/gems/activerecord-4.2.6/lib/active_record/connection_adapters/postgresql_adapter.rb:651:in `initialize'
 ```
 
 I was not able to restart the DB and ended up creating a new one (not

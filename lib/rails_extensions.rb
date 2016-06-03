@@ -31,7 +31,7 @@ class Hash
 
   # Returns the value given a path of keys, without failing.
   # Inspired from: http://stackoverflow.com/a/10131410
-  # NOTE: In ruby v2.3 there is the equivalent method Hash#dig (we use v2.2.4)
+  # NOTE: In ruby v2.3 there is the equivalent method Hash#dig (we use v2.3.1)
   # DOC: http://ruby-doc.org/core-2.3.0_preview1/Hash.html#method-i-dig
   def get(*args)
     res = self
@@ -163,7 +163,7 @@ end
 
 # NOTE: Numeric is a base class for other, more specific, types of number
 #       objects, e.g. Fixnum, Float, Bignum, BigDecimal.
-# DOC: http://ruby-doc.org/core-2.2.4/Numeric.html
+# DOC: http://ruby-doc.org/core-2.3.1/Numeric.html
 # SOURCE: http://stackoverflow.com/questions/8514167/float-vs-decimal-in-activerecord
 class Numeric
   include NumericFormattingUtils
@@ -238,7 +238,7 @@ class String
     #       match e.g. non-breaking space (&nbsp). The POSIX character class
     #       [[:space:]] does match non-breaking space. This is relevant because
     #       in Heroku, space in ENV variables might be translated as &nbsp.
-    # DOC: http://ruby-doc.org/core-2.2.4/Regexp.html#class-Regexp-label-Character+Classes
+    # DOC: http://ruby-doc.org/core-2.3.1/Regexp.html#class-Regexp-label-Character+Classes
     # SOURCE: http://stackoverflow.com/a/13288542
     gsub(/[[:space:]]/, '')
   end
@@ -367,8 +367,8 @@ class String
   # leading to the whole attributes hash being printed in the '%s' placeholder.
   # To achieve the original behavior you must explicitly convert it to a String:
   #   "Hello %s" % @user.to_s
-  # DOC: http://ruby-doc.org/core-2.2.4/String.html#method-i-25
-  # DOC: http://ruby-doc.org/core-2.2.4/Kernel.html#method-i-sprintf
+  # DOC: http://ruby-doc.org/core-2.3.1/String.html#method-i-25
+  # DOC: http://ruby-doc.org/core-2.3.1/Kernel.html#method-i-sprintf
   def %(model)
     if model.is_a? ActiveRecord::Base
       original_percent_operator model.attributes.symbolize_keys
@@ -621,7 +621,7 @@ class ActionView::Helpers::FormBuilder
       :text_field
   end
 
-  # DOC: http://ruby-doc.org/core-2.2.4/String.html#method-i-5B-5D-3D
+  # DOC: http://ruby-doc.org/core-2.3.1/String.html#method-i-5B-5D-3D
   SELECTED_OPTION_VALUE_REGEXP =
            /^<option[^>]*selected="selected"[^>]*>(?<selected>[^<]*)<\/option>$/
 
@@ -699,7 +699,7 @@ class ActionView::Helpers::FormBuilder
             # NOTE: In a :select the value is a html string with the <option>
             #       tags. We have to extract the selected one with a regexp.
             # SOURCE: http://stackoverflow.com/a/519593
-            # DOC: http://ruby-doc.org/core-2.2.4/String.html#method-i-5B-5D-3D
+            # DOC: http://ruby-doc.org/core-2.3.1/String.html#method-i-5B-5D-3D
             selected_value = value[SELECTED_OPTION_VALUE_REGEXP, "selected"]
             @template.concat text_field(attribute,
                                         value:    selected_value,
@@ -767,8 +767,8 @@ end
 # Modify 'byebug' breakpoint helper to prevent forgetting it in production and
 # and to stop on breakpoints in tests.
 # SOURCE: https://github.com/deivid-rodriguez/byebug/blob/3ac521e2/lib/byebug/attacher.rb#L28-L34
-# DOC: http://ruby-doc.org/core-2.2.4/Binding.html#method-i-receiver
-# DOC: http://ruby-doc.org/core-2.2.4/Kernel.html#method-i-caller
+# DOC: http://ruby-doc.org/core-2.3.1/Binding.html#method-i-receiver
+# DOC: http://ruby-doc.org/core-2.3.1/Kernel.html#method-i-caller
 # TODO: Consider creating a PR to contribute this option to byebug.
 module Kernel
   def byebug

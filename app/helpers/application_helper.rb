@@ -130,7 +130,7 @@ module ApplicationHelper
   end
 
   # Some notes about :to_i vs :to_int vs Integer()
-  # DOC: http://ruby-doc.org/core-2.2.4/Kernel.html#method-i-Integer
+  # DOC: http://ruby-doc.org/core-2.3.1/Kernel.html#method-i-Integer
   # SOURCE: http://stackoverflow.com/a/10093533/
   # SOURCE: http://stackoverflow.com/a/11182123/
 
