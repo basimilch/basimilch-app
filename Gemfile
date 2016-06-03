@@ -232,7 +232,7 @@ group :production do
   # production environments. In order to get the best throughput, it is highly
   # recommended that you use a Ruby implementation with real threads like
   # Rubinius or JRuby.
-  gem 'puma',                   '2.11.1'  # https://rubygems.org/gems/puma/versions/3.4.0
+  gem 'puma',                   '3.4.0'   # https://rubygems.org/gems/puma/versions/3.4.0
                                           # https://github.com/puma/puma/tree/v3.4.0
                                           # https://github.com/puma/puma/releases
 
