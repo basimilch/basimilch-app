@@ -90,7 +90,12 @@ group :development, :test do
   gem 'byebug',                 '8.2.5'   # https://github.com/deivid-rodriguez/byebug/releases
                                           # https://rubygems.org/gems/byebug
 
-  gem 'spring',                 '1.6.4'   # https://github.com/rails/spring/blob/master/CHANGELOG.md
+  # Preloads the application so things like console, rake and tests run faster.
+  gem 'spring',                 '1.7.1'   # https://github.com/rails/spring/tree/v1.7.1
+                                          # https://rubygems.org/gems/spring/versions/1.7.1
+                                          # https://github.com/rails/spring/blob/master/CHANGELOG.md
+                                          # https://github.com/rails/spring/compare/v1.6.4...v1.7.1
+                                          # https://github.com/rails/spring/releases
 
   gem 'dotenv-rails',           '2.1.1'   # https://github.com/bkeepers/dotenv/releases
                                           # https://github.com/bkeepers/dotenv/blob/master/Changelog.md
