@@ -48,7 +48,7 @@ class Depot < ActiveRecord::Base
   validates :delivery_time, presence: true, inclusion: { in: DELIVERY_HOURS }
   validates :opening_hours, presence: true, length: { maximum: 250 }
 
-  VALID_COORDINATES_REGEX = /\d{1,3}\.\d{1,8}\s*,\s*\d{1,3}\.\d{1,8}/
+  VALID_COORDINATES_REGEX = /\A\s*\d{1,3}\.\d{1,8}\s*,\s*\d{1,3}\.\d{1,8}\s*\z/
   validates :exact_map_coordinates, allow_blank: true,
                                     format: { with: VALID_COORDINATES_REGEX }
   before_save :sanitize_exact_map_coordinates
