@@ -102,11 +102,6 @@ gem 'jbuilder',                 '2.5.0'   # https://rubygems.org/gems/jbuilder/v
                                           # https://github.com/rails/jbuilder/blob/master/CHANGELOG.md
                                           # https://github.com/rails/jbuilder/releases
 
-# rdoc generator html with javascript search index.
-gem 'sdoc',                     '0.4.1', group: :doc  # https://rubygems.org/gems/sdoc/versions/0.4.1
-                                                      # https://github.com/zzak/sdoc/tree/v0.4.1
-                                                      # https://github.com/zzak/sdoc/blob/master/CHANGELOG.md
-                                                      # https://github.com/zzak/sdoc/releases
 # Ruby HTTP client for the Heroku API.
 gem 'platform-api',             '0.7.0'   # https://rubygems.org/gems/platform-api/versions/0.7.0
                                           # https://github.com/heroku/platform-api/releases
@@ -193,6 +188,7 @@ group :development, :test do
                                           # https://github.com/bkeepers/dotenv/tree/v2.1.1
                                           # https://github.com/bkeepers/dotenv/releases
                                           # https://github.com/bkeepers/dotenv/blob/master/Changelog.md
+
 end
 
 group :test do
@@ -222,6 +218,7 @@ group :test do
 
   # Suggested by https://travis-ci.org/basimilch/basimilch-app
   gem 'codeclimate-test-reporter', '0.5.0', require: nil # https://github.com/codeclimate/ruby-test-reporter/releases
+
 end
 
 group :production do
@@ -238,4 +235,15 @@ group :production do
   gem 'puma',                   '2.11.1'  # https://rubygems.org/gems/puma/versions/3.4.0
                                           # https://github.com/puma/puma/tree/v3.4.0
                                           # https://github.com/puma/puma/releases
+
+end
+
+group :doc do
+
+  # rdoc generator html with javascript search index.
+  gem 'sdoc',                   '0.4.1'   # https://rubygems.org/gems/sdoc/versions/0.4.1
+                                          # https://github.com/zzak/sdoc/tree/v0.4.1
+                                          # https://github.com/zzak/sdoc/blob/master/CHANGELOG.md
+                                          # https://github.com/zzak/sdoc/releases
+
 end
