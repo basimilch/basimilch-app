@@ -46,7 +46,12 @@ gem 'sdoc',                     '0.4.1', group: :doc # https://github.com/voloko
 # For Heroku API
 gem 'platform-api',             '0.7.0'   # https://github.com/heroku/platform-api/releases
 gem 'rails-i18n',               '4.0.8'   # https://github.com/svenfuchs/rails-i18n/blob/master/CHANGELOG.md
-gem 'phony_rails',              '0.12.13' # https://github.com/joost/phony_rails/releases
+
+gem 'phony_rails',              '0.14.1'  # https://github.com/joost/phony_rails/tree/v0.14.1
+                                          # https://rubygems.org/gems/phony_rails/versions/0.14.1
+                                          # https://github.com/joost/phony_rails/blob/master/CHANGELOG.md
+                                          # https://github.com/joost/phony_rails/compare/v0.12.11...v0.14.1
+                                          # https://github.com/joost/phony_rails/releases
 
 gem 'geocoder',                 '1.3.6'   # https://github.com/alexreisner/geocoder/releases
                                           # https://github.com/alexreisner/geocoder/blob/master/CHANGELOG.md
