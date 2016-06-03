@@ -7,8 +7,12 @@ source 'https://rubygems.org'
 
 ruby '2.2.4'
 
-# DOC: http://guides.rubyonrails.org/v4.2.5.2/upgrading_ruby_on_rails.html
-gem 'rails',                    '4.2.5.2'
+# DOC: http://guides.rubyonrails.org/v4.2.6/upgrading_ruby_on_rails.html
+gem 'rails',                    '4.2.6'   # https://github.com/rails/rails/tree/v4.2.6
+                                          # https://rubygems.org/gems/rails/versions/4.2.6
+                                          # https://github.com/rails/rails/compare/v4.2.5.2...v4.2.6
+                                          # http://weblog.rubyonrails.org/releases/
+                                          # https://github.com/rails/rails/releases
 
 gem 'bcrypt',                   '3.1.11'
 gem 'faker',                    '1.6.3'   # https://github.com/stympy/faker/releases

@@ -110,7 +110,7 @@ module NumericFormattingUtils
     #       easier to understand. Moreover, it's not an overhead since we have
     #       Rails available anyway.
     # SOURCE: http://stackoverflow.com/a/18592312
-    # DOC: http://api.rubyonrails.org/v4.2.5.2/classes/ActionView/Helpers/NumberHelper.html#method-i-number_with_precision
+    # DOC: http://api.rubyonrails.org/v4.2.6/classes/ActionView/Helpers/NumberHelper.html#method-i-number_with_precision
     number_with_precision(self,
                           precision: decimals,
                           significant: false,
@@ -120,7 +120,7 @@ module NumericFormattingUtils
   # Returns a string representing the BigDecimal as a currency value, using
   # Rails' :number_to_currency method.
   def to_s_currency(locale: I18n.locale, decimals: 2)
-    # DOC: http://api.rubyonrails.org/v4.2.5.2/classes/ActionView/Helpers/NumberHelper.html#method-i-number_to_currency
+    # DOC: http://api.rubyonrails.org/v4.2.6/classes/ActionView/Helpers/NumberHelper.html#method-i-number_to_currency
     number_to_currency(self,
                        locale: locale,
                        precision: decimals)
@@ -249,7 +249,7 @@ class String
   END_OF_WORD_REGEXP = /(?<=\w)\b/
 
   def truncate_naturally(at: 50)
-    # DOC: http://api.rubyonrails.org/v4.2.5.2/classes/String.html#method-i-truncate
+    # DOC: http://api.rubyonrails.org/v4.2.6/classes/String.html#method-i-truncate
     self.truncate(at, separator: END_OF_WORD_REGEXP)
   end
 
@@ -769,7 +769,7 @@ end
 # value is not a valid date like Strings, but not Integers.
 # SOURCE: http://stackoverflow.com/a/597776
 # SOURCE: https://github.com/adzap/validates_timeliness
-# DOC: http://api.rubyonrails.org/v4.2.5.2/classes/ActiveModel/Validator.html
+# DOC: http://api.rubyonrails.org/v4.2.6/classes/ActiveModel/Validator.html
 # TODO: Find a better place fir this kind of class.
 class TimelinessValidator < ActiveModel::EachValidator
   VALID_TYPES = [:date_time, :date, :time]

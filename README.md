@@ -23,7 +23,7 @@ development you might want to look at the _excellent_ [Rails Tutorial]
 by [Michael Hartl] including more than 15 hours of screencast lessons.
 The corresponding [Rails Tutorial Book] can be read online for free.
 
-[Getting Started with Rails]: http://guides.rubyonrails.org/v4.2.5.2/getting_started.html
+[Getting Started with Rails]: http://guides.rubyonrails.org/v4.2.6/getting_started.html
 [Rails Tutorial]: https://www.railstutorial.org/
 [Michael Hartl]: http://www.michaelhartl.com
 [Rails Tutorial Book]: https://www.railstutorial.org/book/_single-page
@@ -46,17 +46,17 @@ The corresponding [Rails Tutorial Book] can be read online for free.
 
 ### Rails
 
-- [Rails Code (v4.2.5.2)] _([`rails` releases])_
-- [The API Documentation (v4.2.5.2)]
-- [Ruby on Rails Guides (v4.2.5.2)]
+- [Rails Code (v4.2.6)] _([`rails` releases])_
+- [The API Documentation (v4.2.6)]
+- [Ruby on Rails Guides (v4.2.6)]
 
 Beyond these official guides, it can be useful to read [The Beginner's
 Guide to Rails Helpers].
 
-[Rails Code (v4.2.5.2)]: https://github.com/rails/rails/tree/v4.2.5.2
+[Rails Code (v4.2.6)]: https://github.com/rails/rails/tree/v4.2.6
 [`rails` releases]: https://github.com/rails/rails/releases
-[The API Documentation (v4.2.5.2)]: http://api.rubyonrails.org/v4.2.5.2/
-[Ruby on Rails Guides (v4.2.5.2)]: http://guides.rubyonrails.org/v4.2.5.2/
+[The API Documentation (v4.2.6)]: http://api.rubyonrails.org/v4.2.6/
+[Ruby on Rails Guides (v4.2.6)]: http://guides.rubyonrails.org/v4.2.6/
 [The Beginner's Guide to Rails Helpers]: http://mixandgo.com/blog/the-beginner-s-guide-to-rails-helpers
 
 ## Setup `dev` environment
@@ -86,9 +86,9 @@ gem install bundler
 bundle install
 ```
 
-- `rails` version 4.2.5.2 gets installed by the previous action. If
+- `rails` version 4.2.6 gets installed by the previous action. If
 you want to start a new project at this point you should manually
-install `rails` instead: `gem install rails -v 4.2.5.2`)
+install `rails` instead: `gem install rails -v 4.2.6`)
 
 - [heroku] is used for the production server. To deploy, install the
 [heroku toolbelt].
@@ -437,7 +437,7 @@ rake aborted!
 PG::ConnectionBad: could not connect to server: No such file or directory
         Is the server running locally and accepting
         connections on Unix domain socket "/tmp/.s.PGSQL.5432"?
-.../.rvm/gems/ruby-2.2.4/gems/activerecord-4.2.5.2/lib/active_record/connection_adapters/postgresql_adapter.rb:651:in `initialize'
+.../.rvm/gems/ruby-2.2.4/gems/activerecord-4.2.6/lib/active_record/connection_adapters/postgresql_adapter.rb:651:in `initialize'
 ```
 
 I was not able to restart the DB and ended up creating a new one (not
@@ -730,7 +730,7 @@ entire cookie, including name, value, expiry date, etc.
 [Decoding Rails Session Cookies]: http://www.andylindeman.com/decoding-rails-session-cookies/
 [Session storage and security in Rails]: http://dev.housetrip.com/2014/01/14/session-store-and-security/
 [this gist]: https://gist.github.com/profh/e36e5dd0bec124fef04c
-[Ruby on Rails Security Guide]: http://guides.rubyonrails.org/v4.2.5.2/security.html
+[Ruby on Rails Security Guide]: http://guides.rubyonrails.org/v4.2.6/security.html
 [4K of data]: http://stackoverflow.com/questions/640938/what-is-the-maximum-size-of-a-web-browsers-cookies-key
 
 ### Reminder about migrations
@@ -779,7 +779,7 @@ It might be also interesting to read [this SO answer about creating
 simple vs compound indexed], as well as Heroku's own documentation
 about [Efficient Use of PostgreSQL Indexes].
 
-[RailsGuide about migrations]: http://guides.rubyonrails.org/v4.2.5.2/active_record_migrations.html#creating-a-migration
+[RailsGuide about migrations]: http://guides.rubyonrails.org/v4.2.6/active_record_migrations.html#creating-a-migration
 [this SO answer about creating simple vs compound indexed]: http://stackoverflow.com/a/1049392
 [Efficient Use of PostgreSQL Indexes]: https://devcenter.heroku.com/articles/postgresql-indexes
 
@@ -819,11 +819,11 @@ is when rollbacking a migration (during dev) with `db:rollback`.
 For a comprehensive description of all `db:` rake tasks you can check
 the code at [`railties/databases.rake`].
 
-["Maintaining The Test Database Schema"]: http://guides.rubyonrails.org/v4.2.5.2/testing.html#maintaining-the-test-database-schema
+["Maintaining The Test Database Schema"]: http://guides.rubyonrails.org/v4.2.6/testing.html#maintaining-the-test-database-schema
 
-[`db:test:prepare`]: https://github.com/rails/rails/blob/v4.2.5.2/activerecord/lib/active_record/railties/databases.rake#L359-L364
+[`db:test:prepare`]: https://github.com/rails/rails/blob/v4.2.6/activerecord/lib/active_record/railties/databases.rake#L359-L364
 
-[`railties/databases.rake`]: https://github.com/rails/rails/blob/v4.2.5.2/activerecord/lib/active_record/railties/databases.rake
+[`railties/databases.rake`]: https://github.com/rails/rails/blob/v4.2.6/activerecord/lib/active_record/railties/databases.rake
 
 ### Active Record `scopes`
 

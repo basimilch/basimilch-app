@@ -3,7 +3,7 @@ module HasPostalAddress
 
   VALID_SWISS_POSTAL_CODE_REGEX = /\A\d{4}\z/ # The 'CH-' part is not expected.
 
-  # DOC: http://api.rubyonrails.org/v4.2.5.2/classes/ActiveSupport
+  # DOC: http://api.rubyonrails.org/v4.2.6/classes/ActiveSupport
   #                                       /Concern.html#method-i-append_features
   extend ActiveSupport::Concern
 
