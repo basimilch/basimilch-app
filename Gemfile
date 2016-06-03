@@ -47,6 +47,7 @@ gem 'sdoc',                     '0.4.1', group: :doc # https://github.com/voloko
 gem 'platform-api',             '0.7.0'   # https://github.com/heroku/platform-api/releases
 gem 'rails-i18n',               '4.0.8'   # https://github.com/svenfuchs/rails-i18n/blob/master/CHANGELOG.md
 
+# Adds useful methods to validate, display and save phone numbers.
 gem 'phony_rails',              '0.14.1'  # https://github.com/joost/phony_rails/tree/v0.14.1
                                           # https://rubygems.org/gems/phony_rails/versions/0.14.1
                                           # https://github.com/joost/phony_rails/blob/master/CHANGELOG.md
@@ -64,8 +65,13 @@ gem 'paper_trail',              '5.1.1'   # https://github.com/airblade/paper_tr
                                           # https://github.com/airblade/paper_trail/compare/v4.1.0...v5.1.1
                                           # https://github.com/airblade/paper_trail/releases
 
-# Track activity => allows timeline
-gem 'public_activity',          '1.4.3'   # https://github.com/chaps-io/public_activity/releases
+# Easy activity tracking for models - similar to Github's Public Activity. (i.e. allows timeline)
+gem 'public_activity',          '1.5.0'   # https://github.com/chaps-io/public_activity/tree/v1.5.0
+                                          # https://rubygems.org/gems/public_activity/versions/1.5.0
+                                          # https://github.com/chaps-io/public_activity/blob/v1.5.0/CHANGELOG.md
+                                          # https://github.com/chaps-io/public_activity/compare/v1.4.1...v1.5.0
+                                          # https://github.com/chaps-io/public_activity/releases
+
 gem 'time_diff',                '0.3.0'
 gem 'pg',                       '0.18.4'
 
