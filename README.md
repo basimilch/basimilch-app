@@ -70,6 +70,9 @@ Guide to Rails Helpers].
 curl -sSL https://get.rvm.io | bash -s stable
 ```
 
+> **NOTE:** If you already have installed it you can [upgrade `rvm`]
+> with `rvm get stable`.
+
 - [Install `ruby` version 2.3.1]
 
 ```bash
@@ -97,6 +100,7 @@ install `rails` instead: `gem install rails -v 4.2.6`)
 [heroku toolbelt].
 
 [Install `rvm`]: https://rvm.io/rvm/install
+[upgrade `rvm`]: https://rvm.io/rvm/upgrading
 [Install `ruby` version 2.3.1]: https://rvm.io/rubies/installing
 [Install `bundle`]: https://rvm.io/integration/bundler
 [`Gemfile.lock`]: Gemfile.lock
