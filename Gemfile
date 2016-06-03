@@ -35,7 +35,13 @@ gem 'jquery-rails',             '4.1.1'   # https://github.com/rails/jquery-rail
                                           # https://rubygems.org/gems/jquery-rails
 
 gem 'turbolinks',               '2.5.3'   # https://github.com/turbolinks/turbolinks-classic/releases
-gem 'jbuilder',                 '2.4.1'   # https://github.com/rails/jbuilder/releases
+
+# Create JSON structures via a Builder-style DSL
+gem 'jbuilder',                 '2.5.0'   # https://github.com/rails/jbuilder/tree/v2.5.0
+                                          # https://rubygems.org/gems/jbuilder/versions/2.5.0
+                                          # https://github.com/rails/jbuilder/blob/master/CHANGELOG.md
+                                          # https://github.com/rails/jbuilder/releases
+
 gem 'sdoc',                     '0.4.1', group: :doc # https://github.com/voloko/sdoc/releases
 # For Heroku API
 gem 'platform-api',             '0.7.0'   # https://github.com/heroku/platform-api/releases
