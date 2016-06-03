@@ -14,10 +14,12 @@ class SubscriptionsController < ApplicationController
                                                         :subscription_edit,
                                                         :subscription_update]
 
+  ALLOWED_VIEW = 'with_planned_items'
+
   # GET /subscriptions
   # GET /subscriptions.json
   def index
-    if @view = params[:view]
+    if @view = params[:view].allow(ALLOWED_VIEW)
       unless @subscriptions = Subscription.try(@view)
         raise_404
       end
