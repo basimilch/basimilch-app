@@ -5,12 +5,27 @@ class UsersController < ApplicationController
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user,   only: [:new, :show, :index, :destroy, :activate]
 
+  # View are scopes of the User model.
+  ALLOWED_VIEWS = Set[
+    'by_id',
+    'admins',
+    'with_intern_email',
+    'active',
+    'recently_online',
+    'pending_activation',
+    'inactive',
+    'stale',
+    'without_tel',
+    'without_email',
+    'without_subscription'
+  ]
+
   def index
     if filter = params[:filter]
       # NOTE: .find_by(...) is like .where(...).first
       # SOURCE: http://stackoverflow.com/a/22833860
       @users = User.where(filter.permit(PERMITTED_ATTRIBUTES))
-    elsif @view = params[:view]
+    elsif @view = params[:view].allow(ALLOWED_VIEWS)
       unless @users = User.search(params[:q]).try(@view)
         raise_404
       end
