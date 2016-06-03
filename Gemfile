@@ -234,6 +234,7 @@ group :production do
   # Rubinius or JRuby.
   gem 'puma',                   '3.4.0'   # https://rubygems.org/gems/puma/versions/3.4.0
                                           # https://github.com/puma/puma/tree/v3.4.0
+                                          # https://github.com/puma/puma/blob/master/History.txt
                                           # https://github.com/puma/puma/releases
 
 end
