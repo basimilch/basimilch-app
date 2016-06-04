@@ -157,6 +157,35 @@ gem 'time_diff',                '0.3.0'   # https://rubygems.org/gems/time_diff/
 gem 'pg',                       '0.18.4'  # https://rubygems.org/gems/pg/versions/0.18.4
                                           # https://bitbucket.org/ged/ruby-pg/src?at=v0.18.4
 
+group :development, :test do
+
+  # Dropping a `byebug` (or `debugger`) call anywhere in your code, you get a
+  # debug prompt.
+  gem 'byebug',                 '8.2.5'   # https://rubygems.org/gems/byebug
+                                          # https://github.com/deivid-rodriguez/byebug/releases
+
+  # Preloads the application so things like console, rake and tests run faster.
+  gem 'spring',                 '1.7.1'   # https://rubygems.org/gems/spring/versions/1.7.1
+                                          # https://github.com/rails/spring/tree/v1.7.1
+                                          # https://github.com/rails/spring/blob/master/CHANGELOG.md
+                                          # https://github.com/rails/spring/compare/v1.6.4...v1.7.1
+                                          # https://github.com/rails/spring/releases
+
+  # Autoload `dotenv` in Rails, which in its turn loads environment variables
+  # from `.env` files.
+  gem 'dotenv-rails',           '2.1.1'   # https://rubygems.org/gems/dotenv-rails/versions/2.1.1
+                                          # https://github.com/bkeepers/dotenv/tree/v2.1.1
+                                          # https://github.com/bkeepers/dotenv/releases
+                                          # https://github.com/bkeepers/dotenv/blob/master/Changelog.md
+
+  # Guard is a command line tool to easily handle events on file system
+  # modifications.
+  gem 'guard',                  '2.14.0'  # https://rubygems.org/gems/guard/versions/2.14.0
+                                          # https://github.com/guard/guard/tree/v2.14.0
+                                          # https://github.com/guard/guard/releases
+
+end
+
 group :development do
 
   # A debugging tool for your Ruby on Rails applications. Dropping a `console`
@@ -188,29 +217,6 @@ group :development do
 
 end
 
-group :development, :test do
-
-  # Dropping a `byebug` (or `debugger`) call anywhere in your code, you get a
-  # debug prompt.
-  gem 'byebug',                 '8.2.5'   # https://rubygems.org/gems/byebug
-                                          # https://github.com/deivid-rodriguez/byebug/releases
-
-  # Preloads the application so things like console, rake and tests run faster.
-  gem 'spring',                 '1.7.1'   # https://rubygems.org/gems/spring/versions/1.7.1
-                                          # https://github.com/rails/spring/tree/v1.7.1
-                                          # https://github.com/rails/spring/blob/master/CHANGELOG.md
-                                          # https://github.com/rails/spring/compare/v1.6.4...v1.7.1
-                                          # https://github.com/rails/spring/releases
-
-  # Autoload `dotenv` in Rails, which in its turn loads environment variables
-  # from `.env` files.
-  gem 'dotenv-rails',           '2.1.1'   # https://rubygems.org/gems/dotenv-rails/versions/2.1.1
-                                          # https://github.com/bkeepers/dotenv/tree/v2.1.1
-                                          # https://github.com/bkeepers/dotenv/releases
-                                          # https://github.com/bkeepers/dotenv/blob/master/Changelog.md
-
-end
-
 group :test do
 
   # Create customizable MiniTest output formats.
@@ -223,12 +229,6 @@ group :test do
   gem 'mini_backtrace',         '0.1.3'   # https://rubygems.org/gems/mini_backtrace/versions/0.1.3
                                           # https://github.com/metaskills/mini_backtrace/tree/v0.1.3
                                           # https://github.com/metaskills/mini_backtrace/releases
-
-  # Guard is a command line tool to easily handle events on file system
-  # modifications.
-  gem 'guard',                  '2.14.0'  # https://rubygems.org/gems/guard/versions/2.14.0
-                                          # https://github.com/guard/guard/tree/v2.14.0
-                                          # https://github.com/guard/guard/releases
 
   # Guard::Minitest automatically run your tests with Minitest framework (much
   # like autotest).
