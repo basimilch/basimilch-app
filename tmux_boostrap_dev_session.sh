@@ -52,6 +52,7 @@ tmux send-keys     'rails console' Enter
 tmux select-window -t $SESSION:tests
 tmux select-pane   -t $SESSION:tests.0
 tmux send-keys     '#bundle exec guard' Enter
+tmux send-keys     'bundle exec brakeman' Enter
 tmux send-keys     'bundle exec rake test' Enter
 tmux select-window -t $SESSION:server
 tmux select-pane   -t $SESSION:server.0
