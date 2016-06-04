@@ -341,6 +341,7 @@ de-CH:
 
   # Views
 
+  # DOC: https://github.com/mislav/will_paginate/wiki/I18n
   will_paginate:
     previous_label: "früher"
     next_label: "später"

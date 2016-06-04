@@ -92,7 +92,13 @@
     <%= will_paginate %>
   </div>
   <div class="text-center">
-    <%= page_entries_info %>
+    <%#
+      NOTE: The model (here 'Job') has to be specified only in order to let
+            will_paginate gem find the right name (possibily localised) for
+            the items for the case of an empty list, since the item's class
+            cannot be inferred from the items.
+     %>
+    <%= page_entries_info model: Job %>
   </div>
 <% else %>
   <div class="text-center">
