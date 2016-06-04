@@ -3,8 +3,7 @@ require 'test_helper'
 class JobWorkflowTest < ActionDispatch::IntegrationTest
 
   # NOTE: 'def setup' is equivalent to 'setup do' in Rails' Test::Unit context.
-  # SOURCE: http://technicalpickles.com/posts/
-  #                            rails-special-sauce-test-unit-setup-and-teardown/
+  # SOURCE: http://technicalpickles.com/posts/rails-special-sauce-test-unit-setup-and-teardown/
   setup do
     @admin_user = users(:admin)
     @user       = users(:two)

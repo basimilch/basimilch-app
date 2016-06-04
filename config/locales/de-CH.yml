@@ -31,7 +31,7 @@ de-CH:
   #   https://gist.github.com/ddlsmurf/1590434
   #
   # Consider also using ruby files for translations, i.e. 'de-CH.rb'.
-  # Source: http://stackoverflow.com/a/22797880
+  # SOURCE: http://stackoverflow.com/a/22797880
 
   dictionary:
     global: &global

@@ -1,5 +1,4 @@
-# Source: https://coderwall.com/p/qtsxug/
-#                          prefix-all-emails-with-application-name-and-rails-env
+# SOURCE: https://coderwall.com/p/qtsxug/prefix-all-emails-with-application-name-and-rails-env
 class AddAppPrefixToEmailSubject
   EMAIL_PREFIX = 'basimilch'
 

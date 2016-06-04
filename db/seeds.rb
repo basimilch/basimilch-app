@@ -28,7 +28,7 @@ SEPARATORS  = [".", "-", "_", ""]
 LOCALES     = ['de-CH', 'fr-CH', 'it-CH']
 
 def maybe(x = :bool)
-  # Source: http://stackoverflow.com/a/8012789
+  # SOURCE: http://stackoverflow.com/a/8012789
   if x == :bool then [true, false].sample else maybe ? x : nil end
 end
 
@@ -90,7 +90,7 @@ unless User.first
 end
 
 # Using Faker to generate fake data. :)
-# Source: https://github.com/stympy/faker
+# SOURCE: https://github.com/stympy/faker
 
 (NUMBER_OF_USERS - User.count).times do |n|
   Faker::Config.locale = LOCALES.sample

@@ -40,14 +40,13 @@ module ApplicationHelper
     console if Rails.env.development?
   end
 
-  # Source: http://stackoverflow.com/a/4983354
+  # SOURCE: http://stackoverflow.com/a/4983354
   def raise_404
     raise ActionController::RoutingError.new('Not Found')
   end
 
   # Friendly forwarding
-  # Source: https://www.railstutorial.org/book/_single-page
-  #                                                     #sec-friendly_forwarding
+  # SOURCE: https://www.railstutorial.org/book/_single-page#sec-friendly_forwarding
 
   # Redirects to stored location (or to the default).
   def redirect_back_or(default)

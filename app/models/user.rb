@@ -98,7 +98,7 @@ class User < ActiveRecord::Base
   #  http://guides.rubyonrails.org/active_record_validations.html#validates-each
   validates_each :tel_mobile, :tel_home, :tel_office do |record, attr, value|
     unless value.blank?
-      # Source: https://github.com/joost/phony_rails
+      # SOURCE: https://github.com/joost/phony_rails
       normalized_value = value.phony_normalized(default_country_code: 'CH')
       if value =~ /[[:alpha:]]/ or
          normalized_value.blank? or
@@ -227,8 +227,7 @@ class User < ActiveRecord::Base
   end
 
   # Remembers a user in the database for use in persistent sessions.
-  # Source: https://www.railstutorial.org/book/_single-page
-  #                                                    #code-user_model_remember
+  # SOURCE: https://www.railstutorial.org/book/_single-page#code-user_model_remember
   def remember
     self.remember_token = User.new_token
     update_attributes!(remember_digest:  remember_token.digest,
@@ -241,8 +240,7 @@ class User < ActiveRecord::Base
   end
 
   # Returns true if the given token matches the digest.
-  # Source: https://www.railstutorial.org/book/_single-page
-  #                                            #code-generalized_authenticated_p
+  # SOURCE: https://www.railstutorial.org/book/_single-page#code-generalized_authenticated_p
   def authenticated?(attribute, token)
     digest = send("#{attribute}_digest")
     return false if digest.nil?
@@ -347,7 +345,7 @@ class User < ActiveRecord::Base
   # Class methods
 
   # Returns a random token.
-  # Source: https://www.railstutorial.org/book/_single-page#code-token_method
+  # SOURCE: https://www.railstutorial.org/book/_single-page#code-token_method
   def self.new_token
     SecureRandom.urlsafe_base64
   end

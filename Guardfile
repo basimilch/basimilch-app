@@ -1,5 +1,5 @@
 # Defines the matching rules for Guard.
-# Source: https://www.railstutorial.org/book/static_pages#code-guardfile
+# SOURCE: https://www.railstutorial.org/book/static_pages#code-guardfile
 
 # NOTE:
 #
@@ -24,7 +24,7 @@
 #
 # To exit Guard, press Ctrl-D.
 #
-# Source: https://www.railstutorial.org/book/static_pages#sec-advanced_testing_setup
+# SOURCE: https://www.railstutorial.org/book/static_pages#sec-advanced_testing_setup
 
 # DOC: https://github.com/guard/guard-brakeman#guardfile
 guard :brakeman, run_on_start: true, quiet: true do

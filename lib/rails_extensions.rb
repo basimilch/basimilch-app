@@ -299,8 +299,7 @@ class String
   end
 
   # SOURCE: http://stackoverflow.com/a/5492450
-  # SOURCE: http://www.monkeyandcrow.com/blog/
-  #                               reading_rails_how_does_message_encryptor_work/
+  # SOURCE: http://www.monkeyandcrow.com/blog/reading_rails_how_does_message_encryptor_work/
   @@persistent_encryptor = ActiveSupport::MessageEncryptor
                           .new(Rails.application.secrets.secret_key_base)
 
@@ -471,16 +470,14 @@ end
 class ActiveRecord::Base
 
   # SOURCE: http://stackoverflow.com/a/7830624
-  # SOURCE: http://www.keenertech.com/articles/2011/06/26/
-  #                                    recipe-detecting-required-fields-in-rails
+  # SOURCE: http://www.keenertech.com/articles/2011/06/26/recipe-detecting-required-fields-in-rails
   def required_attribute?(attribute)
     self.class.validators_on(attribute).map(&:class).include?(
       ActiveRecord::Validations::PresenceValidator)
   end
 
   # SOURCE: http://stackoverflow.com/a/9491479
-  # DOC: http://api.rubyonrails.org/classes/ActiveRecord/
-  #                                           QueryMethods.html#method-i-reorder
+  # DOC: http://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-reorder
   def self.remove_order
     reorder('')
   end

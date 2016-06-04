@@ -63,8 +63,7 @@ class ActiveSupport::TestCase
   # 'logged_in?' so that the test helper and Sessions helper methods
   # have different names, which prevents them from being mistaken for
   # each other.
-  # Source: https://www.railstutorial.org/book/_single-page
-  #                                                       #sec-login_upon_signup
+  # SOURCE: https://www.railstutorial.org/book/_single-page#sec-login_upon_signup
   def fixture_logged_in?
     !session[:user_id].nil?
   end
@@ -195,8 +194,7 @@ class ActiveSupport::TestCase
     end
   end
 
-  # SOURCE: https://github.com/alexreisner/geocoder/tree/v1.3.6
-  #                                              #testing-apps-that-use-geocoder
+  # SOURCE: https://github.com/alexreisner/geocoder/tree/v1.3.6#testing-apps-that-use-geocoder
   Geocoder.configure lookup: :test
   Geocoder::Lookup::Test.set_default_stub(
     [
@@ -280,8 +278,7 @@ class ActiveSupport::TestCase
     # returns true if its argument is defined and false otherwise. In
     # the present case, the 'post_via_redirect' method is available
     # only in integration tests.
-    # Source: https://www.railstutorial.org/book/_single-page
-    #                                           #sec-testing_the_remember_me_box
+    # SOURCE: https://www.railstutorial.org/book/_single-page#sec-testing_the_remember_me_box
     def integration_test?
       defined?(post_via_redirect)
     end
