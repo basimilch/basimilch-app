@@ -232,11 +232,11 @@ We use the testing setup suggested in the [Advanced testing setup]
 section of the [Rails Tutorial Book] mentioned above. This setup
 includes color enhanced representation of test results (with
 [`minitest`] reporters), a `backtrace silencer` configuration and the
-usage of `Guard` (with [`guard-minitest`]) for automatic test
+usage of [`Guard`] with [`guard-minitest`] for automatic test
 execution of file changes.
 
 Once everything is set up as described in the mentioned section of the
-[Rails Tutorial Book], you can run `Guard` at the command line as
+[Rails Tutorial Book], you can run [`Guard`] at the command line as
 follows:
 
 ``` bash
@@ -249,7 +249,7 @@ the integration tests automatically run when a controller is changed.
 To run all the tests, hit `return` at the `guard>` prompt. As
 mentioned in the [Rails Tutorial Book], this may sometimes give an
 error indicating a failure to connect to the Spring server. To fix the
-problem, just hit return again. To exit `Guard`, press `Ctrl-D`.
+problem, just hit return again. To exit [`Guard`], press `Ctrl-D`.
 
 The [Rails Tutorial Book] mentions also following hint:
 
@@ -266,13 +266,29 @@ $ ps aux | grep spring
 $ pkill -9 -f spring
 ```
 
+### Security: `brakeman` tests
+
+We use the [`brakeman` (v3.3.1)] gem to detect security
+vulnerabilities in the Ruby on Rails application via static analysis.
+Used in conjunction to the [`guard-brakeman`] gem, `brakeman` is
+automatically executed on files changes when running [`Guard`]. This
+means that when you execute the command `bundle exec guard` suggested
+above you will see both security vulnerability warnings and test
+results after each file change.
+
+> **NOTE:** In some cases warnings might be false positives, but they
+> should all be seriously taken into consideration.
+
 [heroku]: http://heroku.com
 [heroku toolbelt]: https://toolbelt.heroku.com
 [Advanced testing setup]: https://www.railstutorial.org/book/static_pages#sec-advanced_testing_setup
 [Listing 3.42]: https://www.railstutorial.org/book/static_pages#code-guardfile
+[`Guard`]: https://github.com/guard/guard
 [`Guardfile`]: Guardfile
 [`minitest`]: https://github.com/seattlerb/minitest
 [`guard-minitest`]: https://github.com/guard/guard-minitest
+[`brakeman` (v3.3.1)]: https://github.com/presidentbeef/brakeman/tree/v3.3.1
+[`guard-brakeman`]: https://github.com/guard/guard-brakeman
 
 ## Dev DB data
 

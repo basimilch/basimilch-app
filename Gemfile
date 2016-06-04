@@ -173,6 +173,19 @@ group :development do
   gem 'rack-mini-profiler',     '0.10.1'  # https://rubygems.org/gems/rack-mini-profiler/versions/0.10.1
                                           # https://github.com/MiniProfiler/rack-mini-profiler/releases
 
+  # Brakeman detects security vulnerabilities in Ruby on Rails applications via
+  # static analysis.
+  gem 'brakeman',               '3.3.1', require: false # https://rubygems.org/gems/brakeman/versions/3.3.1
+                                          # https://github.com/presidentbeef/brakeman/tree/v3.3.1
+                                          # https://github.com/presidentbeef/brakeman/blob/master/CHANGES
+                                          # https://github.com/presidentbeef/brakeman/releases
+
+  # Guard::Brakeman allows you to automatically run Brakeman tests when files
+  # are modified.
+  gem 'guard-brakeman',         '0.8.3'   # https://rubygems.org/gems/guard-brakeman/versions/0.8.3
+                                          # https://github.com/guard/guard-brakeman
+                                          # https://github.com/guard/guard-brakeman/blob/master/HISTORY.md
+
 end
 
 group :development, :test do
