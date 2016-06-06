@@ -531,12 +531,13 @@ class ActiveRecord::Relation
   # >> User.by_name.ordering
   # => {:last_name=>[:asc, 0], :id=>[:asc, 1]}
   def ordering
-    order_values.each_with_index.reduce({}) do | orders, (ord, level) |
+    order_values.reduce({}) do | orders, ord |
+      next orders if ord.blank? || orders[ord.expr.name].present?
       orders.merge ord.expr.name => [case ord
                                        when Arel::Nodes::Descending then :desc
                                        when Arel::Nodes::Ascending  then :asc
                                      end,
-                                    level]
+                                    orders.size]
     end
   end
 

@@ -313,4 +313,125 @@ class RailsExtentionsTest < ActionController::TestCase
     assert_equal 'Lorem ipsum dolor sit amet...',
                   lorem.truncate_naturally(at: 32)
   end
+
+  test "it should possible to query ActiveRecord::Relation for ordering" do
+
+    assert_query_and_ordering(
+      User.by_id,
+      sql:                  "SELECT \"users\".* FROM \"users\"  " +
+                            "ORDER BY \"users\".\"id\" ASC",
+      ordering:             { id: [:asc, 0]},
+      first_ordered_by:     :id,
+      not_first_ordered_by: :first_name
+    )
+
+    assert_query_and_ordering(
+      User.by_name,
+      sql:                  "SELECT \"users\".* FROM \"users\"  " +
+                            "ORDER BY \"users\".\"last_name\" ASC, " +
+                                     "\"users\".\"first_name\" ASC, " +
+                                     "\"users\".\"id\" ASC",
+      ordering:             { last_name:  [:asc, 0],
+                              first_name: [:asc, 1],
+                              id:         [:asc, 2] },
+      first_ordered_by:     :last_name,
+      not_first_ordered_by: :first_name
+    )
+
+    assert_query_and_ordering(
+      User.by_id.by_name,
+      sql:                  "SELECT \"users\".* FROM \"users\"  " +
+                            "ORDER BY \"users\".\"id\" ASC, " +
+                                     "\"users\".\"last_name\" ASC, " +
+                                     "\"users\".\"first_name\" ASC",
+      ordering:             { id:         [:asc, 0],
+                              last_name:  [:asc, 1],
+                              first_name: [:asc, 2] },
+      first_ordered_by:     :id,
+      not_first_ordered_by: :last_name
+    )
+
+    assert_query_and_ordering(
+      User.by_name.by_id,
+      sql:                  "SELECT \"users\".* FROM \"users\"  " +
+                            "ORDER BY \"users\".\"last_name\" ASC, " +
+                                     "\"users\".\"first_name\" ASC, " +
+                                     "\"users\".\"id\" ASC",
+      ordering:             { last_name:  [:asc, 0],
+                              first_name: [:asc, 1],
+                              id:         [:asc, 2] },
+      first_ordered_by:     :last_name,
+      not_first_ordered_by: :id
+    )
+
+    assert_query_and_ordering(
+      User.by_name.by_id.remove_order,
+      sql:                  "SELECT \"users\".* FROM \"users\"",
+      ordering:             {},
+      not_first_ordered_by: :last_name
+    )
+
+    assert_query_and_ordering(
+      User.by_name.by_id.remove_order.by_name,
+      sql:                  "SELECT \"users\".* FROM \"users\"  " +
+                            "ORDER BY \"users\".\"last_name\" ASC, " +
+                                     "\"users\".\"first_name\" ASC, " +
+                                     "\"users\".\"id\" ASC",
+      ordering:             { last_name:  [:asc, 0],
+                              first_name: [:asc, 1],
+                              id:         [:asc, 2] },
+      first_ordered_by:     :last_name,
+      not_first_ordered_by: :id
+    )
+
+    assert_query_and_ordering(
+      User.by_name.by_id.remove_order.by_name.remove_order.by_id,
+      sql:                  "SELECT \"users\".* FROM \"users\"  " +
+                            "ORDER BY \"users\".\"id\" ASC",
+      ordering:             { id: [:asc, 0]},
+      first_ordered_by:     :id,
+      not_first_ordered_by: :last_name
+    )
+
+    assert_query_and_ordering(
+      User.by_name.by_id.remove_order.by_name.remove_order.by_id,
+      sql:                  "SELECT \"users\".* FROM \"users\"  " +
+                            "ORDER BY \"users\".\"id\" ASC",
+      ordering:             { id: [:asc, 0]},
+      first_ordered_by:     :id,
+      not_first_ordered_by: :last_name
+    )
+
+    assert_query_and_ordering(
+      PublicActivity::Activity.all,
+      sql:                  "SELECT \"activities\".* FROM \"activities\"",
+      ordering:             {},
+      not_first_ordered_by: :id
+    )
+
+    assert_query_and_ordering(
+      PublicActivity::Activity.all.remove_order,
+      sql:                  "SELECT \"activities\".* FROM \"activities\"",
+      ordering:             {},
+      not_first_ordered_by: :id
+    )
+  end
+
+  private
+
+    def assert_query_and_ordering(query,
+                                  sql:,
+                                  ordering:,
+                                  first_ordered_by: nil,
+                                  not_first_ordered_by: nil)
+      assert_equal sql,       query.to_sql
+      assert_equal ordering,  query.ordering
+      if first_ordered_by
+        assert_equal true,    query.first_ordered_by?(first_ordered_by)
+      end
+      if not_first_ordered_by
+        assert_equal false,   query.first_ordered_by?(not_first_ordered_by)
+      end
+    end
+
 end
