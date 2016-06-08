@@ -26,10 +26,11 @@ class Job < ActiveRecord::Base
            -> { distinct.merge(JobSignup.not_canceled).remove_order },
            through: :job_signups
 
-  default_scope   -> { order(start_at: :asc) }
-  scope :future,  -> { where("start_at > ?", Time.current) }
-  scope :past,    -> { where("start_at < ?", Time.current) }
-  scope :job_type, ->(id) { id == :all ? all : where(job_type_id: id) }
+  default_scope         -> { by_start_at }
+  scope :by_start_at,   -> { order(start_at: :asc) }
+  scope :future,        -> { where("start_at > ?", Time.current) }
+  scope :past,          -> { where("start_at < ?", Time.current) }
+  scope :job_type,      ->(id) { id == :all ? all : where(job_type_id: id) }
   scope :within_period, ->(t1, t2) {  where("start_at > ?", t1)
                                      .where("start_at < ?", t2) }
   scope :at_day,  ->(d) { within_period(d.to_date.at_beginning_of_day,

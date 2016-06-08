@@ -6,12 +6,14 @@ class JobSignup < ActiveRecord::Base
 
   MIN_NUMBER_PER_USER_PER_YEAR = 4
 
-  default_scope   -> { order(created_at: :asc) }
+  default_scope   -> { by_created_at }
 
   # DOC: http://www.informit.com/articles/article.aspx?p=2220311
   scope :in_current_year, -> { joins(:job).merge(Job.in_current_year) }
-  scope :past,    -> { joins(:job).merge(Job.past) }
-  scope :future,  -> { joins(:job).merge(Job.future) }
+  scope :past,            -> { joins(:job).merge(Job.past) }
+  scope :future,          -> { joins(:job).merge(Job.future) }
+  scope :by_created_at,   -> { order(created_at: :asc) }
+  scope :by_job_start_at, -> { remove_order.joins(:job).merge(Job.by_start_at) }
 
   belongs_to :user
   belongs_to :job
