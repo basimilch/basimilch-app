@@ -27,6 +27,49 @@ class NilClass
   end
 end
 
+# TODO: Consider relocating all the extensions in this file in proper places.
+require_relative '../config/initializers/enum'
+
+class Array
+
+  class ClosestType < Enum
+    enum :ABSOLUT
+    enum :EQUAL_OR_GREATER
+    enum :GREATER
+    enum :EQUAL_OR_LESS
+    enum :LESS
+  end
+
+  def find_closest_to(reference, closest_type: ClosestType::ABSOLUT)
+    begin
+      case closest_type
+      when ClosestType::ABSOLUT
+        min_by { |item| (item - reference).abs }
+      when ClosestType::EQUAL_OR_GREATER
+        sort.find { |item| item >= reference }
+      when ClosestType::GREATER
+        sort.find { |item| item > reference }
+      when ClosestType::EQUAL_OR_LESS
+        # NOTE: Seems like sort.reverse is the most efficient way to sort an
+        #       array in descending order in Ruby.
+        # SOURCE: http://stackoverflow.com/a/2651028
+        sort.reverse.find { |item| item <= reference }
+      when ClosestType::LESS
+        sort.reverse.find { |item| item < reference }
+      end
+    rescue Exception => e
+      raise "unable to find the #{closest_type} closest to #{reference.class}" +
+            " '#{reference.inspect}' for an array of " +
+            "#{map(&:class).uniq.join(' and ')} objects: #{e.class} '#{e}'" +
+            " in #{e.backtrace.find {|s| s.match? __method__.to_s} }"
+    end
+  end
+
+  def find_equal_or_greater_closest_to(reference)
+    find_closest_to(reference, closest_type: ClosestType::EQUAL_OR_GREATER)
+  end
+end
+
 class Hash
 
   # Returns the value given a path of keys, without failing.

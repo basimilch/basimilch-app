@@ -26,6 +26,192 @@ class RailsExtentionsTest < ActionController::TestCase
     assert_equal ['a'],     ['a'].allow(Set[:a, :b, 'a', ['a']])
   end
 
+  test "it should be possible to get the closest element in an array" do
+    a = (1..10).to_a
+    assert_equal 3, a.find_closest_to(3)
+    assert_equal 3, a.find_closest_to(3.3)
+    assert_equal 3, a.find_closest_to(3.5)
+    assert_equal 4, a.find_closest_to(3.51)
+    assert_equal 4, a.find_closest_to(3.6)
+
+    assert_equal 3,
+      a.find_closest_to(3,   closest_type: Array::ClosestType::ABSOLUT)
+    assert_equal 3,
+      a.find_closest_to(3,   closest_type: Array::ClosestType::EQUAL_OR_GREATER)
+    assert_equal a.find_equal_or_greater_closest_to(3),
+      a.find_closest_to(3,   closest_type: Array::ClosestType::EQUAL_OR_GREATER)
+    assert_equal 4,
+      a.find_closest_to(3,   closest_type: Array::ClosestType::GREATER)
+    assert_equal 3,
+      a.find_closest_to(3,   closest_type: Array::ClosestType::EQUAL_OR_LESS)
+    assert_equal 2,
+      a.find_closest_to(3,   closest_type: Array::ClosestType::LESS)
+
+    assert_equal 3,
+      a.find_closest_to(3.1, closest_type: Array::ClosestType::ABSOLUT)
+    assert_equal 4,
+      a.find_closest_to(3.1, closest_type: Array::ClosestType::EQUAL_OR_GREATER)
+    assert_equal a.find_equal_or_greater_closest_to(3.1),
+      a.find_closest_to(3.1, closest_type: Array::ClosestType::EQUAL_OR_GREATER)
+    assert_equal 4,
+      a.find_closest_to(3.1, closest_type: Array::ClosestType::GREATER)
+    assert_equal 3,
+      a.find_closest_to(3.1, closest_type: Array::ClosestType::EQUAL_OR_LESS)
+    assert_equal 3,
+      a.find_closest_to(3.1, closest_type: Array::ClosestType::LESS)
+
+    assert_equal 3,
+      a.find_closest_to(2.9, closest_type: Array::ClosestType::ABSOLUT)
+    assert_equal 3,
+      a.find_closest_to(2.9, closest_type: Array::ClosestType::EQUAL_OR_GREATER)
+    assert_equal a.find_equal_or_greater_closest_to(2.9),
+      a.find_closest_to(2.9, closest_type: Array::ClosestType::EQUAL_OR_GREATER)
+    assert_equal 3,
+      a.find_closest_to(2.9, closest_type: Array::ClosestType::GREATER)
+    assert_equal 2,
+      a.find_closest_to(2.9, closest_type: Array::ClosestType::EQUAL_OR_LESS)
+    assert_equal 2,
+      a.find_closest_to(2.9, closest_type: Array::ClosestType::LESS)
+  end
+
+  test "it should be possible to get the closest element in an date array" do
+    date = Date.new(2016, 1, 1)
+    dates = (date.beginning_of_year..date.end_of_year).select(&:monday?)
+
+    some_monday                 = Date.new(2016, 2, 1)
+    some_monday_plus_one_day    = some_monday + 1.day
+    some_monday_minus_one_day   = some_monday - 1.day
+    some_monday_plus_one_week   = some_monday + 1.week
+    some_monday_minus_one_week  = some_monday - 1.week
+    some_monday_plus_one_hour   = some_monday.to_time + 1.hour
+    some_monday_minus_one_hour  = some_monday.to_time - 1.hour
+
+    assert_equal some_monday,
+      dates.find_closest_to(some_monday)
+
+    assert_raise do
+      # Cannot compare Date to Time objects in that way.
+      assert_equal some_monday,
+        dates.find_closest_to(some_monday_plus_one_hour)
+    end
+
+    assert_equal some_monday,
+      dates.find_closest_to(some_monday_plus_one_day)
+
+    assert_equal some_monday,
+      dates.find_closest_to(some_monday_minus_one_day)
+
+
+    assert_equal some_monday,
+      dates.find_closest_to(some_monday,
+                            closest_type: Array::ClosestType::ABSOLUT)
+
+    assert_equal some_monday,
+      dates.find_closest_to(some_monday,
+                            closest_type: Array::ClosestType::EQUAL_OR_GREATER)
+
+    assert_equal some_monday_plus_one_week,
+      dates.find_closest_to(some_monday,
+                            closest_type: Array::ClosestType::GREATER)
+
+    assert_equal some_monday,
+      dates.find_closest_to(some_monday,
+                            closest_type: Array::ClosestType::EQUAL_OR_LESS)
+
+    assert_equal some_monday_minus_one_week,
+      dates.find_closest_to(some_monday,
+                            closest_type: Array::ClosestType::LESS)
+
+
+    assert_raise do
+      # Cannot compare Date to Time objects in that way.
+      dates.find_closest_to(some_monday_plus_one_hour,
+                            closest_type: Array::ClosestType::ABSOLUT)
+    end
+
+    assert_equal some_monday,
+      dates.find_closest_to(some_monday_plus_one_hour,
+                            closest_type: Array::ClosestType::EQUAL_OR_GREATER)
+
+    assert_equal some_monday_plus_one_week,
+      dates.find_closest_to(some_monday_plus_one_hour,
+                            closest_type: Array::ClosestType::GREATER)
+
+    assert_equal some_monday,
+      dates.find_closest_to(some_monday_plus_one_hour,
+                            closest_type: Array::ClosestType::EQUAL_OR_LESS)
+
+    assert_equal some_monday_minus_one_week,
+      dates.find_closest_to(some_monday_plus_one_hour,
+                            closest_type: Array::ClosestType::LESS)
+
+
+    assert_equal some_monday,
+      dates.find_closest_to(some_monday_plus_one_day,
+                            closest_type: Array::ClosestType::ABSOLUT)
+
+    assert_equal some_monday_plus_one_week,
+      dates.find_closest_to(some_monday_plus_one_day,
+                            closest_type: Array::ClosestType::EQUAL_OR_GREATER)
+
+    assert_equal some_monday_plus_one_week,
+      dates.find_closest_to(some_monday_plus_one_day,
+                            closest_type: Array::ClosestType::GREATER)
+
+    assert_equal some_monday,
+      dates.find_closest_to(some_monday_plus_one_day,
+                            closest_type: Array::ClosestType::EQUAL_OR_LESS)
+
+    assert_equal some_monday,
+      dates.find_closest_to(some_monday_plus_one_day,
+                            closest_type: Array::ClosestType::LESS)
+
+
+    assert_raise do
+      # Cannot compare Date to Time objects in that way.
+      dates.find_closest_to(some_monday_minus_one_hour,
+                            closest_type: Array::ClosestType::ABSOLUT)
+    end
+
+    assert_equal some_monday,
+      dates.find_closest_to(some_monday_minus_one_hour,
+                            closest_type: Array::ClosestType::EQUAL_OR_GREATER)
+
+    assert_equal some_monday,
+      dates.find_closest_to(some_monday_minus_one_hour,
+                            closest_type: Array::ClosestType::GREATER)
+
+    assert_equal some_monday_minus_one_week,
+      dates.find_closest_to(some_monday_minus_one_hour,
+                            closest_type: Array::ClosestType::EQUAL_OR_LESS)
+
+    assert_equal some_monday_minus_one_week,
+      dates.find_closest_to(some_monday_minus_one_hour,
+                            closest_type: Array::ClosestType::LESS)
+
+
+    assert_equal some_monday,
+      dates.find_closest_to(some_monday_minus_one_day,
+                            closest_type: Array::ClosestType::ABSOLUT)
+
+    assert_equal some_monday,
+      dates.find_closest_to(some_monday_minus_one_day,
+                            closest_type: Array::ClosestType::EQUAL_OR_GREATER)
+
+    assert_equal some_monday,
+      dates.find_closest_to(some_monday_minus_one_day,
+                            closest_type: Array::ClosestType::GREATER)
+
+    assert_equal some_monday_minus_one_week,
+      dates.find_closest_to(some_monday_minus_one_day,
+                            closest_type: Array::ClosestType::EQUAL_OR_LESS)
+
+    assert_equal some_monday_minus_one_week,
+      dates.find_closest_to(some_monday_minus_one_day,
+                            closest_type: Array::ClosestType::LESS)
+
+  end
+
   test "should get index" do
     # NOTE: Please note the differences between ruby's :dig and our :get.
     assert_equal nil,                       {}.get(:a)
