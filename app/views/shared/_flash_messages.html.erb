@@ -10,7 +10,7 @@
               danger:   'exclamation-sign'} %>
   <%= content_tag :div, class: "flash-messages" do %>
     <% flash.each do |message_key, message| %>
-      <% message_type = message_key[/[a-z]+/]
+      <% message_type = message_key[/[a-z]+/].gsub("notice", "info")
          flash_id     = "flash-#{message_key.dasherize.downcase}"
         # NOTE: this allows to store more than message per type, since only the
         #       part up to the first non letter char will be taken into account.

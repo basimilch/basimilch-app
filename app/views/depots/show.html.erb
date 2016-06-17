@@ -87,10 +87,10 @@
     <!-- Tab panes -->
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane active" id="subscriptions">
-        <%= render 'subscriptions/index_table', subscriptions: @depot.subscriptions %>
+        <%= render 'subscriptions/index_table', subscriptions: @depot.current_subscriptions %>
       </div>
       <div role="tabpanel" class="tab-pane" id="users">
-        <%= render 'users/index_table', users: @depot.users %>
+        <%= render 'users/index_table', users: @depot.current_users %>
       </div>
     </div>
   </div>

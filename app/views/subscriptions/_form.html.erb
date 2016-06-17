@@ -52,42 +52,25 @@
     <% forced_view_mode = !current_user_admin? || f.options[:view_mode] %>
 
     <div class="row">
-      <div class="col-sm-1 col-xs-3">
-        <% if @subscription.new_record? %>
-          <%= f.field_for :id, readonly: true, value: Subscription.count + 1 %>
-        <% else %>
-          <%= f.field_for :id, readonly: true, view_mode: forced_view_mode %>
-        <% end %>
-      </div>
-      <div class="col-sm-3 col-xs-9">
+      <div class="col-sm-2">
         <%= f.field_for :name, placeholder: t('.name'),
                                view_mode: forced_view_mode %>
       </div>
-      <div class="col-sm-8 col-xs-12">
-        <%= f.field_for :depot_id,
-                        as_type: :select,
-                        view_mode: forced_view_mode,
-                        value: options_for_subscription_depot(@subscription),
-                        include_blank: false %>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-sm-4 col-xs-12">
+      <div class="col-sm-3">
         <%= f.field_for :basic_units,
                         as_type: :select,
                         view_mode: forced_view_mode,
                         value: options_for_subscription_basic_units(@subscription),
                         include_blank: false %>
       </div>
-      <div class="col-sm-4 col-xs-12">
+      <div class="col-sm-3">
         <%= f.field_for :supplement_units,
                         as_type: :select,
                         view_mode: forced_view_mode,
                         value: options_for_subscription_supplement_units(@subscription),
                         include_blank: false %>
       </div>
-      <div class="col-sm-4 col-xs-12">
+      <div class="col-sm-4">
         <%= f.field_for :total_equivalence,
                         as_type: :string,
                         readonly: true,
@@ -98,19 +81,19 @@
 
     <% unless @subscription.new_record? %>
       <div class="row">
-        <div class="col-sm-4 col-xs-12">
+        <div class="col-sm-4">
           <%= f.field_for :created_at,
                           readonly: true,
                           view_mode: true,
                           value: @subscription.created_at.to_localized_s(:long) %>
         </div>
-        <div class="col-sm-4 col-xs-12">
+        <div class="col-sm-4">
           <%= f.field_for :updated_at,
                           readonly: true,
                           view_mode: true,
                           value: @subscription.updated_at.to_localized_s(:long) %>
         </div>
-        <div class="col-sm-4 col-xs-12">
+        <div class="col-sm-4">
           <%= f.field_for :total_share_certificates,
                           as_type: :string,
                           readonly: true,
@@ -119,9 +102,9 @@
         </div>
       </div>
 
-      <%= render 'items_list', list_type: :current_items %>
+      <%= render 'items_list', list_type: :current_order %>
       <% if f.options[:view_mode] %>
-        <%= render 'items_list', list_type: :planned_items %>
+        <%= render 'items_list', list_type: :planned_order %>
       <% else %>
         <%= render 'items_form', f: f %>
       <% end %>

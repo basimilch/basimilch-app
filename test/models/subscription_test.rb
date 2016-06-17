@@ -7,14 +7,14 @@ class SubscriptionTest < ActiveSupport::TestCase
         name:             nil, # It's not required
         # basic_units:      1, # It's set up by default by the DB, see schema
         # supplement_units: 0, # It's set up by default by the DB, see schema
-        depot:            depots(:valid),
         notes:            nil # It's not required
       })
-    @subscription_with_items = Subscription.create(depot: depots(:valid))
+    @subscription_with_items = Subscription.create
     @subscription_with_items.subscription_items.create(
       product_option: product_options(:milk),
-      quantity: 4,
-      valid_since: Date.new(2016, 1, 9)
+      depot:          depots(:valid),
+      quantity:       4,
+      valid_since:    Date.new(2016, 1, 9)
     )
   end
 
@@ -58,18 +58,6 @@ class SubscriptionTest < ActiveSupport::TestCase
     @subscription.supplement_units = 3;  assert_valid      @subscription
   end
 
-  test "depot_id should be present" do
-    assert_required_attribute @subscription, :depot_id
-    @subscription.depot_id = nil;    assert_not_valid @subscription
-    @subscription.depot_id = "    "; assert_not_valid @subscription
-  end
-
-  test "depot_id should be valid" do
-    @subscription.depot_id = -1;                assert_not_valid  @subscription
-    @subscription.depot_id = depots(:valid).id; assert_valid      @subscription
-    @subscription.depot    = depots(:valid);    assert_valid      @subscription
-  end
-
   test "name should not be required" do
     assert_required_attribute @subscription, :name, required: false
     @subscription.name = nil;           assert_valid @subscription
@@ -100,9 +88,9 @@ class SubscriptionTest < ActiveSupport::TestCase
     user = users(:two)
     assert @subscription.current_items.blank?
     assert @subscription_with_items.current_items.present?
-    delivery_day = @subscription.depot.delivery_day
+    delivery_day = @subscription.delivery_day
     # The delivery_day of the fixture depot is Saturday.
-    assert_equal 6, delivery_day
+    assert_equal nil, delivery_day
     assert_equal true, admin.admin?
     assert_equal false, user.admin?
 
@@ -116,19 +104,19 @@ class SubscriptionTest < ActiveSupport::TestCase
       # A couple of weeks before, it should be possible to update.
       travel_to Date.commercial(2016, 18) do
         assert_equal true,  @subscription.can_be_updated_by?(admin)
-        assert_equal true,  @subscription.can_be_updated_by?(user)
+        assert_equal nil,   @subscription.can_be_updated_by?(user)
         assert_equal true,  @subscription_with_items.can_be_updated_by?(user)
       end
       # The same week, it should be possible to update until Tuesday.
       travel_to Date.commercial(2016, 21, 2) do
         assert_equal true,  @subscription.can_be_updated_by?(admin)
-        assert_equal true,  @subscription.can_be_updated_by?(user)
+        assert_equal nil,   @subscription.can_be_updated_by?(user)
         assert_equal true,  @subscription_with_items.can_be_updated_by?(user)
       end
       # The same week, it should not be possible to update from Wednesday on.
       travel_to Date.commercial(2016, 21, 3) do
         assert_equal true,  @subscription.can_be_updated_by?(admin)
-        assert_equal false, @subscription.can_be_updated_by?(user)
+        assert_equal nil,   @subscription.can_be_updated_by?(user)
         assert_equal false, @subscription_with_items.can_be_updated_by?(user)
       end
       # The week after, it should not be possible to update anymore.
@@ -158,8 +146,8 @@ class SubscriptionTest < ActiveSupport::TestCase
   test "current_items checks" do
     assert_equal 0,     @subscription.current_items_liters
     assert_equal false, @subscription.valid_current_items?
-    assert_equal 19.98, subscriptions(:one).current_items_liters
-    assert_equal false, subscriptions(:one).valid_current_items?
+    assert_equal 6,     subscriptions(:one).current_items_liters
+    assert_equal true,  subscriptions(:one).valid_current_items?
     assert_equal 4,     subscriptions(:three).current_items_liters
     assert_equal true,  subscriptions(:three).valid_current_items?
   end

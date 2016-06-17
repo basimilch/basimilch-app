@@ -1,4 +1,4 @@
-<tr class="user-index-row<%= ' info' if current_user? user %>" data-href="<%= user_path(user) %>">
+<tr class="user-info<%= ' info' if current_user? user %>" data-href="<%= user_path(user) %>">
   <% if @ordered_by_last_name %>
     <% current_initial = user.last_name.initial %>
     <% if @last_initial == current_initial %>

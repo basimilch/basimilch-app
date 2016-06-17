@@ -32,9 +32,9 @@ module SubscriptionsHelper
     {
       valid_since_tag: localized_date_tag(valid_since, :short),
       valid_until_tag: localized_date_tag(valid_until, :short),
-      planned_items_valid_since_tag:
-        localized_date_tag(subscription.planned_items_valid_since, :short),
-      non_admin_planned_items_valid_since_tag:
+      planned_order_valid_since_tag:
+        localized_date_tag(subscription.planned_order_valid_since, :short),
+      non_admin_planned_order_valid_since_tag:
         localized_date_tag(subscription.next_update_day_for_non_admins, :short)
     }
   end
@@ -57,7 +57,7 @@ module SubscriptionsHelper
       Depot.not_canceled.map do |depot|
         [depot.to_s, depot.id]
       end,
-      subscription.depot_id
+      subscription.planned_order&.depot&.id || subscription.depot&.id
       )
   end
 
@@ -83,26 +83,27 @@ module SubscriptionsHelper
   end
 
   def options_for_subscription_delivery_days(subscription)
-    depot = subscription.depot
+    depot = subscription.depot || Depot.not_canceled.first
     options = if subscription.without_items?
      {}
     elsif subscription.open_update_window?
       { selected_date: subscription.next_update_day_for_non_admins }
-    elsif subscription.planned_items?
-      { selected_date: subscription.planned_items_valid_since }
+    elsif subscription.planned_order?
+      { selected_date: subscription.planned_order_valid_since }
     else
       { selected_date: subscription.next_modifiable_delivery_day }
     end
-    options_for_depot_delivery_days depot, options
+    options_for_dates_grouped_by_month depot.delivery_days_of_current_year,
+                                       options
   end
 
   def subscription_current_quantity(subscription, product_option)
     if subscription.item_ids_and_quantities.present?
       subscription.item_ids_and_quantities[product_option.id.to_s]
-    elsif subscription.planned_items?
-      subscription.planned_items.quantity(product_option)
+    elsif subscription.planned_order?
+      subscription.planned_order.items.quantity(product_option)
     else
-      subscription.current_items.quantity(product_option)
+      subscription.current_order.items.quantity(product_option)
     end.to_i
   end
 

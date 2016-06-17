@@ -4,6 +4,7 @@ class Depot < ActiveRecord::Base
   include PublicActivity::Common
 
   include Cancelable
+  include Memoizable
   include HasPostalAddress
 
   # DOC: https://github.com/airblade/paper_trail/tree/v5.1.1#1c-basic-usage
@@ -21,15 +22,18 @@ class Depot < ActiveRecord::Base
               # SOURCE: http://railscasts.com/episodes/181-include-vs-joins
               # DOC: http://api.rubyonrails.org/v4.2.6/classes/ActiveRecord/QueryMethods.html#method-i-includes
               -> { includes :user },
-              foreign_key: "depot_id", class_name: "DepotCoordinator",
+              foreign_key: "depot_id",
+              class_name: "DepotCoordinator",
               dependent: :destroy
   has_many :active_coordinators,  -> { merge(DepotCoordinator.not_canceled)
                                        .includes(:user) },
                                   foreign_key:  "depot_id",
                                   class_name:   "DepotCoordinator"
 
-  has_many :subscriptions
-  has_many :users, through: :subscriptions
+  has_many :subscription_items, -> { remove_order }
+  has_many :subscriptions, -> { distinct.remove_order },
+                          through: :subscription_items
+  has_many :users, -> { distinct.merge(User.by_name) }, through: :subscriptions
 
   default_scope -> { by_delivery_time }
   scope :by_delivery_time, -> { order(delivery_day: :asc)
@@ -68,7 +72,7 @@ class Depot < ActiveRecord::Base
 
   # Returns an array used to sort depots equivalent to the scope
   # by_delivery_time.
-  def order
+  def sorting
     [delivery_day, delivery_time, id]
   end
 
@@ -100,17 +104,34 @@ class Depot < ActiveRecord::Base
     end
   end
 
-  def active_subscriptions
-    subscriptions.not_canceled
+  def current_subscriptions
+    subscriptions
+      .with_subscriberships
+      .merge(SubscriptionItem.currently_valid)
+      .remove_order
+      .sort_by(&:name)
   end
+  memoize :current_subscriptions
 
-  # Returns the upcoming subscriptions with users and order details preloaded.
-  # SOURCE: http://blog.arkency.com/2013/12/rails4-preloading/
-  def upcoming_subscriptions
-    active_subscriptions
-      .includes(:subscription_items_next_saturday)
-      .includes(:users).references(:subscripberships)
+  def current_users
+    users
+      .merge(SubscriptionItem.currently_valid)
+      .remove_order
+      .by_name
   end
+  memoize :current_users
+
+  def orders_as_of(date)
+    subscriptions
+      .includes(:subscription_items)
+      .merge(SubscriptionItem.valid_on_date(date))
+      .remove_order
+      .with_subscriberships
+      .sort_by(&:name)
+      .map { |subscription| subscription.order_as_of(date) }
+      .select { |order| order.scheduled_for_delivery_on?(date) }
+  end
+  memoize :orders_as_of
 
   # Returns the coordinator of the current depot with the given *user* id (i.e.
   # not coordinator id), or 'nil' otherwise.
@@ -170,6 +191,15 @@ class Depot < ActiveRecord::Base
                             today.beginning_of_year + NEW_YEAR_HOLIDAYS_MARGIN,
                             today.end_of_year
                           )
+  end
+  memoize :delivery_days_of_current_year
+
+  # Returns an array of all delivery days of the not canceled depots.
+  def self.delivery_days_of_current_year
+    Depot.not_canceled
+      .reduce([]) { | acc, depot | acc += depot.delivery_days_of_current_year }
+      .uniq
+      .sort
   end
 
   private

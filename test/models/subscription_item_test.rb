@@ -7,6 +7,7 @@ class SubscriptionItemTest < ActiveSupport::TestCase
     @item = @subscription.subscription_items.build({
         # :subscription_id set up by the relation method :build
         product_option: product_options(:one),
+        depot:          depots(:valid),
         # NOTE: can also be: product_option_id: product_options(:one).id,
         # quantity:       0, # It's set up by default by the DB, see schema
         valid_since:    Date.current,
@@ -18,8 +19,8 @@ class SubscriptionItemTest < ActiveSupport::TestCase
     assert_valid @item,                       "Initial fixture should be valid."
     assert_valid subscription_items(:one),    "Fixtures should be valid."
     assert_valid subscription_items(:two),    "Fixtures should be valid."
-    assert_valid subscription_items(:three),  "Fixtures should be valid."
-    assert_valid subscription_items(:four),   "Fixtures should be valid."
+    assert_valid subscription_items(:item_1), "Fixtures should be valid."
+    assert_valid subscription_items(:item_2), "Fixtures should be valid."
   end
 
   test "it should be possible to save the fixture subscription" do
@@ -54,7 +55,7 @@ class SubscriptionItemTest < ActiveSupport::TestCase
   end
 
   test "subscription_id of a new subscription should be valid" do
-    new_subscription = Subscription.new(depot: depots(:valid))
+    new_subscription = Subscription.new()
     assert new_subscription.save
     @item.subscription = new_subscription; assert_valid @item
   end
@@ -114,7 +115,7 @@ class SubscriptionItemTest < ActiveSupport::TestCase
   end
 
   test "product_and_quantity should return an array" do
-    assert_equal  [ActiveRecord::FixtureSet.identify(:one), 1],
+    assert_equal  [ActiveRecord::FixtureSet.identify(:milk), 4],
                   subscription_items(:one).product_and_quantity
   end
 end

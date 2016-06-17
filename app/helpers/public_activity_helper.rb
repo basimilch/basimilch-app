@@ -220,7 +220,8 @@ module PublicActivityHelper
            :admin_sign_up_user_for_job_failed,
            :admin_cancel_job_signup_failed
         [Scope::JOB, Visibility::ADMIN, Severity::MEDIUM]
-      when :admin_cancel_depot_coordinator
+      when :admin_cancel_depot_coordinator,
+           :planned_depot_change
         [Scope::DEPOT, Visibility::ACTIVITY_USERS, Severity::MEDIUM]
       when :planned_items_list_modified,
            :current_items_list_modified

@@ -12,8 +12,8 @@
   </div>
 </div>
 
-<% if  @order_summary_by_depot.empty? %>
-  <%= t '.no_order_summary_by_depot' %>
+<% if  @current_orders_summary_by_depot.empty? %>
+  <%= t '.no_current_orders_summary_by_depot' %>
 <% else %>
   <div class="table-responsive production-list-table no-href-print">
     <table class="table table-hover table-condensed table-striped ">
@@ -32,8 +32,8 @@
       <tbody>
         <% depot_counter = 0 %>
         <% total = {} %>
-        <% @order_summary_by_depot
-              .sort_by { |depot, _| depot.order }
+        <% @current_orders_summary_by_depot
+              .sort_by { |depot, _| depot.sorting }
               .each do |depot, order_summary| %>
           <tr class="depot-orders-info" data-href="<%= subscription_depot_lists_path(anchor: depot_anchor(depot)) %>">
             <td><strong><%= depot_counter += 1 %></strong></td>

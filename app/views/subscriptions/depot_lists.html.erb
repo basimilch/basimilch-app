@@ -1,5 +1,18 @@
 <% provide(:title, t('.title')) %>
 
+<div class="row">
+  <div class="col-sm-4 col-xs-12">
+    <%= select_tag 'depot_lists_delivery_day_selector',
+                    options_for_dates_grouped_by_month(
+                      @delivery_dates,
+                      selected_date: @delivery_day,
+                    ),
+                   class: "form-control",
+                   include_blank: false %>
+  </div>
+</div>
+
+
 <div class="manual-input-section">
   <div class="common-part-input-container">
     <div class="section-title">
@@ -25,8 +38,8 @@
 
 <% depot_counter = 0 %>
 <% @depots.each do | depot | %>
-  <% subscriptions = depot.upcoming_subscriptions %>
-  <% next if subscriptions.blank? %>
+  <% orders = depot.orders_as_of(@delivery_day) %>
+  <% next if orders.blank? %>
   <div id="<%= depot_anchor(depot) %>" class="depot-list no-href-print">
     <div class="row depot-list-header">
       <div class="print-date col-sm-3">
@@ -46,7 +59,7 @@
           <%= depot_counter += 1 %>. <%= depot.name %>
         </div>
         <div class="col-sm-5 text-right">
-          <%= localized_date_tag depot.next_delivery_day %>
+          <%= localized_date_tag @delivery_day %>
         </div>
       </div>
     </h1>
@@ -75,10 +88,10 @@
     <div class="section-title">
       <%= t '.flexible_part_table' %>
     </div>
-    <% if  subscriptions.empty? %>
+    <% if orders.empty? %>
       <%= t '.no_subscriptions' %>
     <% else %>
-      <div class="table-responsive depot-list-table">
+      <div class="table-responsive depot-orders-table">
         <table class="table table-hover table-condensed table-striped ">
           <thead>
             <tr>
@@ -96,9 +109,10 @@
           <tbody>
             <% counter = 0 %>
             <% total = {} %>
-            <% subscriptions.sort_by(&:id).each do |subscription| %>
-              <% order_summary = subscription.upcoming_order_details.except(:depot) %>
-              <tr class="depot-orders-info" data-href="<%= subscription_path subscription %>">
+            <% orders.each do |order| %>
+              <% subscription = order.subscription %>
+              <% order_summary = order.summary.except(:depot) %>
+              <tr class="depot-order-info" data-href="<%= subscription_path subscription %>">
                 <td class="id"><%= counter += 1 %></td>
                 <td><%= subscription.name || '-' %></td>
                 <td class="subscription-units basic-units"><%= subscription.basic_units %></td>

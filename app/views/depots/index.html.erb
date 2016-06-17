@@ -3,7 +3,7 @@
 <% if  @depots.empty? %>
   <%= t '.no_depots' %>
 <% else %>
-  <div class="table-responsive depots_table">
+  <div class="table-responsive depots-table">
     <table class="table table-hover table-condensed">
       <thead>
         <tr>
@@ -15,7 +15,7 @@
       </thead>
       <tbody>
         <% @depots.each do |depot| %>
-          <tr class="depot_info<%= " canceled" if depot.canceled? %>" data-href="<%= depot_path(depot.id) %>"=>
+          <tr class="depot-info<%= " canceled" if depot.canceled? %>" data-href="<%= depot_path(depot.id) %>"=>
             <td><%= depot.name %></td>
             <td>
               <%= delivery_time_message depot %>

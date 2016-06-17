@@ -144,12 +144,16 @@ class SubscriptionsController < ApplicationController
 
   # GET /subscriptions/lists/production
   def production_list
-    @order_summary_by_depot = Subscription.order_summary_by_depot
+    @current_orders_summary_by_depot =
+      Subscription.current_orders_summary_by_depot
     @product_options = ProductOption.not_canceled
   end
 
   # GET subscriptions/lists/depots
   def depot_lists
+    @delivery_dates = Depot.delivery_days_of_current_year
+    @delivery_day = params[:delivery_day]&.to_date ||
+      @delivery_dates.find_equal_or_greater_closest_to(Date.current)
     @depots = Depot.not_canceled.by_delivery_time.includes(:active_coordinators)
     @product_options = ProductOption.not_canceled
   end
@@ -165,19 +169,20 @@ class SubscriptionsController < ApplicationController
       flash_t :warning, :no_current_user_subscription unless @subscription
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
+    # Never trust parameters from the scary internet, only allow the white list
+    # through.
     def subscription_params
       allowed_product_options_keys = ProductOption.not_canceled
                                                   .pluck(:id)
                                                   .map(&:to_s)
       params.require(:subscription).permit(
         # DOC: http://api.rubyonrails.org/v4.2.6/classes/ActionController/Parameters.html#method-i-permit
-        [:new_items_valid_from,
+        [:new_items_depot_id,
+         :new_items_valid_from,
          item_ids_and_quantities: allowed_product_options_keys] +
          (current_user_admin? ? [:name,
                                  :basic_units,
                                  :supplement_units,
-                                 :depot_id,
                                  :notes,
                                  subscriber_user_ids: []] : [])
           )

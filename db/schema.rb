@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160502052411) do
+ActiveRecord::Schema.define(version: 20160604171106) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -189,9 +189,11 @@ ActiveRecord::Schema.define(version: 20160502052411) do
     t.integer  "canceled_by_id"
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
+    t.integer  "depot_id"
   end
 
   add_index "subscription_items", ["canceled_by_id"], name: "index_subscription_items_on_canceled_by_id", using: :btree
+  add_index "subscription_items", ["depot_id"], name: "index_subscription_items_on_depot_id", using: :btree
   add_index "subscription_items", ["product_option_id"], name: "index_subscription_items_on_product_option_id", using: :btree
   add_index "subscription_items", ["subscription_id"], name: "index_subscription_items_on_subscription_id", using: :btree
 
@@ -199,7 +201,6 @@ ActiveRecord::Schema.define(version: 20160502052411) do
     t.string   "name",                          limit: 100
     t.integer  "basic_units",                               default: 1, null: false
     t.integer  "supplement_units",                          default: 0, null: false
-    t.integer  "depot_id"
     t.string   "denormalized_items_list"
     t.string   "denormalized_subscribers_list"
     t.text     "notes"
@@ -211,7 +212,6 @@ ActiveRecord::Schema.define(version: 20160502052411) do
   end
 
   add_index "subscriptions", ["canceled_by_id"], name: "index_subscriptions_on_canceled_by_id", using: :btree
-  add_index "subscriptions", ["depot_id"], name: "index_subscriptions_on_depot_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email"
@@ -277,9 +277,9 @@ ActiveRecord::Schema.define(version: 20160502052411) do
   add_foreign_key "subscriberships", "subscriptions"
   add_foreign_key "subscriberships", "users"
   add_foreign_key "subscriberships", "users", column: "canceled_by_id"
+  add_foreign_key "subscription_items", "depots"
   add_foreign_key "subscription_items", "product_options"
   add_foreign_key "subscription_items", "subscriptions"
   add_foreign_key "subscription_items", "users", column: "canceled_by_id"
-  add_foreign_key "subscriptions", "depots"
   add_foreign_key "subscriptions", "users", column: "canceled_by_id"
 end

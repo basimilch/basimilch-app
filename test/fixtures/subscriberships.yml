@@ -1,15 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+<% subscription_ids = Subscription.not_canceled.pluck(:id) %>
+<% User.pluck(:id).each_with_index do |user_id, i| %>
+<% next if user_id == ActiveRecord::FixtureSet.identify(:user_without_subscription) %>
+subscribership_<%= i + 1 %>:
+  id: <%= i + 1 %>
   # SOURCE http://stackoverflow.com/a/22961568
-  subscription_id: <%= ActiveRecord::FixtureSet.identify(:one) %>
-  user_id: 1
-  # Include a creation date since it's used to order the subscription members
-  created_at: <%= Time.current - 1.minute %>
-
-two:
-  # SOURCE http://stackoverflow.com/a/22961568
-  subscription_id: <%= ActiveRecord::FixtureSet.identify(:one) %>
-  user_id: 2
+  subscription_id: <%= subscription_ids[i.modulo subscription_ids.size] %>
+  user_id: <%= user_id %>
   # Include a creation date since it's used to order the subscription members
   created_at: <%= Time.current %>
+<% end %>

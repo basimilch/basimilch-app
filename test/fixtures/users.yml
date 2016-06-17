@@ -56,3 +56,40 @@ three:
   notes: some other notes
   activated: false
   activated_at: null
+
+<% (4..8).each do |i| %>
+user_<%= i %>:
+  id: <%= i %>
+  email: user_<%= i %>@example.com
+  admin: false
+  first_name: User
+  last_name: The <%= i %>th
+  postal_address: Somestreet 30
+  postal_code: 8003
+  city: Zürich
+  country: Schweiz
+  tel_mobile: +41 76 333 33 33
+  tel_home: nil
+  tel_office: nil
+  status: null
+  notes: some other notes
+  activated: true
+  activated_at: <%= Time.current %>
+<% end %>
+
+user_without_subscription:
+  email: user_without_subscription@example.com
+  admin: false
+  first_name: User
+  last_name: Without Subscription
+  postal_address: Somestreet 30
+  postal_code: 8003
+  city: Zürich
+  country: Schweiz
+  tel_mobile: +41 76 333 33 33
+  tel_home: +41 44 333 33 33
+  tel_office: +41 44 333 33 33
+  status: null
+  notes: some other notes
+  activated: false
+  activated_at: null

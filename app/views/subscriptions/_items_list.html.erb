@@ -1,6 +1,8 @@
 <% _list_type = (defined?(list_type) ? list_type : nil) %>
-<% return if _list_type == :planned_items && !@subscription.planned_items? %>
-<% _items = (defined?(items) ? items : @subscription.send(_list_type)) %>
+<% return if _list_type == :planned_order && !@subscription.planned_order? %>
+<% _order = (defined?(order) ? order : _list_type && @subscription.send(_list_type)) %>
+<% _items = (defined?(items) ? items : _order&.items) %>
+<% _depot = _order&.depot || _items.first&.depot %>
 
 <div class="section-title">
   <% if defined?(title) %>
@@ -8,12 +10,14 @@
   <% else %>
     <%= t ".section_title.#{_list_type}.#{@subscription.current_items_status}_html",
           localized_validity_of_current_items(@subscription) %>
-    <% if _list_type == :planned_items %>
-      <%= t ".section_title.planned_items.details_html",
+    <% if _list_type == :planned_order %>
+      <%= t ".section_title.planned_order.details_html",
             localized_modification_details(@subscription) %>
     <% end %>
   <% end %>
 </div>
+
+<%= delivered_at_depot_info _depot %>
 
 <div class="table-responsive product-options-table">
   <table class="table table-hover table-condensed">

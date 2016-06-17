@@ -21,7 +21,6 @@ class User < ActiveRecord::Base
 
   has_one  :subscribership, -> { not_canceled }
   has_one  :subscription, through: :subscribership
-  has_one  :depot, through: :subscription
 
   scope :by_id, -> { order(id: :asc) }
   scope :by_name, -> { order(last_name: :asc).order(first_name: :asc).by_id }
@@ -299,12 +298,6 @@ class User < ActiveRecord::Base
     email.match(INTERN_EMAIL_DOMAIN_REGEXP).to_b
   end
 
-  def set_password(params_arg)
-    update_attributes(params_arg
-                        .require(:user)
-                        .permit(:password, :password_confirmation))
-  end
-
   # Returns an array of job_signups for this user and this year.
   # The array has a min length equal to the min number of jobs that
   # a user has to do, with 'nil' for the missing required signups.
@@ -340,6 +333,10 @@ class User < ActiveRecord::Base
       wanted_number_of_share_certificates: wanted_number_of_share_certificates,
       wanted_subscription: wanted_subscription
     } : {})
+  end
+
+  def depot
+    subscription&.depot
   end
 
   # Class methods

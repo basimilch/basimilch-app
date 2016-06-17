@@ -4,20 +4,16 @@ one:
   name: MyString
   basic_units: 1
   supplement_units: 1
-  # SOURCE http://stackoverflow.com/a/22961568
-  depot_id: <%= ActiveRecord::FixtureSet.identify(:valid) %>
   notes: MyText
 
 two:
   name: MyString
   basic_units: 1
   supplement_units: 0
-  depot_id: <%= ActiveRecord::FixtureSet.identify(:valid) %>
   notes: MyText
 
 three:
   name: MyString
   basic_units: 1
   supplement_units: 0
-  depot_id: <%= ActiveRecord::FixtureSet.identify(:valid) %>
   notes: MyText

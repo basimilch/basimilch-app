@@ -10,7 +10,7 @@ class SubscribershipTest < ActiveSupport::TestCase
   test "fixture subscription should be valid" do
     assert_valid @subscribership,
                  "Initial fixture subscribership should be valid."
-    assert_valid subscriberships(:two),
+    assert_valid subscriberships(:subscribership_1),
                  "Fixtures subscribership should be valid."
   end
 

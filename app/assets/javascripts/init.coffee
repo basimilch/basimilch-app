@@ -15,7 +15,7 @@ do ( $$ = window.Basimilch ||= {}, $=jQuery ) ->
 
     setupFilterAction: (elemId, targetURL, queryParamName) ->
       $('#' + elemId).change ->
-        $('body').css 'cursor', 'wait'
+        $$.loadingScreen.start()
         val = $(@).val()
         queryParamRegExp = new RegExp "[?&]" + queryParamName + "=[^&]*(?:&|$)"
         queryString = location.search
@@ -28,11 +28,13 @@ do ( $$ = window.Basimilch ||= {}, $=jQuery ) ->
     # SOURCE: https://github.com/slipstream/SlipStreamUI/blob/fdcf44aa/clj/resources/static_content/js/request.js#L70-L88
     loadingScreen:
       start: ->
+        $('body').css 'cursor', 'wait'
         $('#loading-screen').removeClass 'hidden'
         $('#loading-screen .backdrop').stop().animate {opacity: 0.25}, 400
       stop: ->
         $('#loading-screen:not(.hidden) .backdrop').stop().animate {opacity: 0}, 200, 'swing', ->
             $('#loading-screen').addClass('hidden')
+            $('body').css 'cursor', ''
 
     # SOURCE: https://github.com/slipstream/SlipStreamUI/blob/0d90d07cc/clj/resources/static_content/js/util.js#L2697-L2738
     cookie:

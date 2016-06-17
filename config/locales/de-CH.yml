@@ -124,6 +124,7 @@ de-CH:
       updated_at:                 "Zuletzt aktualisiert am"
       wanted_number_of_share_certificates: "Gewünschte Anzahl an Anteilscheine"
       wanted_subscription:        "Abo-Optionen"
+      new_items_depot_id:         Depot für die neue Zusammensetzung
       new_items_valid_from:       Neue Zusammensetzung gültig ab
       # start_at:               Begin
       # end_at:                 Ende
@@ -289,11 +290,14 @@ de-CH:
       wrong_total_quantity_of_new_subscription_items: >
         Die ausgewählte Productoptionen müssen %{expected_total} Liter Frischmilch
         entsprechen. Die jetzige Auswahl macht %{actual_total} Liter aus.
+      missing_depot_for_subscription_items: >
+        Depot muss für Abozusammensetzung angegeben werden.
       not_found:
         user: "Genossenschafter_in mit id '%{id}' nicht gefunden!"
         job_type: "Tätigkeit mit id '%{id}' nicht gefunden!"
         subscription: "Abo mit id '%{id}' nicht gefunden!"
         product_option: "Produktoption mit id '%{id}' nicht gefunden!"
+        new_items_depot_id: "Depot mit id '%{id}' für Abozusammensetzung nicht gefunden!"
 
 
   # Models
@@ -921,6 +925,8 @@ de-CH:
       no_coordinators: Keine Depotverantworliche angemeldet
       common_part_table: Auswahl aus der Käserei (für alle gleich)
       flexible_part_table: Individuelle Abo-Anteile
+      todays_delivery_day: heutiger Liefertermin
+      upcoming_delivery_day: nächster Liefertermin
     index:
       # units: *subscription_units
       title:
@@ -960,28 +966,32 @@ de-CH:
       no_current_subscription_items: Das Abo hat noch keine Produkte.
       total: "Gesamt"
       equivalent_in_milk_liters_msg: "%{liters} Liter Frischmilch"
+      depot_label: Geliefert im Depot
       by:
         you: "von dir"
         user_html: "von %{user}"
       section_title:
-        current_items:
+        current_order:
           empty_html: >
             Bestehende Zusammensetzung (noch nicht definiert)
           open_html: >
             Bestehende Zusammensetzung (gültig seit %{valid_since_tag})
           closed_html: >
             Bestehende Zusammensetzung (gültig vom %{valid_since_tag} bis %{valid_until_tag})
-        planned_items:
+        planned_order:
           closed_html: >
-            Vorgesehene Zusammensetzung (gültig ab %{planned_items_valid_since_tag})
+            Vorgesehene Zusammensetzung (gültig ab %{planned_order_valid_since_tag})
           details_html: >
             eingetragen %{by_author} am %{date_tag}
     items_form:
       total_equivalence_label: "Gesamt (muss %{target}  Liter Frischmilch entsprechen)"
       no_current_available_product_options: Es gibt zurzeit keine Produktoptionen verfügbar.
+      todays_delivery_day: heutiger Liefertermin
+      upcoming_delivery_day: nächster Liefertermin
       section_title:
         items_form_html: >
-          Vorgesehene Zusammensetzung (gültig ab %{non_admin_planned_items_valid_since_tag})
+          Vorgesehene Zusammensetzung (gültig ab %{non_admin_planned_order_valid_since_tag})
+      depot_label: Geliefert im Depot
     subscription: &subscription
       units: *subscription_units
       details: >

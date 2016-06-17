@@ -142,16 +142,29 @@ module Enumerable
   end
 end
 
+module Classisize
+  def to_class
+    to_s.classify.constantize
+  end
+end
+
+module NameUtils
+  def ensure_suffix(str)
+    to_s.chomp(str) + str
+  end
+end
+
 class Symbol
+  include Classisize
+  include NameUtils
+  def ensure_suffix(str_or_sym)
+    super(str_or_sym.to_s).to_sym
+  end
   def +(other_symbol)
     unless other_symbol.nil? || other_symbol.is_a?(Symbol)
       raise TypeError, "Cannot add #{other_symbol.class} to Symbol."
     end
     (to_s + other_symbol.to_s).to_sym
-  end
-
-  def to_class
-    to_s.classify.constantize
   end
 end
 
@@ -264,17 +277,12 @@ module Colorize
   end
 end
 
-module NameUtils
-  def ensure_end(str)
-    to_s.chomp(str) + str
-  end
-end
-
 class String
   include Colorize
   include ToIntegerUtils
   include NonBlankUtils
   include NameUtils
+  include Classisize
 
   def number
     scan(/\d/).join
@@ -510,6 +518,77 @@ class  Time
   include DateHelpers
 end
 
+# Allows to memoize methods and to create cached variables. If this module is
+# included in an ActiveRecord model, both memoized methods and cached variables
+# are properly and automatically invalidated on model reload. Note that in most
+# cases, Rails and ActiveRecord will already cache a lot of things as expected,
+# specially DB requests defined as scopes or relationships. Memoizing a method
+# or caching a variable might be useful when doing a lot of work after Rails and
+# ActiveRecord have handed out their results, like wrapping it in a custom
+# object.
+module Memoizable
+
+  class CannotMemoizeException < Exception
+  end
+
+  # DOC: http://api.rubyonrails.org/v4.2.6/classes/ActiveSupport/Concern.html#method-i-append_features
+  extend ActiveSupport::Concern
+
+  included do
+    # Memoize a method, i.e. the result for a given set of arguments will be
+    # calculated the first time it is called. The next time the method is called
+    # with the same arguments, the result will be retrieved from the cached
+    # values. If this module is included in an ActiveRecord model, the memoized
+    # results will be forgotten (i.e. cache will be invalidated) on model
+    # reload. Otherwise you have to manually call the method :reload in order to
+    # invalidate the cache.
+    # Example:
+    #     def order(date)
+    #       Order.new self, date
+    #     end
+    #     memoize :order
+    def self.memoize(method_name)
+      unless instance_methods(false).include?(method_name)
+        raise CannotMemoizeException,
+              "unable to find method #{method_name.inspect} in class #{self}"
+      end
+      _non_memoized_method_name = "#{method_name}_non_memoized"
+      alias_method _non_memoized_method_name, method_name
+      define_method("#{method_name}") do |*args|
+        cached_variable(method_name, {})[args] ||=
+          send(_non_memoized_method_name, *args)
+      end
+    end
+  end
+
+  # Invalidates all cached valued of the self object and return the object. If
+  # this module is included in an ActiveRecord model, the ActiveRecord's :reload
+  # method will be also called.
+  def reload
+    invalidate_cached_variables
+    # SOURCE: http://devblog.avdi.org/2010/09/24/checking-the-existence-of-a-super-method-in-ruby/
+    defined?(super) ? super : self
+  end
+
+  # Created a cached variable managed by this module. Please note that
+  # initial_value will always be evaluated before calling :cached_variable, so
+  # that it's better used as a map, as in the example below. See also :memoize.
+  # Example with a Hash:
+  #     def order(date)
+  #       cached_variable(:orders, {})[date] ||= Order.new(self, date)
+  #     end
+  def cached_variable(name, initial_value = nil)
+    (@cached_variables ||= {})[name] ||= initial_value
+  end
+
+  private
+    def invalidate_cached_variables
+      return if @cached_variables.nil?
+      logger.debug "invalidating cached_variables: #{@cached_variables.keys}"
+      @cached_variables = nil
+    end
+end
+
 class ActiveRecord::Base
 
   # SOURCE: http://stackoverflow.com/a/7830624
@@ -531,11 +610,12 @@ class ActiveRecord::Base
   #       validators are instantiated only once, i.e. the inclusion
   #       validator won't take into account ids of records created after
   #       application start.
-  def self.validate_id_for(attribute)
-    _class = attribute.to_class
+  def self.validate_id_for(attribute, options = {})
+    _class = (options.pop(:class_name) || attribute).to_class
     _scope = Cancelable.included_in?(_class) ? :not_canceled : :all
-    validate do
-      _id = send(attribute.to_s + "_id")
+    _attribute_for_id = attribute.ensure_suffix "_id"
+    validate options do
+      _id = send(_attribute_for_id)
       unless _id.blank? || _class.send(_scope).find_by(id: _id)
         errors.add attribute, I18n.t("errors.messages.not_found.#{attribute}",
                                     id: _id)

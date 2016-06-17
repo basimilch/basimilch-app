@@ -339,11 +339,20 @@ class RailsExtentionsTest < ActionController::TestCase
     assert_raise { "some string".strip_up_to(1) }
   end
 
-  test "should be able to ensure that a string ends with a given string" do
-    assert_equal "asdf", "asdf".ensure_end("df")
-    assert_equal "asdf", "as".ensure_end("df")
+  test "should be able to ensure that a string ends with a given suffix" do
+    assert_equal "asdf", "asdf".ensure_suffix("df")
+    assert_equal "asdf", "as".ensure_suffix("df")
     # TODO: Fix the following case if need be ;)
-    assert_equal "asddf", "asd".ensure_end("df")
+    assert_equal "asddf", "asd".ensure_suffix("df")
+  end
+
+  test "should be able to ensure that a symbol ends with a given suffix" do
+    assert_equal :asdf, :asdf.ensure_suffix(:df)
+    assert_equal :asdf, :asdf.ensure_suffix("df")
+    assert_equal :asdf, :as.ensure_suffix(:df)
+    assert_equal :asdf, :as.ensure_suffix("df")
+    # TODO: Fix the following case if need be ;)
+    assert_equal :asddf, :asd.ensure_suffix(:df)
   end
 
   test "should be able to merge symbols with + operator" do

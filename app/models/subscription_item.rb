@@ -11,15 +11,16 @@ class SubscriptionItem < ActiveRecord::Base
 
   scope :valid_since_on_or_after, ->(date) {
         not_canceled
-          .where("valid_since >= ?", date.try(:to_date))
+          .where("subscription_items.valid_since >= ?", date.try(:to_date))
         }
   scope :valid_since_on_or_before, ->(date) {
         not_canceled
-          .where("valid_since <= ?", date.try(:to_date))
+          .where("subscription_items.valid_since <= ?", date.try(:to_date))
         }
   scope :valid_until_on_or_after, ->(date) {
         not_canceled
-          .where("valid_until >= ? OR valid_until IS NULL", date.try(:to_date))
+          .where("subscription_items.valid_until >= ? OR" +
+            " subscription_items.valid_until IS NULL", date.try(:to_date))
         }
   scope :valid_within_period, ->(d1, d2) { valid_since_on_or_before(d1)
                                            .valid_until_on_or_after(d2) }
@@ -71,6 +72,7 @@ class SubscriptionItem < ActiveRecord::Base
 
   belongs_to :subscription
   belongs_to :product_option
+  belongs_to :depot
 
   after_create { record_activity :create, self }
 
@@ -78,6 +80,8 @@ class SubscriptionItem < ActiveRecord::Base
   validate_id_for :subscription
   validates :product_option_id, presence: true
   validate_id_for :product_option
+  validates :depot_id, presence: true
+  validate_id_for :depot
   validates :quantity, presence: true,
               inclusion: { in: ALLOWED_QUANTITIES }
   validates :valid_since, presence: true,   timeliness: { type: :date }

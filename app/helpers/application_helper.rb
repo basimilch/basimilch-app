@@ -246,6 +246,26 @@ module ApplicationHelper
     end
   end
 
+  def options_for_dates_grouped_by_month(dates, selected_date: nil,
+                                                after_date: nil)
+    nearest_date = dates.find_equal_or_greater_closest_to(Date.current)
+    grouped_options_for_select(
+      dates.select do |d|
+        after_date.nil? || d > after_date.to_date
+      end.map do |d|
+        label_t_key = if (d == nearest_date)
+                  d.today? ? '.todays_delivery_day' : '.upcoming_delivery_day'
+                end
+        label = label_t_key ? " (#{t(label_t_key)})" : ''
+        [d.to_localized_s(:long) + label, d]
+      end.group_by do |option|
+        option[1].to_localized_s :long_month_and_year
+      end,
+      selected_date &&
+        dates.find_equal_or_greater_closest_to(selected_date.to_date)
+    )
+  end
+
   private
 
     def flash_k_to_logger_level(k)

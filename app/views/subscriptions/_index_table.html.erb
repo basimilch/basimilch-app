@@ -1,7 +1,7 @@
 <% if  subscriptions.empty? %>
   <%= t '.no_subscriptions' %>
 <% else %>
-  <div class="table-responsive subscriptions_table">
+  <div class="table-responsive subscriptions-table">
     <table class="table table-hover table-condensed">
       <thead>
         <tr>
@@ -10,7 +10,6 @@
           <th><%= t 'table_headers.size' %></th>
           <th><%= t 'table_headers.equivalence' %></th>
           <th><%= t 'table_headers.depot' %></th>
-          <th><%= t 'table_headers.delivery_day' %></th>
           <th><%= t 'table_headers.members' %></th>
           <th><%= t_abbr 'table_headers.share_certificates' %></th>
           <th><%= t_abbr 'table_headers.jobs' %></th>
@@ -18,14 +17,13 @@
       </thead>
       <tbody>
         <% subscriptions.each do |subscription| %>
-          <tr class="subscription_info<%= " canceled" if subscription.canceled? %><%= if subscription.without_users? then " danger" elsif subscription.without_items? then " warning" end %>" data-href="<%= subscription_path(subscription.id) %>">
+          <tr class="subscription-info<%= " canceled" if subscription.canceled? %><%= if subscription.without_users? then " danger" elsif subscription.without_items? then " warning" end %>" data-href="<%= subscription_path(subscription.id) %>">
             <td><%= subscription.id %></td>
             <% if subscription.valid? %>
               <td><%= (subscription.name || t('.no_name')).truncate_naturally(at: 60).not_blank %></td>
               <td><%= localized_subscription_size subscription %></td>
               <td><%= localized_subscription_size_equivalence subscription %></td>
-              <td><%= link_to subscription.depot.name, subscription.depot %></td>
-              <td><%= localized_subscription_delivery_day subscription %></td>
+              <td><%= link_to(subscription.depot.name, subscription.depot) if subscription.depot %></td>
               <td>
                 <% if subscription.users.each do |user| %>
                   <%= user_label_html user, :full_name %><br/>

@@ -10,18 +10,25 @@ module DepotsHelper
       time: depot.delivery_time
   end
 
-  def options_for_depot_delivery_days(depot, selected_date: nil,
-                                             after_date: nil)
-    grouped_options_for_select(
-      depot.delivery_days_of_current_year.select do |d|
-        after_date.nil? || d > after_date.to_date
-      end.map do |d|
-        [d.to_localized_s(:long), d]
-      end.group_by do |option|
-        option[1].to_localized_s :long_month_and_year
-      end,
-      selected_date.try(:to_date)
-    )
+  def delivered_at_depot_info(depot)
+    if depot.present?
+      content_tag :div, class:'depot-info' do
+        concat t('.depot_label') + ' '
+        concat (
+          if action_name[/edit$/]
+            content_tag :span do
+              concat content_tag(:strong, depot.name)
+              concat content_tag(:span, " - #{depot.city_postal_address}")
+            end
+          else
+            link_to (current_user_admin? ? depot : current_user_depot_path) do
+              concat content_tag(:strong, depot.name)
+              concat content_tag(:span, " - #{depot.city_postal_address}")
+            end
+          end
+        )
+      end
+    end
   end
 
   # Returns a string to be used as the HTML id of a depot element and used in

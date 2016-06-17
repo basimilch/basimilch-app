@@ -1,5 +1,12 @@
 <% if current_user_admin? %>
   <div class="row">
+    <div class="col-sm-8 col-xs-12">
+      <%= f.field_for :new_items_depot_id,
+                      as_type: :select,
+                      view_mode: false,
+                      value: options_for_subscription_depot(@subscription),
+                      include_blank: false %>
+    </div>
     <div class="col-sm-4 col-xs-12">
       <%= f.field_for :new_items_valid_from,
                       as_type: :select,
@@ -12,8 +19,10 @@
     <%= t ".section_title.items_form_html",
           localized_validity_of_current_items(@subscription) %>
   </div>
+  <div>
+    <%= delivered_at_depot_info @subscription.depot %>
+  </div>
 <% end %>
-
 
 <div class="table-responsive product-options-table">
   <table class="table table-hover table-condensed">

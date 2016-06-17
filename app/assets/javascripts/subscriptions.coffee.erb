@@ -2,6 +2,9 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+# SOURCE: http://stackoverflow.com/a/32358641
+<% self.class.include Rails.application.routes.url_helpers %>
+
 # SOURCE: http://brandonhilkert.com/blog/organizing-javascript-in-rails-application-with-turbolinks/
 $(document).on 'page:change', ->
   do ( $$ = window.Basimilch, $ = jQuery ) ->
@@ -80,3 +83,7 @@ $(document).on 'page:change', ->
           .toggleClass 'hidden', e.target.value.length == 0
           .text e.target.value
       .trigger 'input'
+
+    $$.setupFilterAction 'depot_lists_delivery_day_selector',
+                         "<%= subscription_depot_lists_path %>",
+                         "delivery_day"
