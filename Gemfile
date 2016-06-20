@@ -119,10 +119,10 @@ gem 'rails-i18n',               '4.0.8'   # https://rubygems.org/gems/rails-i18n
                                           # https://github.com/svenfuchs/rails-i18n/blob/master/CHANGELOG.md
 
 # Adds useful methods to validate, display and save phone numbers.
-gem 'phony_rails',              '0.14.1'  # https://rubygems.org/gems/phony_rails/versions/0.14.1
-                                          # https://github.com/joost/phony_rails/tree/v0.14.1
+gem 'phony_rails',              '0.14.2'  # https://rubygems.org/gems/phony_rails/versions/0.14.2
+                                          # https://github.com/joost/phony_rails/tree/v0.14.2
                                           # https://github.com/joost/phony_rails/blob/master/CHANGELOG.md
-                                          # https://github.com/joost/phony_rails/compare/v0.12.11...v0.14.1
+                                          # https://github.com/joost/phony_rails/compare/v0.12.11...v0.14.2
                                           # https://github.com/joost/phony_rails/releases
 
 # Provides object geocoding (by street or IP address), reverse geocoding
