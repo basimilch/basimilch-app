@@ -268,7 +268,7 @@ $ pkill -9 -f spring
 
 ### Security: `brakeman` tests
 
-We use the [`brakeman` (v3.3.1)] gem to detect security
+We use the [`brakeman` (v3.3.2)] gem to detect security
 vulnerabilities in the Ruby on Rails application via static analysis.
 Used in conjunction to the [`guard-brakeman`] gem, `brakeman` is
 automatically executed on files changes when running [`Guard`]. This
@@ -287,7 +287,7 @@ results after each file change.
 [`Guardfile`]: Guardfile
 [`minitest`]: https://github.com/seattlerb/minitest
 [`guard-minitest`]: https://github.com/guard/guard-minitest
-[`brakeman` (v3.3.1)]: https://github.com/presidentbeef/brakeman/tree/v3.3.1
+[`brakeman` (v3.3.2)]: https://github.com/presidentbeef/brakeman/tree/v3.3.2
 [`guard-brakeman`]: https://github.com/guard/guard-brakeman
 
 ## Dev DB data

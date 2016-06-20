@@ -204,8 +204,8 @@ group :development do
 
   # Brakeman detects security vulnerabilities in Ruby on Rails applications via
   # static analysis.
-  gem 'brakeman',               '3.3.1', require: false # https://rubygems.org/gems/brakeman/versions/3.3.1
-                                          # https://github.com/presidentbeef/brakeman/tree/v3.3.1
+  gem 'brakeman',               '3.3.2', require: false # https://rubygems.org/gems/brakeman/versions/3.3.2
+                                          # https://github.com/presidentbeef/brakeman/tree/v3.3.2
                                           # https://github.com/presidentbeef/brakeman/blob/master/CHANGES
                                           # https://github.com/presidentbeef/brakeman/releases
 
