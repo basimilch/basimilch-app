@@ -128,7 +128,7 @@ gem 'phony_rails',              '0.14.1'  # https://rubygems.org/gems/phony_rail
 # Provides object geocoding (by street or IP address), reverse geocoding
 # (coordinates to street address), distance queries for ActiveRecord and
 # Mongoid, result caching, and more.
-gem 'geocoder',                 '1.3.6'   # https://rubygems.org/gems/geocoder/versions/1.3.6
+gem 'geocoder',                 '1.3.7'   # https://rubygems.org/gems/geocoder/versions/1.3.7
                                           # https://github.com/alexreisner/geocoder/releases
                                           # https://github.com/alexreisner/geocoder/blob/master/CHANGELOG.md
 

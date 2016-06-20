@@ -23,7 +23,7 @@ module HasPostalAddress
             city:                       :string,
             country:                    :string,
             # :latitude and :longitude fields are required for the geocoder gem.
-            # DOC: https://github.com/alexreisner/geocoder/tree/v1.3.6#activerecord
+            # DOC: https://github.com/alexreisner/geocoder/tree/v1.3.7#activerecord
             latitude:                   :float,
             longitude:                  :float}.all? do |col, typ|
               columns_hash[col.to_s].try(:type) == typ
