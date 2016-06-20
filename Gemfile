@@ -191,7 +191,7 @@ group :development do
 
   # A debugging tool for your Ruby on Rails applications. Dropping a `console`
   # call in a controller or view, you get a ruby console in the browser.
-  gem 'web-console',            '3.1.1'   # https://rubygems.org/gems/web-console/versions/3.1.1
+  gem 'web-console',            '3.3.0'   # https://rubygems.org/gems/web-console/versions/3.3.0
                                           # https://github.com/rails/web-console/releases
 
   # FIXME: Does not work from within tmux.
