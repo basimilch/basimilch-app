@@ -110,7 +110,7 @@ gem 'jbuilder',                 '2.5.0'   # https://rubygems.org/gems/jbuilder/v
                                           # https://github.com/rails/jbuilder/releases
 
 # Ruby HTTP client for the Heroku API.
-gem 'platform-api',             '0.7.0'   # https://rubygems.org/gems/platform-api/versions/0.7.0
+gem 'platform-api',             '0.8.0'   # https://rubygems.org/gems/platform-api/versions/0.8.0
                                           # https://github.com/heroku/platform-api/releases
 
 # A set of common locale data and translations to internationalize and/or
