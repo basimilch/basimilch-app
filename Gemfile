@@ -238,7 +238,7 @@ group :test do
                                           # https://github.com/guard/guard-minitest/releases
 
   # Suggested by https://travis-ci.org/basimilch/basimilch-app
-  gem 'codeclimate-test-reporter', '0.5.0', require: nil # https://github.com/codeclimate/ruby-test-reporter/releases
+  gem 'codeclimate-test-reporter', '0.5.2', require: nil # https://github.com/codeclimate/ruby-test-reporter/releases
 
 end
 
