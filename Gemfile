@@ -82,8 +82,8 @@ gem 'sass-rails',               '5.0.4'   # https://rubygems.org/gems/sass-rails
 
 # Uglifier minifies JavaScript files by wrapping UglifyJS to be accessible in
 # Ruby.
-gem 'uglifier',                 '2.7.2'   # https://rubygems.org/gems/uglifier/versions/2.7.2
-                                          # https://github.com/lautis/uglifier/tree/v2.7.2
+gem 'uglifier',                 '3.0.0'   # https://rubygems.org/gems/uglifier/versions/3.0.0
+                                          # https://github.com/lautis/uglifier/tree/v3.0.0
                                           # https://github.com/lautis/uglifier/blob/master/CHANGELOG.md
                                           # https://github.com/lautis/uglifier/releases
 
