@@ -161,7 +161,8 @@ group :development, :test do
 
   # Dropping a `byebug` (or `debugger`) call anywhere in your code, you get a
   # debug prompt.
-  gem 'byebug',                 '8.2.5'   # https://rubygems.org/gems/byebug
+  gem 'byebug',                 '9.0.5'   # https://rubygems.org/gems/byebug
+                                          # https://github.com/deivid-rodriguez/byebug/tree/v9.0.5
                                           # https://github.com/deivid-rodriguez/byebug/releases
 
   # Preloads the application so things like console, rake and tests run faster.
