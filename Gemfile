@@ -233,8 +233,8 @@ group :test do
 
   # Guard::Minitest automatically run your tests with Minitest framework (much
   # like autotest).
-  gem 'guard-minitest',         '2.4.4'   # https://rubygems.org/gems/guard-minitest/versions/2.4.4
-                                          # https://github.com/guard/guard-minitest/tree/v2.4.4
+  gem 'guard-minitest',         '2.4.5'   # https://rubygems.org/gems/guard-minitest/versions/2.4.5
+                                          # https://github.com/guard/guard-minitest/tree/v2.4.5
                                           # https://github.com/guard/guard-minitest/releases
 
   # Suggested by https://travis-ci.org/basimilch/basimilch-app
