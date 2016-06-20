@@ -889,11 +889,11 @@ But not all command can be executed in a background way: e.g.
 [Timeout awaiting process]: https://devcenter.heroku.com/articles/one-off-dynos#timeout-awaiting-process
 [`detached` mode]: https://devcenter.heroku.com/articles/one-off-dynos#running-tasks-in-background
 
-### DB
+### Heroku DB
 
 #### Fresh **dev** DB
 
-To start with a fresh **dev** DB on heroku do following commands:
+To start with a fresh **dev** DB on Heroku do following commands:
 
 ```
 heroku pg:reset --app basimilch-dev DATABASE
@@ -906,6 +906,40 @@ To create a user with your email address, start a rails console on heroku (`hero
 ```
 User.new(first_name: "your_first_name", last_name: "your_last_name", email: "your_email@example.com", admin: true, activation_sent_at: Time.current).save(validate: false)
 ```
+
+#### Backup **dev** DB
+
+```
+heroku pg:backups capture --app basimilch-dev
+```
+
+#### Restore last **dev** DB backup
+
+```
+heroku pg:backups restore --app basimilch-dev
+```
+
+#### Copy **prod** DB to **dev**
+
+Having real data on the **dev** DB might be useful to check that
+everything works as expected before deploying to production, specially
+before big or non-trivial migrations. To copy the last backup from the
+**prod** DB to the **dev** DB on heroku do following commands:
+
+_Note that we start doing a backup of the **dev** DB, which might be
+optional, depending on your needs._
+
+```
+heroku pg:backups capture --app basimilch-dev
+HEROKU_LAST_BACKUP_ID=$(heroku pg:backups --app basimilch | egrep -o "[ab]\d+" | head -1)
+heroku pg:backups restore basimilch::${HEROKU_LAST_BACKUP_ID} DATABASE_URL --app basimilch-dev
+```
+
+Visit the Heroku documentation page to learn more details about
+[`heroku pg:backups restore`] commands.
+
+[`heroku pg:backups restore`]: https://devcenter.heroku.com/articles/heroku-postgres-backups#restoring-backups
+
 
 #### Push and pull DB
 
