@@ -105,6 +105,33 @@ install `rails` instead: `gem install rails -v 4.2.6`)
 [Install `bundle`]: https://rvm.io/integration/bundler
 [`Gemfile.lock`]: Gemfile.lock
 
+## Setup dev environment on [`Cloud9`]
+
+You can easily setup a development environment online at [`Cloud9`]
+(aka [`c9.io`]).
+
+- Create a new machine at [`c9.io`]
+
+- Bootstrap the environment:
+
+```bash
+./config_c9io_machine.sh
+```
+
+If everything when well the DB should have been seeded with dummy data
+and the tests should have seen executed.
+
+To [run the `rails server` on `Cloud9`] you have to provide the proper
+IP and port running following command:
+
+```bash
+rails server -b $IP -p $PORT
+```
+
+[`Cloud9`]: https://c9.io/
+[`c9.io`]: https://c9.io/
+[run the `rails server` on `Cloud9`]: https://community.c9.io/t/running-a-rails-app/1615
+
 ## Local server
 
 The local Rails server can be started with:
