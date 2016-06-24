@@ -107,6 +107,11 @@ echo '                              bundle exec rake db:migrate'
 echo
 EOF
 
+set +x
+# rvm has to be sourced and used as a function in order to be able to do "rvm use"
+# SOURCE: https://rvm.io/workflow/scripting
+source /usr/local/rvm/scripts/rvm
+
 # Prepare the rails dev environment.
 
 # Install the required ruby version.
