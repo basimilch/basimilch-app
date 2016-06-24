@@ -240,7 +240,6 @@ product_option_ids = ProductOption.not_canceled.pluck(:id)
         name:             maybe(Faker::Hipster.words(2).join(' ').titleize),
         basic_units:      rand(1..2),
         supplement_units: rand(0..3),
-        depot_id:         depot_ids.sample,
         notes:            maybe(Faker::Lorem.sentence)
       )
   save! subscription
@@ -264,12 +263,14 @@ product_option_ids = ProductOption.not_canceled.pluck(:id)
     unless STRESS_TEST
       puts " - Found combination #{items_trial} in #{trial_count} trials!"
     end
-    valid_since = subscription.depot.delivery_days_of_current_year.first
+    depot_id = depot_ids.sample
+    valid_since = Depot.find(depot_id).delivery_days_of_current_year.first
     items_trial.each do | id, quantity |
       next if quantity.zero?
       subscription_item = subscription.subscription_items.create!(
           product_option_id:  id,
           quantity:           quantity,
+          depot_id:           depot_id,
           valid_since:        valid_since
         )
       puts "   - #{subscription_item}" unless STRESS_TEST
