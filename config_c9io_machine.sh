@@ -91,7 +91,7 @@ sudo apt-get -y autoremove
 # NOTE: This is necessary at least with the current version of tmux on Cloud9 (1.8 as of this writing).
 #       It might not be necessary with tmux v2+.
 echo '# Force rvm to load the right ruby version from the Gemfile on each new tmux pane creation' >> ~/.tmux.conf
-echo 'cd ${PWD}' >> ~/.bashrc
+grep -q 'cd ${PWD}' ~/.bashrc || echo 'cd ${PWD}' >> ~/.bashrc
 cd ${PWD}
 
 grep -q 'To launch the application' ~/.bashrc || cat << EOF >> ~/.bashrc
