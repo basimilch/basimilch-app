@@ -9,6 +9,7 @@ if [ -z "${C9_USER}" ]; then
 fi
 
 CURRENT_TIMESTAMP="$(date +"%Y%m%d_%H%M%S")"
+START_TIME="$(date)"
 
 backup_original_file() {
   [ -z "${1}" ] && echo "Missing file to backup. Nothing to do." && exit 1
@@ -21,6 +22,8 @@ set -eox pipefail
 LOG_FILENAME="$(basename $0 .sh)_${CURRENT_TIMESTAMP}.log"
 exec >  >(tee -a ${LOG_FILENAME})
 exec 2> >(tee -a ${LOG_FILENAME} >&2)
+
+echo "Configuration start time: ${START_TIME}"
 
 # set timezone to CET
 sudo mv /etc/localtime /etc/localtime.bak && sudo ln -s /usr/share/zoneinfo/Europe/Zurich /etc/localtime && date
@@ -114,6 +117,9 @@ gem install bundler
 bundle install
 bundle exec rake db:setup
 bundle exec rake test
+
+echo "Configuration start time: ${START_TIME}"
+echo "              end time:   $(date)"
 
 # Source ~/.bashrc to print the help hints.
 source ~/.bashrc
