@@ -21,6 +21,11 @@ sudo mv /etc/localtime /etc/localtime.bak && sudo ln -s /usr/share/zoneinfo/Euro
 # tmux
 [ -f ~/.tmux.conf ] && cp -v ~/.tmux.conf ~/.tmux.conf.backup_$(date +"%Y%m%d%H%M%S")
 curl -L https://gist.githubusercontent.com/rbf/3529029/raw/.tmux.conf -o ~/.tmux.conf
+# Disable tmux option not valid on Cloud9. Might be related to https://github.com/tony/tmux-config/issues/26
+sed -i.orig -e 's/set -g status-utf8 on/# set -g status-utf8 on/' ~/.tmux.conf
+# SOURCE: https://sanctum.geek.nz/arabesque/reloading-tmux-config/
+# NOTE: tmux path found with 'ps -u | grep tmux'
+# SOURCE: http://stackoverflow.com/a/26705778
 /mnt/shared/sbin/tmux source-file ~/.tmux.conf
 
 # gitconfig
