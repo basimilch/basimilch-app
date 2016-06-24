@@ -12,7 +12,7 @@ CURRENT_TIMESTAMP="$(date +"%Y%m%d_%H%M%S")"
 
 backup_original_file() {
   [ -z "${1}" ] && echo "Missing file to backup. Nothing to do." && exit 1
-  [ -f "${1}" ] && cp -v "${1}" "${1}".orig_${CURRENT_TIMESTAMP}
+  [ ! -f "${1}" ] || cp -v "${1}" "${1}".orig_${CURRENT_TIMESTAMP}
 }
 
 set -eox pipefail
