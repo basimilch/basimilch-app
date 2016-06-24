@@ -10,6 +10,11 @@ fi
 
 CURRENT_TIMESTAMP="$(date +"%Y%m%d_%H%M%S")"
 
+backup_original_file() {
+  [ -z "${1}" ] && echo "Missing file to backup. Nothing to do." && exit 1
+  [ -f "${1}" ] && cp -v "${1}" "${1}".orig_${CURRENT_TIMESTAMP}
+}
+
 set -eox pipefail
 
 # Create a log file of the script output
@@ -21,7 +26,7 @@ exec 2> >(tee -a ${LOG_FILENAME} >&2)
 sudo mv /etc/localtime /etc/localtime.bak && sudo ln -s /usr/share/zoneinfo/Europe/Zurich /etc/localtime && date
 
 # tmux
-[ -f ~/.tmux.conf ] && cp -v ~/.tmux.conf ~/.tmux.conf.orig_${CURRENT_TIMESTAMP}
+backup_original_file ~/.tmux.conf
 curl -L https://gist.githubusercontent.com/rbf/3529029/raw/.tmux.conf -o ~/.tmux.conf
 # Disable tmux option not valid on Cloud9. Might be related to https://github.com/tony/tmux-config/issues/26
 sed -i.orig_${CURRENT_TIMESTAMP} -e 's/set -g status-utf8 on/# set -g status-utf8 on/' ~/.tmux.conf
@@ -31,11 +36,11 @@ sed -i.orig_${CURRENT_TIMESTAMP} -e 's/set -g status-utf8 on/# set -g status-utf
 # SOURCE: http://stackoverflow.com/a/26705778
 
 # gitconfig
-[ -f ~/.gitconfig ] && cp -v ~/.gitconfig ~/.gitconfig.orig_${CURRENT_TIMESTAMP}
+backup_original_file ~/.gitconfig
 curl -L https://gist.githubusercontent.com/raw/1845578/.gitconfig -o ~/.gitconfig
 
 # git ignore
-if [ -f ~/.gitignore_global ]; then cp -v ~/.gitignore_global ~/.gitignore_global.orig_${CURRENT_TIMESTAMP}; fi;
+backup_original_file ~/.gitignore_global
 curl -L https://gist.githubusercontent.com/rbf/2224744/raw/.gitignore_global -o ~/.gitignore_global
 git config --global core.excludesfile ~/.gitignore_global
 
