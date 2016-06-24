@@ -109,6 +109,7 @@ EOF
 # Install the required ruby version.
 REQUIRED_RUBY_VERSION="$(egrep '^ruby' Gemfile |  sed 's/ruby *.\([0-9.]*\)./\1/')"
 rvm install ruby-${REQUIRED_RUBY_VERSION}
+rvm use ${REQUIRED_RUBY_VERSION}
 gem install bundler
 bundle install
 bundle exec rake db:setup
