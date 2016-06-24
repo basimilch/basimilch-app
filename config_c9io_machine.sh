@@ -77,7 +77,8 @@ sudo service postgresql start
 # SOURCE: http://dba.stackexchange.com/a/19573
 sudo su - postgres -c "psql postgres -tAc \"SELECT 1 FROM pg_roles WHERE rolname='$(whoami)'\" | grep -q 1 || createuser --superuser $(whoami)"
 # Create the DB user defined in /config/database.yml
-psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='ubuntu'" | grep -q 1 || createuser --superuser basimilchdbuser
+DB_USERNAME="$(egrep -o 'username:.*' config/database.yml | sed 's/.*: *//')"
+psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='${DB_USERNAME}'" | grep -q 1 || createuser --superuser ${DB_USERNAME}
 
 # Clean up apt-get files
 sudo apt-get -y update
