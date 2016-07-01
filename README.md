@@ -317,6 +317,45 @@ results after each file change.
 [`brakeman` (v3.3.2)]: https://github.com/presidentbeef/brakeman/tree/v3.3.2
 [`guard-brakeman`]: https://github.com/guard/guard-brakeman
 
+
+### Use label references for associations in fixtures
+
+At some point tests started to fails only on Travis-CI, but not
+locally. It turned out that the problem occurred only on a clean test
+DB (therefore on Travis-CI, because the environment is always re-
+created from scratch). When executing `rake test` the test DB is not
+completely cleaned up before running the tests. Executing `rake
+test:db` instead does clean up the DB before starting the tests, which
+allowed the same error to be reproduced locally.
+
+It turned out that the issue was related to how the fixtures where
+loaded to the test DB. Some items where not able to be created because
+the required associated models did not exists yet in the DB. And
+therefore, running a second time `rake test` worked without issues,
+because the required associations were created in the previous run.
+
+That pointed out to an error with the loading order of the fixtures. I
+was directly using numeric ids for the fixtures, and this prevented
+Rails to figure out the proper loading order. Instead of using numeric
+ids, I learned how to reference them by label (see links below for
+further details), which allows Rails to properly figure out the
+loading order of the fixtures.
+
+Finally I had to update the tests to take into account the new ids of
+the fixtures, and the tests now consistently pass also with `rake
+test:db`.
+
+For further details:
+
+- [ActiveRecord::FixtureSet]
+- [Tricks and Tips for using Fixtures effectively in Rails]
+- [unit testing - Rails fixtures -- how do you set foreign keys? - Stack Overflow]
+
+[ActiveRecord::FixtureSet]: http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+[Tricks and Tips for using Fixtures effectively in Rails]: http://blog.bigbinary.com/2014/09/21/tricks-and-tips-for-using-fixtures-in-rails.html
+[unit testing - Rails fixtures -- how do you set foreign keys? - Stack Overflow]: http://stackoverflow.com/questions/510195/rails-fixtures-how-do-you-set-foreign-keys
+
+
 ## Dev DB data
 
 Also inspired by the [Rails Tutorial Book], [section 9.3.2], we use
