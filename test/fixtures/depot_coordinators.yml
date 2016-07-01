@@ -1,13 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  user_id: 
-  depot_id: 
-  publish_email: false
+  user: admin
+  depot: valid
+  publish_email: true
   publish_tel_mobile: false
 
 two:
-  user_id: 
-  depot_id: 
-  publish_email: false
+  user: two
+  depot: sunday_delivered
+  publish_email: true
   publish_tel_mobile: false

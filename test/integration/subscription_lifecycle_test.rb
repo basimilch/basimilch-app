@@ -409,22 +409,22 @@ class SubscriptionLifecycleTest < ActionDispatch::IntegrationTest
                  [:three],
                  count_difference: 1,
                  current_users_expected:
-                    ["User 3: \"Joseph The Third\" <three@example.com>"]
+                    ["User 113629430: \"Joseph The Third\" <three@example.com>"]
 
     assert_users subscription_1,
                  [:user_6],
                  count_difference: 1,
                  current_users_expected:
-                    ["User 3: \"Joseph The Third\" <three@example.com>",
-                     "User 6: \"User The 6th\" <user_6@example.com>"]
+                    ["User 113629430: \"Joseph The Third\" <three@example.com>",
+                     "User 1028376774: \"User The 6th\" <user_6@example.com>"]
 
     # Adding users twice is a no-op.
     assert_users subscription_1,
                  [:three, :user_6],
                  count_difference: 0,
                  current_users_expected:
-                    ["User 3: \"Joseph The Third\" <three@example.com>",
-                     "User 6: \"User The 6th\" <user_6@example.com>"]
+                    ["User 113629430: \"Joseph The Third\" <three@example.com>",
+                     "User 1028376774: \"User The 6th\" <user_6@example.com>"]
 
     # If a user in the list is already member of another subscription, the
     # update will fail.
@@ -462,13 +462,13 @@ class SubscriptionLifecycleTest < ActionDispatch::IntegrationTest
                  [:user_6],
                  count_difference: 0,
                  current_users_expected:
-                    ["User 6: \"User The 6th\" <user_6@example.com>"]
+                    ["User 1028376774: \"User The 6th\" <user_6@example.com>"]
 
     assert_users subscription_2,
                  [:three, :user_without_subscription],
                  count_difference: 2,
                  current_users_expected:
-                    ["User 3: \"Joseph The Third\" <three@example.com>",
+                    ["User 113629430: \"Joseph The Third\" <three@example.com>",
                      "User 986848093: \"User Without Subscription\"" +
                       " <user_without_subscription@example.com>"]
 

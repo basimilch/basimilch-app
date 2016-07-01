@@ -17,7 +17,7 @@ class DepotShowLayoutTest < ActionDispatch::IntegrationTest
 
   test "depot page layout for with coordinators as admin" do
     assert_equal true, @depot.coordinators.create(user: @user).save
-    assert_equal users(:two), @depot.reload.coordinators.first.user
+    assert_equal [@admin_user, @user], @depot.reload.coordinators.map(&:user)
     assert_layout depot: @depot, logged_in_as: @admin_user
   end
 
@@ -25,7 +25,7 @@ class DepotShowLayoutTest < ActionDispatch::IntegrationTest
     assert_equal true, @user.update_attribute(:tel_mobile, nil)
     assert_equal true, @user.update_attribute(:tel_home, '+41441234567')
     assert_equal true, @depot.coordinators.create(user: @user).save
-    assert_equal users(:two), @depot.reload.coordinators.first.user
+    assert_equal [@admin_user, @user], @depot.reload.coordinators.map(&:user)
     assert_layout depot: @depot, logged_in_as: @admin_user
   end
 
@@ -34,7 +34,7 @@ class DepotShowLayoutTest < ActionDispatch::IntegrationTest
     assert_equal true, @user.update_attribute(:tel_home, nil)
     assert_equal true, @user.update_attribute(:tel_office, nil)
     assert_equal true, @depot.coordinators.create(user: @user).save
-    assert_equal users(:two), @depot.reload.coordinators.first.user
+    assert_equal [@admin_user, @user], @depot.reload.coordinators.map(&:user)
     assert_layout depot: @depot, logged_in_as: @admin_user
   end
 

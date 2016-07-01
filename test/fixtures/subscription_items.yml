@@ -2,26 +2,26 @@
 
 one:
   # SOURCE http://stackoverflow.com/a/22961568
-  subscription_id:    <%= ActiveRecord::FixtureSet.identify(:one) %>
-  product_option_id:  <%= ActiveRecord::FixtureSet.identify(:milk) %>
-  valid_since:        <%= '2016-01-01'.to_date %>
-  depot_id:           <%= ActiveRecord::FixtureSet.identify(:valid) %>
-  quantity:           4
+  subscription:   one
+  product_option: milk
+  valid_since:    <%= '2016-01-01'.to_date %>
+  depot:          valid
+  quantity:       4
 
 two:
-  subscription_id:    <%= ActiveRecord::FixtureSet.identify(:one) %>
-  product_option_id:  <%= ActiveRecord::FixtureSet.identify(:yogurt) %>
-  valid_since:        <%= '2016-01-01'.to_date %>
-  depot_id:           <%= ActiveRecord::FixtureSet.identify(:valid) %>
-  quantity:           4
+  subscription:   one
+  product_option: yogurt
+  valid_since:    <%= '2016-01-01'.to_date %>
+  depot:          valid
+  quantity:       4
 
-<% subscription_ids = Subscription.pluck(:id) %>
-<% subscription_ids.each_with_index do |subscription_id, i| %>
-  <% next if subscription_id == ActiveRecord::FixtureSet.identify(:one) %>
+<% subscriptions = %w(two three) %>
+<% subscriptions.each_with_index do |subscription, i| %>
+  <% next if subscription == ActiveRecord::FixtureSet.identify(:one) %>
 item_<%= i + 1 %>:
-  subscription_id:    <%= subscription_id %>
-  product_option_id:  <%= ActiveRecord::FixtureSet.identify(:milk) %>
-  valid_since:        <%= '2016-01-01'.to_date %>
-  depot_id:           <%= ActiveRecord::FixtureSet.identify(:sunday_delivered) %>
-  quantity:           4
+  subscription:  <%= subscription %>
+  product_option:   milk
+  valid_since:      <%= '2016-01-01'.to_date %>
+  depot:            sunday_delivered
+  quantity:         4
 <% end %>

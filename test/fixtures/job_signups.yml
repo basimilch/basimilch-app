@@ -1,13 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  user_id: 2
-  job_id:  <%= ActiveRecord::FixtureSet.identify(:past_job) %>
+  user: two
+  job:  past_job
 
 two:
-  user_id: 2
-  job_id:  <%= ActiveRecord::FixtureSet.identify(:past_job) %>
+  user: two
+  job:  past_job
 
 three:
-  user_id: 3
-  job_id:  <%= ActiveRecord::FixtureSet.identify(:past_job) %>
+  user: three
+  job:  past_job

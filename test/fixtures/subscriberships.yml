@@ -1,13 +1,12 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-<% subscription_ids = Subscription.not_canceled.pluck(:id) %>
-<% User.pluck(:id).each_with_index do |user_id, i| %>
-<% next if user_id == ActiveRecord::FixtureSet.identify(:user_without_subscription) %>
+<% subscriptions = %w(two three one) # label order due to legacy tests %>
+<% users = %w(admin two three user_4 user_5 user_6 user_7 user_8) %> # OPTIMIZE: Dinamically fetch user keys.
+<% users.each_with_index do |user, i| %>
 subscribership_<%= i + 1 %>:
-  id: <%= i + 1 %>
   # SOURCE http://stackoverflow.com/a/22961568
-  subscription_id: <%= subscription_ids[i.modulo subscription_ids.size] %>
-  user_id: <%= user_id %>
+  subscription: <%= subscriptions[i.modulo subscriptions.size] %>
+  user: <%= user %>
   # Include a creation date since it's used to order the subscription members
   created_at: <%= Time.current %>
 <% end %>

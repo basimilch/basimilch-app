@@ -36,7 +36,7 @@ class ShareCertificatesControllerTest < ActionController::TestCase
           payed_at:     Date.current,
           returned_at:  Time.current,
           sent_at:      nil,
-          user_id:      2
+          user_id:      users(:two).id
         }
       end
     end
@@ -51,7 +51,7 @@ class ShareCertificatesControllerTest < ActionController::TestCase
           payed_at:     Date.current,
           returned_at:  Time.current,
           sent_at:      nil,
-          user_id:      2
+          user_id:      users(:two).id
         }
       end
     end

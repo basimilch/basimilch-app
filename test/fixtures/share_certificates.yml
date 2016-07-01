@@ -1,16 +1,14 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  id: 10
-  user_id: 1
+  user: admin
   sent_at: 2016-01-16
   payed_at: 2016-01-16
   returned_at: 2016-01-16
   notes: MyText
 
 two:
-  id: 20
-  user_id: 2
+  user: two
   sent_at: 2016-01-16
   payed_at: 2016-01-16
   returned_at: 2016-01-16

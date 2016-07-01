@@ -8,7 +8,7 @@ class JobTypeTest < ActiveSupport::TestCase
                             place:        "some place",
                             address:      "some address",
                             slots:        3,
-                            user_id:      1)
+                            user:         users(:admin))
   end
 
   test "fixture job_type should be valid" do

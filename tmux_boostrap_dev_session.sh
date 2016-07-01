@@ -53,7 +53,9 @@ tmux select-window -t $SESSION:tests
 tmux select-pane   -t $SESSION:tests.0
 tmux send-keys     '#bundle exec guard' Enter
 tmux send-keys     'bundle exec brakeman' Enter
-tmux send-keys     'bundle exec rake test' Enter
+tmux send-keys     '#bundle exec rake test' Enter
+# rake test:db is used to run tests quickly, but also reset db
+tmux send-keys     'bundle exec rake test:db' Enter
 tmux select-window -t $SESSION:server
 tmux select-pane   -t $SESSION:server.0
 tmux send-keys     '#rails server' Enter

@@ -376,7 +376,7 @@ class RailsExtentionsTest < ActionController::TestCase
     assert_equal "Hello User Example! Your email is one@example.com",
                  "Hello %{first_name} %{last_name}! Your email is %{email}" % u
     # With '%s' you must explicitly convert it to a String:
-    assert_equal "User 1: \"User Example\" <one@example.com> (ADMIN)",
+    assert_equal "User 135138680: \"User Example\" <one@example.com> (ADMIN)",
                  "%s" % u.to_s
     # The standard behavior of String#% should not be broken:
     # DOC: http://ruby-doc.org/core-2.3.1/String.html#method-i-25

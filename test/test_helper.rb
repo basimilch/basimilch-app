@@ -269,6 +269,10 @@ class ActiveSupport::TestCase
     end
   end
 
+  def fixture_id(fixture_label)
+    ActiveRecord::FixtureSet.identify(fixture_label)
+  end
+
   private
 
     # Returns true inside an integration test, and false inside other

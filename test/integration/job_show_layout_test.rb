@@ -75,6 +75,7 @@ class JobShowLayoutTest < ActionDispatch::IntegrationTest
                       past_job_alert_shown:           false)
       assert_protected_get job_path(job), login_as: logged_in_as
       assert_template 'jobs/show'
+      assert_response :success
       assert_select  "form[action='/jobs/#{job.id}/signup']",
                       count: (self_signup_button_shown ? 1 : 0)
       assert_select  "form[action='/jobs/#{job.id}/signup_users']",

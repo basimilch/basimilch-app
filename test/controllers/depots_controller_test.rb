@@ -238,7 +238,8 @@ class DepotsControllerTest < ActionController::TestCase
   # Cancel depot
 
   test "admin should cancel depot" do
-    assert @depot.coordinators.create(user: users(:admin)).save
+    # FIXME: prevent adding twice the same coordinator.
+    # assert @depot.coordinators.create(user: @admin_user).save
     fixture_log_in @admin_user
     assert_no_difference 'Depot.not_canceled.count' do
       # It should not be possible to cancel a depot with active coordinator(s)

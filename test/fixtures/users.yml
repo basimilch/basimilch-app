@@ -2,7 +2,6 @@
 #   http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 admin:
-  id: 1
   email: one@example.com
   admin: true
   first_name: User
@@ -22,7 +21,6 @@ admin:
   activated_at: <%= Time.current %>
 
 two:
-  id: 2
   email: two@example.com
   admin: false
   first_name: Foo
@@ -40,7 +38,6 @@ two:
   activated_at: <%= Time.current %>
 
 three:
-  id: 3
   email: three@example.com
   admin: false
   first_name: Joseph
@@ -59,7 +56,6 @@ three:
 
 <% (4..8).each do |i| %>
 user_<%= i %>:
-  id: <%= i %>
   email: user_<%= i %>@example.com
   admin: false
   first_name: User
