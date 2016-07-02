@@ -154,13 +154,19 @@ class Subscription < ActiveRecord::Base
         @flexible_milk_liters = items.reduce(0) do | acc, item |
           acc += item.quantity * item.product_option.equivalent_in_milk_liters
         end
-        @basic_units, remainder_liters =
-          flexible_milk_liters.divmod(FLEXIBLE_LITERS_BASIC_UNIT)
-        @supplement_units, remainder_liters =
-          remainder_liters.divmod(FLEXIBLE_LITERS_SUPPLEMENT_UNIT)
-        unless basic_units.positive? and remainder_liters.zero?
-          logger.warn "Inconsistent order: #{flexible_milk_liters} liters"
-        end
+        # FIXME: basic and supplement units cannot directly be extrapolated from
+        #        the liters in the product options because the number of
+        #        flexible liter in a subscription with 2 basic units is the same
+        #        as a subscription with 1 basic unit and 2 supplement units.
+        # @basic_units, remainder_liters =
+        #   flexible_milk_liters.divmod(FLEXIBLE_LITERS_BASIC_UNIT)
+        # @supplement_units, remainder_liters =
+        #   remainder_liters.divmod(FLEXIBLE_LITERS_SUPPLEMENT_UNIT)
+        # unless basic_units.positive? and remainder_liters.zero?
+        #   logger.warn "Inconsistent order: #{flexible_milk_liters} liters"
+        # end
+        @basic_units      = subscription.basic_units
+        @supplement_units = subscription.supplement_units
         @equivalent_in_milk_liters =
           (basic_units * EQUIVALENT_IN_MILK_LITERS_BASIC_UNIT) +
           (supplement_units * EQUIVALENT_IN_MILK_LITERS_SUPPLEMENT_UNIT)
