@@ -75,10 +75,10 @@ class RailsExtentionsTest < ActionController::TestCase
   end
 
   test "it should be possible to get the closest element in an date array" do
-    date = Time.zone.local(2016, 1, 1).to_date
+    date = Date.new(2016, 1, 1)
     dates = (date.beginning_of_year..date.end_of_year).select(&:monday?)
 
-    some_monday                 = Time.zone.local(2016, 2, 1).to_date
+    some_monday                 = Date.new(2016, 2, 1)
     some_monday_plus_one_day    = some_monday + 1.day
     some_monday_minus_one_day   = some_monday - 1.day
     some_monday_plus_one_week   = some_monday + 1.week
