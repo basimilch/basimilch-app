@@ -83,8 +83,8 @@ class RailsExtentionsTest < ActionController::TestCase
     some_monday_minus_one_day   = some_monday - 1.day
     some_monday_plus_one_week   = some_monday + 1.week
     some_monday_minus_one_week  = some_monday - 1.week
-    some_monday_plus_one_hour   = some_monday.to_time + 1.hour
-    some_monday_minus_one_hour  = some_monday.to_time - 1.hour
+    some_monday_plus_one_hour   = some_monday + 1.hour
+    some_monday_minus_one_hour  = some_monday - 1.hour
 
     assert_equal some_monday,
       dates.find_closest_to(some_monday)
