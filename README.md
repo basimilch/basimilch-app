@@ -132,6 +132,30 @@ rails server -b $IP -p $PORT
 [`c9.io`]: https://c9.io/
 [run the `rails server` on `Cloud9`]: https://community.c9.io/t/running-a-rails-app/1615
 
+## Rails console
+
+As mentioned in the [section 4.2 of the Rails Tutorial Book]:
+
+> Our principal tool for learning Ruby will be the Rails console, a
+> command-line program for interacting with Rails applications (...)
+
+The Rails console can be started with `rails console` (or `rails c`
+for short).
+
+As suggested in the aforementioned section, adding following
+configuration in the `~/.irbrc` file will simplify the display of the
+console:
+
+```bash
+cat << EOF >> ~/.irbrc
+# SOURCE: https://www.railstutorial.org/book/rails_flavored_ruby#code-irbrc
+IRB.conf[:PROMPT_MODE] = :SIMPLE
+IRB.conf[:AUTO_INDENT_MODE] = false
+EOF
+```
+
+[section 4.2 of the Rails Tutorial Book]: https://www.railstutorial.org/book/rails_flavored_ruby#sec-strings_and_methods
+
 ## Local server
 
 The local Rails server can be started with:

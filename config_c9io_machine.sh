@@ -107,6 +107,12 @@ echo '                              bundle exec rake db:migrate'
 echo
 EOF
 
+grep -q ':SIMPLE' ~/.irbrc || cat << EOF >> ~/.irbrc
+# SOURCE: https://www.railstutorial.org/book/rails_flavored_ruby#code-irbrc
+IRB.conf[:PROMPT_MODE] = :SIMPLE
+IRB.conf[:AUTO_INDENT_MODE] = false
+EOF
+
 set +x
 # rvm has to be sourced and used as a function in order to be able to do "rvm use"
 # SOURCE: https://rvm.io/workflow/scripting
