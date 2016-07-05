@@ -1,0 +1,39 @@
+{
+  "name": "basimilch Webapp",
+  "description": "Web-app of the basimilch cooperative.",
+  "repository": "https://github.com/basimilch/basimilch-app",
+  "logo": "https://avatars2.githubusercontent.com/u/11250894",
+  "keywords": [
+    "basimilch",
+    "cooperative",
+    "ruby",
+    "ruby-on-rails"
+  ],
+  "scripts": {
+    "postdeploy": "bundle exec rake db:setup"
+  },
+  "env": {
+    "ARTICLES_OF_ASSOCIATION_URL": {
+      "description": "ARTICLES_OF_ASSOCIATION_URL",
+      "value": "http://basimil.ch/genossenschaft/statuten"
+    }
+  },
+  "image": "heroku/ruby",
+  "addons": [
+    {
+      "plan": "heroku-postgresql:hobby-dev",
+      "options": {
+        "version": "9.4"
+      }
+    },
+    {
+      "plan": "deployhooks:http",
+    },
+    {
+      "plan": "papertrail:choklad",
+    },
+    {
+      "plan": "scheduler:standard",
+    }
+  ]
+}
