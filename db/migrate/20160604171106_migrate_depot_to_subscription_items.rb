@@ -1,7 +1,7 @@
 class MigrateDepotToSubscriptionItems < ActiveRecord::Migration
 
-  # DOC: http://guides.rubyonrails.org/v4.2.6/active_record_migrations.html
-  # DOC: http://api.rubyonrails.org/v4.2.6/classes/ActiveRecord/Migration.html
+  # DOC: http://guides.rubyonrails.org/v4.2.9/active_record_migrations.html
+  # DOC: http://api.rubyonrails.org/v4.2.9/classes/ActiveRecord/Migration.html
 
   def up
     add_reference :subscription_items, :depot, index: true, foreign_key: true

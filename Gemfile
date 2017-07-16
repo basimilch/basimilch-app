@@ -15,10 +15,11 @@ ruby '2.4.1'
 # https://www.ruby-lang.org/en/news/2017/03/22/ruby-2-4-1-released/
 # https://github.com/ruby/ruby/blob/v2_4_1/NEWS
 
-# DOC: http://guides.rubyonrails.org/v4.2.6/upgrading_ruby_on_rails.html
-gem 'rails',                    '4.2.6'   # https://rubygems.org/gems/rails/versions/4.2.6
-                                          # https://github.com/rails/rails/tree/v4.2.6
+# DOC: http://guides.rubyonrails.org/v4.2.9/upgrading_ruby_on_rails.html
+gem 'rails',                    '4.2.9'   # https://rubygems.org/gems/rails/versions/4.2.9
+                                          # https://github.com/rails/rails/tree/v4.2.9
                                           # https://github.com/rails/rails/compare/v4.2.5.2...v4.2.6
+                                          # https://github.com/rails/rails/compare/v4.2.6...v4.2.9
                                           # https://github.com/rails/rails/releases
                                           # http://weblog.rubyonrails.org/releases/
 

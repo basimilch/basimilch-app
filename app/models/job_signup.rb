@@ -21,7 +21,7 @@ class JobSignup < ActiveRecord::Base
   # If the class name of the reference cannot be inferred from the relation name
   # the class name must be specified.
   # SOURCE: http://stackoverflow.com/a/29577869
-  # DOC: http://api.rubyonrails.org/v4.2.6/classes/ActiveRecord/Associations
+  # DOC: http://api.rubyonrails.org/v4.2.9/classes/ActiveRecord/Associations
   #                                       /ClassMethods.html#method-i-belongs_to
   belongs_to :author, class_name: "User"
 

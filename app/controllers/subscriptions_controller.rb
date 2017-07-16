@@ -176,7 +176,7 @@ class SubscriptionsController < ApplicationController
                                                   .pluck(:id)
                                                   .map(&:to_s)
       params.require(:subscription).permit(
-        # DOC: http://api.rubyonrails.org/v4.2.6/classes/ActionController/Parameters.html#method-i-permit
+        # DOC: http://api.rubyonrails.org/v4.2.9/classes/ActionController/Parameters.html#method-i-permit
         [:new_items_depot_id,
          :new_items_valid_from,
          item_ids_and_quantities: allowed_product_options_keys] +

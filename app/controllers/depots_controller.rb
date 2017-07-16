@@ -126,7 +126,7 @@ class DepotsController < ApplicationController
                             :notes,
                             :publish_tel_mobile,
                             :publish_email,
-                            # DOC: http://api.rubyonrails.org/v4.2.6/classes/ActionController/Parameters.html#method-i-permit
+                            # DOC: http://api.rubyonrails.org/v4.2.9/classes/ActionController/Parameters.html#method-i-permit
                             # SOURCE: http://stackoverflow.com/a/16555975
                             coordinator_user_ids: [],
                             coordinator_flags: [
