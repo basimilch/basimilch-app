@@ -93,11 +93,11 @@ class EnumTest < ActionController::TestCase
     assert_equal Severity::LOW, Severity.enum_for(:LOW)
     assert_equal Severity::LOW, Severity.enum_for(:low)
 
-    assert_equal nil, Severity.enum_for(:lo)
-    assert_equal nil, Severity.enum_for("lo")
-    assert_equal nil, Severity.enum_for("")
-    assert_equal nil, Severity.enum_for(1)
-    assert_equal nil, Severity.enum_for(nil)
+    assert_nil Severity.enum_for(:lo)
+    assert_nil Severity.enum_for("lo")
+    assert_nil Severity.enum_for("")
+    assert_nil Severity.enum_for(1)
+    assert_nil Severity.enum_for(nil)
 
     # The value returned by :to_s shouldn't be modifiable.
     Severity::LOW.to_s.upcase!

@@ -117,8 +117,8 @@ class JobTypeTest < ActiveSupport::TestCase
   test "job_type must be cancelable" do
     assert Cancelable.included_in?(JobType)
     assert_equal false, @job_type.canceled?
-    assert_equal nil,   @job_type.canceled_by
-    assert_equal nil,   @job_type.canceled_reason
+    assert_nil   @job_type.canceled_by
+    assert_nil   @job_type.canceled_reason
   end
 
   test "unsaved job_type cannot be canceled" do

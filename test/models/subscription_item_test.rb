@@ -94,7 +94,7 @@ class SubscriptionItemTest < ActiveSupport::TestCase
     @item.valid_since = 0;            assert_not_valid  @item
     assert_equal 0, @item.valid_since
     @item.valid_since = "wrong date"; assert_not_valid  @item
-    assert_equal nil, @item.valid_since
+    assert_nil @item.valid_since
     @item.valid_since = "2016-01-01"; assert_valid      @item
     assert_equal Date.new(2016, 1, 1), @item.valid_since
   end
@@ -109,7 +109,7 @@ class SubscriptionItemTest < ActiveSupport::TestCase
     @item.valid_until = 0;                           assert_not_valid   @item
     assert_equal 0, @item.valid_until
     @item.valid_until = "string will be nil-lified"; assert_valid       @item
-    assert_equal nil, @item.valid_until
+    assert_nil @item.valid_until
     @item.valid_until = "2016-01-01"; assert_valid  @item
     assert_equal Date.new(2016, 1, 1), @item.valid_until
   end

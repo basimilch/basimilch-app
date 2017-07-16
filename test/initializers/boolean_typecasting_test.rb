@@ -19,7 +19,7 @@ class BooleanTypecastingTest < ActionController::TestCase
 
   test "should return nil when casted to boolean" do
     ["2", "tru", "some string", -1, 2].each do |x|
-      assert_equal nil, x.to_b, "#{x.inspect} should be nil"
+      assert_nil x.to_b, "#{x.inspect} should be nil"
     end
   end
 

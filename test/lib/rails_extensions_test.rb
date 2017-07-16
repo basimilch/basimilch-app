@@ -8,21 +8,21 @@ class RailsExtentionsTest < ActionController::TestCase
   end
 
   test "any Object should respond to :allow" do
-    assert_equal nil,       nil.allow(nil)
-    assert_equal nil,       nil.allow(1)
-    assert_equal nil,       nil.allow(:a)
-    assert_equal nil,       nil.allow([])
-    assert_equal nil,       nil.allow([:a, :b])
-    assert_equal nil,       :c.allow(:a)
+    assert_nil              nil.allow(nil)
+    assert_nil              nil.allow(1)
+    assert_nil              nil.allow(:a)
+    assert_nil              nil.allow([])
+    assert_nil              nil.allow([:a, :b])
+    assert_nil              :c.allow(:a)
     assert_equal :a,        :a.allow(:a)
-    assert_equal nil,       :c.allow([:a, :b])
+    assert_nil              :c.allow([:a, :b])
     assert_equal :a,        :a.allow([:a, :b])
-    assert_equal nil,       [:a, :b].allow([:a, :b])
+    assert_nil              [:a, :b].allow([:a, :b])
     assert_equal [:a, :b],  [:a, :b].allow([[:a, :b]])
-    assert_equal nil,       'a'.allow([:a, :b])
+    assert_nil              'a'.allow([:a, :b])
     assert_equal 'a',       'a'.allow([:a, :b, 'a'])
     assert_equal 'a',       'a'.allow(Set[:a, :b, 'a'])
-    assert_equal nil,       ['a'].allow(Set[:a, :b, 'a'])
+    assert_nil              ['a'].allow(Set[:a, :b, 'a'])
     assert_equal ['a'],     ['a'].allow(Set[:a, :b, 'a', ['a']])
   end
 
@@ -214,21 +214,21 @@ class RailsExtentionsTest < ActionController::TestCase
 
   test "should get index" do
     # NOTE: Please note the differences between ruby's :dig and our :get.
-    assert_equal nil,                       {}.get(:a)
-    assert_equal nil,                       @a_hash.get(:a, :b)
+    assert_nil(                             {}.get(:a))
+    assert_nil                              @a_hash.get(:a, :b)
     assert_raise                          { @a_hash.dig(:a, :b) }
     assert_equal "a string",                @a_hash.get(:some_str)
     assert_equal @a_hash.dig(:some_str),    @a_hash.get(:some_str)
-    assert_equal nil,                       @a_hash.get(:some_str, :not_found)
+    assert_nil                              @a_hash.get(:some_str, :not_found)
     assert_raise                          { @a_hash.dig(:some_str, :not_found) }
-    assert_equal nil,                       @a_hash.get(:a, :b, :c)
+    assert_nil                              @a_hash.get(:a, :b, :c)
     assert_equal 1,                         @a_hash.get(:a)
     assert_equal @a_hash[:inner_hash],      @a_hash.get(:inner_hash)
     assert_equal 2,                         @a_hash.get(:inner_hash, 'b')
     assert_equal @a_hash.dig(:inner_hash, 'b'),
                                             @a_hash.get(:inner_hash, 'b')
     assert_equal 3,                         @a_hash.get(:inner_hash, :c)
-    assert_equal nil,                       @a_hash.get(:inner_hash, :d)
+    assert_nil                              @a_hash.get(:inner_hash, :d)
   end
 
   test "should pop hash value" do
@@ -239,9 +239,9 @@ class RailsExtentionsTest < ActionController::TestCase
     assert_equal({ a: 1, some_str: "a string" } ,         h)
     assert_equal({a: 1, some_str: "a string", inner_hash: { 'b' => 2, c: 3 } },
                                                           @a_hash)
-    assert_equal(nil,                                     h.pop(:inner_hash))
+    assert_nil                                            h.pop(:inner_hash)
     assert_equal({ a: 1, some_str: "a string" } ,         h)
-    assert_equal(nil,                                     h.pop(nil))
+    assert_nil                                            h.pop(nil)
     assert_equal({ a: 1, some_str: "a string" } ,         h)
   end
 
@@ -287,11 +287,11 @@ class RailsExtentionsTest < ActionController::TestCase
   end
 
   test "should be able to get a non blank string" do
-    assert_equal nil, ''.not_blank
-    assert_equal nil, ' '.not_blank
-    assert_equal nil, '  '.not_blank # non-breaking spaces
-    assert_equal nil, "\t".not_blank
-    assert_equal nil, nil.not_blank
+    assert_nil ''.not_blank
+    assert_nil ' '.not_blank
+    assert_nil '  '.not_blank # non-breaking spaces
+    assert_nil "\t".not_blank
+    assert_nil nil.not_blank
 
     assert_equal 'a', 'a'.not_blank
     assert_equal 'a ', 'a '.not_blank

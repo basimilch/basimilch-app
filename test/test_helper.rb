@@ -91,7 +91,7 @@ class ActiveSupport::TestCase
           # Last try
           follow_redirect!
           assert_template 'sessions/new'
-          assert_equal nil, session[:login_code]
+          assert_nil session[:login_code]
         else
           assert_template 'sessions/validation'
           assert_not_equal nil, session[:login_code]

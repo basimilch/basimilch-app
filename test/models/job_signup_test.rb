@@ -61,7 +61,7 @@ class JobSignupTest < ActiveSupport::TestCase
   test "job signup must be cancelable" do
     assert Cancelable.included_in?(JobSignup)
     assert_equal false, @job_signup.canceled?
-    assert_equal nil,   @job_signup.canceled_by
-    assert_equal nil,   @job_signup.canceled_reason
+    assert_nil   @job_signup.canceled_by
+    assert_nil   @job_signup.canceled_reason
   end
 end

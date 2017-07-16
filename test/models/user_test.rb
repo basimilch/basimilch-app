@@ -247,7 +247,7 @@ class UserTest < ActiveSupport::TestCase
       @user.tel_mobile = invalid_tel
       assert_not_valid @user, "#{invalid_tel.inspect} should be invalid: " +
                            "#{@user.tel_mobile.inspect}"
-      assert_equal nil, @user.formatted_tel(:mobile)
+      assert_nil @user.formatted_tel(:mobile)
     end
   end
 
@@ -330,7 +330,7 @@ class UserTest < ActiveSupport::TestCase
         terms_of_service: '1'
       )
     assert_valid @user
-    assert_equal nil, @user.id
+    assert_nil @user.id
     assert @user.save
     assert @user.id.is_a? Integer
     @user.reload

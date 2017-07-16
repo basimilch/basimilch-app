@@ -90,7 +90,7 @@ class SubscriptionTest < ActiveSupport::TestCase
     assert @subscription_with_items.current_items.present?
     delivery_day = @subscription.delivery_day
     # The delivery_day of the fixture depot is Saturday.
-    assert_equal nil, delivery_day
+    assert_nil delivery_day
     assert_equal true, admin.admin?
     assert_equal false, user.admin?
 
@@ -104,19 +104,19 @@ class SubscriptionTest < ActiveSupport::TestCase
       # A couple of weeks before, it should be possible to update.
       travel_to Date.commercial(2016, 18) do
         assert_equal true,  @subscription.can_be_updated_by?(admin)
-        assert_equal nil,   @subscription.can_be_updated_by?(user)
+        assert_nil   @subscription.can_be_updated_by?(user)
         assert_equal true,  @subscription_with_items.can_be_updated_by?(user)
       end
       # The same week, it should be possible to update until Tuesday.
       travel_to Date.commercial(2016, 21, 2) do
         assert_equal true,  @subscription.can_be_updated_by?(admin)
-        assert_equal nil,   @subscription.can_be_updated_by?(user)
+        assert_nil   @subscription.can_be_updated_by?(user)
         assert_equal true,  @subscription_with_items.can_be_updated_by?(user)
       end
       # The same week, it should not be possible to update from Wednesday on.
       travel_to Date.commercial(2016, 21, 3) do
         assert_equal true,  @subscription.can_be_updated_by?(admin)
-        assert_equal nil,   @subscription.can_be_updated_by?(user)
+        assert_nil   @subscription.can_be_updated_by?(user)
         assert_equal false, @subscription_with_items.can_be_updated_by?(user)
       end
       # The week after, it should not be possible to update anymore.

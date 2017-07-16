@@ -19,7 +19,7 @@ class SignupsControllerTest < ActionController::TestCase
   end
 
   test "user created with signup should be not activated" do
-    assert_equal nil, User.find_by(email: @valid_user_info[:email])
+    assert_nil User.find_by(email: @valid_user_info[:email])
     validation_code = "123-123"
     session[:signup_info] = @valid_user_info
     session[:signup_validation_code] = validation_code.number
@@ -43,7 +43,7 @@ class SignupsControllerTest < ActionController::TestCase
     assert_equal false, User.find_by(email: @valid_user_info[:email]).activated?
 
     # Check that the session is cleaned from signup info
-    assert_equal nil, session[:signup_info]
-    assert_equal nil, session[:signup_validation_code]
+    assert_nil session[:signup_info]
+    assert_nil session[:signup_validation_code]
   end
 end

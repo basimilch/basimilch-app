@@ -15,7 +15,7 @@ class SignupTest < ActionDispatch::IntegrationTest
                 email: "user2@example.com"
               })
     signup_workflow_for_user valid_user_info_2
-    assert_equal nil, User.find_by(email: "user2@example.com").status
+    assert_nil User.find_by(email: "user2@example.com").status
 
     # Check that if the user wants a subscription, the status is set to
     # "waiting_list".
@@ -38,7 +38,7 @@ class SignupTest < ActionDispatch::IntegrationTest
       # Landing to the singup page
       get signup_path
       assert_template 'signups/new'
-      assert_equal nil, session[:already_successful_signup]
+      assert_nil session[:already_successful_signup]
 
       assert_no_difference 'ActionMailer::Base.deliveries.size' do
         # User tries a first attemp with partially correct information
@@ -134,8 +134,8 @@ class SignupTest < ActionDispatch::IntegrationTest
       assert_template 'signups/create'
 
       # Check that the session is cleaned from signup info
-      assert_equal nil, session[:signup_info]
-      assert_equal nil, session[:signup_validation_code]
+      assert_nil session[:signup_info]
+      assert_nil session[:signup_validation_code]
     end
 
     # This is not a standalone test to ensure that its executed after user did
@@ -144,7 +144,7 @@ class SignupTest < ActionDispatch::IntegrationTest
       # Landing to the singup page
       get signup_path
       assert_template 'signups/new'
-      assert_equal nil, session[:already_successful_signup]
+      assert_nil session[:already_successful_signup]
 
       assert_no_difference 'ActionMailer::Base.deliveries.size' do
         post_via_redirect signup_validation_path, user: @valid_user_info_1
