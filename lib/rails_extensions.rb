@@ -359,9 +359,11 @@ class String
   # restart, the encryptor and so its key and salt will be regenerated.
   # Strings encrypted with an old @@volatile_encryptor will not be able
   # to be decrypted again.
+  # NOTE: Key length on generated key must be 32 bytes.
+  # SOURCE: https://github.com/rails/rails/issues/25185
   volatile_encryption_key = ActiveSupport::KeyGenerator
                               .new(SecureRandom.uuid + SecureRandom.uuid)
-                              .generate_key(SecureRandom.urlsafe_base64)
+                              .generate_key(SecureRandom.urlsafe_base64, 32)
   @@volatile_encryptor = ActiveSupport::MessageEncryptor
                           .new(volatile_encryption_key)
 
