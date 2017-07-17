@@ -447,7 +447,7 @@ class ActiveSupport::Duration
   end
 end
 
-class Fixnum
+class Integer
   def inc
     self + 1
   end

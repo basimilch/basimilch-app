@@ -51,21 +51,21 @@ class DepotsControllerTest < ActionController::TestCase
   # get :show
 
   test "non-logged-in users should not get show" do
-    get :show, id: @depot
+    get :show, params: { id: @depot }
     assert_redirected_to login_path
   end
 
   test "non-admin users should not get show" do
     assert_404_error do
       assert_protected login_as: @other_user do
-        get :show, id: @depot
+        get :show, params: { id: @depot }
       end
     end
   end
 
   test "admin users should get show" do
     assert_protected login_as: @admin_user do
-      get :show, id: @depot
+      get :show, params: { id: @depot }
     end
     assert_response :success
   end
@@ -73,21 +73,21 @@ class DepotsControllerTest < ActionController::TestCase
   # get :edit
 
   test "non-logged-in users should not get edit" do
-    get :edit, id: @depot
+    get :edit, params: { id: @depot }
     assert_redirected_to login_path
   end
 
   test "non-admin users should not get edit" do
     assert_404_error do
       assert_protected login_as: @other_user do
-        get :edit, id: @depot
+        get :edit, params: { id: @depot }
       end
     end
   end
 
   test "admin users should get edit" do
     assert_protected login_as: @admin_user do
-      get :edit, id: @depot
+      get :edit, params: { id: @depot }
     end
     assert_response :success
   end
@@ -96,27 +96,8 @@ class DepotsControllerTest < ActionController::TestCase
 
   test "non-logged-in should not create depot" do
     assert_no_difference 'Depot.count' do
-      post :create, depot: {
-        city: @depot.city,
-        country: @depot.country,
-        directions: @depot.directions,
-        exact_map_coordinates: @depot.exact_map_coordinates,
-        name: @depot.name,
-        notes: @depot.notes,
-        opening_hours: @depot.opening_hours,
-        picture: @depot.picture,
-        postal_address: @depot.postal_address,
-        postal_address_supplement: @depot.postal_address_supplement,
-        postal_code: @depot.postal_code
-      }
-    end
-    assert_redirected_to login_path
-  end
-
-  test "non-admin should not create depot" do
-    assert_no_difference 'Depot.count' do
-      assert_admin_protected login_as: @other_user do
-        post :create, depot: {
+      post :create, params: {
+        depot: {
           city: @depot.city,
           country: @depot.country,
           directions: @depot.directions,
@@ -129,6 +110,29 @@ class DepotsControllerTest < ActionController::TestCase
           postal_address_supplement: @depot.postal_address_supplement,
           postal_code: @depot.postal_code
         }
+      }
+    end
+    assert_redirected_to login_path
+  end
+
+  test "non-admin should not create depot" do
+    assert_no_difference 'Depot.count' do
+      assert_admin_protected login_as: @other_user do
+        post :create, params: {
+          depot: {
+            city: @depot.city,
+            country: @depot.country,
+            directions: @depot.directions,
+            exact_map_coordinates: @depot.exact_map_coordinates,
+            name: @depot.name,
+            notes: @depot.notes,
+            opening_hours: @depot.opening_hours,
+            picture: @depot.picture,
+            postal_address: @depot.postal_address,
+            postal_address_supplement: @depot.postal_address_supplement,
+            postal_code: @depot.postal_code
+          }
+        }
       end
     end
   end
@@ -136,18 +140,20 @@ class DepotsControllerTest < ActionController::TestCase
   test "admin should create depot" do
     assert_difference 'Depot.count', 1 do
       assert_admin_protected login_as: @admin_user do
-        post :create, depot: {
-          city: @depot.city,
-          country: @depot.country,
-          directions: @depot.directions,
-          exact_map_coordinates: @depot.exact_map_coordinates,
-          name: @depot.name,
-          notes: @depot.notes,
-          opening_hours: @depot.opening_hours,
-          picture: @depot.picture,
-          postal_address: @depot.postal_address,
-          postal_address_supplement: @depot.postal_address_supplement,
-          postal_code: @depot.postal_code
+        post :create, params: {
+          depot: {
+            city: @depot.city,
+            country: @depot.country,
+            directions: @depot.directions,
+            exact_map_coordinates: @depot.exact_map_coordinates,
+            name: @depot.name,
+            notes: @depot.notes,
+            opening_hours: @depot.opening_hours,
+            picture: @depot.picture,
+            postal_address: @depot.postal_address,
+            postal_address_supplement: @depot.postal_address_supplement,
+            postal_code: @depot.postal_code
+          }
         }
       end
       assert_response :redirect
@@ -158,25 +164,9 @@ class DepotsControllerTest < ActionController::TestCase
   # put :update, id: @depot
 
   test "non-logged-in should not update depot" do
-    put :update, id: @depot, depot: {
-      city: @depot.city,
-      country: @depot.country,
-      directions: @depot.directions,
-      exact_map_coordinates: @depot.exact_map_coordinates,
-      name: @depot.name,
-      notes: @depot.notes,
-      opening_hours: @depot.opening_hours,
-      picture: @depot.picture,
-      postal_address: @depot.postal_address,
-      postal_address_supplement: @depot.postal_address_supplement,
-      postal_code: @depot.postal_code
-    }
-    assert_redirected_to login_path
-  end
-
-  test "non-admin should not update depot" do
-    assert_admin_protected login_as: @other_user do
-      put :update, id: @depot, depot: {
+    put :update, params: {
+      id: @depot,
+      depot: {
         city: @depot.city,
         country: @depot.country,
         directions: @depot.directions,
@@ -189,23 +179,48 @@ class DepotsControllerTest < ActionController::TestCase
         postal_address_supplement: @depot.postal_address_supplement,
         postal_code: @depot.postal_code
       }
+    }
+    assert_redirected_to login_path
+  end
+
+  test "non-admin should not update depot" do
+    assert_admin_protected login_as: @other_user do
+      put :update, params: {
+        id: @depot,
+        depot: {
+          city: @depot.city,
+          country: @depot.country,
+          directions: @depot.directions,
+          exact_map_coordinates: @depot.exact_map_coordinates,
+          name: @depot.name,
+          notes: @depot.notes,
+          opening_hours: @depot.opening_hours,
+          picture: @depot.picture,
+          postal_address: @depot.postal_address,
+          postal_address_supplement: @depot.postal_address_supplement,
+          postal_code: @depot.postal_code
+        }
+      }
     end
   end
 
   test "admin should update depot" do
     assert_admin_protected login_as: @admin_user do
-      put :update, id: @depot, depot: {
-        city: @depot.city,
-        country: @depot.country,
-        directions: @depot.directions,
-        exact_map_coordinates: @depot.exact_map_coordinates,
-        name: @depot.name,
-        notes: @depot.notes,
-        opening_hours: @depot.opening_hours,
-        picture: @depot.picture,
-        postal_address: @depot.postal_address,
-        postal_address_supplement: @depot.postal_address_supplement,
-        postal_code: @depot.postal_code
+      put :update, params: {
+        id: @depot,
+        depot: {
+          city: @depot.city,
+          country: @depot.country,
+          directions: @depot.directions,
+          exact_map_coordinates: @depot.exact_map_coordinates,
+          name: @depot.name,
+          notes: @depot.notes,
+          opening_hours: @depot.opening_hours,
+          picture: @depot.picture,
+          postal_address: @depot.postal_address,
+          postal_address_supplement: @depot.postal_address_supplement,
+          postal_code: @depot.postal_code
+        }
       }
     end
     assert_response :redirect
@@ -216,8 +231,11 @@ class DepotsControllerTest < ActionController::TestCase
 
   test "admin should be able to add a coordinator" do
     assert_admin_protected login_as: @admin_user do
-      put :update, id: @depot, depot: {
-        coordinator_user_ids: [ users(:admin).id ]
+      put :update, params: {
+        id: @depot,
+        depot: {
+          coordinator_user_ids: [ users(:admin).id ]
+        }
       }
     end
     assert_redirected_to depot_path(assigns(:depot))
@@ -227,8 +245,11 @@ class DepotsControllerTest < ActionController::TestCase
   test "admin should be able to add a coordinator without mobile phone" do
     assert_equal true, users(:admin).update_attribute(:tel_mobile, nil)
     assert_admin_protected login_as: @admin_user do
-      put :update, id: @depot, depot: {
-        coordinator_user_ids: [ users(:admin).id ]
+      put :update, params: {
+        id: @depot,
+        depot: {
+          coordinator_user_ids: [ users(:admin).id ]
+        }
       }
     end
     assert_redirected_to depot_path(assigns(:depot))
@@ -243,20 +264,21 @@ class DepotsControllerTest < ActionController::TestCase
     fixture_log_in @admin_user
     assert_no_difference 'Depot.not_canceled.count' do
       # It should not be possible to cancel a depot with active coordinator(s)
-      put :cancel, id: @depot
+      put :cancel, params: { id: @depot }
     end
     assert_equal 1, @depot.active_coordinators.count
     assert_no_difference '@depot.coordinators.count' do
       assert_difference '@depot.active_coordinators.count', -1 do
-        put :cancel_coordinator,
+        put :cancel_coordinator, params: {
               id: @depot,
               coordinator_id: @depot.coordinators.first.id
+            }
       end
     end
     assert_equal 0, @depot.active_coordinators.count
     assert_difference 'Depot.not_canceled.count', -1 do
       # It should be possible to cancel a depot with active coordinator(s)
-      put :cancel, id: @depot
+      put :cancel, params: { id: @depot }
     end
     assert_redirected_to depot_path(assigns(:depot))
   end

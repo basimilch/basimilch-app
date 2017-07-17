@@ -32,9 +32,11 @@ class SignupsControllerTest < ActionController::TestCase
         # user and a notification to the app owner.
         assert_difference 'ShareCertificate.count', 3 do
           # This successful user sign up should create 3 share certificates.
-          post :create, signup: {
-            email_validation_code: validation_code
-          }
+          post :create, params: {
+                 signup: {
+                   email_validation_code: validation_code
+                 }
+               }
         end
       end
     end

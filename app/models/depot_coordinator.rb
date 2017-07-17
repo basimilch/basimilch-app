@@ -1,4 +1,4 @@
-class DepotCoordinator < ActiveRecord::Base
+class DepotCoordinator < ApplicationRecord
 
   include Cancelable
 

@@ -43,11 +43,14 @@ class SignupTest < ActionDispatch::IntegrationTest
       assert_no_difference 'ActionMailer::Base.deliveries.size' do
         # User tries a first attemp with partially correct information
         # and no email is sent yet
-        post_via_redirect signup_validation_path, user: valid_user_info.merge({
-                                        first_name:       "user",
-                                        last_name:        "von example",
-                                        postal_address:   "Alte Kindhauserstr 3"
-                                      })
+        post signup_validation_path, params: {
+                                       user: valid_user_info.merge({
+                                         first_name:     "user",
+                                         last_name:      "von example",
+                                         postal_address: "Alte Kindhauserstr 3"
+                                       })
+                                     }
+        follow_redirect! while redirect?
       end
 
       # The same form is rendered with the information highlighted
@@ -66,9 +69,10 @@ class SignupTest < ActionDispatch::IntegrationTest
 
       assert_no_difference 'ActionMailer::Base.deliveries.size' do
         # User has to check the box about accepting the terms and conditions.
-        post_via_redirect signup_validation_path, user: valid_user_info.merge({
-                                                          terms_of_service: "0"
-                                                        })
+        post signup_validation_path, params: {
+               user: valid_user_info.merge({terms_of_service: "0"})
+             }
+        follow_redirect! while redirect?
       end
 
       # The same form is rendered with the information highlighted
@@ -89,7 +93,8 @@ class SignupTest < ActionDispatch::IntegrationTest
       assert_difference 'ActionMailer::Base.deliveries.size', 1 do
         # The user sends the form again with the information fixed
         # and one email is sent with the validation code
-        post_via_redirect signup_validation_path, user: valid_user_info
+        post signup_validation_path, params: { user: valid_user_info }
+        follow_redirect! while redirect?
       end
       # ...and the validation screen appears
       assert_template 'signups/validation'
@@ -101,10 +106,10 @@ class SignupTest < ActionDispatch::IntegrationTest
         # Entering a wrong validation code, renders the page again
         # and no welcome email is sent yet
         assert_no_difference 'User.count' do
-          put_via_redirect signup_create_path,
-                           signup: {
-                            email_validation_code: "a"
-                          }
+          put signup_create_path, params: {
+                                    signup: { email_validation_code: "a" }
+                                  }
+          follow_redirect! while redirect?
         end
       end
       assert_template 'signups/validation'
@@ -115,10 +120,12 @@ class SignupTest < ActionDispatch::IntegrationTest
         assert_difference 'User.count', 1 do
           # With the valid code, the user gets created
           # and a welcome email is sent
-          put_via_redirect signup_create_path,
-                           signup: {
-                            email_validation_code: signup_validation_code
-                          }
+          put signup_create_path, params: {
+                                    signup: {
+                                     email_validation_code: signup_validation_code
+                                   }
+                                 }
+          follow_redirect! while redirect?
         end
       end
       assert_template 'signups/create'
@@ -126,10 +133,12 @@ class SignupTest < ActionDispatch::IntegrationTest
       assert_no_difference ['User.count', 'ActionMailer::Base.deliveries.size'] do
         # Reloading the page (sending the request again) should not recreate
         # the user and no email should be sent again.
-        put_via_redirect signup_create_path,
-                         signup: {
-                          email_validation_code: signup_validation_code
-                        }
+        put signup_create_path, params: {
+                                  signup: {
+                                   email_validation_code: signup_validation_code
+                                  }
+                                }
+        follow_redirect! while redirect?
       end
       assert_template 'signups/create'
 
@@ -147,7 +156,8 @@ class SignupTest < ActionDispatch::IntegrationTest
       assert_nil session[:already_successful_signup]
 
       assert_no_difference 'ActionMailer::Base.deliveries.size' do
-        post_via_redirect signup_validation_path, user: @valid_user_info_1
+        post signup_validation_path, params: { user: @valid_user_info_1 }
+        follow_redirect! while redirect?
       end
 
       # The same form is rendered with the information highlighted

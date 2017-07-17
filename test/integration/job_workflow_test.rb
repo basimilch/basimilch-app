@@ -3,7 +3,7 @@ require 'test_helper'
 class JobWorkflowTest < ActionDispatch::IntegrationTest
 
   # NOTE: 'def setup' is equivalent to 'setup do' in Rails' Test::Unit context.
-  # SOURCE: http://technicalpickles.com/posts/rails-special-sauce-test-unit-setup-and-teardown/
+  # SOURCE: http://technicalpickles.com/posts/rails-special-sauce-test-unit-setup-and-teardown
   setup do
     @admin_user = users(:admin)
     @user       = users(:two)
@@ -52,8 +52,14 @@ class JobWorkflowTest < ActionDispatch::IntegrationTest
         assert_difference ['Job.canceled.count',
                            'JobSignup.canceled.count'], 1 do
           assert_difference 'ActionMailer::Base.deliveries.size', 1 do
+            assert_equal false, @full_job.canceled?
+            assert_equal @user, @full_job.job_signups.first.user
             # Canceling a job should send a notification to the signed up users.
             put job_cancel_path(@full_job)
+            follow_redirect! while redirect?
+            @full_job.reload
+            assert_equal [@user.email], ActionMailer::Base.deliveries.last.to
+            assert_equal true, @full_job.canceled?
           end
         end
       end

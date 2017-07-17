@@ -1,4 +1,4 @@
-class SubscriptionItem < ActiveRecord::Base
+class SubscriptionItem < ApplicationRecord
 
   include Cancelable
 

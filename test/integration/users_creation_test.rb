@@ -14,7 +14,8 @@ class UsersCreationTest < ActionDispatch::IntegrationTest
     assert_protected_get new_user_path, login_as: @user
     assert_template 'users/new'
     assert_difference 'User.count', 1 do
-      post_via_redirect users_path, user: @valid_user_info
+      post users_path, params: { user: @valid_user_info }
+      follow_redirect! while redirect?
     end
     # Check that the PublicActivity was properly recorded.
     activity = PublicActivity::Activity.last
@@ -39,7 +40,7 @@ class UsersCreationTest < ActionDispatch::IntegrationTest
       @valid_user_info[:tel_home]         = "124"
       @valid_user_info[:terms_of_service] = "0"
       @valid_user_info[:wanted_number_of_share_certificates] = nil
-      post users_path, user: @valid_user_info
+      post users_path, params: { user: @valid_user_info }
     end
     assert_template 'users/new'
     assert_select 'div#error_explanation',      count: 1
@@ -52,7 +53,7 @@ class UsersCreationTest < ActionDispatch::IntegrationTest
     assert_template 'users/new'
     assert_no_difference 'User.count' do
       @valid_user_info[:postal_code] = "8952"
-      post users_path, user: @valid_user_info
+      post users_path, params: { user: @valid_user_info }
     end
     assert_template 'users/new'
     assert_select 'div#error_explanation',      count: 1

@@ -1,6 +1,7 @@
 # Suggested by https://travis-ci.org/basimilch/basimilch-app
-require 'codeclimate-test-reporter'
-CodeClimate::TestReporter.start
+# SOURCE: https://github.com/codeclimate/ruby-test-reporter/blob/master/CHANGELOG.md#v100-2016-11-03
+require 'simplecov'
+SimpleCov.start
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
@@ -86,7 +87,7 @@ class ActiveSupport::TestCase
     assert_difference 'PublicActivity::Activity.count', 3 do
       # One activity for each failed attempt.
       3.times do |i|
-        put login_path, login_code_form: {login_code: "wrong code"}
+        put login_path, params: { login_code_form: {login_code: "wrong code"} }
         if i == 2
           # Last try
           follow_redirect!
@@ -105,7 +106,7 @@ class ActiveSupport::TestCase
     # and log in properly
     assert_difference 'PublicActivity::Activity.count', 1 do
       # One activity should track the new login.
-      put login_path, login_code_form: {login_code: login_code}
+      put login_path, params: { login_code_form: {login_code: login_code} }
     end
     assert_equal true, fixture_logged_in?
   end
@@ -293,13 +294,14 @@ class ActiveSupport::TestCase
         assert_difference 'ActionMailer::Base.deliveries.size', 1 do
           # When the user inputs her email and sends the form with the "request
           # login code" button, one email is sent with the login code
-          post_via_redirect(
-            login_path,
-            session: {
-              email: user.email,
-              secure_computer_acknowledged: secure_computer_acknowledged
-            }
-          )
+          post login_path,
+               params: {
+                 session: {
+                   email: user.email,
+                   secure_computer_acknowledged: secure_computer_acknowledged
+                 }
+               }
+          follow_redirect! while redirect?
         end
       end
       # ...and the login-code screen appears

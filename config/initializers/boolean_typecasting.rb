@@ -27,7 +27,7 @@ class String
   end
 end
 
-class Fixnum
+class Integer
   def to_b
     return true   if self == 1
     return false  if self == 0

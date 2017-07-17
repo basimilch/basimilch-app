@@ -45,8 +45,10 @@ class SubscriptionLifecycleTest < ActionDispatch::IntegrationTest
       # Trying to add an items list that does not add up to the equivalent number
       # of milk liters of the subscription will return the same edit page.
       assert_no_difference 'SubscriptionItem.not_canceled.count' do
-        put_via_redirect subscription_path(created_subscription),
-                         subscription: wrong_items_list
+        put subscription_path(created_subscription), params: {
+              subscription: wrong_items_list
+            }
+        follow_redirect! while redirect?
       end
       log_flash
       log wrong_items_list
@@ -519,8 +521,10 @@ class SubscriptionLifecycleTest < ActionDispatch::IntegrationTest
           assert_difference 'Subscription.count', 1 do
             # First we create the subscription with the basic info, i.e. without
             # subscribers nor items.
-            post_via_redirect subscriptions_path,
-                              subscription: @valid_subscription_basic_info
+            post subscriptions_path, params: {
+                   subscription: @valid_subscription_basic_info
+                 }
+            follow_redirect! while redirect?
           end
           # Check that the PublicActivity was properly recorded.
           activity = PublicActivity::Activity.last
@@ -580,8 +584,10 @@ class SubscriptionLifecycleTest < ActionDispatch::IntegrationTest
         assert_difference 'SubscriptionItem.canceled.count',
                           canceled_count_difference do
           assert_difference 'SubscriptionItem.count', count_difference do
-            put_via_redirect subscription_path(subscription),
-                               subscription: correct_items_list
+            put subscription_path(subscription), params: {
+                 subscription: correct_items_list
+               }
+            follow_redirect! while redirect?
             assert_response :success
           end
         end
@@ -621,7 +627,9 @@ class SubscriptionLifecycleTest < ActionDispatch::IntegrationTest
       _subscription = Subscription.find(subscription.id)
       _user_list = user_list(*users)
       assert_difference 'Subscribership.not_canceled.count', count_difference do
-        put subscription_path(_subscription), subscription: _user_list
+        put subscription_path(_subscription), params: {
+                                                subscription: _user_list
+                                              }
       end
 
       if count_difference.pos?

@@ -248,6 +248,11 @@ group :test do
                                           # https://rubygems.org/gems/codeclimate-test-reporter/versions
                                           # https://github.com/codeclimate/ruby-test-reporter/releases
 
+  # Extracting `assigns` and `assert_template` from ActionDispatch.
+  # DOC: http://guides.rubyonrails.org/v5.0.4/upgrading_ruby_on_rails.html#rails-controller-testing
+  gem 'rails-controller-testing', '1.0.2' # https://rubygems.org/gems/rails-controller-testing/versions/1.0.2
+                                          # https://github.com/rails/rails-controller-testing
+
 end
 
 group :production do

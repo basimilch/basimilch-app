@@ -1,4 +1,4 @@
-class ShareCertificate < ActiveRecord::Base
+class ShareCertificate < ApplicationRecord
 
   # DOC: https://github.com/chaps-io/public_activity/tree/v1.4.1
   include PublicActivity::Common

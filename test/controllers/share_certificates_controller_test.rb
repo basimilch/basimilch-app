@@ -31,13 +31,15 @@ class ShareCertificatesControllerTest < ActionController::TestCase
   test "admin should be able to create share_certificate" do
     assert_difference 'ShareCertificate.count', 1 do
       assert_admin_protected login_as: @admin_user do
-        post :create, share_certificate: {
-          notes:        nil,
-          payed_at:     Date.current,
-          returned_at:  Time.current,
-          sent_at:      nil,
-          user_id:      users(:two).id
-        }
+        post :create, params: {
+                share_certificate: {
+                  notes:        nil,
+                  payed_at:     Date.current,
+                  returned_at:  Time.current,
+                  sent_at:      nil,
+                  user_id:      users(:two).id
+                }
+             }
       end
     end
     assert_redirected_to share_certificate_path(assigns(:share_certificate))
@@ -46,13 +48,15 @@ class ShareCertificatesControllerTest < ActionController::TestCase
   test "non admin should not be able to create share_certificate" do
     assert_no_difference 'ShareCertificate.count' do
       assert_admin_protected login_as: @user do
-        post :create, share_certificate: {
-          notes:        nil,
-          payed_at:     Date.current,
-          returned_at:  Time.current,
-          sent_at:      nil,
-          user_id:      users(:two).id
-        }
+        post :create, params: {
+                share_certificate: {
+                  notes:        nil,
+                  payed_at:     Date.current,
+                  returned_at:  Time.current,
+                  sent_at:      nil,
+                  user_id:      users(:two).id
+                }
+             }
       end
     end
   end
@@ -60,73 +64,81 @@ class ShareCertificatesControllerTest < ActionController::TestCase
   test "user for share_certificate must exist" do
     assert_no_difference 'ShareCertificate.count' do
       assert_admin_protected login_as: @admin_user do
-        post :create, share_certificate: {
-          notes:        nil,
-          payed_at:     Date.current,
-          returned_at:  Time.current,
-          sent_at:      nil,
-          user_id:      10000
-        }
+        post :create, params: {
+                share_certificate: {
+                  notes:        nil,
+                  payed_at:     Date.current,
+                  returned_at:  Time.current,
+                  sent_at:      nil,
+                  user_id:      10000
+                }
+             }
       end
     end
   end
 
   test "admin should be able to show share_certificate" do
     assert_admin_protected login_as: @admin_user do
-      get :show, id: @share_certificate
+      get :show, params: { id: @share_certificate }
     end
     assert_response :success
   end
 
   test "non admin should not be able to show share_certificate" do
     assert_admin_protected login_as: @user do
-      get :show, id: @share_certificate
+      get :show, params: { id: @share_certificate }
     end
     assert_response :success
   end
 
   test "admin should be able to get edit" do
     assert_admin_protected login_as: @admin_user do
-      get :edit, id: @share_certificate
+      get :edit, params: { id: @share_certificate }
     end
     assert_response :success
   end
 
   test "non admin should not be able to get edit" do
     assert_admin_protected login_as: @user do
-      get :edit, id: @share_certificate
+      get :edit, params: { id: @share_certificate }
     end
     assert_response :success
   end
 
   test "admin should be able to update share_certificate" do
     assert_admin_protected login_as: @admin_user do
-      patch :update, id: @share_certificate, share_certificate: {
-        notes:        @share_certificate.notes,
-        payed_at:     @share_certificate.payed_at,
-        returned_at:  @share_certificate.returned_at,
-        sent_at:      @share_certificate.sent_at,
-        user_id:      @share_certificate.user_id
-      }
+      patch :update, params: {
+              id: @share_certificate,
+              share_certificate: {
+                notes:        @share_certificate.notes,
+                payed_at:     @share_certificate.payed_at,
+                returned_at:  @share_certificate.returned_at,
+                sent_at:      @share_certificate.sent_at,
+                user_id:      @share_certificate.user_id
+              }
+            }
     end
   end
 
   test "non admin should not be able to update share_certificate" do
     assert_admin_protected login_as: @user do
-      patch :update, id: @share_certificate, share_certificate: {
-        notes:        @share_certificate.notes,
-        payed_at:     @share_certificate.payed_at,
-        returned_at:  @share_certificate.returned_at,
-        sent_at:      @share_certificate.sent_at,
-        user_id:      @share_certificate.user_id
-      }
+      patch :update, params: {
+              id: @share_certificate,
+              share_certificate: {
+                notes:        @share_certificate.notes,
+                payed_at:     @share_certificate.payed_at,
+                returned_at:  @share_certificate.returned_at,
+                sent_at:      @share_certificate.sent_at,
+                user_id:      @share_certificate.user_id
+              }
+            }
     end
   end
 
   test "admin should be able to destroy share_certificate" do
     assert_difference 'ShareCertificate.count', -1 do
       assert_admin_protected login_as: @admin_user do
-        delete :destroy, id: @share_certificate.id
+        delete :destroy, params: { id: @share_certificate.id }
       end
     end
   end
@@ -134,7 +146,7 @@ class ShareCertificatesControllerTest < ActionController::TestCase
   test "non admin should not be able to destroy share_certificate" do
     assert_admin_protected login_as: @user do
       assert_no_difference 'ShareCertificate.count' do
-        delete :destroy, id: @share_certificate.id
+        delete :destroy, params: { id: @share_certificate.id }
       end
     end
   end

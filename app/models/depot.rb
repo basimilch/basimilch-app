@@ -1,4 +1,4 @@
-class Depot < ActiveRecord::Base
+class Depot < ApplicationRecord
 
   # DOC: https://github.com/chaps-io/public_activity/tree/v1.4.1
   include PublicActivity::Common
@@ -240,6 +240,6 @@ class Depot < ActiveRecord::Base
     end
 
     def ensure_no_active_coordinators
-      active_coordinators.empty?
+      active_coordinators.empty? or throw :abort
     end
 end

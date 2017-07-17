@@ -10,7 +10,7 @@ class UsersEditTest < ActionDispatch::IntegrationTest
   test "unsuccessful edit" do
     assert_protected_get edit_user_path(@user), login_as: @user
     assert_template 'users/edit'
-    patch user_path(@user), user: { email: "wrong email" }
+    patch user_path(@user), params: { user: { email: "wrong email" } }
     # The errors are rendered
     assert_select '#error_explanation', count: 1
     # ...and we edit page is shown again.
@@ -23,8 +23,8 @@ class UsersEditTest < ActionDispatch::IntegrationTest
     email = "new_user@example.net"
     last_name = User.new_token.titlecase # A random string
     original_first_name = @user.first_name
-    patch user_path(@user), user: { email:      email,
-                                    last_name:  last_name }
+    patch user_path(@user), params: { user: { email:      email,
+                                              last_name:  last_name } }
     # Check that the PublicActivity was properly recorded, including the changes.
     activity = PublicActivity::Activity.last
     assert_equal 'user.update',     activity.key

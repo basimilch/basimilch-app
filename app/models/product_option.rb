@@ -1,4 +1,4 @@
-class ProductOption < ActiveRecord::Base
+class ProductOption < ApplicationRecord
 
   include Cancelable
 

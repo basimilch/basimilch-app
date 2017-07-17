@@ -37,23 +37,26 @@ class SubscriptionsControllerTest < ActionController::TestCase
     assert_response :success
     assert_select "tr.subscription-info", 3
 
-    get :index, view: :with_planned_items
+    get :index, params: { view: :with_planned_items }
     assert_response :success
     assert_select "tr.subscription-info", 0
 
     assert_difference 'SubscriptionItem.count', 2 do
-      put :update, id: @subscription.id, subscription: {
-          new_items_depot_id:       depots(:valid).id,
-          new_items_valid_from:     @subscription.next_modifiable_delivery_day,
-          item_ids_and_quantities:  {
-            ActiveRecord::FixtureSet.identify(:milk).to_s   => 4,
-            ActiveRecord::FixtureSet.identify(:yogurt).to_s => 4
+      put :update, params: {
+            id: @subscription.id,
+            subscription: {
+              new_items_depot_id:       depots(:valid).id,
+              new_items_valid_from:     @subscription.next_modifiable_delivery_day,
+              item_ids_and_quantities:  {
+                ActiveRecord::FixtureSet.identify(:milk).to_s   => 4,
+                ActiveRecord::FixtureSet.identify(:yogurt).to_s => 4
+              }
+            }
           }
-        }
       assert_response :redirect
       log_flash
     end
-    get :index, view: :with_planned_items
+    get :index, params: { view: :with_planned_items }
     assert_response :success
     assert_select "tr.subscription-info", 1
   end
@@ -79,19 +82,19 @@ class SubscriptionsControllerTest < ActionController::TestCase
   # get :show
 
   test "non-logged-in users should not get show" do
-    get :show, id: @subscription
+    get :show, params: { id: @subscription }
     assert_redirected_to login_path
   end
 
   test "non-admin users should not get show" do
     assert_admin_protected login_as: @other_user do
-      get :show, id: @subscription
+      get :show, params: { id: @subscription }
     end
   end
 
   test "admin users should get show" do
     assert_admin_protected login_as: @admin_user do
-      get :show, id: @subscription
+      get :show, params: { id: @subscription }
     end
     assert_response :success
   end
@@ -101,7 +104,7 @@ class SubscriptionsControllerTest < ActionController::TestCase
       i.update_attribute :quantity, 0
     end
     assert_admin_protected login_as: @admin_user do
-      get :show, id: subscriptions(:one)
+      get :show, params: { id: subscriptions(:one) }
     end
     assert_response :success
     log_flash
@@ -110,7 +113,7 @@ class SubscriptionsControllerTest < ActionController::TestCase
 
   test "show not should display a warning if correct amount of liters" do
     assert_admin_protected login_as: @admin_user do
-      get :show, id: subscriptions(:three)
+      get :show, params: { id: subscriptions(:three) }
     end
     assert_response :success
     log_flash
@@ -120,7 +123,7 @@ class SubscriptionsControllerTest < ActionController::TestCase
   test "show should display a warning if subscription has no users" do
     subscription_without_users = Subscription.create
     assert_admin_protected login_as: @admin_user do
-      get :show, id: subscription_without_users
+      get :show, params: { id: subscription_without_users }
     end
     assert_response :success
     log_flash
@@ -131,7 +134,7 @@ class SubscriptionsControllerTest < ActionController::TestCase
       .subscriberships
       .create(user: @user_without_subscription)
     # Get the subscription page again
-    get :show, id: subscription_without_users
+    get :show, params: { id: subscription_without_users }
     # The warning shouldn't appear now since the subscription has some users.
     assert_equal false,  flash[:warning_without_users].present?
   end
@@ -141,27 +144,30 @@ class SubscriptionsControllerTest < ActionController::TestCase
   test "show should properly display a subscription with Sunday delivery day" do
     assert_equal 6, @subscription.depot.delivery_day
     assert_admin_protected login_as: @admin_user do
-      get :show, id: @subscription
+      get :show, params: { id: @subscription }
     end
     assert_response :success
-    put :update, id: @subscription.id, subscription: {
-      new_items_depot_id:       depots(:sunday_delivered).id,
-      new_items_valid_from:     Date.current - 1.day,
-      item_ids_and_quantities:  {
-        product_options(:milk).id.to_s => '6'
-      }
-    }
+    put :update, params: {
+          id: @subscription.id,
+          subscription: {
+            new_items_depot_id:       depots(:sunday_delivered).id,
+            new_items_valid_from:     Date.current - 1.day,
+            item_ids_and_quantities:  {
+              product_options(:milk).id.to_s => '6'
+            }
+          }
+        }
     assert_response :redirect
     assert_redirected_to subscription_path(@subscription)
     @subscription.reload # Take into account the new depot
     assert_equal depots(:sunday_delivered), @subscription.depot
     assert_equal 0, @subscription.depot.delivery_day
     with_redefined_const 'Subscription::NEXT_UPDATE_WEEK_NUMBER', nil do
-      get :show, id: @subscription
+      get :show, params: { id: @subscription }
       assert_response :success
     end
     with_redefined_const 'Subscription::NEXT_UPDATE_WEEK_NUMBER', 52 do
-      get :show, id: @subscription
+      get :show, params: { id: @subscription }
       assert_response :success
     end
   end
@@ -169,19 +175,19 @@ class SubscriptionsControllerTest < ActionController::TestCase
   # get :edit
 
   test "non-logged-in users should not get edit" do
-    get :edit, id: @subscription
+    get :edit, params: { id: @subscription }
     assert_redirected_to login_path
   end
 
   test "non-admin users should not get edit" do
     assert_admin_protected login_as: @other_user do
-      get :edit, id: @subscription
+      get :edit, params: { id: @subscription }
     end
   end
 
   test "admin users should get edit" do
     assert_admin_protected login_as: @admin_user do
-      get :edit, id: @subscription
+      get :edit, params: { id: @subscription }
     end
     assert_response :success
   end
@@ -190,11 +196,13 @@ class SubscriptionsControllerTest < ActionController::TestCase
 
   test "non-logged-in should not create subscription" do
     assert_no_difference 'Subscription.count' do
-      post :create, subscription: {
-        basic_units: 1,
-        supplement_units: 0,
-        depot: @subscription.depot
-      }
+      post :create, params: {
+             subscription: {
+               basic_units: 1,
+               supplement_units: 0,
+               depot: @subscription.depot
+             }
+           }
     end
     assert_redirected_to login_path
   end
@@ -202,11 +210,13 @@ class SubscriptionsControllerTest < ActionController::TestCase
   test "non-admin should not create subscription" do
     assert_no_difference 'Subscription.count' do
       assert_admin_protected login_as: @other_user do
-        post :create, subscription: {
-          basic_units: 1,
-          supplement_units: 0,
-          depot: @subscription.depot
-        }
+        post :create, params: {
+             subscription: {
+               basic_units: 1,
+               supplement_units: 0,
+               depot: @subscription.depot
+             }
+           }
       end
     end
   end
@@ -214,10 +224,12 @@ class SubscriptionsControllerTest < ActionController::TestCase
   test "admin should create subscription" do
     assert_difference 'Subscription.count', 1 do
       assert_admin_protected login_as: @admin_user do
-        post :create, subscription: {
-          basic_units: 1,
-          supplement_units: 0
-        }
+        post :create, params: {
+               subscription: {
+                 basic_units: 1,
+                 supplement_units: 0
+               }
+             }
       end
       assert_response :redirect
       # After the creation we get redirected to the edit page again, to add
@@ -225,7 +237,7 @@ class SubscriptionsControllerTest < ActionController::TestCase
       assert_redirected_to edit_subscription_path(assigns(:subscription))
     end
 
-    get :edit, id: assigns(:subscription)
+    get :edit, params: { id: assigns(:subscription) }
     assert_response :success
   end
 
@@ -236,17 +248,19 @@ class SubscriptionsControllerTest < ActionController::TestCase
 
     assert_difference 'Subscription.count', 1 do
       assert_admin_protected login_as: @admin_user do
-        post :create, subscription: {
-          basic_units: 1,
-          supplement_units: 0
-        }
+        post :create, params: {
+               subscription: {
+                 basic_units: 1,
+                 supplement_units: 0
+               }
+             }
       end
       assert_response :redirect
       # After the creation we get redirected to the edit page again, to add
       # users and items.
       assert_redirected_to edit_subscription_path(assigns(:subscription))
 
-      get :edit, id: assigns(:subscription)
+      get :edit, params: { id: assigns(:subscription) }
       assert_response :success
     end
   end
@@ -255,10 +269,13 @@ class SubscriptionsControllerTest < ActionController::TestCase
 
   test "non-logged-in should not update subscription" do
     assert_no_difference 'Subscription.count' do
-      put :update, id: @subscription.id, subscription: {
-        basic_units: 1,
-        supplement_units: 0
-      }
+      put :update, params: {
+            id: @subscription.id,
+            subscription: {
+              basic_units: 1,
+              supplement_units: 0
+            }
+          }
     end
     assert_redirected_to login_path
   end
@@ -266,10 +283,13 @@ class SubscriptionsControllerTest < ActionController::TestCase
   test "non-admin should not update subscription" do
     assert_no_difference 'Subscription.count' do
       assert_admin_protected login_as: @other_user do
-        put :update, id: @subscription.id, subscription: {
-          basic_units: 1,
-          supplement_units: 0
-        }
+        put :update, params: {
+              id: @subscription.id,
+              subscription: {
+                basic_units: 1,
+                supplement_units: 0
+              }
+            }
       end
     end
   end
@@ -277,10 +297,13 @@ class SubscriptionsControllerTest < ActionController::TestCase
   test "admin should update subscription" do
     assert_no_difference 'Subscription.count' do
       assert_admin_protected login_as: @admin_user do
-        put :update, id: @subscription.id, subscription: {
-          basic_units: 1,
-          supplement_units: 0
-        }
+        put :update, params: {
+              id: @subscription.id,
+              subscription: {
+                basic_units: 1,
+                supplement_units: 0
+              }
+            }
       end
       assert_response :redirect
       # After the update we get redirected to the show page again normally.
@@ -360,7 +383,7 @@ class SubscriptionsControllerTest < ActionController::TestCase
 
   test "non-logged-in should not update the own subscription" do
     assert_no_difference 'Subscription.count' do
-      put :subscription_update, subscription: {}
+      put :subscription_update, params: { subscription: {} }
     end
     assert_redirected_to login_path
   end
@@ -373,13 +396,15 @@ class SubscriptionsControllerTest < ActionController::TestCase
 
     assert_no_difference 'Subscription.count' do
       assert_protected login_as: @other_user do
-        put :subscription_update, subscription: {
-          new_items_depot_id:       depots(:valid).id,
-          new_items_valid_from:     Date.tomorrow,
-          item_ids_and_quantities:  {
-            product_options(:milk).id.to_s => '4'
-          }
-        }
+        put :subscription_update, params: {
+              subscription: {
+                new_items_depot_id:       depots(:valid).id,
+                new_items_valid_from:     Date.tomorrow,
+                item_ids_and_quantities:  {
+                  product_options(:milk).id.to_s => '4'
+                }
+              }
+            }
       end
       assert_equal 'subscription.update',
                    @other_user.subscription.activities.last.key
@@ -391,13 +416,15 @@ class SubscriptionsControllerTest < ActionController::TestCase
 
   test "updating subscription items without depot should not update it" do
     assert_protected login_as: @other_user do
-      put :subscription_update, subscription: {
-        new_items_depot_id:       nil,
-        new_items_valid_from:     Date.tomorrow,
-        item_ids_and_quantities:  {
-          product_options(:milk).id.to_s => '6'
-        }
-      }
+      put :subscription_update, params: {
+            subscription: {
+              new_items_depot_id:       nil,
+              new_items_valid_from:     Date.tomorrow,
+              item_ids_and_quantities:  {
+                product_options(:milk).id.to_s => '6'
+              }
+            }
+          }
     end
     assert_response :success
     # Since the update won't be accepted, we get the edit page again.
@@ -408,13 +435,15 @@ class SubscriptionsControllerTest < ActionController::TestCase
   test "non-admin without subscription should update the own subscription" do
     assert_no_difference 'Subscription.count' do
       assert_protected login_as: @user_without_subscription do
-        put :subscription_update, subscription: {
-          new_items_depot_id: depots(:valid).id,
-          new_items_valid_from: Date.tomorrow,
-          item_ids_and_quantities: {
-            product_options(:milk).id.to_s => '6'
-          }
-        }
+        put :subscription_update, params: {
+              subscription: {
+                new_items_depot_id: depots(:valid).id,
+                new_items_valid_from: Date.tomorrow,
+                item_ids_and_quantities: {
+                  product_options(:milk).id.to_s => '6'
+                }
+              }
+            }
       end
     end
     assert_response :redirect
@@ -430,13 +459,15 @@ class SubscriptionsControllerTest < ActionController::TestCase
 
     assert_no_difference 'Subscription.count' do
       assert_admin_protected login_as: @admin_user do
-        put :subscription_update, subscription: {
-          new_items_depot_id: depots(:valid).id,
-          new_items_valid_from: Date.tomorrow,
-          item_ids_and_quantities: {
-            product_options(:yogurt).id.to_s => '8'
-          }
-        }
+        put :subscription_update, params: {
+              subscription: {
+                new_items_depot_id: depots(:valid).id,
+                new_items_valid_from: Date.tomorrow,
+                item_ids_and_quantities: {
+                  product_options(:yogurt).id.to_s => '8'
+                }
+              }
+            }
       end
       assert_equal 'subscription.update',
                    @admin_user.subscription.activities.last.key

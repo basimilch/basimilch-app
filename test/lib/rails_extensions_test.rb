@@ -396,7 +396,7 @@ class RailsExtentionsTest < ActionController::TestCase
     assert_equal 1, "1".to_i_min(1)
   end
 
-  test "inc and dec should be available for Fixnum" do
+  test "inc and dec should be available for Integer" do
     assert_equal 1, 0.inc
     assert_equal 1, 2.dec
     assert_equal 1, 1.dec.inc
@@ -513,7 +513,7 @@ class RailsExtentionsTest < ActionController::TestCase
 
     assert_query_and_ordering(
       User.by_id,
-      sql:                  "SELECT \"users\".* FROM \"users\"  " +
+      sql:                  "SELECT \"users\".* FROM \"users\" " +
                             "ORDER BY \"users\".\"id\" ASC",
       ordering:             { id: [:asc, 0]},
       first_ordered_by:     :id,
@@ -522,7 +522,7 @@ class RailsExtentionsTest < ActionController::TestCase
 
     assert_query_and_ordering(
       User.by_name,
-      sql:                  "SELECT \"users\".* FROM \"users\"  " +
+      sql:                  "SELECT \"users\".* FROM \"users\" " +
                             "ORDER BY \"users\".\"last_name\" ASC, " +
                                      "\"users\".\"first_name\" ASC, " +
                                      "\"users\".\"id\" ASC",
@@ -535,7 +535,7 @@ class RailsExtentionsTest < ActionController::TestCase
 
     assert_query_and_ordering(
       User.by_id.by_name,
-      sql:                  "SELECT \"users\".* FROM \"users\"  " +
+      sql:                  "SELECT \"users\".* FROM \"users\" " +
                             "ORDER BY \"users\".\"id\" ASC, " +
                                      "\"users\".\"last_name\" ASC, " +
                                      "\"users\".\"first_name\" ASC",
@@ -548,7 +548,7 @@ class RailsExtentionsTest < ActionController::TestCase
 
     assert_query_and_ordering(
       User.by_name.by_id,
-      sql:                  "SELECT \"users\".* FROM \"users\"  " +
+      sql:                  "SELECT \"users\".* FROM \"users\" " +
                             "ORDER BY \"users\".\"last_name\" ASC, " +
                                      "\"users\".\"first_name\" ASC, " +
                                      "\"users\".\"id\" ASC",
@@ -568,7 +568,7 @@ class RailsExtentionsTest < ActionController::TestCase
 
     assert_query_and_ordering(
       User.by_name.by_id.remove_order.by_name,
-      sql:                  "SELECT \"users\".* FROM \"users\"  " +
+      sql:                  "SELECT \"users\".* FROM \"users\" " +
                             "ORDER BY \"users\".\"last_name\" ASC, " +
                                      "\"users\".\"first_name\" ASC, " +
                                      "\"users\".\"id\" ASC",
@@ -581,7 +581,7 @@ class RailsExtentionsTest < ActionController::TestCase
 
     assert_query_and_ordering(
       User.by_name.by_id.remove_order.by_name.remove_order.by_id,
-      sql:                  "SELECT \"users\".* FROM \"users\"  " +
+      sql:                  "SELECT \"users\".* FROM \"users\" " +
                             "ORDER BY \"users\".\"id\" ASC",
       ordering:             { id: [:asc, 0]},
       first_ordered_by:     :id,
@@ -590,7 +590,7 @@ class RailsExtentionsTest < ActionController::TestCase
 
     assert_query_and_ordering(
       User.by_name.by_id.remove_order.by_name.remove_order.by_id,
-      sql:                  "SELECT \"users\".* FROM \"users\"  " +
+      sql:                  "SELECT \"users\".* FROM \"users\" " +
                             "ORDER BY \"users\".\"id\" ASC",
       ordering:             { id: [:asc, 0]},
       first_ordered_by:     :id,

@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   # this before_action callback to the ApplicationController.
   # DOC: https://github.com/airblade/paper_trail/blob/v5.1.1/doc/warning_about_not_setting_whodunnit.md
   # DOC: https://github.com/airblade/paper_trail/tree/v5.1.1#4a-finding-out-who-was-responsible-for-a-change
-  before_filter :set_paper_trail_whodunnit
+  before_action :set_paper_trail_whodunnit
 
   # DOC: https://github.com/airblade/paper_trail/tree/v5.1.1#metadata-from-controllers
   def info_for_paper_trail

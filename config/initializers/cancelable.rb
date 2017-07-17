@@ -65,9 +65,7 @@ ERROR_MSG
 
     # DOC: http://api.rubyonrails.org/v5.0.4/classes/ActiveSupport/Callbacks
     #                               /ClassMethods.html#method-i-define_callbacks
-    define_callbacks :cancel,
-                     terminator: ->(target, result) { result == false },
-                     skip_after_callbacks_if_terminated: true
+    define_callbacks :cancel, skip_after_callbacks_if_terminated: true
 
     attr_accessor :canceled_reason_key
 
@@ -75,7 +73,8 @@ ERROR_MSG
     before_cancel do
       if changes[:canceled_at].first.present?
         logger.warn "#{self} was already canceled. Nothing to do."
-        false # Returning 'false' stops the cancellation and further callbacks.
+        throw :abort # Throwing :abort in a 'before' callback stops
+                     # the cancellation and further callbacks.
       end
     end
 
@@ -89,7 +88,8 @@ ERROR_MSG
     before_destroy do
       canceled? or (
         logger.warn "#{self} must be canceled before destroying it."
-        false # Returning false in a 'before' callback stops the action
+        # SOURCE: http://guides.rubyonrails.org/v5.0.4/upgrading_ruby_on_rails.html#halting-callback-chains-via-throw-abort
+        throw :abort # Throwing :abort in a 'before' callback stops the action
       )
     end
 
@@ -98,7 +98,8 @@ ERROR_MSG
       canceling? or
       !canceled? or (
         logger.warn "#{self} is canceled and cannot be updated."
-        false # Returning false in a 'before' callback stops the action
+        # SOURCE: http://guides.rubyonrails.org/v5.0.4/upgrading_ruby_on_rails.html#halting-callback-chains-via-throw-abort
+        throw :abort # Throwing :abort in a 'before' callback stops the action
       )
     end
 

@@ -1,4 +1,4 @@
-class Subscribership < ActiveRecord::Base
+class Subscribership < ApplicationRecord
 
   include Cancelable
 

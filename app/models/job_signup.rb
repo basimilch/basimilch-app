@@ -1,4 +1,4 @@
-class JobSignup < ActiveRecord::Base
+class JobSignup < ApplicationRecord
 
   include Cancelable
 

@@ -3,7 +3,7 @@ require 'test_helper'
 class ErrorPagesTest < ActionDispatch::IntegrationTest
 
   test "should get custom 500 page" do
-    get "/500", code: 500
+    get "/500", params: { code: 500 }
     assert_select ".error_page_image"
     assert_response :error
   end
@@ -17,7 +17,7 @@ class ErrorPagesTest < ActionDispatch::IntegrationTest
   end
 
   test "should get custom 404 page" do
-    get "/404", code: 404
+    get "/404", params: { code: 404 }
     assert_select ".error_page_image"
     assert_response :not_found
   end

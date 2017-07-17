@@ -60,21 +60,21 @@ class ProductOptionsControllerTest < ActionController::TestCase
   # get :show
 
   test "non-logged-in users should not get show" do
-    get :show, id: @product_option
+    get :show, params: { id: @product_option }
     assert_redirected_to login_path
   end
 
   test "non-admin users should not get show" do
     assert_404_error do
       assert_protected login_as: @other_user do
-        get :show, id: @product_option
+        get :show, params: { id: @product_option }
       end
     end
   end
 
   test "admin users should get show" do
     assert_protected login_as: @admin_user do
-      get :show, id: @product_option
+      get :show, params: { id: @product_option }
     end
     assert_response :success
   end
@@ -82,21 +82,21 @@ class ProductOptionsControllerTest < ActionController::TestCase
   # get :edit
 
   test "non-logged-in users should not get edit" do
-    get :edit, id: @product_option
+    get :edit, params: { id: @product_option }
     assert_redirected_to login_path
   end
 
   test "non-admin users should not get edit" do
     assert_404_error do
       assert_protected login_as: @other_user do
-        get :edit, id: @product_option
+        get :edit, params: { id: @product_option }
       end
     end
   end
 
   test "admin users should get edit" do
     assert_protected login_as: @admin_user do
-      get :edit, id: @product_option
+      get :edit, params: { id: @product_option }
     end
     assert_response :success
   end
@@ -105,7 +105,7 @@ class ProductOptionsControllerTest < ActionController::TestCase
 
   test "non-logged-in should not create product_option" do
     assert_no_difference 'ProductOption.count' do
-      post :create, product_option: @valid_product_option
+      post :create, params: { product_option: @valid_product_option }
     end
     assert_redirected_to login_path
   end
@@ -113,7 +113,7 @@ class ProductOptionsControllerTest < ActionController::TestCase
   test "non-admin should not create product_option" do
     assert_no_difference 'ProductOption.count' do
       assert_admin_protected login_as: @other_user do
-        post :create, product_option: @valid_product_option
+        post :create, params: { product_option: @valid_product_option }
       end
     end
   end
@@ -121,7 +121,7 @@ class ProductOptionsControllerTest < ActionController::TestCase
   test "admin should create product_option" do
     assert_difference 'ProductOption.count', 1 do
       assert_admin_protected login_as: @admin_user do
-        post :create, product_option: @valid_product_option
+        post :create, params: { product_option: @valid_product_option }
       end
     end
     assert_redirected_to product_option_path(assigns(:product_option))

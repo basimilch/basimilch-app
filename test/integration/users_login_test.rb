@@ -21,7 +21,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     assert_select "input[type=submit]", count: 1
     # Try to login with a non-existent user email.
     # i.e. post to the sessions path with an invalid params hash.
-    post login_path, session: {email: "non-existent-email"}
+    post login_path, params: { session: {email: "non-existent-email"} }
     # Verify that the new sessions form gets re-rendered,
     assert_template 'sessions/new'
     # ...and that a flash message appears.
