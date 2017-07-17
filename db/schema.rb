@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -30,12 +29,11 @@ ActiveRecord::Schema.define(version: 20160604171106) do
     t.string   "severity"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["created_at", "key"], name: "index_activities_on_created_at_and_key", using: :btree
+    t.index ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type", using: :btree
+    t.index ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type", using: :btree
+    t.index ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type", using: :btree
   end
-
-  add_index "activities", ["created_at", "key"], name: "index_activities_on_created_at_and_key", using: :btree
-  add_index "activities", ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type", using: :btree
-  add_index "activities", ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type", using: :btree
-  add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type", using: :btree
 
   create_table "depot_coordinators", force: :cascade do |t|
     t.integer  "user_id"
@@ -47,11 +45,10 @@ ActiveRecord::Schema.define(version: 20160604171106) do
     t.integer  "canceled_by_id"
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
+    t.index ["canceled_by_id"], name: "index_depot_coordinators_on_canceled_by_id", using: :btree
+    t.index ["depot_id"], name: "index_depot_coordinators_on_depot_id", using: :btree
+    t.index ["user_id"], name: "index_depot_coordinators_on_user_id", using: :btree
   end
-
-  add_index "depot_coordinators", ["canceled_by_id"], name: "index_depot_coordinators_on_canceled_by_id", using: :btree
-  add_index "depot_coordinators", ["depot_id"], name: "index_depot_coordinators_on_depot_id", using: :btree
-  add_index "depot_coordinators", ["user_id"], name: "index_depot_coordinators_on_user_id", using: :btree
 
   create_table "depots", force: :cascade do |t|
     t.string   "name"
@@ -74,9 +71,8 @@ ActiveRecord::Schema.define(version: 20160604171106) do
     t.integer  "canceled_by_id"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.index ["canceled_by_id"], name: "index_depots_on_canceled_by_id", using: :btree
   end
-
-  add_index "depots", ["canceled_by_id"], name: "index_depots_on_canceled_by_id", using: :btree
 
   create_table "job_signups", force: :cascade do |t|
     t.integer  "user_id"
@@ -87,12 +83,11 @@ ActiveRecord::Schema.define(version: 20160604171106) do
     t.datetime "canceled_at"
     t.string   "canceled_reason"
     t.integer  "canceled_by_id"
+    t.index ["author_id"], name: "index_job_signups_on_author_id", using: :btree
+    t.index ["canceled_by_id"], name: "index_job_signups_on_canceled_by_id", using: :btree
+    t.index ["job_id"], name: "index_job_signups_on_job_id", using: :btree
+    t.index ["user_id"], name: "index_job_signups_on_user_id", using: :btree
   end
-
-  add_index "job_signups", ["author_id"], name: "index_job_signups_on_author_id", using: :btree
-  add_index "job_signups", ["canceled_by_id"], name: "index_job_signups_on_canceled_by_id", using: :btree
-  add_index "job_signups", ["job_id"], name: "index_job_signups_on_job_id", using: :btree
-  add_index "job_signups", ["user_id"], name: "index_job_signups_on_user_id", using: :btree
 
   create_table "job_types", force: :cascade do |t|
     t.string   "title"
@@ -106,10 +101,9 @@ ActiveRecord::Schema.define(version: 20160604171106) do
     t.datetime "canceled_at"
     t.string   "canceled_reason"
     t.integer  "canceled_by_id"
+    t.index ["canceled_by_id"], name: "index_job_types_on_canceled_by_id", using: :btree
+    t.index ["user_id"], name: "index_job_types_on_user_id", using: :btree
   end
-
-  add_index "job_types", ["canceled_by_id"], name: "index_job_types_on_canceled_by_id", using: :btree
-  add_index "job_types", ["user_id"], name: "index_job_types_on_user_id", using: :btree
 
   create_table "jobs", force: :cascade do |t|
     t.string   "title"
@@ -127,12 +121,11 @@ ActiveRecord::Schema.define(version: 20160604171106) do
     t.datetime "canceled_at"
     t.string   "canceled_reason"
     t.integer  "canceled_by_id"
+    t.index ["canceled_by_id"], name: "index_jobs_on_canceled_by_id", using: :btree
+    t.index ["job_type_id"], name: "index_jobs_on_job_type_id", using: :btree
+    t.index ["start_at"], name: "index_jobs_on_start_at", using: :btree
+    t.index ["user_id"], name: "index_jobs_on_user_id", using: :btree
   end
-
-  add_index "jobs", ["canceled_by_id"], name: "index_jobs_on_canceled_by_id", using: :btree
-  add_index "jobs", ["job_type_id"], name: "index_jobs_on_job_type_id", using: :btree
-  add_index "jobs", ["start_at"], name: "index_jobs_on_start_at", using: :btree
-  add_index "jobs", ["user_id"], name: "index_jobs_on_user_id", using: :btree
 
   create_table "product_options", force: :cascade do |t|
     t.string   "name",                      null: false
@@ -147,9 +140,8 @@ ActiveRecord::Schema.define(version: 20160604171106) do
     t.text     "notes"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.index ["canceled_by_id"], name: "index_product_options_on_canceled_by_id", using: :btree
   end
-
-  add_index "product_options", ["canceled_by_id"], name: "index_product_options_on_canceled_by_id", using: :btree
 
   create_table "share_certificates", force: :cascade do |t|
     t.integer  "user_id"
@@ -160,9 +152,8 @@ ActiveRecord::Schema.define(version: 20160604171106) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.integer  "value_in_chf"
+    t.index ["user_id"], name: "index_share_certificates_on_user_id", using: :btree
   end
-
-  add_index "share_certificates", ["user_id"], name: "index_share_certificates_on_user_id", using: :btree
 
   create_table "subscriberships", force: :cascade do |t|
     t.integer  "subscription_id"
@@ -172,11 +163,10 @@ ActiveRecord::Schema.define(version: 20160604171106) do
     t.integer  "canceled_by_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.index ["canceled_by_id"], name: "index_subscriberships_on_canceled_by_id", using: :btree
+    t.index ["subscription_id"], name: "index_subscriberships_on_subscription_id", using: :btree
+    t.index ["user_id"], name: "index_subscriberships_on_user_id", using: :btree
   end
-
-  add_index "subscriberships", ["canceled_by_id"], name: "index_subscriberships_on_canceled_by_id", using: :btree
-  add_index "subscriberships", ["subscription_id"], name: "index_subscriberships_on_subscription_id", using: :btree
-  add_index "subscriberships", ["user_id"], name: "index_subscriberships_on_user_id", using: :btree
 
   create_table "subscription_items", force: :cascade do |t|
     t.integer  "subscription_id"
@@ -190,12 +180,11 @@ ActiveRecord::Schema.define(version: 20160604171106) do
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
     t.integer  "depot_id"
+    t.index ["canceled_by_id"], name: "index_subscription_items_on_canceled_by_id", using: :btree
+    t.index ["depot_id"], name: "index_subscription_items_on_depot_id", using: :btree
+    t.index ["product_option_id"], name: "index_subscription_items_on_product_option_id", using: :btree
+    t.index ["subscription_id"], name: "index_subscription_items_on_subscription_id", using: :btree
   end
-
-  add_index "subscription_items", ["canceled_by_id"], name: "index_subscription_items_on_canceled_by_id", using: :btree
-  add_index "subscription_items", ["depot_id"], name: "index_subscription_items_on_depot_id", using: :btree
-  add_index "subscription_items", ["product_option_id"], name: "index_subscription_items_on_product_option_id", using: :btree
-  add_index "subscription_items", ["subscription_id"], name: "index_subscription_items_on_subscription_id", using: :btree
 
   create_table "subscriptions", force: :cascade do |t|
     t.string   "name",                          limit: 100
@@ -209,9 +198,8 @@ ActiveRecord::Schema.define(version: 20160604171106) do
     t.integer  "canceled_by_id"
     t.datetime "created_at",                                            null: false
     t.datetime "updated_at",                                            null: false
+    t.index ["canceled_by_id"], name: "index_subscriptions_on_canceled_by_id", using: :btree
   end
-
-  add_index "subscriptions", ["canceled_by_id"], name: "index_subscriptions_on_canceled_by_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email"
@@ -241,9 +229,8 @@ ActiveRecord::Schema.define(version: 20160604171106) do
     t.string   "last_login_from"
     t.string   "postal_address_supplement"
     t.integer  "seen_count",                default: 0,     null: false
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
   end
-
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 
   create_table "versions", force: :cascade do |t|
     t.string   "item_type",          null: false
@@ -255,9 +242,8 @@ ActiveRecord::Schema.define(version: 20160604171106) do
     t.text     "object_changes"
     t.string   "request_remote_ip"
     t.string   "request_user_agent"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
   end
-
-  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
   add_foreign_key "depot_coordinators", "depots"
   add_foreign_key "depot_coordinators", "users"
