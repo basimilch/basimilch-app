@@ -3,7 +3,7 @@
 #                                   /removing-delete-and-destroy-in-rails-models
 module Cancelable
 
-  # DOC: http://api.rubyonrails.org/v4.2.9/classes/ActiveSupport
+  # DOC: http://api.rubyonrails.org/v5.0.4/classes/ActiveSupport
   #                                       /Concern.html#method-i-append_features
   extend ActiveSupport::Concern
 
@@ -63,7 +63,7 @@ ERROR_MSG
     #       http://awaxman11.github.io/blog/2013/08/05
     #                                   /what-is-the-difference-between-a-block/
 
-    # DOC: http://api.rubyonrails.org/v4.2.9/classes/ActiveSupport/Callbacks
+    # DOC: http://api.rubyonrails.org/v5.0.4/classes/ActiveSupport/Callbacks
     #                               /ClassMethods.html#method-i-define_callbacks
     define_callbacks :cancel,
                      terminator: ->(target, result) { result == false },
@@ -79,7 +79,7 @@ ERROR_MSG
       end
     end
 
-    # DOC: http://api.rubyonrails.org/v4.2.9/classes/ActiveRecord/Callbacks.html
+    # DOC: http://api.rubyonrails.org/v5.0.4/classes/ActiveRecord/Callbacks.html
 
     # Do not allow 'destroy' if the model is not canceled to ensure that the
     # action is done on purpose. Moreover this ensures that the cancellation

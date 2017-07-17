@@ -2,7 +2,7 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Prepend all log lines with the following tags.
-  # DOC: http://guides.rubyonrails.org/v4.2.9/configuring.html
+  # DOC: http://guides.rubyonrails.org/v5.0.4/configuring.html
   config.log_tags = [ Time.now, :host, :uuid ]
 
   # In the development environment your application's code is reloaded on
