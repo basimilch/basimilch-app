@@ -1,5 +1,5 @@
 # SOURCE: http://brandonhilkert.com/blog/organizing-javascript-in-rails-application-with-turbolinks/
-$(document).on 'page:change', ->
+$(document).on 'turbolinks:load', ->
   do ( $$ = window.Basimilch, $ = jQuery ) ->
    if $$.isAdminPage() and $('.users-typeahead').some()
       # DOC: https://github.com/twitter/typeahead.js/tree/v0.11.1

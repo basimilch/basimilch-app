@@ -1,6 +1,6 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 # SOURCE: http://brandonhilkert.com/blog/organizing-javascript-in-rails-application-with-turbolinks/
-$(document).on 'page:change', ->
+$(document).on 'turbolinks:load', ->
   do ( $$ = window.Basimilch, $ = jQuery ) ->
     # SOURCE: http://stackoverflow.com/a/25904582
     # Disable scroll zooming and bind back the click event

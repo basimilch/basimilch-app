@@ -91,10 +91,9 @@ do ( $$ = window.Basimilch ||= {}, $=jQuery ) ->
 # $(document).on 'ready page:load', ->
 
 # SOURCE: http://brandonhilkert.com/blog/organizing-javascript-in-rails-application-with-turbolinks/
-$(document).on 'page:change', ->
+$(document).on 'turbolinks:load', ->
   # SOURCE: http://stackoverflow.com/a/7736247
   do ( $=jQuery ) ->
-    Turbolinks.enableProgressBar();
     # Initialize Bootstrap popovers
     # SOURCE: http://getbootstrap.com/javascript/#popovers
     $('[data-toggle=popover]').popover()

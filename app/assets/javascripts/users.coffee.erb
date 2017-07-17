@@ -6,7 +6,7 @@
 <% self.class.include Rails.application.routes.url_helpers %>
 
 # SOURCE: http://brandonhilkert.com/blog/organizing-javascript-in-rails-application-with-turbolinks/
-$(document).on 'page:change', ->
+$(document).on 'turbolinks:load', ->
   do ( $$ = window.Basimilch, $ = jQuery ) ->
     $('#user_wanted_subscription').change ->
       hideHint = [
