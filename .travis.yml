@@ -45,7 +45,7 @@ deploy:
     master: basimilch
     dev: basimilch-dev
   run:
-    - "rake db:migrate"
+    - "bundle exec rake db:migrate"
   on:
     repo: basimilch/basimilch-app
 addons:
