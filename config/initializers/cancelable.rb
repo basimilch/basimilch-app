@@ -3,7 +3,7 @@
 #                                   /removing-delete-and-destroy-in-rails-models
 module Cancelable
 
-  # DOC: http://api.rubyonrails.org/v5.0.4/classes/ActiveSupport
+  # DOC: http://api.rubyonrails.org/v5.1.3/classes/ActiveSupport
   #                                       /Concern.html#method-i-append_features
   extend ActiveSupport::Concern
 
@@ -63,7 +63,7 @@ ERROR_MSG
     #       http://awaxman11.github.io/blog/2013/08/05
     #                                   /what-is-the-difference-between-a-block/
 
-    # DOC: http://api.rubyonrails.org/v5.0.4/classes/ActiveSupport/Callbacks
+    # DOC: http://api.rubyonrails.org/v5.1.3/classes/ActiveSupport/Callbacks
     #                               /ClassMethods.html#method-i-define_callbacks
     define_callbacks :cancel, skip_after_callbacks_if_terminated: true
 
@@ -78,7 +78,7 @@ ERROR_MSG
       end
     end
 
-    # DOC: http://api.rubyonrails.org/v5.0.4/classes/ActiveRecord/Callbacks.html
+    # DOC: http://api.rubyonrails.org/v5.1.3/classes/ActiveRecord/Callbacks.html
 
     # Do not allow 'destroy' if the model is not canceled to ensure that the
     # action is done on purpose. Moreover this ensures that the cancellation
@@ -88,7 +88,7 @@ ERROR_MSG
     before_destroy do
       canceled? or (
         logger.warn "#{self} must be canceled before destroying it."
-        # SOURCE: http://guides.rubyonrails.org/v5.0.4/upgrading_ruby_on_rails.html#halting-callback-chains-via-throw-abort
+        # SOURCE: http://guides.rubyonrails.org/v5.1.3/upgrading_ruby_on_rails.html#halting-callback-chains-via-throw-abort
         throw :abort # Throwing :abort in a 'before' callback stops the action
       )
     end
@@ -98,7 +98,7 @@ ERROR_MSG
       canceling? or
       !canceled? or (
         logger.warn "#{self} is canceled and cannot be updated."
-        # SOURCE: http://guides.rubyonrails.org/v5.0.4/upgrading_ruby_on_rails.html#halting-callback-chains-via-throw-abort
+        # SOURCE: http://guides.rubyonrails.org/v5.1.3/upgrading_ruby_on_rails.html#halting-callback-chains-via-throw-abort
         throw :abort # Throwing :abort in a 'before' callback stops the action
       )
     end

@@ -15,12 +15,13 @@ ruby '2.4.1'
 # https://www.ruby-lang.org/en/news/2017/03/22/ruby-2-4-1-released/
 # https://github.com/ruby/ruby/blob/v2_4_1/NEWS
 
-# DOC: http://guides.rubyonrails.org/v5.0.4/upgrading_ruby_on_rails.html
-gem 'rails',                    '5.0.4'   # https://rubygems.org/gems/rails/versions/5.0.4
-                                          # https://github.com/rails/rails/tree/v5.0.4
+# DOC: http://guides.rubyonrails.org/v5.1.3/upgrading_ruby_on_rails.html
+gem 'rails',                    '5.1.3'   # https://rubygems.org/gems/rails/versions/5.1.3
+                                          # https://github.com/rails/rails/tree/v5.1.3
                                           # https://github.com/rails/rails/compare/v4.2.5.2...v4.2.6
                                           # https://github.com/rails/rails/compare/v4.2.6...v4.2.9
                                           # https://github.com/rails/rails/compare/v4.2.9...v5.0.4
+                                          # https://github.com/rails/rails/compare/v5.0.4...v5.1.3
                                           # https://github.com/rails/rails/releases
                                           # http://weblog.rubyonrails.org/releases/
 
@@ -249,7 +250,7 @@ group :test do
                                           # https://github.com/codeclimate/ruby-test-reporter/releases
 
   # Extracting `assigns` and `assert_template` from ActionDispatch.
-  # DOC: http://guides.rubyonrails.org/v5.0.4/upgrading_ruby_on_rails.html#rails-controller-testing
+  # DOC: http://guides.rubyonrails.org/v5.1.3/upgrading_ruby_on_rails.html#rails-controller-testing
   gem 'rails-controller-testing', '1.0.2' # https://rubygems.org/gems/rails-controller-testing/versions/1.0.2
                                           # https://github.com/rails/rails-controller-testing
 
