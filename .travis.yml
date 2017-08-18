@@ -19,7 +19,7 @@ before_script:
 # does not work, we have to specify the 'script' step with '&&' as follows.
 # DOC: https://docs.travis-ci.com/user/customizing-the-build/#Customizing-the-Build-Step
 script:
-  - rails test && ./.travis_tag.sh
+  - bundle exec rake && ./.travis_tag.sh
 sudo: required
 before_deploy:
   - ./.travis_before_deploy.sh
@@ -45,11 +45,11 @@ deploy:
     master: basimilch
     dev: basimilch-dev
   run:
-    - "rails db:migrate"
+    - "rake db:migrate"
   on:
     repo: basimilch/basimilch-app
 addons:
-  postgresql: "9.6"
+  postgresql: "9.4"
   code_climate:
     repo_token:
       secure: qC5Z41NwPZz59EvpX5kM+A7r2WTHJzuXTNIloQGTLpP/QI/tOGJgZ8taYxjU/OzjKM9Qi0xXdshjs/oR9PUWptQY6bb4FSFFLGIr2W614kCYoYJrhlrtvcabIUgrXJ2F38rLp1PSfLSnGkAGH+e9qm+IAyGb3kkoLr7NDpqWWTL/r8j7quaBoR2NB62vRNPxUAyl9xdq4OQ8wqGNx9ALDpnGetjdDBzugnoRh/8uXzld0hC+EycpiPrWWgkenmbPVV6JK2EF/G7/fl/tnPzseT8X14oW2y2u4o9QdTMcAgCsHzAka+o8Ty+MYyu7iReeVH1p/6/875gUn7/7yz6Ivum34C/ErgTGNhKXKj3F7yEyrb1mtkttBT/1I463wtZPi/JRBKof7jhP623ZGhYP/6CR0q6gEDT6sspmUekaYAb9covtRS4KDDlzgOOGVWUoS7f7qUetrw9eJz1rNr2Yo3G61sbP8SSMZu5J+2tKk7fESTD/gHHP9CGLrtZgFSmeiyOvyG72brGV57zsH39ozW/zwdkyG3xWLn+R5+bntOn7fj1BzRXoG155I/Ef3jV8Ais+IxjGPkQTlMnhX0kki3hWk2+OiG4HYWiiZwR9KKGX87X4muSximCgBfAd1ZJU6XBnUBXNVQs9Oz/d2A/jhpwWAu9qUal01qKD6GjQz9I=
