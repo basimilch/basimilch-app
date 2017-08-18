@@ -22,9 +22,6 @@ module BasimilchApp
     config.i18n.fallbacks       = [:en]
     config.i18n.default_locale  = 'de-CH'
 
-    # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
-
     # This will route any exceptions caught to your router Rack app.
     # DOC: https://wearestac.com/blog/dynamic-error-pages-in-rails
     config.exceptions_app = self.routes
