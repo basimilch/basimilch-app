@@ -15,6 +15,13 @@ ruby '2.4.1'
 # https://www.ruby-lang.org/en/news/2017/03/22/ruby-2-4-1-released/
 # https://github.com/ruby/ruby/blob/v2_4_1/NEWS
 
+# NOTE: Use use fixed gem versions instead of ruby's pessimistic version
+#       constraint operator (~>) to manually control the updates (and calling
+#       'bundle update' by mistake) and to maintain the proper url abouth the
+#       gem. To know which gems to update we can run 'bundle outdated' and
+#       update the versions in this Gemfile accordingly.
+#       More info and references: https://stackoverflow.com/q/9265213
+
 # DOC: http://guides.rubyonrails.org/v5.1.3/upgrading_ruby_on_rails.html
 gem 'rails',                    '5.1.3'   # https://rubygems.org/gems/rails/versions/5.1.3
                                           # https://github.com/rails/rails/tree/v5.1.3
@@ -54,8 +61,8 @@ gem 'mini_magick',              '4.8.0'   # https://rubygems.org/gems/mini_magic
 # The Ruby cloud services library. Supports all major cloud providers including
 # AWS, Rackspace, Linode, Blue Box, StormOnDemand, and many others. Full support
 # for most AWS services including EC2, S3, CloudWatch, SimpleDB, ELB, and RDS.
-gem 'fog',                      '1.40.0'  # https://rubygems.org/gems/fog/versions/1.40.0
-                                          # https://github.com/fog/fog/tree/v1.40.0
+gem 'fog',                      '1.41.0'  # https://rubygems.org/gems/fog/versions/1.41.0
+                                          # https://github.com/fog/fog/tree/v1.41.0
                                           # https://github.com/fog/fog/blob/master/CHANGELOG.md
                                           # https://github.com/fog/fog/releases
 
@@ -211,8 +218,8 @@ group :development do
 
   # Brakeman detects security vulnerabilities in Ruby on Rails applications via
   # static analysis.
-  gem 'brakeman',               '3.7.0', require: false # https://rubygems.org/gems/brakeman/versions/3.7.0
-                                          # https://github.com/presidentbeef/brakeman/tree/v3.7.0
+  gem 'brakeman',               '3.7.2', require: false # https://rubygems.org/gems/brakeman/versions/3.7.2
+                                          # https://github.com/presidentbeef/brakeman/tree/v3.7.2
                                           # https://github.com/presidentbeef/brakeman/blob/master/CHANGES
                                           # https://github.com/presidentbeef/brakeman/releases
 
@@ -227,10 +234,12 @@ end
 group :test do
 
   # Create customizable MiniTest output formats.
-  gem 'minitest-reporters',     '1.1.14'  # https://rubygems.org/gems/minitest-reporters/versions/1.1.14
+  gem 'minitest-reporters',     '1.1.15'  # https://rubygems.org/gems/minitest-reporters/versions/1.1.15
+                                          # https://github.com/kern/minitest-reporters/blob/master/CHANGELOG.md
                                           # https://github.com/kern/minitest-reporters/releases
                                           # https://github.com/kern/minitest-reporters/compare/v1.1.8...v1.1.9
                                           # https://github.com/kern/minitest-reporters/compare/v1.1.9...v1.1.14
+                                          # https://github.com/kern/minitest-reporters/compare/v1.1.14...v1.1.15
 
   # MiniBacktrace allows you to take advantage of the Rails.backtrace_cleaner
   # when using MiniTest.
@@ -267,8 +276,8 @@ group :production do
   # production environments. In order to get the best throughput, it is highly
   # recommended that you use a Ruby implementation with real threads like
   # Rubinius or JRuby.
-  gem 'puma',                   '3.9.1'   # https://rubygems.org/gems/puma/versions/3.9.1
-                                          # https://github.com/puma/puma/tree/v3.9.1
+  gem 'puma',                   '3.10.0'  # https://rubygems.org/gems/puma/versions/3.10.0
+                                          # https://github.com/puma/puma/tree/v3.10.0
                                           # https://github.com/puma/puma/blob/master/History.txt
                                           # https://github.com/puma/puma/releases
 
