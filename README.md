@@ -997,17 +997,49 @@ To create a user with your email address, start a rails console on heroku (`hero
 User.new(first_name: "your_first_name", last_name: "your_last_name", email: "your_email@example.com", admin: true, activation_sent_at: Time.current).save(validate: false)
 ```
 
-#### Backup **dev** DB
+#### Backup
+
+The following examples are the main `heroku` commands related to the management
+of the Postgres database. Please refer to the official
+[Heroku documentation about Postgres DB backups](https://devcenter.heroku.com/articles/heroku-postgres-backups)
+for more details and further commands.
+
+##### Schedule automatic backup of **prod** DB
+
+Every night at 3:00am a backup of the production database is automatically
+created. To schedule automatic backups run the following command:
+
+```
+heroku pg:backups:schedule DATABASE_URL --at '03:00 Europe/Zurich' --app basimilch
+```
+
+To verify the scheduled backups run the following command:
+
+```
+heroku pg:backups:schedules --app basimilch
+```
+
+Please note that when the database plan is changed or the database instance is
+modified **the backup schedule might be lost**. Please verify the expected
+backup schedule in such cases.
+
+[_(Link to relevant Heroku documentation)_](https://devcenter.heroku.com/articles/heroku-postgres-backups#scheduling-backups)
+
+##### Backup **dev** DB
 
 ```
 heroku pg:backups capture --app basimilch-dev
 ```
 
-#### Restore last **dev** DB backup
+[_(Link to relevant Heroku documentation)_](https://devcenter.heroku.com/articles/heroku-postgres-backups#creating-a-backup)
+
+##### Restore last **dev** DB backup
 
 ```
 heroku pg:backups restore --app basimilch-dev
 ```
+
+[_(Link to relevant Heroku documentation)_](https://devcenter.heroku.com/articles/heroku-postgres-backups#restoring-backups)
 
 #### Copy **prod** DB to **dev**
 
@@ -1021,15 +1053,13 @@ optional, depending on your needs._
 
 ```
 heroku pg:backups capture --app basimilch-dev
-HEROKU_LAST_BACKUP_ID=$(heroku pg:backups --app basimilch | egrep -o "[ab]\d+" | head -1)
-heroku pg:backups restore basimilch::${HEROKU_LAST_BACKUP_ID} DATABASE_URL --app basimilch-dev
+heroku pg:backups restore $(heroku pg:backups public-url --app basimilch) DATABASE_URL --app basimilch-dev
 ```
 
-Visit the Heroku documentation page to learn more details about
-[`heroku pg:backups restore`] commands.
-
-[`heroku pg:backups restore`]: https://devcenter.heroku.com/articles/heroku-postgres-backups#restoring-backups
-
+To learn more about this procedure and about the
+`heroku pg:backups restore` commands visit the
+[Heroku documentation page](https://devcenter.heroku.com/articles/heroku-postgres-backups#restoring-backups)
+and [this StackOverflow thread](https://stackoverflow.com/a/8283931).
 
 #### Push and pull DB
 
