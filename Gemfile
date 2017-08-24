@@ -192,6 +192,7 @@ group :development, :test do
 
   # Autoload `dotenv` in Rails, which in its turn loads environment variables
   # from `.env` files.
+  # Alternative: https://github.com/laserlemon/figaro#is-figaro-like-dotenv
   gem 'dotenv-rails',           '2.2.1'   # https://rubygems.org/gems/dotenv-rails/versions/2.2.1
                                           # https://github.com/bkeepers/dotenv/tree/v2.2.1
                                           # https://github.com/bkeepers/dotenv/releases
