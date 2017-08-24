@@ -169,6 +169,11 @@ gem 'time_diff',                '0.3.0'   # https://rubygems.org/gems/time_diff/
 gem 'pg',                       '0.21.0'  # https://rubygems.org/gems/pg/versions/0.21.0
                                           # https://bitbucket.org/ged/ruby-pg/src?at=v0.21.0
 
+# New Relic provides you with deep information about the performance of your web
+# application as it runs in production.
+gem 'newrelic_rpm',             '4.3.0.335' # https://rubygems.org/gems/newrelic_rpm
+                                            # https://github.com/newrelic/rpm
+
 group :development, :test do
 
   # Dropping a `byebug` (or `debugger`) call anywhere in your code, you get a
