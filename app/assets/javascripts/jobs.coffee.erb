@@ -5,10 +5,12 @@
 # SOURCE: http://stackoverflow.com/a/32358641
 <% self.class.include Rails.application.routes.url_helpers %>
 
-# $(document).on 'ready page:load', (($$, $)->
-# SOURCE: http://brandonhilkert.com/blog/organizing-javascript-in-rails-application-with-turbolinks/
-$(document).on 'turbolinks:load', ->
-  do ( $$ = window.Basimilch, $ = jQuery ) ->
+do ( $$ = window.Basimilch ||= {}, $ = jQuery ) ->
+
+  # $(document).on 'ready page:load', (($$, $)->
+  # SOURCE: http://brandonhilkert.com/blog/organizing-javascript-in-rails-application-with-turbolinks/
+
+  $(document).on 'turbolinks:load', ->
     $('#job_job_type_id').change ->
       $('body').css 'cursor', 'wait'
       location.href = "<%= new_job_path %>" + "?job_type=" + $(@).val()

@@ -5,9 +5,10 @@
 # SOURCE: http://stackoverflow.com/a/32358641
 <% self.class.include Rails.application.routes.url_helpers %>
 
-# SOURCE: http://brandonhilkert.com/blog/organizing-javascript-in-rails-application-with-turbolinks/
-$(document).on 'turbolinks:load', ->
-  do ( $$ = window.Basimilch, $ = jQuery ) ->
+do ( $$ = window.Basimilch ||= {}, $ = jQuery ) ->
+
+  # SOURCE: http://brandonhilkert.com/blog/organizing-javascript-in-rails-application-with-turbolinks/
+  $(document).on 'turbolinks:load', ->
     $('#user_wanted_subscription').change ->
       hideHint = [
           "share_with_user_in_waiting_list"

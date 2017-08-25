@@ -1,7 +1,9 @@
 # DOC: ORGANIZING JAVASCRIPT IN RAILS APPLICATION WITH TURBOLINKS
 #      http://brandonhilkert.com/blog/organizing-javascript-in-rails-application-with-turbolinks/
 
-do ( $$ = window.Basimilch ||= {}, $=jQuery ) ->
+# SOURCE: http://stackoverflow.com/a/7736247
+do ( $$ = window.Basimilch ||= {}, $ = jQuery ) ->
+
   $.extend $$,
     # SOURCE: http://www.sitepoint.com/url-parameters-jquery/
     urlParam: (name) ->
@@ -85,15 +87,12 @@ do ( $$ = window.Basimilch ||= {}, $=jQuery ) ->
     containedIn: (sel) -> this.closest(sel).some()
 
 
+  # DOC: https://github.com/rails/turbolinks#events
+  # DOC: http://stackoverflow.com/a/19834224
+  # $(document).on 'ready page:load', ->
 
-# DOC: https://github.com/rails/turbolinks#events
-# DOC: http://stackoverflow.com/a/19834224
-# $(document).on 'ready page:load', ->
-
-# SOURCE: http://brandonhilkert.com/blog/organizing-javascript-in-rails-application-with-turbolinks/
-$(document).on 'turbolinks:load', ->
-  # SOURCE: http://stackoverflow.com/a/7736247
-  do ( $=jQuery ) ->
+  # SOURCE: http://brandonhilkert.com/blog/organizing-javascript-in-rails-application-with-turbolinks/
+  $(document).on 'turbolinks:load', ->
     # Initialize Bootstrap popovers
     # SOURCE: http://getbootstrap.com/javascript/#popovers
     $('[data-toggle=popover]').popover()
@@ -114,4 +113,3 @@ $(document).on 'turbolinks:load', ->
         window.open($(this).data('href'), '_blank');
       else
         document.location = $(this).data('href')
-

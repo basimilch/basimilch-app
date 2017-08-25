@@ -5,9 +5,10 @@
 # SOURCE: http://stackoverflow.com/a/32358641
 <% self.class.include Rails.application.routes.url_helpers %>
 
-# SOURCE: http://brandonhilkert.com/blog/organizing-javascript-in-rails-application-with-turbolinks/
-$(document).on 'turbolinks:load', ->
-  do ( $$ = window.Basimilch, $ = jQuery ) ->
+do ( $$ = window.Basimilch ||= {}, $ = jQuery ) ->
+
+  # SOURCE: http://brandonhilkert.com/blog/organizing-javascript-in-rails-application-with-turbolinks/
+  $(document).on 'turbolinks:load', ->
 
     equivalentInMilkLitersBasicUnit = <%= Subscription::EQUIVALENT_IN_MILK_LITERS_BASIC_UNIT %>
     equivalentInMilkLitersSupplementUnit = <%= Subscription::EQUIVALENT_IN_MILK_LITERS_SUPPLEMENT_UNIT %>
