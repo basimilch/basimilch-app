@@ -112,4 +112,5 @@ do ( $$ = window.Basimilch ||= {}, $ = jQuery ) ->
         #       here"
         window.open($(this).data('href'), '_blank');
       else
-        document.location = $(this).data('href')
+        # DOC: https://github.com/turbolinks/turbolinks#turbolinksvisit
+        Turbolinks.visit($(this).data('href'))
