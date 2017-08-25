@@ -174,6 +174,10 @@ gem 'pg',                       '0.21.0'  # https://rubygems.org/gems/pg/version
 gem 'newrelic_rpm',             '4.3.0.335' # https://rubygems.org/gems/newrelic_rpm
                                             # https://github.com/newrelic/rpm
 
+# A gem that provides a client interface for the Sentry error logger.
+gem 'sentry-raven',             '2.6.3'   # https://rubygems.org/gems/sentry-raven
+                                          # https://github.com/getsentry/raven-ruby
+
 group :development, :test do
 
   # Dropping a `byebug` (or `debugger`) call anywhere in your code, you get a
