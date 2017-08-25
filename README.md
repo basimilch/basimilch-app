@@ -947,6 +947,30 @@ read the article [Advanced Active Record in Rails 4 | 9.1 Scopes].
 
 ## Heroku
 
+### Add-ons
+
+We currently use following [Heroku add-ons]:
+
+- [New Relic], which provides deep information about the performance of
+  the web application as it runs in production. It requires the [New Relic add-on]
+  and the [`newrelic_rpm` gem].
+
+- [Sentry], which enables live error tracking to monitor and fix application
+  crashes in real time. It requires the [Sentry add-on] and the
+  [`sentry-raven` gem].
+
+
+[Heroku add-ons]: https://elements.heroku.com/addons
+
+[New Relic]: https://newrelic.com
+[New Relic add-on]: https://elements.heroku.com/addons/newrelic
+[`newrelic_rpm` gem]: https://rubygems.org/gems/newrelic_rpm
+
+[Sentry]: https://sentry.io
+[Sentry add-on]: https://elements.heroku.com/addons/sentry
+[`sentry-raven` gem]: https://rubygems.org/gems/sentry-raven
+
+
 ### Timeout awaiting process: `heroku run` error
 
 As mentioned in the heroku documentation about the [Timeout awaiting
