@@ -145,12 +145,13 @@ gem 'geocoder',                 '1.4.4'   # https://rubygems.org/gems/geocoder/v
 
 # Track changes to your models' data. Good for auditing or versioning. (i.e.
 # allows undo)
-gem 'paper_trail',              '7.1.0'   # https://rubygems.org/gems/paper_trail/versions/7.1.0
-                                          # https://github.com/airblade/paper_trail/tree/v7.1.0
+gem 'paper_trail',              '7.1.1'   # https://rubygems.org/gems/paper_trail/versions/7.1.1
+                                          # https://github.com/airblade/paper_trail/tree/v7.1.1
                                           # https://github.com/airblade/paper_trail/blob/master/CHANGELOG.md
                                           # https://github.com/airblade/paper_trail/compare/v4.1.0...v5.1.1
-                                          # https://github.com/airblade/paper_trail/compare/v5.1.1...v7.1.0
-                                          # https://github.com/airblade/paper_trail/releases
+                                          # https://github.com/airblade/paper_trail/compare/v5.1.1...v7.1.1
+                                          # https://github.com/airblade/paper_trail/compare/v7.1.0...v7.1.1
+                                          # https://github.com/airblade/paper_trail/blob/master/CHANGELOG.md
 
 # Easy activity tracking for models - similar to Github's Public Activity. (i.e.
 # allows timeline).
@@ -182,8 +183,8 @@ group :development, :test do
 
   # Dropping a `byebug` (or `debugger`) call anywhere in your code, you get a
   # debug prompt.
-  gem 'byebug',                 '9.0.6'   # https://rubygems.org/gems/byebug
-                                          # https://github.com/deivid-rodriguez/byebug/tree/v9.0.6
+  gem 'byebug',                 '9.1.0'   # https://rubygems.org/gems/byebug
+                                          # https://github.com/deivid-rodriguez/byebug/tree/v9.1.0
                                           # https://github.com/deivid-rodriguez/byebug/releases
 
   # Preloads the application so things like console, rake and tests run faster.
@@ -244,12 +245,13 @@ end
 group :test do
 
   # Create customizable MiniTest output formats.
-  gem 'minitest-reporters',     '1.1.15'  # https://rubygems.org/gems/minitest-reporters/versions/1.1.15
+  gem 'minitest-reporters',     '1.1.16'  # https://rubygems.org/gems/minitest-reporters/versions/1.1.16
                                           # https://github.com/kern/minitest-reporters/blob/master/CHANGELOG.md
                                           # https://github.com/kern/minitest-reporters/releases
                                           # https://github.com/kern/minitest-reporters/compare/v1.1.8...v1.1.9
                                           # https://github.com/kern/minitest-reporters/compare/v1.1.9...v1.1.14
                                           # https://github.com/kern/minitest-reporters/compare/v1.1.14...v1.1.15
+                                          # https://github.com/kern/minitest-reporters/compare/v1.1.15...v1.1.16
 
   # MiniBacktrace allows you to take advantage of the Rails.backtrace_cleaner
   # when using MiniTest.
