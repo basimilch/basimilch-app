@@ -40,12 +40,6 @@ gem 'bcrypt',                   '3.1.11'  # https://rubygems.org/gems/bcrypt/ver
                                           # https://github.com/codahale/bcrypt-ruby/blob/master/CHANGELOG
                                           # https://github.com/codahale/bcrypt-ruby/releases
 
-# Used to easily generate fake data: names, addresses, phone numbers, etc. (used
-# for DB seeding)
-gem 'faker',                    '1.8.4'   # https://rubygems.org/gems/faker/versions/1.8.4
-                                          # https://github.com/stympy/faker/tree/v1.8.4
-                                          # https://github.com/stympy/faker/releases
-
 # Upload files in your Ruby applications, map them to a range of ORMs, store
 # them on different backends.
 gem 'carrierwave',              '1.1.0'   # https://rubygems.org/gems/carrierwave/versions/1.1.0
@@ -180,6 +174,12 @@ gem 'sentry-raven',             '2.6.3'   # https://rubygems.org/gems/sentry-rav
                                           # https://github.com/getsentry/raven-ruby
 
 group :development, :test do
+
+  # Used to easily generate fake data: names, addresses, phone numbers, etc. (used
+  # for DB seeding)
+  gem 'faker',                    '1.8.4'   # https://rubygems.org/gems/faker/versions/1.8.4
+                                            # https://github.com/stympy/faker/tree/v1.8.4
+                                            # https://github.com/stympy/faker/releases
 
   # Dropping a `byebug` (or `debugger`) call anywhere in your code, you get a
   # debug prompt.
