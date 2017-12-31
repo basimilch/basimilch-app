@@ -13,8 +13,6 @@
   <%= map_fit_image_tag @depot, maptype: GoogleMapsHelper::Type::SATELLITE, zoom: 19 %>
 </div>
 
-<%#= fit_image_tag @depot.picture_url if @depot.picture? %>
-
 <p>
   <strong><%= t '.address' %>:</strong>
   <%= link_to @depot.full_postal_address, @depot.postal_address_map_url, target: '_blank'%>

@@ -57,8 +57,6 @@ class Depot < ApplicationRecord
                                     format: { with: VALID_COORDINATES_REGEX }
   before_save :sanitize_exact_map_coordinates
 
-  mount_uploader :picture, PictureUploader
-
   validate    :validate_coordinators
   before_save :update_coordinators, unless: :new_record?
   after_save :create_coordinators

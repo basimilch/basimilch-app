@@ -42,24 +42,6 @@ gem 'rails',                        '5.1.4'
 # CHANGELOG: https://github.com/codahale/bcrypt-ruby/releases
 gem 'bcrypt',                       '3.1.11'
 
-# Upload files in your Ruby applications, map them to a range of ORMs, store
-# them on different backends.
-# https://rubygems.org/gems/carrierwave/versions/1.2.1
-# CHANGELOG: https://github.com/carrierwaveuploader/carrierwave/blob/master/CHANGELOG.md
-gem 'carrierwave',                  '1.2.1'
-
-# Manipulate images with minimal use of memory via ImageMagick / GraphicsMagick
-# https://rubygems.org/gems/mini_magick/versions/4.8.0
-# CHANGELOG: https://github.com/minimagick/minimagick/releases
-gem 'mini_magick',                  '4.8.0'
-
-# The Ruby cloud services library. Supports all major cloud providers including
-# AWS, Rackspace, Linode, Blue Box, StormOnDemand, and many others. Full support
-# for most AWS services including EC2, S3, CloudWatch, SimpleDB, ELB, and RDS.
-# https://rubygems.org/gems/fog/versions/1.42.0
-# CHANGELOG: https://github.com/fog/fog/blob/master/CHANGELOG.md
-gem 'fog',                          '1.42.0'
-
 # will_paginate provides a simple API for performing paginated queries with
 # Active Record, DataMapper and Sequel, and includes helpers for rendering
 # pagination links in Rails, Sinatra and Merb web apps.
