@@ -28,10 +28,17 @@
 <p>
   Falls du verhindert bist, organisiere bitte umgehend einen Ersatz für dich.
 </p>
+
 <p>
   Falls du noch Fragen hast, melde dich bitte bei der Ansprechperson:
   <%= @job.user.full_name %> (<%= mail_to @job.user.email %>).
 </p>
+
+<% if @custom_info %>
+  <p>
+    <%= @custom_info %>
+  </p>
+<% end %>
 
 <p>
   Vielen Dank!

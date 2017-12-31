@@ -73,6 +73,10 @@ class UserMailer < ApplicationMailer
          subject: t(".subject", id: user.id, full_name: user.full_name)
   end
 
+  EMAIL_CUSTOM_JOB_SIGNUP_MESSAGE = ENV['EMAIL_CUSTOM_JOB_SIGNUP_MESSAGE']
+                                      .presence
+                                      .freeze
+
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
@@ -81,6 +85,7 @@ class UserMailer < ApplicationMailer
   def job_reminder(user, job)
     @user = user
     @job = job
+    @custom_info = EMAIL_CUSTOM_JOB_SIGNUP_MESSAGE
     mail to: "#{user.full_name} <#{user.email}>",
          subject: t(".subject", job_title: job.title)
     record_activity :send_job_reminder, @user, data: {job: @job}
@@ -137,6 +142,7 @@ class UserMailer < ApplicationMailer
     @user             = user
     @job              = job
     @job_coordinator  = job.user
+    @custom_info      = EMAIL_CUSTOM_JOB_SIGNUP_MESSAGE
     mail to: "#{user.full_name} <#{user.email}>",
          subject: t(
             ".subject",
@@ -158,6 +164,7 @@ class UserMailer < ApplicationMailer
     @job              = job
     @job_coordinator  = job.user
     @current_user     = current_user
+    @custom_info      = EMAIL_CUSTOM_JOB_SIGNUP_MESSAGE
     mail to: "#{user.full_name} <#{user.email}>",
          cc: "#{current_user.full_name} <#{current_user.email}>",
          subject: t(

@@ -11,4 +11,10 @@
   <%= @job_coordinator.full_name %> (<%= mail_to @job_coordinator.email %>).
 </p>
 
+<% if @custom_info %>
+  <p>
+    <%= @custom_info %>
+  </p>
+<% end %>
+
 <%= render "shared/mailer_footer" %>
