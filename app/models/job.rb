@@ -20,7 +20,7 @@ class Job < ApplicationRecord
 
   belongs_to :user
   belongs_to :job_type
-  # DOC: http://guides.rubyonrails.org/v5.1.3/association_basics.html#dependent
+  # DOC: http://guides.rubyonrails.org/v5.1.4/association_basics.html#dependent
   has_many :job_signups, dependent: :destroy
   has_many :users,
            -> { distinct.merge(JobSignup.not_canceled).remove_order },

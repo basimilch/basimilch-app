@@ -20,7 +20,7 @@ class Depot < ApplicationRecord
               # SOURCE: http://tomdallimore.com/blog/includes-vs-joins-in-rails-when-and-where/
               # SOURCE: http://blog.bigbinary.com/2013/07/01/preload-vs-eager-load-vs-joins-vs-includes.html
               # SOURCE: http://railscasts.com/episodes/181-include-vs-joins
-              # DOC: http://api.rubyonrails.org/v5.1.3/classes/ActiveRecord/QueryMethods.html#method-i-includes
+              # DOC: http://api.rubyonrails.org/v5.1.4/classes/ActiveRecord/QueryMethods.html#method-i-includes
               -> { includes :user },
               foreign_key: "depot_id",
               class_name: "DepotCoordinator",

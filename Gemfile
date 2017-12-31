@@ -22,17 +22,18 @@ ruby '2.4.1'
 #       update the versions in this Gemfile accordingly.
 #       More info and references: https://stackoverflow.com/q/9265213
 
-# DOC: http://guides.rubyonrails.org/v5.1.3/upgrading_ruby_on_rails.html
-# https://rubygems.org/gems/rails/versions/5.1.3
+# DOC: http://guides.rubyonrails.org/v5.1.4/upgrading_ruby_on_rails.html
+# https://rubygems.org/gems/rails/versions/5.1.4
 # CHANGELOG: https://github.com/rails/rails/search?q=filename%3Achangelog.md
-# https://github.com/rails/rails/tree/v5.1.3
+# https://github.com/rails/rails/tree/v5.1.4
 # https://github.com/rails/rails/compare/v4.2.5.2...v4.2.6
 # https://github.com/rails/rails/compare/v4.2.6...v4.2.9
 # https://github.com/rails/rails/compare/v4.2.9...v5.0.4
 # https://github.com/rails/rails/compare/v5.0.4...v5.1.3
+# https://github.com/rails/rails/compare/v5.1.3...v5.1.4
 # https://github.com/rails/rails/releases
 # http://weblog.rubyonrails.org/releases/
-gem 'rails',                        '5.1.3'
+gem 'rails',                        '5.1.4'
 
 # bcrypt() is a sophisticated and secure hash algorithm designed by The OpenBSD
 # project for hashing passwords. The bcrypt Ruby gem provides a simple wrapper
@@ -251,7 +252,7 @@ group :test do
   gem 'codeclimate-test-reporter',  '1.0.8', require: nil
 
   # Extracting `assigns` and `assert_template` from ActionDispatch.
-  # DOC: http://guides.rubyonrails.org/v5.1.3/upgrading_ruby_on_rails.html#rails-controller-testing
+  # DOC: http://guides.rubyonrails.org/v5.1.4/upgrading_ruby_on_rails.html#rails-controller-testing
   # https://rubygems.org/gems/rails-controller-testing/versions/1.0.2
   # CHANGELOG: https://github.com/rails/rails-controller-testing/releases
   gem 'rails-controller-testing',   '1.0.2'
