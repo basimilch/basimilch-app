@@ -43,9 +43,9 @@ gem 'bcrypt',                       '3.1.11'
 
 # Upload files in your Ruby applications, map them to a range of ORMs, store
 # them on different backends.
-# https://rubygems.org/gems/carrierwave/versions/1.1.0
+# https://rubygems.org/gems/carrierwave/versions/1.2.1
 # CHANGELOG: https://github.com/carrierwaveuploader/carrierwave/blob/master/CHANGELOG.md
-gem 'carrierwave',                  '1.1.0'
+gem 'carrierwave',                  '1.2.1'
 
 # Manipulate images with minimal use of memory via ImageMagick / GraphicsMagick
 # https://rubygems.org/gems/mini_magick/versions/4.8.0
@@ -55,9 +55,9 @@ gem 'mini_magick',                  '4.8.0'
 # The Ruby cloud services library. Supports all major cloud providers including
 # AWS, Rackspace, Linode, Blue Box, StormOnDemand, and many others. Full support
 # for most AWS services including EC2, S3, CloudWatch, SimpleDB, ELB, and RDS.
-# https://rubygems.org/gems/fog/versions/1.41.0
+# https://rubygems.org/gems/fog/versions/1.42.0
 # CHANGELOG: https://github.com/fog/fog/blob/master/CHANGELOG.md
-gem 'fog',                          '1.41.0'
+gem 'fog',                          '1.42.0'
 
 # will_paginate provides a simple API for performing paginated queries with
 # Active Record, DataMapper and Sequel, and includes helpers for rendering
@@ -79,15 +79,15 @@ gem 'bootstrap-will_paginate',      '1.0.0'
 gem 'bootstrap-sass',               '3.3.7'
 
 # Sass adapter for the Rails asset pipeline.
-# https://rubygems.org/gems/sass-rails/versions/5.0.6
+# https://rubygems.org/gems/sass-rails/versions/5.0.7
 # CHANGELOG: https://github.com/rails/sass-rails/releases
-gem 'sass-rails',                   '5.0.6'
+gem 'sass-rails',                   '5.0.7'
 
 # Uglifier minifies JavaScript files by wrapping UglifyJS to be accessible in
 # Ruby.
-# https://rubygems.org/gems/uglifier/versions/3.2.0
+# https://rubygems.org/gems/uglifier/versions/4.1.2
 # CHANGELOG: https://github.com/lautis/uglifier/blob/master/CHANGELOG.md
-gem 'uglifier',                     '3.2.0'
+gem 'uglifier',                     '4.1.2'
 
 # CoffeeScript adapter for the Rails asset pipeline.
 # https://rubygems.org/gems/coffee-rails/versions/4.2.2
@@ -128,15 +128,15 @@ gem 'phony_rails',                  '0.14.6'
 # Provides object geocoding (by street or IP address), reverse geocoding
 # (coordinates to street address), distance queries for ActiveRecord and
 # Mongoid, result caching, and more.
-# https://rubygems.org/gems/geocoder/versions/1.4.4
+# https://rubygems.org/gems/geocoder/versions/1.4.5
 # CHANGELOG: https://github.com/alexreisner/geocoder/blob/master/CHANGELOG.md
-gem 'geocoder',                     '1.4.4'
+gem 'geocoder',                     '1.4.5'
 
 # Track changes to your models' data. Good for auditing or versioning. (i.e.
 # allows undo)
-# https://rubygems.org/gems/paper_trail/versions/7.1.1
+# https://rubygems.org/gems/paper_trail/versions/8.1.2
 # CHANGELOG: https://github.com/airblade/paper_trail/blob/master/CHANGELOG.md
-gem 'paper_trail',                  '7.1.1'
+gem 'paper_trail',                  '8.1.2'
 
 # Easy activity tracking for models - similar to Github's Public Activity. (i.e.
 # allows timeline).
@@ -157,22 +157,22 @@ gem 'pg',                           '0.21.0'
 
 # New Relic provides you with deep information about the performance of your web
 # application as it runs in production.
-# https://rubygems.org/gems/newrelic_rpm/versions/4.3.0.335
+# https://rubygems.org/gems/newrelic_rpm/versions/4.7.1.340
 # CHANGELOG: https://github.com/newrelic/rpm/blob/master/CHANGELOG.md
-gem 'newrelic_rpm',                 '4.3.0.335'
+gem 'newrelic_rpm',                 '4.7.1.340'
 
 # A gem that provides a client interface for the Sentry error logger.
-# https://rubygems.org/gems/sentry-raven/versions/2.6.3
+# https://rubygems.org/gems/sentry-raven/versions/2.7.1
 # CHANGELOG: https://github.com/getsentry/raven-ruby/blob/master/changelog.md
-gem 'sentry-raven',                 '2.6.3'
+gem 'sentry-raven',                 '2.7.1'
 
 group :development, :test do
 
   # Used to easily generate fake data: names, addresses, phone numbers, etc. (used
   # for DB seeding)
-  # https://rubygems.org/gems/faker/versions/1.8.4
+  # https://rubygems.org/gems/faker/versions/1.8.7
   # CHANGELOG: https://github.com/stympy/faker/blob/master/CHANGELOG.md
-  gem 'faker',                      '1.8.4'
+  gem 'faker',                      '1.8.7'
 
   # Dropping a `byebug` (or `debugger`) call anywhere in your code, you get a
   # debug prompt.
@@ -214,15 +214,15 @@ group :development do
 
   # Profiling toolkit for Rack applications with Rails integration. Client Side
   # profiling, DB profiling and Server profiling.
-  # https://rubygems.org/gems/rack-mini-profiler/versions/0.10.5
+  # https://rubygems.org/gems/rack-mini-profiler/versions/0.10.7
   # CHANGELOG: https://github.com/MiniProfiler/rack-mini-profiler/blob/master/CHANGELOG.md
-  gem 'rack-mini-profiler',         '0.10.5'
+  gem 'rack-mini-profiler',         '0.10.7'
 
   # Brakeman detects security vulnerabilities in Ruby on Rails applications via
   # static analysis.
-  # https://rubygems.org/gems/brakeman/versions/3.7.2
+  # https://rubygems.org/gems/brakeman/versions/4.1.1
   # CHANGELOG: https://github.com/presidentbeef/brakeman/blob/master/CHANGES.md
-  gem 'brakeman',                   '3.7.2', require: false
+  gem 'brakeman',                   '4.1.1', require: false
 
   # Guard::Brakeman allows you to automatically run Brakeman tests when files
   # are modified.
@@ -235,15 +235,9 @@ end
 group :test do
 
   # Create customizable MiniTest output formats.
-  # https://rubygems.org/gems/minitest-reporters/versions/1.1.16
+  # https://rubygems.org/gems/minitest-reporters/versions/1.1.19
   # CHANGELOG: https://github.com/kern/minitest-reporters/blob/master/CHANGELOG.md
-  gem 'minitest-reporters',         '1.1.16'
-
-  # MiniBacktrace allows you to take advantage of the Rails.backtrace_cleaner
-  # when using MiniTest.
-  # https://rubygems.org/gems/mini_backtrace/versions/0.1.3
-  # CHANGELOG: https://github.com/metaskills/mini_backtrace/releases
-  gem 'mini_backtrace',             '0.1.3'
+  gem 'minitest-reporters',         '1.1.19'
 
   # Guard::Minitest automatically run your tests with Minitest framework (much
   # like autotest).
@@ -276,17 +270,17 @@ group :production do
   # production environments. In order to get the best throughput, it is highly
   # recommended that you use a Ruby implementation with real threads like
   # Rubinius or JRuby.
-  # https://rubygems.org/gems/puma/versions/3.10.0
+  # https://rubygems.org/gems/puma/versions/3.11.0
   # CHANGELOG: https://github.com/puma/puma/blob/master/History.md
-  gem 'puma',                       '3.10.0'
+  gem 'puma',                       '3.11.0'
 
 end
 
 group :doc do
 
   # rdoc generator html with javascript search index.
-  # https://rubygems.org/gems/sdoc/versions/0.4.2
+  # https://rubygems.org/gems/sdoc/versions/1.0.0.rc3
   # CHANGELOG: https://github.com/zzak/sdoc/blob/master/CHANGELOG.md
-  gem 'sdoc',                       '0.4.2'
+  gem 'sdoc',                       '1.0.0.rc3'
 
 end
