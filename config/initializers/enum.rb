@@ -9,14 +9,14 @@
 #   end
 class Enum
 
-  # DOC: http://ruby-doc.org/core-2.4.1/Enumerable.html
+  # DOC: http://ruby-doc.org/core-2.4.3/Enumerable.html
   # SOURCE: http://stackoverflow.com/q/17552915
   extend Enumerable
   def self.each(&block)
     all.each(&block)
   end
 
-  # DOC: http://ruby-doc.org/core-2.4.1/Comparable.html
+  # DOC: http://ruby-doc.org/core-2.4.3/Comparable.html
   include Comparable
   def <=>(o)
     to_i <=> self.class.enum_for(o).to_i if self.class.member? o

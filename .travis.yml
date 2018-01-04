@@ -2,7 +2,7 @@
 # DOC: .travis.yml file format: https://docs.travis-ci.com/user/deployment/heroku/
 language: ruby
 rvm:
-  - 2.4.1
+  - 2.4.3
 services:
   # SOURCE: https://docs.travis-ci.com/user/database-setup/#PostgreSQL
   - postgresql

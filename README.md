@@ -33,16 +33,16 @@ The corresponding [Rails Tutorial Book] can be read online for free.
 
 ### Ruby
 
-- [Ruby Code (v2.4.1)] _([`ruby` releases])_
-- [Ruby 2.4.1 Core Documentation]
-- [Ruby 2.4.1 Standard Library Documentation]
+- [Ruby Code (v2.4.3)] _([`ruby` releases])_
+- [Ruby 2.4.3 Core Documentation]
+- [Ruby 2.4.3 Standard Library Documentation]
 - [Ruby Style Guide]
 - [`rvm`] as the Ruby Version Manager _([`rvm` releases])_
 
-[Ruby Code (v2.4.1)]: https://github.com/ruby/ruby/tree/v2_4_1
+[Ruby Code (v2.4.3)]: https://github.com/ruby/ruby/tree/v2_4_3
 [`ruby` releases]: https://github.com/ruby/ruby/releases
-[Ruby 2.4.1 Core Documentation]: http://ruby-doc.org/core-2.4.1/
-[Ruby 2.4.1 Standard Library Documentation]: http://ruby-doc.org/stdlib-2.4.1/
+[Ruby 2.4.3 Core Documentation]: http://ruby-doc.org/core-2.4.3/
+[Ruby 2.4.3 Standard Library Documentation]: http://ruby-doc.org/stdlib-2.4.3/
 [Ruby Style Guide]: https://github.com/bbatsov/ruby-style-guide
 [`rvm`]: https://rvm.io
 [`rvm` releases]: https://github.com/rvm/rvm/releases
@@ -73,10 +73,10 @@ curl -sSL https://get.rvm.io | bash -s stable
 > **NOTE:** If you already have installed it you can [upgrade `rvm`]
 > with `rvm get stable`.
 
-- [Install `ruby` version 2.4.1]
+- [Install `ruby` version 2.4.3]
 
 ```bash
-rvm install 2.4.1
+rvm install 2.4.3
 ```
 
 - [Install `bundle`]
@@ -101,7 +101,7 @@ install `rails` instead: `gem install rails -v 5.1.4`)
 
 [Install `rvm`]: https://rvm.io/rvm/install
 [upgrade `rvm`]: https://rvm.io/rvm/upgrading
-[Install `ruby` version 2.4.1]: https://rvm.io/rubies/installing
+[Install `ruby` version 2.4.3]: https://rvm.io/rubies/installing
 [Install `bundle`]: https://rvm.io/integration/bundler
 [`Gemfile.lock`]: Gemfile.lock
 
