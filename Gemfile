@@ -178,9 +178,9 @@ group :development, :test do
 
   # Guard is a command line tool to easily handle events on file system
   # modifications.
-  # https://rubygems.org/gems/guard/versions/2.14.1
+  # https://rubygems.org/gems/guard/versions/2.14.2
   # CHANGELOG: https://github.com/guard/guard/releases
-  gem 'guard',                      '2.14.1'
+  gem 'guard',                      '2.14.2'
 
 end
 
