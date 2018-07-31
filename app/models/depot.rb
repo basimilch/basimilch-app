@@ -164,7 +164,7 @@ class Depot < ApplicationRecord
   def delivery_day_of_current_week
     today = Date.current
     # NOTE: Sunday is 7 for Date.commercial method, but is zero in delivery_day.
-    # DOC: http://ruby-doc.org/stdlib-2.4.3/libdoc/date/rdoc/Date.html#method-c-commercial
+    # DOC: http://ruby-doc.org/stdlib-2.5.1/libdoc/date/rdoc/Date.html#method-c-commercial
     Date.commercial(today.year, today.cweek, to_day_1_7(delivery_day))
   end
 
@@ -177,7 +177,7 @@ class Depot < ApplicationRecord
     # NOTE: Sunday is zero.
     # NOTE: To iterate over date or time objects, they have to be discrete, i.e.
     #       Date, but not DateTime or Time.
-    # DOC: http://ruby-doc.org/stdlib-2.4.3/libdoc/date/rdoc/Date.html#method-i-wday
+    # DOC: http://ruby-doc.org/stdlib-2.5.1/libdoc/date/rdoc/Date.html#method-i-wday
     (from.to_date..to.to_date).select { |d| d.wday == delivery_day }
   end
 

@@ -6,15 +6,15 @@
 source 'https://rubygems.org'
 
 # NOTE: After updating ruby, you have to install it and all the gems again:
-#         $ rvm install 2.4.1 && gem install bundle && bundle install
+#         $ rvm install 2.5.1 && gem install bundle && bundle install
 #       The first and last commands might take long to execute (ca. 5 min).
-ruby '2.4.3'
-# https://github.com/ruby/ruby/tree/v2_4_1
+ruby '2.5.1'
+# https://github.com/ruby/ruby/tree/v2_5_1
 # https://www.ruby-lang.org/en/news/2015/12/25/ruby-2-3-0-released/
 # https://www.ruby-lang.org/en/news/2016/04/26/ruby-2-3-1-released/
 # https://www.ruby-lang.org/en/news/2017/03/22/ruby-2-4-1-released/
 # https://www.ruby-lang.org/en/news/2017/12/14/ruby-2-4-3-released/
-# https://github.com/ruby/ruby/blob/v2_4_1/NEWS
+# https://github.com/ruby/ruby/blob/v2_5_1/NEWS
 
 # NOTE: Use use fixed gem versions instead of ruby's pessimistic version
 #       constraint operator (~>) to manually control the updates (and calling
