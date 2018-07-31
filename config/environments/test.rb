@@ -2,7 +2,7 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Prepend all log lines with the following tags.
-  # DOC: http://guides.rubyonrails.org/v5.1.4/configuring.html
+  # DOC: http://guides.rubyonrails.org/v5.2.0/configuring.html
   config.log_tags = [ Time.now, :host, :uuid ]
 
   # The test environment is used exclusively to run your application's

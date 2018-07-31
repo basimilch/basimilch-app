@@ -1,5 +1,7 @@
 # Suggested by https://travis-ci.org/basimilch/basimilch-app
 # SOURCE: https://github.com/codeclimate/ruby-test-reporter/blob/master/CHANGELOG.md#v100-2016-11-03
+# Automatically required as dependency of gem 'codeclimate-test-reporter'.
+# SOURCE: https://github.com/codeclimate/ruby-test-reporter/blob/master/CHANGELOG.md#bug-fixes-1
 require 'simplecov'
 SimpleCov.start
 

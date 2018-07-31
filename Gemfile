@@ -27,19 +27,20 @@ ruby '2.5.1'
 #       update the versions in this Gemfile accordingly.
 #       More info and references: https://stackoverflow.com/q/9265213
 
-# DOC: http://guides.rubyonrails.org/v5.1.4/upgrading_ruby_on_rails.html
-# https://rubygems.org/gems/rails/versions/5.1.4
+# DOC: http://guides.rubyonrails.org/v5.2.0/upgrading_ruby_on_rails.html
+# https://rubygems.org/gems/rails/versions/5.2.0
 # CHANGELOG: https://github.com/rails/rails/search?q=filename%3Achangelog.md
-# https://github.com/rails/rails/tree/v5.1.4
+# https://github.com/rails/rails/tree/v5.2.0
 # https://github.com/rails/rails/compare/v4.2.5.2...v4.2.6
 # https://github.com/rails/rails/compare/v4.2.6...v4.2.9
 # https://github.com/rails/rails/compare/v4.2.9...v5.0.4
 # https://github.com/rails/rails/compare/v5.0.4...v5.1.3
 # https://github.com/rails/rails/compare/v5.1.3...v5.1.4
 # https://github.com/rails/rails/compare/v5.1.4...v5.1.6
+# https://github.com/rails/rails/compare/v5.1.6...v5.2.0
 # https://github.com/rails/rails/releases
 # http://weblog.rubyonrails.org/releases/
-gem 'rails',                        '5.1.6'
+gem 'rails',                        '5.2.0'
 
 # bcrypt() is a sophisticated and secure hash algorithm designed by The OpenBSD
 # project for hashing passwords. The bcrypt Ruby gem provides a simple wrapper
@@ -123,9 +124,9 @@ gem 'geocoder',                     '1.4.9'
 
 # Track changes to your models' data. Good for auditing or versioning. (i.e.
 # allows undo)
-# https://rubygems.org/gems/paper_trail/versions/8.1.2
+# https://rubygems.org/gems/paper_trail/versions/9.2.0
 # CHANGELOG: https://github.com/airblade/paper_trail/blob/master/CHANGELOG.md
-gem 'paper_trail',                  '8.1.2'
+gem 'paper_trail',                  '9.2.0'
 
 # Easy activity tracking for models - similar to Github's Public Activity. (i.e.
 # allows timeline).
@@ -140,9 +141,9 @@ gem 'public_activity',              '1.6.1'
 gem 'time_diff',                    '0.3.0'
 
 # pg is the Ruby interface to the PostgreSQL RDBMS.
-# https://rubygems.org/gems/pg/versions/0.21.0
+# https://rubygems.org/gems/pg/versions/1.0.0
 # CHANGELOG: https://bitbucket.org/ged/ruby-pg/src/default/History.rdoc
-gem 'pg',                           '0.21.0'
+gem 'pg',                           '1.0.0'
 
 # New Relic provides you with deep information about the performance of your web
 # application as it runs in production.
@@ -203,9 +204,9 @@ group :development do
 
   # Profiling toolkit for Rack applications with Rails integration. Client Side
   # profiling, DB profiling and Server profiling.
-  # https://rubygems.org/gems/rack-mini-profiler/versions/0.10.7
+  # https://rubygems.org/gems/rack-mini-profiler/versions/1.0.0
   # CHANGELOG: https://github.com/MiniProfiler/rack-mini-profiler/blob/master/CHANGELOG.md
-  gem 'rack-mini-profiler',         '0.10.7'
+  gem 'rack-mini-profiler',         '1.0.0'
 
   # Brakeman detects security vulnerabilities in Ruby on Rails applications via
   # static analysis.
@@ -240,7 +241,7 @@ group :test do
   gem 'codeclimate-test-reporter',  '1.0.8', require: nil
 
   # Extracting `assigns` and `assert_template` from ActionDispatch.
-  # DOC: http://guides.rubyonrails.org/v5.1.4/upgrading_ruby_on_rails.html#rails-controller-testing
+  # DOC: http://guides.rubyonrails.org/v5.2.0/upgrading_ruby_on_rails.html#rails-controller-testing
   # https://rubygems.org/gems/rails-controller-testing/versions/1.0.2
   # CHANGELOG: https://github.com/rails/rails-controller-testing/releases
   gem 'rails-controller-testing',   '1.0.2'

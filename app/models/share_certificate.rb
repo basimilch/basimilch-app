@@ -14,7 +14,7 @@ class ShareCertificate < ApplicationRecord
   #       i.e. with a :new or with a :find call. To ensure that this only
   #       happens for new models, we add the condition 'if: :new_record?'
   # SOURCE: http://stackoverflow.com/a/33034815
-  # DOC: http://api.rubyonrails.org/v5.1.4/classes/ActiveRecord/Callbacks.html
+  # DOC: http://api.rubyonrails.org/v5.2.0/classes/ActiveRecord/Callbacks.html
   after_initialize :init_values, if: :new_record?
 
   belongs_to :user

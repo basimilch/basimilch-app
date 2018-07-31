@@ -24,7 +24,7 @@ development you might want to look at the _excellent_ [Rails Tutorial]
 by [Michael Hartl] including more than 15 hours of screencast lessons.
 The corresponding [Rails Tutorial Book] can be read online for free.
 
-[Getting Started with Rails]: http://guides.rubyonrails.org/v5.1.4/getting_started.html
+[Getting Started with Rails]: http://guides.rubyonrails.org/v5.2.0/getting_started.html
 [Rails Tutorial]: https://www.railstutorial.org/
 [Michael Hartl]: http://www.michaelhartl.com
 [Rails Tutorial Book]: https://www.railstutorial.org/book/_single-page
@@ -49,17 +49,17 @@ The corresponding [Rails Tutorial Book] can be read online for free.
 
 ### Rails
 
-- [Rails Code (v5.1.4)] _([`rails` releases])_
-- [The API Documentation (v5.1.4)]
-- [Ruby on Rails Guides (v5.1.4)]
+- [Rails Code (v5.2.0)] _([`rails` releases])_
+- [The API Documentation (v5.2.0)]
+- [Ruby on Rails Guides (v5.2.0)]
 
 Beyond these official guides, it can be useful to read [The Beginner's
 Guide to Rails Helpers].
 
-[Rails Code (v5.1.4)]: https://github.com/rails/rails/tree/v5.1.4
+[Rails Code (v5.2.0)]: https://github.com/rails/rails/tree/v5.2.0
 [`rails` releases]: https://github.com/rails/rails/releases
-[The API Documentation (v5.1.4)]: http://api.rubyonrails.org/v5.1.4/
-[Ruby on Rails Guides (v5.1.4)]: http://guides.rubyonrails.org/v5.1.4/
+[The API Documentation (v5.2.0)]: http://api.rubyonrails.org/v5.2.0/
+[Ruby on Rails Guides (v5.2.0)]: http://guides.rubyonrails.org/v5.2.0/
 [The Beginner's Guide to Rails Helpers]: http://mixandgo.com/blog/the-beginner-s-guide-to-rails-helpers
 
 ## Setup `dev` environment
@@ -92,9 +92,9 @@ gem install bundler
 bundle install
 ```
 
-- `rails` version 5.1.4 gets installed by the previous action. If
+- `rails` version 5.2.0 gets installed by the previous action. If
 you want to start a new project at this point you should manually
-install `rails` instead: `gem install rails -v 5.1.4`)
+install `rails` instead: `gem install rails -v 5.2.0`)
 
 - [heroku] is used for the production server. To deploy, install the
 [heroku toolbelt].
@@ -843,7 +843,7 @@ entire cookie, including name, value, expiry date, etc.
 [Decoding Rails Session Cookies]: http://www.andylindeman.com/decoding-rails-session-cookies/
 [Session storage and security in Rails]: http://dev.housetrip.com/2014/01/14/session-store-and-security/
 [this gist]: https://gist.github.com/profh/e36e5dd0bec124fef04c
-[Ruby on Rails Security Guide]: http://guides.rubyonrails.org/v5.1.4/security.html
+[Ruby on Rails Security Guide]: http://guides.rubyonrails.org/v5.2.0/security.html
 [4K of data]: http://stackoverflow.com/questions/640938/what-is-the-maximum-size-of-a-web-browsers-cookies-key
 
 ### Reminder about migrations
@@ -892,7 +892,7 @@ It might be also interesting to read [this SO answer about creating
 simple vs compound indexed], as well as Heroku's own documentation
 about [Efficient Use of PostgreSQL Indexes].
 
-[RailsGuide about migrations]: http://guides.rubyonrails.org/v5.1.4/active_record_migrations.html#creating-a-migration
+[RailsGuide about migrations]: http://guides.rubyonrails.org/v5.2.0/active_record_migrations.html#creating-a-migration
 [this SO answer about creating simple vs compound indexed]: http://stackoverflow.com/a/1049392
 [Efficient Use of PostgreSQL Indexes]: https://devcenter.heroku.com/articles/postgresql-indexes
 
@@ -932,11 +932,11 @@ is when rollbacking a migration (during dev) with `db:rollback`.
 For a comprehensive description of all `db:` rake tasks you can check
 the code at [`railties/databases.rake`].
 
-["Maintaining The Test Database Schema"]: http://guides.rubyonrails.org/v5.1.4/testing.html#maintaining-the-test-database-schema
+["Maintaining The Test Database Schema"]: http://guides.rubyonrails.org/v5.2.0/testing.html#maintaining-the-test-database-schema
 
-[`db:test:prepare`]: https://github.com/rails/rails/blob/v5.1.4/activerecord/lib/active_record/railties/databases.rake#L359-L364
+[`db:test:prepare`]: https://github.com/rails/rails/blob/v5.2.0/activerecord/lib/active_record/railties/databases.rake#L359-L364
 
-[`railties/databases.rake`]: https://github.com/rails/rails/blob/v5.1.4/activerecord/lib/active_record/railties/databases.rake
+[`railties/databases.rake`]: https://github.com/rails/rails/blob/v5.2.0/activerecord/lib/active_record/railties/databases.rake
 
 ### Active Record `scopes`
 
