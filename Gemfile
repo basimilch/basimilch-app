@@ -8,6 +8,10 @@ source 'https://rubygems.org'
 # NOTE: After updating ruby, you have to install it and all the gems again:
 #         $ rvm install 2.5.1 && gem install bundle && bundle install
 #       The first and last commands might take long to execute (ca. 5 min).
+#       Also make sure that the ruby version locked down in the Gemfile.lock
+#       is also updated:
+#         $ bundle update --ruby
+# DOC: https://devcenter.heroku.com/articles/ruby-versions
 ruby '2.5.1'
 # https://github.com/ruby/ruby/tree/v2_5_1
 # https://www.ruby-lang.org/en/news/2015/12/25/ruby-2-3-0-released/
