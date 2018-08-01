@@ -1,4 +1,4 @@
-class CreateShareCertificates < ActiveRecord::Migration
+class CreateShareCertificates < ActiveRecord::Migration[4.2]
   def change
     create_table :share_certificates do |t|
       t.references :user, index: true, foreign_key: true

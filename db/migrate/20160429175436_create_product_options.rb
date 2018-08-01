@@ -1,4 +1,4 @@
-class CreateProductOptions < ActiveRecord::Migration
+class CreateProductOptions < ActiveRecord::Migration[4.2]
 
   # NOTE: About model vs database constrains:
   #       http://stackoverflow.com/questions/2367281/ruby-on-rails-is-it-better-to-validate-in-the-model-or-the-database

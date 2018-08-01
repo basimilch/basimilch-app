@@ -1,5 +1,5 @@
 # Migration responsible for creating a table with activities
-class CreateActivities < ActiveRecord::Migration
+class CreateActivities < ActiveRecord::Migration[4.2]
   def change
     create_table :activities do |t|
       t.belongs_to :trackable, :polymorphic => true

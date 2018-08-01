@@ -42,7 +42,7 @@ Model #{self} is missing the columns required by Cancelable.
 # Add following migration:
 
 cat << EOF > #{File.expand_path('../../..', __FILE__)}/db/migrate/#{Time.now.strftime("%Y%m%d%H%M%S")}_add_cancelable_columns_to_#{table_name}.rb
-class AddCancelableColumnsTo#{table_name.titleize} < ActiveRecord::Migration
+class AddCancelableColumnsTo#{table_name.titleize} < ActiveRecord::Migration[#{Rails.version[/\d\.\d/]}]
   def change
     add_column      :#{table_name}, :canceled_at,     :datetime
     add_column      :#{table_name}, :canceled_reason, :string

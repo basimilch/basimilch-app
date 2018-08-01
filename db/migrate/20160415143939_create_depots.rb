@@ -1,4 +1,4 @@
-class CreateDepots < ActiveRecord::Migration
+class CreateDepots < ActiveRecord::Migration[4.2]
   def change
     create_table :depots do |t|
       t.string :name

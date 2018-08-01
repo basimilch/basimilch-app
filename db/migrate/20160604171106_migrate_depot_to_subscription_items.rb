@@ -1,4 +1,4 @@
-class MigrateDepotToSubscriptionItems < ActiveRecord::Migration
+class MigrateDepotToSubscriptionItems < ActiveRecord::Migration[4.2]
 
   # DOC: http://guides.rubyonrails.org/v5.2.0/active_record_migrations.html
   # DOC: http://api.rubyonrails.org/v5.2.0/classes/ActiveRecord/Migration.html

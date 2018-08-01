@@ -1,4 +1,4 @@
-class CreateSubscriptionItems < ActiveRecord::Migration
+class CreateSubscriptionItems < ActiveRecord::Migration[4.2]
   def change
     create_table :subscription_items do |t|
       t.references :subscription, index: true, foreign_key: true

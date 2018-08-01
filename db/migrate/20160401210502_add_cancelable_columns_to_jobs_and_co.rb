@@ -1,4 +1,4 @@
-class AddCancelableColumnsToJobsAndCo < ActiveRecord::Migration
+class AddCancelableColumnsToJobsAndCo < ActiveRecord::Migration[4.2]
   def change
     add_column      :jobs,        :canceled_at,     :datetime
     add_column      :jobs,        :canceled_reason, :string
