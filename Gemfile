@@ -27,20 +27,20 @@ ruby '2.5.1'
 #       update the versions in this Gemfile accordingly.
 #       More info and references: https://stackoverflow.com/q/9265213
 
-# DOC: http://guides.rubyonrails.org/v5.2.0/upgrading_ruby_on_rails.html
-# https://rubygems.org/gems/rails/versions/5.2.0
+# DOC: http://guides.rubyonrails.org/v5.2.1/upgrading_ruby_on_rails.html
+# https://rubygems.org/gems/rails/versions/5.2.1
 # CHANGELOG: https://github.com/rails/rails/search?q=filename%3Achangelog.md
-# https://github.com/rails/rails/tree/v5.2.0
+# https://github.com/rails/rails/tree/v5.2.1
 # https://github.com/rails/rails/compare/v4.2.5.2...v4.2.6
 # https://github.com/rails/rails/compare/v4.2.6...v4.2.9
 # https://github.com/rails/rails/compare/v4.2.9...v5.0.4
 # https://github.com/rails/rails/compare/v5.0.4...v5.1.3
 # https://github.com/rails/rails/compare/v5.1.3...v5.1.4
 # https://github.com/rails/rails/compare/v5.1.4...v5.1.6
-# https://github.com/rails/rails/compare/v5.1.6...v5.2.0
+# https://github.com/rails/rails/compare/v5.1.6...v5.2.1
 # https://github.com/rails/rails/releases
 # http://weblog.rubyonrails.org/releases/
-gem 'rails',                        '5.2.0'
+gem 'rails',                        '5.2.1'
 
 # Reduces boot times through caching; required in config/boot.rb
 # Added by rails 5.2
@@ -247,7 +247,7 @@ group :test do
   gem 'codeclimate-test-reporter',  '1.0.8', require: nil
 
   # Extracting `assigns` and `assert_template` from ActionDispatch.
-  # DOC: http://guides.rubyonrails.org/v5.2.0/upgrading_ruby_on_rails.html#rails-controller-testing
+  # DOC: http://guides.rubyonrails.org/v5.2.1/upgrading_ruby_on_rails.html#rails-controller-testing
   # https://rubygems.org/gems/rails-controller-testing/versions/1.0.2
   # CHANGELOG: https://github.com/rails/rails-controller-testing/releases
   gem 'rails-controller-testing',   '1.0.2'

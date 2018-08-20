@@ -8,7 +8,7 @@ Rails.application.configure do
   config.active_record.verbose_query_logs = true
 
   # Prepend all log lines with the following tags.
-  # DOC: http://guides.rubyonrails.org/v5.2.0/configuring.html
+  # DOC: http://guides.rubyonrails.org/v5.2.1/configuring.html
   config.log_tags = [ Time.now, :host, :uuid ]
 
   # In the development environment your application's code is reloaded on

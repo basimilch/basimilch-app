@@ -129,7 +129,7 @@ class User < ApplicationRecord
             #       'inclusion: { in: ... }' validation does work.
             #       The 'numericality' validation casts instead the value to a
             #       number automatically.
-            # DOC: http://guides.rubyonrails.org/v5.2.0/active_record_validations.html#numericality
+            # DOC: http://guides.rubyonrails.org/v5.2.1/active_record_validations.html#numericality
             numericality: {
     greater_than_or_equal_to: ALLOWED_NUMBER_OF_WANTED_SHARE_CERTIFICATES.first,
     less_than_or_equal_to:    ALLOWED_NUMBER_OF_WANTED_SHARE_CERTIFICATES.last
