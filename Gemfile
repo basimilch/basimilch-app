@@ -42,6 +42,12 @@ ruby '2.5.1'
 # http://weblog.rubyonrails.org/releases/
 gem 'rails',                        '5.2.0'
 
+# Reduces boot times through caching; required in config/boot.rb
+# Added by rails 5.2
+# https://github.com/Shopify/bootsnap
+# CHANGELOG: https://github.com/Shopify/bootsnap/blob/master/CHANGELOG.md
+gem 'bootsnap',                 '1.3.1', require: false
+
 # bcrypt() is a sophisticated and secure hash algorithm designed by The OpenBSD
 # project for hashing passwords. The bcrypt Ruby gem provides a simple wrapper
 # for safely handling passwords.

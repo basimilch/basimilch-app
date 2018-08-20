@@ -1,13 +1,12 @@
 # Load the Rails application.
-require File.expand_path('../application', __FILE__)
-require 'rails_extensions'
+require_relative 'application'
 
-# TODO: Outcomment to automatically require all .rb files in lib/
+# Automatically require all extension ruby files in lib folder.
 # SOURCE: http://stackoverflow.com/a/735458
-# Dir[File.expand_path(File.join('..', '..', 'lib', '*.rb'), __FILE__)].each do |file|
-#   puts "Requiring: #{file}"
-#   require file
-# end
+Dir[Rails.root.join('lib', '*_extensions.rb')].each do |file|
+  puts "Requiring #{file}"
+  require file
+end
 
 # Initialize the Rails application.
 Rails.application.initialize!
