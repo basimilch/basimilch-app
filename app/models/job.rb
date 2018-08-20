@@ -19,7 +19,8 @@ class Job < ApplicationRecord
   has_paper_trail ignore: [:updated_at]
 
   belongs_to :user
-  belongs_to :job_type
+  # TODO: Check if it makes sense to remove 'optional: true' below
+  belongs_to :job_type, optional: true
   # DOC: http://guides.rubyonrails.org/v5.2.1/association_basics.html#dependent
   has_many :job_signups, dependent: :destroy
   has_many :users,
