@@ -46,7 +46,7 @@ gem 'rails',                        '5.2.1'
 # Added by rails 5.2
 # https://github.com/Shopify/bootsnap
 # CHANGELOG: https://github.com/Shopify/bootsnap/blob/master/CHANGELOG.md
-gem 'bootsnap',                 '1.3.1', require: false
+gem 'bootsnap',                     '1.3.1', require: false
 
 # bcrypt() is a sophisticated and secure hash algorithm designed by The OpenBSD
 # project for hashing passwords. The bcrypt Ruby gem provides a simple wrapper
@@ -81,9 +81,9 @@ gem 'sass-rails',                   '5.0.7'
 
 # Uglifier minifies JavaScript files by wrapping UglifyJS to be accessible in
 # Ruby.
-# https://rubygems.org/gems/uglifier/versions/4.1.16
+# https://rubygems.org/gems/uglifier/versions/4.1.18
 # CHANGELOG: https://github.com/lautis/uglifier/blob/master/CHANGELOG.md
-gem 'uglifier',                     '4.1.16'
+gem 'uglifier',                     '4.1.18'
 
 # CoffeeScript adapter for the Rails asset pipeline.
 # https://rubygems.org/gems/coffee-rails/versions/4.2.2
@@ -96,9 +96,9 @@ gem 'coffee-rails',                 '4.2.2'
 gem 'jquery-rails',                 '4.3.3'
 
 # Rails engine for Turbolinks 5 support.
-# https://rubygems.org/gems/turbolinks/versions/5.1.1
+# https://rubygems.org/gems/turbolinks/versions/5.2.0
 # CHANGELOG: https://github.com/turbolinks/turbolinks/releases
-gem 'turbolinks',                   '5.1.1'
+gem 'turbolinks',                   '5.2.0'
 
 # Create JSON structures via a Builder-style DSL
 # https://rubygems.org/gems/jbuilder/versions/2.7.0
@@ -124,9 +124,9 @@ gem 'phony_rails',                  '0.14.7'
 # Provides object geocoding (by street or IP address), reverse geocoding
 # (coordinates to street address), distance queries for ActiveRecord and
 # Mongoid, result caching, and more.
-# https://rubygems.org/gems/geocoder/versions/1.4.9
+# https://rubygems.org/gems/geocoder/versions/1.5.0
 # CHANGELOG: https://github.com/alexreisner/geocoder/blob/master/CHANGELOG.md
-gem 'geocoder',                     '1.4.9'
+gem 'geocoder',                     '1.5.0'
 
 # Track changes to your models' data. Good for auditing or versioning. (i.e.
 # allows undo)
@@ -136,9 +136,9 @@ gem 'paper_trail',                  '9.2.0'
 
 # Easy activity tracking for models - similar to Github's Public Activity. (i.e.
 # allows timeline).
-# https://rubygems.org/gems/public_activity/versions/1.6.1
+# https://rubygems.org/gems/public_activity/versions/1.6.2
 # CHANGELOG: https://github.com/chaps-io/public_activity/blob/1-6-stable/CHANGELOG.md
-gem 'public_activity',              '1.6.1'
+gem 'public_activity',              '1.6.2'
 
 # Gem which calculates the difference between two times and returns a hash with
 # the difference in terms of year, month, week, day, hour, minute and second.
@@ -147,15 +147,15 @@ gem 'public_activity',              '1.6.1'
 gem 'time_diff',                    '0.3.0'
 
 # pg is the Ruby interface to the PostgreSQL RDBMS.
-# https://rubygems.org/gems/pg/versions/1.0.0
+# https://rubygems.org/gems/pg/versions/1.1.2
 # CHANGELOG: https://bitbucket.org/ged/ruby-pg/src/default/History.rdoc
-gem 'pg',                           '1.0.0'
+gem 'pg',                           '1.1.2'
 
 # New Relic provides you with deep information about the performance of your web
 # application as it runs in production.
-# https://rubygems.org/gems/newrelic_rpm/versions/5.2.0.345
+# https://rubygems.org/gems/newrelic_rpm/versions/5.3.0.346
 # CHANGELOG: https://github.com/newrelic/rpm/blob/master/CHANGELOG.md
-gem 'newrelic_rpm',                 '5.2.0.345'
+gem 'newrelic_rpm',                 '5.3.0.346'
 
 # A gem that provides a client interface for the Sentry error logger.
 # https://rubygems.org/gems/sentry-raven/versions/2.7.4
@@ -231,9 +231,9 @@ end
 group :test do
 
   # Create customizable MiniTest output formats.
-  # https://rubygems.org/gems/minitest-reporters/versions/1.3.1
+  # https://rubygems.org/gems/minitest-reporters/versions/1.3.3
   # CHANGELOG: https://github.com/kern/minitest-reporters/blob/master/CHANGELOG.md
-  gem 'minitest-reporters',         '1.3.1'
+  gem 'minitest-reporters',         '1.3.3'
 
   # Guard::Minitest automatically run your tests with Minitest framework (much
   # like autotest).

@@ -202,8 +202,9 @@ class ActiveSupport::TestCase
   Geocoder::Lookup::Test.set_default_stub(
     [
       {
-        'latitude'       => 47.3971058,
-        'longitude'      => 8.392147,
+        # SOURCE: https://github.com/alexreisner/geocoder/blob/master/CHANGELOG.md#150-2018-jul-31
+        # SOURCE: https://github.com/alexreisner/geocoder/issues/1258#issuecomment-359267380
+        'coordinates'    => [47.3971058, 8.392147],
         'full_address'   => "Alte Kindhauserstrasse 3, 8953 Dietikon, Switzerland",
         'route'          => "Alte Kindhauserstrasse",
         'street_number'  => "3",
@@ -217,8 +218,9 @@ class ActiveSupport::TestCase
   Geocoder::Lookup::Test.add_stub(
     "Postgasse 1, 3011, Bern, Schweiz", [
       {
-        'latitude'       => 46.9487433,
-        'longitude'      => 7.4538432,
+        # SOURCE: https://github.com/alexreisner/geocoder/blob/master/CHANGELOG.md#150-2018-jul-31
+        # SOURCE: https://github.com/alexreisner/geocoder/issues/1258#issuecomment-359267380
+        'coordinates'    => [46.9487433, 7.4538432],
         'address'        => "Postgasse 1, 3011 Bern, Switzerland",
         'route'          => "Postgasse",
         'street_number'  => "1",
