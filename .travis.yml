@@ -10,8 +10,11 @@ services:
 before_script:
   # SOURCE: http://stackoverflow.com/a/12896545/5764181
   - psql -c 'CREATE USER basimilchdbuser SUPERUSER;' -U postgres
-  # SOURCE: https://docs.travis-ci.com/user/database-setup/#Using-PostgreSQL-in-your-Builds
-  - psql -c 'CREATE DATABASE basimilchdb_test OWNER basimilchdbuser;' -U postgres
+  # NOTE: Not sure why 'rails test' does not automatically load the schema to
+  # the db, as expected.
+  # SOURCE: https://github.com/rails/rails/blob/5-2-1/railties/lib/rails/test_help.rb#L17
+  # SOURCE: https://github.com/rails/rails/pull/13528/files
+  - bin/rails db:create db:schema:load
 # The 'after_success', 'after_failure', 'after_script' and subsequent stages do
 # not affect the the build result.
 # DOC: https://docs.travis-ci.com/user/customizing-the-build/#Breaking-the-Build
@@ -19,7 +22,7 @@ before_script:
 # does not work, we have to specify the 'script' step with '&&' as follows.
 # DOC: https://docs.travis-ci.com/user/customizing-the-build/#Customizing-the-Build-Step
 script:
-  - bundle exec rake && ./.travis_tag.sh
+  - bin/rails test && ./.travis_tag.sh
 sudo: required
 before_deploy:
   - ./.travis_before_deploy.sh
