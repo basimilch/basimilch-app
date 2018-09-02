@@ -24,7 +24,10 @@ module BasimilchApp
 
     # This will route any exceptions caught to your router Rack app.
     # DOC: https://wearestac.com/blog/dynamic-error-pages-in-rails
+    # SEE: app/controllers/errors_controller.rb
+    # SEE: config/routes.rb
     config.exceptions_app = self.routes
+    config.error_codes_with_custom_view = [404, 500]
 
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.0
