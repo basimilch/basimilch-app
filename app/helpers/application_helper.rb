@@ -16,6 +16,29 @@ module ApplicationHelper
     end
   end
 
+  def body_css_classes
+    "#{controller_name} #{action_name} " \
+      "#{current_user_admin? ? "admin" : "non-admin"} " \
+      "#{request.domain.downcase.dasherize} " \
+      "#{environment_css_class_name}"
+  end
+
+  # The enviroment dependent css class are mainly used to customize the brand
+  # color of the app in order to make evident at which environment we are
+  # looking and prevent errors, e.g. thinking production is a test platform and
+  # deleting some users.
+  def environment_css_class_name
+    if Rails.env.development?
+      'environment-development'
+    elsif /^basimilch-app-\w+-pr-\d+$/.match? ENV['HEROKU_APP_NAME']
+      'environment-reviewapp'
+    elsif ENV['HEROKU_APP_NAME'] == "basimilch-app-staging"
+      'environment-staging'
+    else
+      'environment-production'
+    end
+  end
+
   # Returns HTML for release messages with links to the commits to be displayed
   # in the version footer partial.
   def release_commit_messages
