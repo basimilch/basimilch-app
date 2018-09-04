@@ -3,6 +3,8 @@
 #   bundle exec rake db:reset => applies the db schema and runs this seeds script
 #   bundle exec rake db:seed  => re-seeds the DB, i.e. add more items.
 
+require 'faker'
+
 if ENV['HEROKU_APP_NAME'] == "basimilch"
   puts "I'll not seed the DB in production!".red
   exit 1
@@ -180,7 +182,7 @@ job_ids = Job.not_canceled.pluck(:id)
 signups_trials = NUMBER_OF_USERS * JobSignup::MIN_NUMBER_PER_USER_PER_YEAR
 # => "_trials" because some might not be possible if the jobs is full.
 
-signups_trials.times do |n|
+(signups_trials - JobSignup.count).times do |n|
   job = Job.not_canceled.sample
   unless job.full?
     user_id = user_ids.sample
