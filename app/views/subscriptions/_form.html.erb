@@ -56,10 +56,17 @@
         <%= f.field_for :name, placeholder: t('.name'),
                                view_mode: forced_view_mode %>
       </div>
+
       <div class="col-sm-3">
         <%= f.field_for :basic_units,
                         as_type: :select,
                         view_mode: forced_view_mode,
+                        data: {
+                          equivalent_in_milk_liters_basic_unit:
+                            Subscription::EQUIVALENT_IN_MILK_LITERS_BASIC_UNIT,
+                          flexible_liters_basic_unit:
+                            Subscription::FLEXIBLE_LITERS_BASIC_UNIT,
+                        },
                         value: options_for_subscription_basic_units(@subscription),
                         include_blank: false %>
       </div>
@@ -67,6 +74,12 @@
         <%= f.field_for :supplement_units,
                         as_type: :select,
                         view_mode: forced_view_mode,
+                        data: {
+                          equivalent_in_milk_liters_supplement_unit:
+                            Subscription::EQUIVALENT_IN_MILK_LITERS_SUPPLEMENT_UNIT,
+                          flexible_liters_supplement_unit:
+                            Subscription::FLEXIBLE_LITERS_SUPPLEMENT_UNIT,
+                        },
                         value: options_for_subscription_supplement_units(@subscription),
                         include_blank: false %>
       </div>

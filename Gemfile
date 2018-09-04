@@ -110,6 +110,12 @@ gem 'jbuilder',                     '2.7.0'
 # CHANGELOG: https://github.com/heroku/platform-api/releases
 gem 'platform-api',                 '2.1.0'
 
+# Used to easily generate fake data: names, addresses, phone numbers, etc. (used
+# for DB seeding)
+# https://rubygems.org/gems/faker/versions/1.9.1
+# CHANGELOG: https://github.com/stympy/faker/blob/master/CHANGELOG.md
+gem 'faker',                        '1.9.1', require: false
+
 # A set of common locale data and translations to internationalize and/or
 # localize your Rails applications.
 # https://rubygems.org/gems/rails-i18n/versions/5.1.1
@@ -163,12 +169,6 @@ gem 'newrelic_rpm',                 '5.3.0.346'
 gem 'sentry-raven',                 '2.7.4'
 
 group :development, :test do
-
-  # Used to easily generate fake data: names, addresses, phone numbers, etc. (used
-  # for DB seeding)
-  # https://rubygems.org/gems/faker/versions/1.9.1
-  # CHANGELOG: https://github.com/stympy/faker/blob/master/CHANGELOG.md
-  gem 'faker',                      '1.9.1'
 
   # Dropping a `byebug` (or `debugger`) call anywhere in your code, you get a
   # debug prompt.

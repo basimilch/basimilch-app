@@ -62,11 +62,10 @@ Rails.application.routes.draw do
   get   'subscriptions/lists/depots'   => 'subscriptions#depot_lists',
                                              as: :subscription_depot_lists
 
-
   # DOC: http://stackoverflow.com/a/26286472/5764181
   # DOC: https://wearestac.com/blog/dynamic-error-pages-in-rails
   # DOC: https://github.com/mirego/gaffe#rails-test-environment
-  ErrorsController::ERROR_CODES.each do |code|
+  Rails.configuration.error_codes_with_custom_view.each do |code|
     get "/#{code}", to: 'errors#show', code: code
   end
   # Example of regular route:
