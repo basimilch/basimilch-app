@@ -15,10 +15,11 @@ do ( $$ = window.Basimilch ||= {}, $ = jQuery ) ->
 
     isAdminPage: -> $('body.admin').length == 1
 
-    setupFilterAction: (elemId, targetURL, queryParamName) ->
+    setupFilterAction: (elemId, queryParamName) ->
       $('#' + elemId).change ->
         $$.loadingScreen.start()
         val = $(@).val()
+        targetURL = $(@).data('targetUrl')
         queryParamRegExp = new RegExp "[?&]" + queryParamName + "=[^&]*(?:&|$)"
         queryString = location.search
                               .replace(queryParamRegExp, "")

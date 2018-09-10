@@ -2,18 +2,15 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-# SOURCE: http://stackoverflow.com/a/32358641
-<% self.class.include Rails.application.routes.url_helpers %>
-
 do ( $$ = window.Basimilch ||= {}, $ = jQuery ) ->
 
   # SOURCE: http://brandonhilkert.com/blog/organizing-javascript-in-rails-application-with-turbolinks/
   $(document).on 'turbolinks:load', ->
 
-    equivalentInMilkLitersBasicUnit = <%= Subscription::EQUIVALENT_IN_MILK_LITERS_BASIC_UNIT %>
-    equivalentInMilkLitersSupplementUnit = <%= Subscription::EQUIVALENT_IN_MILK_LITERS_SUPPLEMENT_UNIT %>
-    flexibleLitersBasicUnit = <%= Subscription::FLEXIBLE_LITERS_BASIC_UNIT %>
-    flexibleLitersSupplementUnit = <%= Subscription::FLEXIBLE_LITERS_SUPPLEMENT_UNIT %>
+    equivalentInMilkLitersBasicUnit = $('#subscription_basic_units').data('equivalentInMilkLitersBasicUnit')
+    equivalentInMilkLitersSupplementUnit = $('#subscription_supplement_units').data('equivalentInMilkLitersSupplementUnit')
+    flexibleLitersBasicUnit = $('#subscription_basic_units').data('flexibleLitersBasicUnit')
+    flexibleLitersSupplementUnit = $('#subscription_supplement_units').data('flexibleLitersSupplementUnit')
     $subscriptionTotalEquivalence = $('#subscription_total_equivalence')
     $equivalenceRow   = $('tr.total.new-subscription-items')
     $equivalenceLabel = $equivalenceRow.find('td.total-label')
@@ -86,5 +83,4 @@ do ( $$ = window.Basimilch ||= {}, $ = jQuery ) ->
       .trigger 'input'
 
     $$.setupFilterAction 'depot_lists_delivery_day_selector',
-                         "<%= subscription_depot_lists_path %>",
                          "delivery_day"
