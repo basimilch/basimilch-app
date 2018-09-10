@@ -1,6 +1,7 @@
 {
-  "name": "basimilch Webapp",
-  "description": "Web-app of the basimilch cooperative.",
+  "name": "basimilch-app",
+  "description": "Web platform of the basimilch cooperative.",
+  "website": "https://basimil.ch/",
   "repository": "https://github.com/basimilch/basimilch-app",
   "logo": "https://avatars2.githubusercontent.com/u/11250894",
   "keywords": [
@@ -9,21 +10,16 @@
     "ruby",
     "ruby-on-rails"
   ],
-  "scripts": {
-    "postdeploy": "bundle exec rake db:setup"
-  },
-  "env": {
-    "ARTICLES_OF_ASSOCIATION_URL": {
-      "description": "ARTICLES_OF_ASSOCIATION_URL",
-      "value": "http://basimil.ch/genossenschaft/statuten"
+  "buildpacks": [
+    {
+      "url": "heroku/ruby"
     }
-  },
-  "image": "heroku/ruby",
+  ],
   "addons": [
     {
       "plan": "heroku-postgresql:hobby-dev",
       "options": {
-        "version": "9.4"
+        "version": "9.6"
       }
     },
     {
@@ -35,5 +31,117 @@
     {
       "plan": "scheduler:standard"
     }
-  ]
+  ],
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "free"
+    },
+    "worker": {
+      "quantity": 1,
+      "size": "free"
+    }
+  },
+  "stack": "heroku-18",
+  "scripts": {
+    "postdeploy": "bin/rails db:setup"
+  },
+  "env": {
+    "HEROKU_APP_NAME": {
+      "required": true
+    },
+    "HEROKU_PARENT_APP_NAME": {
+      "required": true
+    },
+    "EMAIL_DAILY_ACTIVITY_REPORT_ADDRESS": {
+      "required": true
+    },
+    "EMAIL_DEFAULT_FROM_ADDRESS": {
+      "required": true
+    },
+    "EMAIL_DEFAULT_LOGIN_DOMAIN": {
+      "required": true
+    },
+    "EMAIL_NEW_USER_NOTIFICATION_ADDRESS": {
+      "required": true
+    },
+    "EMAIL_RECIPIENTS_BLACKLIST":  {
+      "required": true
+    },
+    "EMAIL_RECIPIENTS_WHITELIST": {
+      "required": true
+    },
+    "EMAIL_SMTP_ADDRESS": {
+      "required": true
+    },
+    "EMAIL_SMTP_DOMAIN": {
+      "required": true
+    },
+    "EMAIL_SMTP_PASSWORD": {
+      "required": true
+    },
+    "EMAIL_SMTP_PORT": {
+      "required": true
+    },
+    "EMAIL_SMTP_USERNAME": {
+      "required": true
+    },
+    "GOOGLE_MAPS_EMBED_API_BROWSER_KEY": {
+      "required": true
+    },
+    "GOOGLE_MAPS_GEOCODING_API_KEY": {
+      "required": true
+    },
+    "HEROKU_API_OAUTH_ID": {
+      "required": true
+    },
+    "HEROKU_API_OAUTH_TOKEN": {
+      "required": true
+    },
+    "NEW_RELIC_APP_NAME": {
+      "required": true
+    },
+    "NEW_RELIC_LICENSE_KEY": {
+      "required": true
+    },
+    "NEW_RELIC_LOG": {
+      "required": true
+    },
+    "ARTICLES_OF_ASSOCIATION_URL": {
+      "description": "URL for the Articles Of Association. Used in the signup form.",
+      "value": "http://basimil.ch/genossenschaft/statuten"
+    },
+    "BYPASS_REFERER_FILTER": {
+      "description": "Set this to FALSE to allow only signup requests coming from the url specified in DEFAULT_URL_DOMAIN_FOR_REFERER_FILTER.",
+      "value": "TRUE"
+    },
+    "DEFAULT_REDIRECT_URL_FOR_REFERER_FILTER": {
+      "description": "If the referer filter fails (see BYPASS_REFERER_FILTER), redirect to this URL.",
+      "value": "http://basimil.ch/genossenschaft/#genosschenschafter_in-werden"
+    },
+    "DEFAULT_URL_DOMAIN_FOR_REFERER_FILTER": {
+      "description": "See description for BYPASS_REFERER_FILTER.",
+      "value": "basimil.ch"
+    },
+    "EMAIL_CUSTOM_JOB_SIGNUP_MESSAGE": {
+      "description": "Custom message for the JobSignup confirmattion email.",
+      "value": "This is a custom message that can be edited in the EMAIL_CUSTOM_JOB_SIGNUP_MESSAGE env var."
+    },
+    "INFO_GLOBAL_ANNOUNCEMENT": {
+      "description": "When set to something other than nil, it published it's content as an info alert at the top of the page.",
+      "value": "This app has been newly created. This message can be edited from the ENV variable EMAIL_CUSTOM_JOB_SIGNUP_MESSAGE."
+    },
+    "REGULATIONS_URL": {
+      "description": "URL to the Terms and Conditions. Used in the signup form.",
+      "value": "http://basimil.ch/genossenschaft/betriebsreglement"
+    },
+    "SHARE_CERTIFICATE_UNIT_PRICE": {
+      "description": "Price of each share certificate, in units of the currency used on the platform.",
+      "value": "300"
+    },
+    "SUBSCRIPTION_NEXT_UPDATE_WEEK_NUMBER": {
+      "description": "Next open calendar week (KW) for the users to edit or cancel their subscription. Leave empty if no subscription change scheduled.",
+      "value": ""
+    }
+  }
 }
