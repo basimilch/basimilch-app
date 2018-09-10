@@ -2,9 +2,6 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-# SOURCE: http://stackoverflow.com/a/32358641
-<% self.class.include Rails.application.routes.url_helpers %>
-
 do ( $$ = window.Basimilch ||= {}, $ = jQuery ) ->
 
   # $(document).on 'ready page:load', (($$, $)->
@@ -13,13 +10,12 @@ do ( $$ = window.Basimilch ||= {}, $ = jQuery ) ->
   $(document).on 'turbolinks:load', ->
     $('#job_job_type_id').change ->
       $('body').css 'cursor', 'wait'
-      location.href = "<%= new_job_path %>" + "?job_type=" + $(@).val()
-    $$.setupFilterAction 'job_type_filter_selector', "<%= jobs_path %>", "job_type"
-    $$.setupFilterAction 'job_month_filter_selector', "<%= jobs_path %>", "month"
+      location.href = $(@).data('targetUrl') + "?job_type=" + $(@).val()
+    $$.setupFilterAction 'job_type_filter_selector', "job_type"
+    $$.setupFilterAction 'job_month_filter_selector', "month"
     if $$.isAdminPage()
       usersInput = $('#users')
       submitBtn = $('.signup-other-users input[type=submit]')
       usersInput.on 'itemAdded itemRemoved', (e) ->
         # e.item: contains the item
         submitBtn.prop 'disabled', not usersInput.val()
-
