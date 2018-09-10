@@ -7,12 +7,11 @@ unless (app_name = ENV["HEROKU_APP_NAME"]).nil?
   #
   # Create a new authorization token:
   #   $ heroku authorizations:create \
-  #            --description "For use within the meine.basimil.ch Rails app" \
-  #            --scope identity,read-protected
+  #            --description 'Used in basimilch-app dynos to get release information (scope: read-protected)' \
+  #            --scope read-protected
   #
   # Setup the necessary ENV variablables in Heroku:
   #   $ heroku config:add \
-  #            HEROKU_APP_NAME=<heroku-app-name> \
   #            HEROKU_API_OAUTH_ID=<heroku-api-oauth-id> \
   #            HEROKU_API_OAUTH_TOKEN=<heroku-api-oauth-token>
   #
@@ -20,6 +19,7 @@ unless (app_name = ENV["HEROKU_APP_NAME"]).nil?
   #       Use EVN variables instead!
   #
   # Relevant sources:
+  #  - https://devcenter.heroku.com/articles/oauth#scopes
   #  - https://github.com/heroku/heroku-oauth#creating
   #  - https://github.com/heroku/platform-api#a-real-world-example
   #  - http://stackoverflow.com/a/15367505
