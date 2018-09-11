@@ -11,27 +11,37 @@
 // them with a dollar sign $ instead of the 'at' sign @.
 // Source: https://www.railstutorial.org/book/_single-page#uid455
 
-// Customize the color depending on the enviroment to make evident at which
-// platform we are looking and prevent errors, e.g. thinking production is a
-// test platform and deleting some users.
-<% if Rails.env.development? %>
-  $basiblau: #F2AE43; // yellowish warning, see http://colorrrs.com/#F2AE43
-<% elsif ENV['HEROKU_APP_NAME'] == "basimilch-dev" %>
-  $basiblau: #D82689; // pinkish, see http://colorrrs.com/#D82689
-<% else %>
-  $basiblau: #51A1D9; // normal basiblau, see http://colorrrs.com/#51A1D9
-<% end %>
-
-$basiblau_slightly_darker: darken( $basiblau, 10% );
-$basiblau_darker: darken( $basiblau, 15% );
-$basiblau_light: lighten( $basiblau, 25% );
-$basiblau_ultralight: lighten( $basiblau, 36% );
-$basiblau_ultralight_bg: lighten( $basiblau, 40.5% );
-
 $gray-medium-light: #eaeaea;
 
 $state-danger-text-light: lighten($state-danger-text, 40%);
 $state-danger-bg-light:   lighten($state-danger-bg, 7%);
+
+// Brand Color Mixins
+
+// DOC: http://sass-lang.com/documentation/Sass/Script/Functions.html#adjust_hue-instance_method
+$basiblau-production:   #51A1D9;  // normal basiblau, see http://colorrrs.com/#51A1D9
+$basiblau-staging:      adjust-hue($basiblau-production, /* greenish  */ -1 * 360 / 4);
+$basiblau-reviewapp:    adjust-hue($basiblau-production, /* pinkish   */  1 * 360 / 4);
+$basiblau-development:  adjust-hue($basiblau-production, /* brownish  */  2 * 360 / 4);
+
+$basiblau: $basiblau-production;
+
+// DOC: http://sass-lang.com/documentation/file.SASS_REFERENCE.html#interpolation_
+// DOC: http://sass-lang.com/documentation/Sass/Script/Functions.html#adjust_color-instance_method
+@mixin environments($property_name, $lightness_value: 0) {
+  body.environment-development &        { #{$property_name}: adjust-color($basiblau-development, $lightness: $lightness_value); }
+  body.environment-reviewapp &          { #{$property_name}: adjust-color($basiblau-reviewapp,   $lightness: $lightness_value); }
+  body.environment-staging &            { #{$property_name}: adjust-color($basiblau-staging,     $lightness: $lightness_value); }
+  body &, body.environment-production & { #{$property_name}: adjust-color($basiblau-production,  $lightness: $lightness_value); }
+}
+
+@mixin basiblau($property_name)                 { @include environments($property_name)         }
+@mixin basiblau_slightly_darker($property_name) { @include environments($property_name, -10)    }
+@mixin basiblau_darker($property_name)          { @include environments($property_name, -15)    }
+@mixin basiblau_light($property_name)           { @include environments($property_name, +25)    }
+@mixin basiblau_ultralight($property_name)      { @include environments($property_name, +36)    }
+@mixin basiblau_ultralight_bg($property_name)   { @include environments($property_name, +40.5)  }
+
 
 // Mixins
 
@@ -42,7 +52,7 @@ $state-danger-bg-light:   lighten($state-danger-bg, 7%);
 }
 
 @mixin light_placeholder {
-  color: $basiblau_light;
+  @include basiblau_light(color);
   opacity: 1;
 }
 @mixin light_placeholder_with_errors {
@@ -191,15 +201,15 @@ body > .console {
 // Header
 
 header {
-  background-color: $basiblau;
-  border-color: $basiblau_slightly_darker;
+  @include basiblau(background-color);
+  @include basiblau_slightly_darker(border-color);
   line-height: 1;
   .nav {
     .open {
       & > a,
       & > a:focus,
       & > a:active {
-        background-color: $basiblau_darker;
+        @include basiblau_darker(background-color);
       }
     }
     & > li {
@@ -209,13 +219,13 @@ header {
       & > a {
         color: white;
         &:focus {
-          background-color: $basiblau;
+          @include basiblau(background-color);
         }
         &:hover {
-          background-color: $basiblau_slightly_darker;
+          @include basiblau_slightly_darker(background-color);
         }
         &:active {
-          background-color: $basiblau_darker;
+          @include basiblau_darker(background-color);
         }
       }
     }
@@ -223,7 +233,7 @@ header {
   .navbar-toggle {
     border-color: white;
     &:hover {
-      background-color: $basiblau_slightly_darker;
+      @include basiblau_slightly_darker(background-color);
     }
     .icon-bar {
       background-color: white;
@@ -234,7 +244,7 @@ header {
 .dropdown-menu > li > a {
   &:hover,
   &:focus{
-    background-color: $basiblau_ultralight;
+    @include basiblau_ultralight(background-color);
   }
 }
 
@@ -246,7 +256,7 @@ header {
   text-transform: lowercase;
   letter-spacing: -1px;
   &:hover {
-    color: $basiblau_ultralight;
+    @include basiblau_ultralight(color);
     text-decoration: none;
   }
   @media (min-width: 768px) {
@@ -320,12 +330,12 @@ form {
     margin-bottom: 15px;
     @include box_sizing;
     &.form-control {
-      border-color: $basiblau;
-      background-color: $basiblau_ultralight-bg;
+      @include basiblau(border-color);
+      @include basiblau_ultralight-bg(background-color);
       &:not([disabled]):not([readonly]) {
         &:focus,
         &:active {
-          background-color: $basiblau_ultralight;
+          @include basiblau_ultralight(background-color);
         }
       }
       &.view-mode {
@@ -334,7 +344,7 @@ form {
     }
   }
   .view-mode[type=checkbox] {
-    background-color: $basiblau_ultralight;
+    @include basiblau_ultralight(background-color);
     border-color: transparent;
     box-shadow: none;
     cursor: default;
@@ -468,7 +478,7 @@ form {
     bottom: 50px;
   }
   code {
-    color: $basiblau;
+    @include basiblau(color);
     background-color: transparent;
   }
 }
@@ -505,7 +515,7 @@ form {
 }
 
 .user_table_initial_letter {
-  background-color: $basiblau;
+  @include basiblau(background-color);
   text-align: center;
   color: white;
 }

@@ -29,7 +29,10 @@
         options_for_select(JobType.all.collect { |jt| [jt.title, jt.id] } +
           [[t('.free_type_jobs'), 'nil']], @job_type_id.inspect),
         class: "form-control",
-        include_blank: t(".show_all_job_types") %>
+        include_blank: t(".show_all_job_types"),
+        data: {
+          target_url: jobs_path
+        } %>
   </div> <!-- /col -->
   <div class="col-sm-3">
     <%= select_tag 'job_month_filter_selector',
@@ -38,7 +41,10 @@
         options_for_select((1..12).map {|m| [localized_month_name(m), m]},
                           params[:month]),
         class: "form-control",
-        include_blank: t(".show_jobs_from_now") %>
+        include_blank: t(".show_jobs_from_now"),
+        data: {
+          target_url: jobs_path
+        } %>
   </div> <!-- /col -->
   <div class="col-sm-3 col-sm-offset-1 text-center">
     <%= will_paginate page_links: false %>

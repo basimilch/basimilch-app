@@ -838,12 +838,17 @@ class ActionView::Helpers::FormBuilder
           else
             @template.concat select(attribute,
                                     value,
-                                    class:          input_class,
-                                    readonly:       readonly,
-                                    include_blank:  include_blank,
-                                    prompt:         prompt,
-                                    autofocus:      options[:autofocus],
-                                    disabled:       is_view_mode)
+                                    {
+                                      include_blank:  include_blank,
+                                      prompt:         prompt,
+                                    },
+                                    {
+                                      class:          input_class,
+                                      readonly:       readonly,
+                                      autofocus:      options[:autofocus],
+                                      data:           options[:data],
+                                      disabled:       is_view_mode
+                                    })
           end
         else
           @template.concat send(input_tag, attribute,

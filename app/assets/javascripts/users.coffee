@@ -2,9 +2,6 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-# SOURCE: http://stackoverflow.com/a/32358641
-<% self.class.include Rails.application.routes.url_helpers %>
-
 do ( $$ = window.Basimilch ||= {}, $ = jQuery ) ->
 
   # SOURCE: http://brandonhilkert.com/blog/organizing-javascript-in-rails-application-with-turbolinks/
