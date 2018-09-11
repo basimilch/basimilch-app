@@ -109,39 +109,47 @@
     },
     "ARTICLES_OF_ASSOCIATION_URL": {
       "description": "URL for the Articles Of Association. Used in the signup form.",
-      "value": "http://basimil.ch/genossenschaft/statuten"
+      "value": "http://basimil.ch/genossenschaft/statuten",
+      "required": true
     },
     "BYPASS_REFERER_FILTER": {
       "description": "Set this to FALSE to allow only signup requests coming from the url specified in DEFAULT_URL_DOMAIN_FOR_REFERER_FILTER.",
-      "value": "TRUE"
+      "value": "TRUE",
+      "required": false
     },
     "DEFAULT_REDIRECT_URL_FOR_REFERER_FILTER": {
       "description": "If the referer filter fails (see BYPASS_REFERER_FILTER), redirect to this URL.",
       "value": "http://basimil.ch/genossenschaft/#genosschenschafter_in-werden"
     },
     "DEFAULT_URL_DOMAIN_FOR_REFERER_FILTER": {
-      "description": "See description for BYPASS_REFERER_FILTER.",
-      "value": "basimil.ch"
+      "description": "See description for BYPASS_REFERER_FILTER. Required if BYPASS_REFERER_FILTER is FALSE.",
+      "value": "basimil.ch",
+      "required": false
     },
     "EMAIL_CUSTOM_JOB_SIGNUP_MESSAGE": {
       "description": "Custom message for the JobSignup confirmattion email.",
-      "value": "This is a custom message that can be edited in the EMAIL_CUSTOM_JOB_SIGNUP_MESSAGE env var."
+      "value": "This is a custom message that can be edited in the EMAIL_CUSTOM_JOB_SIGNUP_MESSAGE env var.",
+      "required": false
     },
     "INFO_GLOBAL_ANNOUNCEMENT": {
       "description": "When set to something other than nil, it published it's content as an info alert at the top of the page.",
-      "value": "This app has been newly created. This message can be edited from the ENV variable EMAIL_CUSTOM_JOB_SIGNUP_MESSAGE."
+      "value": "This app has been newly created. This message can be edited from the ENV variable EMAIL_CUSTOM_JOB_SIGNUP_MESSAGE.",
+      "required": false
     },
     "REGULATIONS_URL": {
       "description": "URL to the Terms and Conditions. Used in the signup form.",
-      "value": "http://basimil.ch/genossenschaft/betriebsreglement"
+      "value": "http://basimil.ch/genossenschaft/betriebsreglement",
+      "required": true
     },
     "SHARE_CERTIFICATE_UNIT_PRICE": {
       "description": "Price of each share certificate, in units of the currency used on the platform.",
-      "value": "300"
+      "value": "300",
+      "required": true
     },
     "SUBSCRIPTION_NEXT_UPDATE_WEEK_NUMBER": {
       "description": "Next open calendar week (KW) for the users to edit or cancel their subscription. Leave empty if no subscription change scheduled.",
-      "value": "1"
+      "value": "1",
+      "required": false
     }
   }
 }
