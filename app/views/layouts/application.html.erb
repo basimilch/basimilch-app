@@ -13,7 +13,7 @@
     <%= csrf_meta_tags %>
     <%= render 'layouts/shim' %>
   </head>
-  <body class="<%= controller_name %> <%= action_name %> <%= current_user_admin? ? "admin" : "non-admin" %> <%= request.domain.downcase.dasherize %>">
+  <body class="<%= body_css_classes %>">
     <%# SOURCE: https://github.com/slipstream/SlipStreamUI/blob/fdcf44aa/clj/src/slipstream/ui/views/html/base.html#L64-L70 %>
     <div id="loading-screen" class="hidden">
       <div class="backdrop"></div>
@@ -36,6 +36,7 @@
       <% end %>
       <%= yield %>
       <%= render 'layouts/footer' %>
+
       <%#
         Source for debug params display:
         https://www.railstutorial.org/book/_single-page#sec-rails_environments

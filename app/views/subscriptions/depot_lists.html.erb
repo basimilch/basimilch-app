@@ -8,7 +8,10 @@
                       selected_date: @delivery_day,
                     ),
                    class: "form-control",
-                   include_blank: false %>
+                   include_blank: false,
+                   data: {
+                     target_url: subscription_depot_lists_path
+                   } %>
   </div>
 </div>
 

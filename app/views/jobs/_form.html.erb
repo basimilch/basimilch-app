@@ -17,6 +17,8 @@
         {
           include_blank: t('.no_job_type'),
           selected: @job.job_type_id || @job_type.try(:id)
+        }, {
+          data: { target_url: new_job_path }
         } %>
   </div>
   <div class="field">
